@@ -76,7 +76,7 @@ Here I use posterior means:
 
 lfsr=read.table("../Data/Aug13withEDlfsr.txt")[,-1]
 posterior.means=read.table("../Data/Aug13withEDposterior.means.txt")[,-1]
-#post.weights=read.table("../Data/Aug13withEDpost.weights.txt")[,-1]
+post.weights=read.table("~/Dropbox/Aug12/Aug13withEDpost.weights.txt")[,-1]
 
 
 
@@ -244,8 +244,8 @@ barplot(as.numeric(posterior.means[j,]),main=paste0("E(Z|EZ)",rownames(maxz)[j])
 
 For each of your sampled beta vectors, normalize beta_t by its “largest" element (where largest means largest in absolute value, but you normalize by the actual value, not the absolute value,  so that the normalized vector has maximum element +1). Then just plot a histogram of the resulting normalized beta values (pooled across all the samples). We should see very strong negative values are rare?
 ```{r hetsim}
-hetaugust=readRDS("../Data/simulatedmvn.rds")
-max.val=readRDS("../Data/simulatedmaxval.rds")
+hetaugust=readRDS("~/Dropbox/Aug12/simulatedmvn.rds")
+max.val=readRDS("~/Dropbox/Aug12/simulatedmaxval.rds")
 par(mfrow=c(1,2))
 hist(unlist(as.vector(hetaugust)),main="Simulated_Z/Z[,which.max(abs(Z))]",xlab="Znorms_simulatedfromPosterior",freq=F,ylim=c(0,1.5))
 hist(unlist(as.vector(znorm)),main="Z/Z[,which.max(abs(Z))]",xlab="Znorm",freq=F,ylim=c(0,1.5))    
@@ -253,7 +253,7 @@ hist(unlist(as.vector(znorm)),main="Z/Z[,which.max(abs(Z))]",xlab="Znorm",freq=F
 
 Here, we divide by the maximum sign value.
 ```{r hetsimsign}
-hetaugust=readRDS("../Data/simulatedmvnsign.rds")
+hetaugust=readRDS("~/Dropbox/Aug12/simulatedmvnsign.rds")
 par(mfrow=c(1,2))
 hist(unlist(as.vector(hetaugust)),main="Simulated_Z/Z[,which.max(abs(Z))]",xlab="Znorms_simulatedfromPosterior",freq=F,ylim=c(0,.5))
 
@@ -288,8 +288,8 @@ bi_plot_funcmaxz=function(max.val,znorm){
 For each simulation, we can make a biplot against the rvalue used to normalize the vector (the maxval).
 
 ```{r biplotmake}
-hetsign=readRDS("../Data/simulatedmvnsign.rds")
-hetval=readRDS("../Data/simulatedmvn.rds")
+hetsign=readRDS("~/Dropbox/Aug12/simulatedmvnsign.rds")
+hetval=readRDS("~/Dropbox/Aug12/simulatedmvn.rds")
 ```
 
 ```{r eval=F}
