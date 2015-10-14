@@ -1,0 +1,536 @@
+---
+title: "Analysis"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(cache=TRUE)
+barfunc=function(genename){
+  par(mfrow=c(1,2))
+  t=genename
+ barplot(as.matrix(maxz[t,]),las=2,cex.names=0.5,main=paste0("Z Statistics",rownames(maxz)[t]))
+  b=barplot(as.numeric(posterior.means[t,]),main=paste0("E(Z|EZ)",rownames(maxz)[t]),col=col.func(t,lfsr=lfsr,posterior.means=posterior.means),cex.names=0.5,las=2,ylab="PosteriorMean",names=colnames(posterior.means))
+legend("center",c("lfsr>0.5","0.5>lfsr>0.05","lfsr<0.05"),col=c("red","orange","green"),pch=20)
+
+}
+
+het.norm=function(effectsize){
+  t(apply(effectsize,1,function(x){
+  x/x[which.max(abs(x))]
+}))}
+
+col.func=function(lfsr,posterior.means,j){
+  R=ncol(posterior.means)
+  lfsr.mat=as.matrix(lfsr)
+  col.mat=NULL
+  for(r in 1:R){
+ if (lfsr.mat[j,r]<=0.05) {
+      col.mat[r]="green"
+    } else if (lfsr.mat[j,r]<0.5) {
+      col.mat[r]="orange"
+    } else if (lfsr.mat[j,r]>=0.50) {
+      col.mat[r]="red"
+    } 
+  }
+  return(col.mat)
+}
+
+L2norm = function(x){return(sqrt(sum(x^2)))}
+
+norm_effects = function(m,standardize=TRUE){
+  max_pos = apply(m,1,max)
+  max_neg = apply(-m,1,max)
+  max_sign = ifelse(max_pos>max_neg, 1,-1) #find the sign of the largest effect
+  if(standardize){max_sign=max_sign* apply(m,1,L2norm)}
+  m/max_sign
+}
+
+
+plot_tc = function(lfsr,curvedata,thresh=0.05){
+
+  ##create a matrix showing whether or not lfsr satisfies threshold
+  sigmat = lfsr <= thresh;
+  sigs=which(rowSums(sigmat)==44)
+  iplotCurves(curvedata[sigs,],chartOpts=list(curves_xlab="Tissue",curves_ylab="T statistic"))
+}  
+
+
+plot_ts=function(tissuename,lfsr,curvedata,thresh=0.05,subset=1:44){
+  index_tissue=which(colnames(lfsr) %in% tissuename);
+
+  ##create a matrix showing whether or not lfsr satisfies threshold
+  sigmat = lfsr <= thresh;
+  sigs=which(rowSums(sigmat[,index_tissue,drop=FALSE])==length(tissuename) & rowSums(sigmat[,-index_tissue,drop=FALSE])==0)
+  
+   iplotCurves(curvedata[sigs,subset],chartOpts=list(curves_xlab="Tissue",curves_ylab="curvedata"))}
+
+
+```
+
+ii) a specific suggestion for a  plot: for each of your sampled beta vectors, normalize beta_t by its “largest" element (where largest means largest in absolute value, but you normalize by the actual value, not the absolute value,  so that the normalized vector has maximum element +1). Then just plot a histogram of the resulting normalized beta values (pooled across all the samples). We should see very strong negative values are rare?
+
+Here I use posterior means:
+
+```{r echo=F}
+
+lfsr=read.table("../Data/Aug13withEDlfsr.txt")[,-1]
+posterior.means=read.table("../Data/Aug13withEDposterior.means.txt")[,-1]
+#post.weights=read.table("../Data/Aug13withEDpost.weights.txt")[,-1]
+
+
+
+z.stat=read.table("../Data/maxz.txt")
+maxz=z.stat
+covmat=readRDS("../Data/covmatAug13withED.rds")
+eznorm=het.norm(effectsize = posterior.means)
+znorm=het.norm(effectsize = z.stat)
+```
+
+```{r plothistogram}
+par(mfrow=c(1,2))
+hist(as.vector(unlist(eznorm)),main="E(Z|Data)/E(Z|Data)[max(abs(E(Z|Data))]",freq=F,xlab="E(Z|Data)/E(Z|Data)[max(abs(E(Z|Data))]",ylim=c(0,2))
+hist(as.vector(unlist(znorm)),main="Z/Z[max(abs(Z)]",freq=F,xlab="Z/Z[max(abs(Z)]",ylim=c(0,2))
+
+```
+
+Now, we might want to plot a biplot of these values vs the value used to normalize it:
+
+```{r biplot,eval=FALSE}
+R=ncol(posterior.means)
+maxes=t(apply(posterior.means,1,function(x){
+  rep(x[which.max(abs(x))],R)
+}))
+
+png("normstuff.png")
+par(mfrow=c(1,2))
+plot(eznorm,maxes,main="NormalizingZvsNormalized_PM",xlab="E(Z|data)_norm",ylab="NormalizingValue")
+plot(znorm,maxes,main="NormalizingZvsNormalized_Zmle",xlab="Z_norm",ylab="NormalizingValue")
+
+
+
+
+
+
+```
+
+ii) as in ii) but normalize just by sign of largest element, rather than largest element. (that is, we just flip each beta vector so the largest element is positive). Again we don’ t expect to see large negative values. This preserves information about absolute size of beta, not just relative size.
+
+```{r sim.by.sign}
+
+het.sign=function(effectsize){
+  t(apply(effectsize,1,function(x){
+  x/sign(x[which.max(abs(x))])
+}))}
+
+
+ezsign=het.sign(effectsize = posterior.means)
+zsign=het.sign(effectsize = z.stat)
+
+par(mfrow=c(1,2))
+hist(as.vector(unlist(ezsign)),main="E(Z|Data)/sign(E(Z|Data)[max(abs(E(Z|Data))])",freq=F,xlab="E(Z|Data)/sign(E(Z|Data)[max(abs(E(Z|Data))])",ylim=c(0,0.4))
+hist(as.vector(unlist(zsign)),main="Z/Z[max(abs(Z)]",freq=F,xlab="Z/sign(Z[max(abs(Z)])",ylim=c(0,0.4))
+
+```
+
+
+```{r simulations,eval=FALSE,echo=FALSE}
+sim.all = 
+  function(j,b.j.hat,se.j.hat,covmat,pis,sim){
+K=length(covmat)
+b.mle=as.vector(t(b.j.hat[j,]))##turn i into a R x 1 vector
+V.j.hat=diag(se.j.hat[j,]^2)
+lik=lik.func(b.mle,V.j.hat,covmat)
+post.weights=lik*pis/sum(lik*pis)
+component=apply(rmultinom(sim,1,prob = post.weights),2,function(x){which(x==1)})##choose a componenet according to responsibility
+tinv=lapply(seq(1:sim),function(sim){k=component[sim];solve(covmat[[k]]+V.j.hat)})##generate a list of inverted Ks for all the simulations
+b.j.=lapply(seq(1:sim),function(sim){ k=component[sim];post.b.jk.ed.mean(b.mle,tinv=tinv[[sim]],covmat[[k]])})##for each component, compute posterior mean
+B.j.=lapply(seq(1:sim),function(sim){ k=component[sim];post.b.jk.ed.cov(tinv=tinv[[sim]],covmat[[k]])})## a list of posterior covariances
+ #and ask if they are either all pos or all neg
+max.val=rep(0,sim)
+sim.norm=matrix(nrow=sim,ncol=R)
+sim.norm.sign=matrix(nrow=sim,ncol=R)
+for(x in seq(1:sim)){
+dat=mvrnorm(1,mu = b.j.[[x]],Sigma = B.j.[[x]],tol = 10)##for each simulation, generate a multivariate normal
+sim.norm[x,]=dat/dat[which.max(abs(dat))]##for each simulation, normalize by maxval in abs terms
+sim.norm.sign[x,]=dat/sign(dat[which.max(abs(dat))])##for each simulation, normalize by sign of maxval in abs terms
+max.val[x]=dat[which.max(abs(dat))]}
+return(list(sim.norm=sim.norm,component=component,max.val=max.val,sim.norm.sign=sim.norm.sign))}
+
+
+a=array(dim=c(J,sim,R))
+b=array(dim=c(J,sim,R))
+component=matrix(nrow=J,ncol=sim)
+max.val=matrix(nrow=J,ncol=sim)
+for(j in 1:J){
+  s=sim.all(j,b.j.hat=betahat,sebetahat,covmat,pis,sim)
+  a[j,,]=s$sim.norm
+  b[j,,]=s$sim.norm.sign
+  component[j,]=s$component
+  max.val[j,]=s$max.val
+  
+}
+
+saveRDS(a,"simulatedmvnnormalized.rds")
+saveRDS(b,"simulatedmvnsign.rds")
+saveRDS(component,"simulatedcomponent.rds")
+saveRDS(max.val,"simulatedmaxval.rds")
+```
+
+Thresholding:
+
+vi) we want to avoid pitfalls of thresholding. However, as long as we keep these pitfalls in mind it might be useful to give numbers from thresholding. (eg that histogram we made that showed how many tissues each eQTL was “significant” in)
+
+```{r number of tissues, echo=FALSE}
+thresh=0.05
+sigmat=(lfsr<=thresh)
+nsig= rowSums(sigmat)
+hist(nsig[nsig>0],main="Number of tissues in which eQTl significant", nclass=45,xlab="Number of tissues")
+```
+
+
+
+Pull out tissue-specifics; examine examples.
+
+```{r tissuespec, echo=FALSE}
+#pull out snps only significant in 1
+specifics=which(rowSums(sigmat)==1)
+
+##find significant tissues
+nqtls=apply(sigmat[specifics,],2,sum)
+tissue.names=colnames(z.stat)
+barplot(nqtls,las=2,main="Number Tissue Specific QTLS per Tissue",ylim=c(0,420),names=tissue.names,las=2,cex.names=0.5)
+```
+
+Here's an example:
+
+```{r tissuespec.example}
+j=which(rownames(z.stat)=="ENSG00000244171.3_3_142895174_T_G_b37")
+
+barplot(as.matrix(maxz[j,]),las=2,cex.names=0.5,main=paste0("Z Statistics",rownames(maxz)[j]))
+barplot(as.numeric(posterior.means[j,]),main=paste0("E(Z|EZ)",rownames(maxz)[j]),col=col.func(j,lfsr=lfsr,posterior.means=posterior.means),las=2,cex.names=0.8,ylab="PosteriorMean")
+```
+
+Let's examine `r rownames(z.stat)[j]` do discover his function: 
+
+
+pre-B-cell leukemia homeobox 2 pseudogene 1 [Source:HGNC Symbol;Acc:HGNC:8635]
+
+We can find all the ones who have high loading on the 'tissue specific' configs:
+
+```{r singletonconfigs}
+
+pw.singles=post.weights[,sapply(covmat,function(x){sum(diag(x)!=0)==1})]
+singleton.rank=rowSums(pw.singles)
+j=which.max(singleton.rank)
+
+par(mfrow=c(1,2))
+barplot(as.matrix(maxz[j,]),las=2,cex.names=0.5,main=paste0("Z Statistics",rownames(maxz)[j]))
+barplot(as.numeric(posterior.means[j,]),main=paste0("E(Z|EZ)",rownames(maxz)[j]),col=col.func(j,lfsr=lfsr,posterior.means=posterior.means),las=2,cex.names=0.8,ylab="PosteriorMean")
+```
+This particular gene is Desmoplakin, known to be involved in dilated cardiomyopathy. 
+
+```{r consustntconfigs}
+pw.all=post.weights[,sapply(covmat,function(x){sum(diag(x)/max(diag(x)))/sum(x[1,2]!=0)==44})]
+cons.rank=rowSums(pw.all[,6:22])
+j=which.max(cons.rank)
+
+par(mfrow=c(1,2))
+barplot(as.matrix(maxz[j,]),las=2,cex.names=0.5,main=paste0("Z Statistics",rownames(maxz)[j]))
+barplot(as.numeric(posterior.means[j,]),main=paste0("E(Z|EZ)",rownames(maxz)[j]),col=col.func(j,lfsr=lfsr,posterior.means=posterior.means),las=2,cex.names=0.8,ylab="PosteriorMean")
+```
+
+
+
+For each of your sampled beta vectors, normalize beta_t by its “largest" element (where largest means largest in absolute value, but you normalize by the actual value, not the absolute value,  so that the normalized vector has maximum element +1). Then just plot a histogram of the resulting normalized beta values (pooled across all the samples). We should see very strong negative values are rare?
+```{r hetsim}
+hetaugust=readRDS("../Data/simulatedmvn.rds")
+max.val=readRDS("../Data/simulatedmaxval.rds")
+par(mfrow=c(1,2))
+hist(unlist(as.vector(hetaugust)),main="Simulated_Z/Z[,which.max(abs(Z))]",xlab="Znorms_simulatedfromPosterior",freq=F,ylim=c(0,1.5))
+hist(unlist(as.vector(znorm)),main="Z/Z[,which.max(abs(Z))]",xlab="Znorm",freq=F,ylim=c(0,1.5))    
+```
+
+Here, we divide by the maximum sign value.
+```{r hetsimsign}
+hetaugust=readRDS("../Data/simulatedmvnsign.rds")
+par(mfrow=c(1,2))
+hist(unlist(as.vector(hetaugust)),main="Simulated_Z/Z[,which.max(abs(Z))]",xlab="Znorms_simulatedfromPosterior",freq=F,ylim=c(0,.5))
+
+
+hist(unlist(as.vector(zsign)),main="Z/sign(Z[,which.max(abs(Z))])",xlab="Znorm",freq=F,ylim=c(0,0.5))    
+```
+
+Biplots of simulated values:
+
+```{r}
+
+rep.col<-function(x,n){
+   matrix(rep(x,each=n), ncol=n, byrow=TRUE)
+}
+
+bi_plot_funct=function(sim,max.val,sim.array){
+  j=sim
+  mat.col=max.val[,j]
+  a=rep.col(max.val[,j],44)
+  plot(sim.array[,j,],a,main="MaxValuevsSimulatedNormalizedValue",xlab="SimulatedArrayDividedbyMaxVal",ylab="MaximumValue")
+  }
+
+
+bi_plot_funcmaxz=function(max.val,znorm){
+ a=rep.col(max.val,44)
+  plot(znorm,a,main="MaxValuevsSimulatedNormalizedValue",xlab="SimulatedArrayDividedbyMaxVal",ylab="MaximumValue")
+  }
+
+
+```
+
+For each simulation, we can make a biplot against the rvalue used to normalize the vector (the maxval).
+
+```{r biplotmake}
+hetsign=readRDS("../Data/simulatedmvnsign.rds")
+hetval=readRDS("../Data/simulatedmvn.rds")
+```
+
+```{r eval=F}
+png("simulatedvsmax.png")
+par(mfrow=c(1,2))
+bi_plot_funct(sim=5,max.val = max.val,sim.array=hetsign)
+bi_plot_funct(sim=5,max.val = max.val,sim.array=hetval)
+dev.off()
+
+z.max=apply(z.stat,1,function(x){x[which.max(abs(x))]})
+
+png("mlevsmax.png")
+par(mfrow=c(1,2))
+bi_plot_funcmaxz(max.val=z.max,znorm = zsign)
+bi_plot_funcmaxz(max.val=z.max,znorm = znorm)
+dev.off()
+
+
+
+```
+
+Understanding patterns of sharing:
+
+```{r evaluations, echo=F}
+rownames(posterior.means)=rownames(maxz)
+colnames(posterior.means)=colnames(maxz)
+
+rownames(lfsr)=rownames(maxz)
+colnames(lfsr)=colnames(maxz)
+
+
+pis=readRDS("../Data/pisAug13withED.rds")$pihat
+
+
+
+pi.mat=matrix(pis,ncol=54,byrow=T)
+par(mfrow=c(1,2))
+barplot(t(as.matrix(colSums(pi.mat))),names=c((paste0("K",seq(1:54)))),las=2,cex.names=0.5,main="PiHat")
+
+num.mat=matrix(seq(1:length(covmat)),ncol=54,byrow=TRUE)
+#num.mat=matrix(seq(1:1188),ncol=54,byrow=TRUE)
+omegas=round(sapply(num.mat[,1],function(x){covmat[[x]][1]}),3)
+barplot(t(as.matrix(rowSums(pi.mat))),las=2,cex.names=0.5,main="PiHat",names=omegas,xlab="Omega")
+```
+
+We can see that the majority of weight is on the non-single rank $U_ks$. In fact, the third $U_k$ which corresponds to the rank `r qr(covmat[[3]])$rank`.
+
+```{r, heterogeneity distribution2}
+
+barplot(diag(covmat[[num.mat[22,3]]])/max(diag(covmat[[num.mat[22,3]]])),main="Prior Effect Size Sigma per Tissue of Most Common Covariance Matrix",names=colnames(z.stat),las=2,cex.names=0.5)
+```
+
+Even though the sqrt(maximum$\omega$)is only 7, this captures the vast majority (over 95%) of the data, if we follow the principle that the max($\omega$) should be roughly $se(z)$^2+$z^2$.
+
+```{r, heterogeneity distribution1}
+dir=
+heterogeneity=read.table("../Data/het.tablewithED.txt")[,1]
+hist(heterogeneity,main="Proportion of Simulations with H0 False",freq=FALSE,xlab="Proportion of Simulations with Sign Heterogeneity")
+sum(heterogeneity)
+h=which(heterogeneity>0.5)
+c=which(heterogeneity<0.5)
+length(h)
+length(c)
+summary(unlist(as.vector(lfsr[h,])))
+summary(unlist(as.vector(lfsr[c,])))
+
+par(mfrow=c(1,2))
+hist(unlist(as.vector(lfsr[h,])),main=NULL,ylab=NULL,xlab=NULL,freq=FALSE,ylim=c(0,14))
+
+title(main="LFSRs of Inconsistent genes", col.main="red", 
+   col.sub="blue", 
+ 	xlab="LFSR", ylab="Density",
+  col.lab="green", cex.lab=0.75,ylim=c(0,14))
+
+hist(unlist(as.vector(lfsr[c,])),main=NULL,ylab=NULL,xlab=NULL,freq=FALSE)
+
+title(main="LFSRs of Consistent genes", col.main="red", 
+ col.sub="blue", 
+   xlab="LFSR", ylab="Density",
+  col.lab="green", cex.lab=0.75)
+
+```
+
+But we can see that the lfsrs of the heterogeneous SNPs are consistency larger than the lfsrs of the consistent SNP, meaning that our model will alert us to their uncertainty.
+
+To get an idea of the presence of tissue specifics, we can look at the prior weight on the tissue specific configuraitons.
+
+```{r tissuespecpriorweight}
+singleton.weights=pis[sapply(covmat,function(x){sum(diag(x)!=0)==1})]
+sum(colSums(pi.mat[,10:53]))
+```
+
+We might say that only `r sum(colSums(pi.mat[,10:53]))` percent of genes demonstrate tissue specificity.
+
+And how about the 'completely consistent'?
+```{r tissuecon.priorweight}
+#singleton.weights=pis[sapply(covmat,function(x){sum(diag(x)!=0)==1})]
+colSums(pi.mat)[54]
+```
+
+
+Some tissue specific examples:
+
+```{r,cache=F}
+library("qtlcharts")
+
+
+ 
+plot_ts("Testis",lfsr, z.stat,0.05)
+plot_ts("Testis",lfsr, posterior.means,0.05)
+plot_ts("Whole_Blood",lfsr, z.stat,0.05)
+plot_ts("Whole_Blood",lfsr, posterior.means,0.05)
+plot_ts("Muscle_Skeletal",lfsr,z.stat,0.05)
+plot_ts("Liver",lfsr, z.stat,0.05)
+plot_ts("Liver",lfsr, posterior.means,0.05)
+
+plot_ts("Lung",lfsr, z.stat,0.05)
+plot_ts("Lung",lfsr, posterior.means,0.05)
+
+
+plot_ts("Lung",lfsr, z.stat,0.05)
+plot_ts("Lung",lfsr, posterior.means,0.05)
+
+plot_ts("Muscle_Skeletal" ,lfsr, z.stat,0.05)
+plot_ts("Muscle_Skeletal" ,lfsr, posterior.means,0.05)
+
+clean_names=sapply(rownames(maxz),function(x){ strsplit(x, "[.]")[[1]][1]})
+liver=which(clean_names=="ENSG00000166923")
+barfunc(genename = liver)
+
+lung=which(clean_names=="ENSG00000151468")
+barfunc(genename = lung)
+
+testes=which(rownames(maxz)=="ENSG00000131848.5_19_56741808_G_A_b37")
+##potassium channel subfamily M regulatory beta subunit 4
+barfunc(genename = testes)
+
+msk=(which(rownames(maxz)=="ENSG00000103316.6_16_21277438_C_T_b37"))
+barfunc(genename = msk)
+##crystallin
+
+ms3=which(clean_names=="ENSG00000152601")
+barfunc(genename = ms3)
+##ENSG00000152601  muscleblind-like (Drosophila)
+
+
+ms4=which(clean_names=="ENSG00000176658")
+barfunc(genename = ms4)
+##ENSG00000152601  muscleblind-like (Drosophila)
+
+thyroid=(which(rownames(maxz)=="ENSG00000075275.12_22_46859003_G_C_b37"))
+##cadherin, EGF LAG seven-pass G-type receptor 1
+barfunc(genename = thyroid)
+
+adrenal=(which(rownames(maxz)=="ENSG00000135643.4_12_70965479_A_G_b37"))
+
+barfunc(genename = adrenal)
+#potassium channel subfamily M regulatory beta subunit 4
+
+wholebloodone=(which(rownames(maxz)=="ENSG00000156110.9_10_75928933_T_C_b37"))
+barfunc(genename = wholebloodone)
+#Adenosine kinase (HGNC Symbol)
+#Entrez gene summary
+#This gene an enzyme which catalyzes the transfer of the gamma-phosphate from ATP to adenosine, thereby serving as a regulator of concentrations of both extracellular adenosine and intracellular adenine nucleotides. Adenosine has widespread effects on the cardiovascular, nervous, respiratory, and immune systems and inhibitors of the enzyme could play an important pharmacological role in increasing intravascular adenosine concentrations and acting as anti-inflammatory agents. Multiple transcript variants encoding different isoforms have been found for this gene. [provided by RefSeq, Jan 2011]"
+
+wholebloodtwo=(which(rownames(maxz)=="ENSG00000078114.14_10_21501314_T_C_b37"))
+
+
+barfunc(genename = wholebloodtwo)
+
+#Experiment name  Transcription profiling of human blood taken from individuals fed an antioxidant-rich diet or a diet containing kiwi-fruit to evaluate the effect on gene expression with emphasis on stress and repair related processes [E-MEXP-2030]
+# Source	ArrayExpress
+# Experiment description	Plant-based diets rich in fruit and vegetables can prevent development of several chronic age-related diseases such as cancer and cardiovascular diseases. The mechanisms behind this protective effect is not elucidated. We have studied whether a specially designed antioxidant-rich food diet and a kiwi-fruit intervention can affect whole genome expression in human blood cells with emphasis on stress and repair related process.
+# Chips	
+# Chip ID: OAS12-1 - Annotation by Bgee curators: Anatomical structure ID: EV:0100047 - Developmental stage ID: HsapDO:0000148
+# Probeset ID: 203961_at - Mapped to gene: ENSG00000078114 - Detection flag: absent - Quality: high quality
+
+```
+
+We also denoise and shrink the consistent effects away from 0.
+
+```{r cache=FALSE}
+
+plot_tc(lfsr,curvedata = maxz,thresh = 0.00005)
+plot_tc(lfsr,curvedata = posterior.means,thresh = 0.00005)
+```
+
+Power compariosn
+
+```{r}
+sum(lfsr<0.05)
+p.vals=2*(1-pnorm((as.matrix(unlist(abs(z.stat))))))
+hist(p.vals,freq=FALSE)
+abline(h=1)
+library('qvalue')
+qs=qvalue(p.vals)
+sum(qs$qvalues<0.05)
+```
+
+Also, 
+
+Now, for each QTL I want to examine the posterior means of the tissues in which it was 'active' (at an lfsr threshold) and find QTL whose sign differed in at least 2 significant QTL. We restrict our analysis to only those gene snp pairs who show significance in at least one tissue:
+
+```{r,show one significnat}
+l=apply(lfsr,1,function(x){sum(x<0.05)})
+sum(l!=0)
+```
+
+Here we can see that is `r sum(l!=0)' genes. 
+Then we look to see if the posterior means differed in sign.
+
+Now, for each QTL I want to examine the posterior means of the tissues in which it was 'active' (at an lfsr threshold) and find QTL whose sign differed in at least 2 significant QTL.
+```{r, heterogeneity by threshold}
+thresh=0.05
+s=sapply(seq(1:nrow(posterior.means)),function(x){
+l=lfsr[x,];p=posterior.means[x,];plow=p[which(l<thresh)];##grab only those posterior means that are 'significant'
+if(length(plow)==0){return("FALSE")}##for ones who show no significants, they can't be heterogenous
+else{pos=sum(plow>0);neg=sum(plow<0);pos*neg!=0}})
+sum(s=="TRUE")
+hets=which(s=="TRUE")
+```
+
+Now, for each snp, simulate 100 draws from mvnorm according to posterior weights; count proportion of times signs differ. This takes about 2 hours .
+
+```{r,echo=TRUE,eval=FALSE}
+heterogeneity=sapply(seq(1:nrow(maxz)),function(j){sim.array.generation(j,b.j.hat=maxz,s.j,covmat,pis,sim=100)})
+write.table(heterogeneity,"heterogeneityindex.txt",row.names=rownames(maxz))
+```
+
+We can examine the distribution of heterogeneity.
+```{r, heterogeneity distribution}
+heterogeneity=read.table("../Data/het.tablewithED.txt")[,1]
+hist(heterogeneity,main="Proportion of Simulations with H0 False",freq=FALSE,xlab="Proportion of Simulations with Sign Heterogeneity")
+sum(heterogeneity)
+```
+
+If we compare with original z statistics:
+
+```{r}
+
+zhets=apply(z.stat,1,function(dat){pos=sum(dat>0);neg=sum(dat<0);pos*neg!=0})
+sum(zhets)
+```
+```
