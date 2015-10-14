@@ -1,0 +1,33 @@
+---
+title: "Untitled"
+output: html_document
+---
+Patterns of consistency. Let's image the most common covariance matrices.
+```{r}
+covmat=readRDS("../Data/covmatAug13withED.rds")
+pis=readRDS("../Data/pisAug13withED.rds")$pihat
+z.stat=read.table("../Data/maxz.txt")
+pi.mat=matrix(pis,ncol=54,byrow=T)
+par(mfrow=c(1,2))
+barplot(t(as.matrix(colSums(pi.mat))),names=c((paste0("K",seq(1:54)))),las=2,cex.names=0.5,main="PiHat")
+```
+We can see that there is lots of loading on the denoised matrices.
+
+```{r}
+#install.packages("fields")
+library(fields)
+
+ lapply(c(2:9),function(x){
+  sample = covmat[[x]]
+ image(sample, axes=F)
+ mtext(text=colnames(z.stat), side=2, line=0.3, at=seq(0,1,1/43), las=1, cex=0.4)
+ mtext(text=colnames(z.stat), side=1, line=0.3, at=seq(0,1,1/43), las=2, cex=0.4)
+ image.plot(sample, legend.only=T)
+ title(paste0("Covmat",x))}
+ )
+
+```
+
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
