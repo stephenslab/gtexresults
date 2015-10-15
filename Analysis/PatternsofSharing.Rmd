@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "Modeling Patterns of Consistency"
 output: html_document
 ---
 Patterns of consistency. Let's image the most common covariance matrices.
