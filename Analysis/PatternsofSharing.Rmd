@@ -12,12 +12,20 @@ par(mfrow=c(1,2))
 barplot(t(as.matrix(colSums(pi.mat))),names=c((paste0("K",seq(1:54)))),las=2,cex.names=0.5,main="PiHat")
 ```
 We can see that there is lots of loading on the denoised matrices.
+```{r}
+order(colSums(pi.mat),decreasing = T)
+```
 
+We can see that just 5 matrices appear to receive the majority of the prior weight ( `r sum(colSums(pi.mat)[1:5])`) .
+
+```{r important.mats}
+important=order(colSums(pi.mat),decreasing = T)[1:5]
+```
 ```{r}
 #install.packages("fields")
 library(fields)
 
- lapply(c(2:9),function(x){
+ lapply(important,function(x){
   sample = covmat[[x]]
  image(sample, axes=F)
  mtext(text=colnames(z.stat), side=2, line=0.3, at=seq(0,1,1/43), las=1, cex=0.4)
@@ -28,6 +36,16 @@ library(fields)
 
 ```
 
-
+We can see that the first and most important matrix shows highly correlated genetic effects in brain and that the largest effects are correspondingly also seen in brain:
+```{r order of importance}
+colnames(z.stat)[order(diag(covmat[[3]]),decreasing = TRUE)][1:10]
+barplot(sort(diag(covmat[[3]])/max(diag(covmat[[3]])),decreasing=TRUE),names=colnames(z.stat)[order(diag(covmat[[3]]),decreasing=TRUE)],las=2,col=c(rep("green",11),rep("orange",11),rep("magenta",11),rep("red",11)),main="PriorEffectSize",cex.names = 0.5)
+```
+I've colored the sizes by those tissues in each quartile.
+```{r}
+normdag=(diag(covmat[[3]])/max(diag(covmat[[3]])))
+quantile(normdag)
+name.order=colnames(z.stat)[order(diag(covmat[[3]]))]
+```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
