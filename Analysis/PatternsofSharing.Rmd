@@ -3,14 +3,17 @@ title: "Modeling Patterns of Consistency"
 output: html_document
 ---
 Patterns of consistency. Let's image the most common covariance matrices.
+
+
 ```{r}
 covmat=readRDS("../Data/covmatAug13withED.rds")
 pis=readRDS("../Data/pisAug13withED.rds")$pihat
 z.stat=read.table("../Data/maxz.txt")
 pi.mat=matrix(pis,ncol=54,byrow=T)
-par(mfrow=c(1,2))
+
 barplot(t(as.matrix(colSums(pi.mat))),names=c((paste0("K",seq(1:54)))),las=2,cex.names=0.5,main="PiHat")
 ```
+
 We can see that there is lots of loading on the denoised matrices.
 ```{r}
 order(colSums(pi.mat),decreasing = T)
@@ -19,20 +22,21 @@ order(colSums(pi.mat),decreasing = T)
 We can see that just 5 matrices appear to receive the majority of the prior weight ( `r sum(colSums(pi.mat)[1:5])`) .
 
 ```{r important.mats}
-important=order(colSums(pi.mat),decreasing = T)[1:5]
+(important=order(colSums(pi.mat),decreasing = T)[1:5])
 ```
-```{r}
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+library(gplots)
+library(ggplot2)
 #install.packages("fields")
 library(fields)
-
- lapply(important,function(x){
-sample = covmat[[x]]
- image(sample, axes=F)
- mtext(text=colnames(z.stat), side=2, line=0.3, at=seq(0,1,1/43), las=1, cex=0.4)
- mtext(text=colnames(z.stat), side=1, line=0.3, at=seq(0,1,1/43), las=2, cex=0.4)
- image.plot(sample, legend.only=T)
- title(paste0("Covmat",x))}
- )
+for(k in important){
+  x=covmat[[k]]
+  colnames(x)=colnames(z.stat)
+  rownames(x)=colnames(z.stat)
+heatmap.2(x/max(diag(covmat[[k]])),Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k))
+}
+ 
 
 ```
 
