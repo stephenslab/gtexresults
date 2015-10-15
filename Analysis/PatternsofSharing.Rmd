@@ -26,7 +26,7 @@ important=order(colSums(pi.mat),decreasing = T)[1:5]
 library(fields)
 
  lapply(important,function(x){
-  sample = covmat[[x]]
+sample = covmat[[x]]
  image(sample, axes=F)
  mtext(text=colnames(z.stat), side=2, line=0.3, at=seq(0,1,1/43), las=1, cex=0.4)
  mtext(text=colnames(z.stat), side=1, line=0.3, at=seq(0,1,1/43), las=2, cex=0.4)
@@ -45,7 +45,9 @@ I've colored the sizes by those tissues in each quartile.
 ```{r}
 normdag=(diag(covmat[[3]])/max(diag(covmat[[3]])))
 quantile(normdag)
-name.order=colnames(z.stat)[order(diag(covmat[[3]]))]
+name.order=colnames(z.stat)[order(diag(covmat[[3]]),decreasing=T)]
+name.order[1:10]
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+

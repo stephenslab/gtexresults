@@ -108,7 +108,7 @@ library(fields)</code></pre>
 ## 
 ##     ozone</code></pre>
 <pre class="r"><code> lapply(important,function(x){
-  sample = covmat[[x]]
+sample = covmat[[x]]
  image(sample, axes=F)
  mtext(text=colnames(z.stat), side=2, line=0.3, at=seq(0,1,1/43), las=1, cex=0.4)
  mtext(text=colnames(z.stat), side=1, line=0.3, at=seq(0,1,1/43), las=2, cex=0.4)
@@ -148,8 +148,18 @@ library(fields)</code></pre>
 quantile(normdag)</code></pre>
 <pre><code>##         0%        25%        50%        75%       100% 
 ## 0.08769782 0.22585547 0.36293678 0.57340044 1.00000000</code></pre>
-<pre class="r"><code>name.order=colnames(z.stat)[order(diag(covmat[[3]]))]</code></pre>
-<p>Note that the <code>echo = FALSE</code> parameter was added to the code chunk to prevent printing of the R code that generated the plot.</p>
+<pre class="r"><code>name.order=colnames(z.stat)[order(diag(covmat[[3]]),decreasing=T)]
+name.order[1:10]</code></pre>
+<pre><code>##  [1] &quot;Brain_Cerebellum&quot;                     
+##  [2] &quot;Brain_Cerebellar_Hemisphere&quot;          
+##  [3] &quot;Brain_Cortex&quot;                         
+##  [4] &quot;Brain_Caudate_basal_ganglia&quot;          
+##  [5] &quot;Brain_Frontal_Cortex_BA9&quot;             
+##  [6] &quot;Brain_Nucleus_accumbens_basal_ganglia&quot;
+##  [7] &quot;Nerve_Tibial&quot;                         
+##  [8] &quot;Adipose_Subcutaneous&quot;                 
+##  [9] &quot;Artery_Tibial&quot;                        
+## [10] &quot;Cells_Transformed_fibroblasts&quot;</code></pre>
 
 
 </div>
