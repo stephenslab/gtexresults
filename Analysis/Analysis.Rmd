@@ -377,6 +377,19 @@ But we can see that the lfsrs of the heterogeneous SNPs are consistency larger t
 
 To get an idea of the presence of tissue specifics, we can look at the prior weight on the tissue specific configuraitons.
 
+```{r tissuespecqtl}
+thresh=0.05
+dist=as.matrix(lfsr)<=thresh
+
+ones=which(rowSums(dist)==1)
+thresh=0.05
+barplot(apply(lfsr[which(rowSums(lfsr<=thresh)==1),],2,function(x){sum(x<=thresh)}),las=2,cex.names=0.5,main=paste0("Number of eQTL with LFSR<",0.05," in Single Tissue"),ylim=c(0,420))
+ 
+zthresh=5
+barplot(apply(maxz[which(rowSums(maxz>zthresh)==1),],2,function(x){sum(x>zthresh)}),las=2,cex.names=0.5,main=paste0("Number of eQTL with Z>",zthresh,"in Single Tissue"))
+```
+
+
 ```{r tissuespecpriorweight}
 singleton.weights=pis[sapply(covmat,function(x){sum(diag(x)!=0)==1})]
 sum(colSums(pi.mat[,10:53]))
@@ -388,6 +401,26 @@ And how about the 'completely consistent'?
 ```{r tissuecon.priorweight}
 #singleton.weights=pis[sapply(covmat,function(x){sum(diag(x)!=0)==1})]
 colSums(pi.mat)[54]
+```
+
+Let's understand qualitatively how matrix ash affects tissue specific effects:
+
+
+First, we plot the 'singletons' of the 'noisy zstats'
+```{r,cache=FALSE}
+library(qtlcharts)
+id=colnames(maxz)
+iplotCurves(as.matrix(maxz)[ones,],1:44,chartOpts=list(xlab="Tissue Indices", ylab="Z_mle",pointcolor=c("slateblue")))
+
+#barplot(as.matrix(maxz)[ones,],las=2,colnames=colnames(maxz))
+#barplot(as.matrix(posterior.means)[ones,],las=2,names=colnames(maxz))
+```
+
+
+Now, we plot the matrix-ash shrunken zstats. Look how clean!
+```{r,cache=FALSE}
+iplotCurves(as.matrix(posterior.means[ones,]),1:44,chartOpts=list(xlab="Tissue Indices", ylab="E(Z|Data)",pointcolor=c("slateblue")))
+
 ```
 
 
