@@ -1,0 +1,161 @@
+---
+title: "Power"
+output: html_document
+---
+**Power comparison**
+
+
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(cache=TRUE)
+barfunc=function(genename){
+  par(mfrow=c(1,2))
+  t=genename
+  name=strsplit(rownames(maxz)[t], "[.]")[[1]][1]
+a=barplot(as.numeric(maxz[t,]),las=2,cex.names=0.5,main=paste0("Z Statistics",name),col=col.func.mle(qs$qvalues,z.stat = maxz,j = t),names=colnames(maxz))
+legend("center",c("qval>0.5","0.5>qval>0.05","qval<0.05"),col=c("red","orange","green"),pch=20)
+b=barplot(as.numeric(posterior.means[t,]),main=paste0("E(Z|EZ)",name),col=col.func(t,lfsr=lfsr,posterior.means=posterior.means),cex.names=0.5,las=2,ylab="PosteriorMean",names=colnames(posterior.means))
+legend("center",c("lfsr>0.5","0.5>lfsr>0.05","lfsr<0.05"),col=c("red","orange","green"),pch=20)
+}
+
+het.norm=function(effectsize){
+  t(apply(effectsize,1,function(x){
+  x/x[which.max(abs(x))]
+}))}
+
+col.func=function(lfsr,posterior.means,j){
+  R=ncol(posterior.means)
+  lfsr.mat=as.matrix(lfsr)
+  col.mat=NULL
+  for(r in 1:R){
+ if (lfsr.mat[j,r]<=0.05) {
+      col.mat[r]="green"
+    } else if (lfsr.mat[j,r]<0.5) {
+      col.mat[r]="orange"
+    } else if (lfsr.mat[j,r]>=0.50) {
+      col.mat[r]="red"
+    } 
+  }
+  return(col.mat)
+}
+
+
+
+col.func.mle=function(qvalues,z.stat,j){
+  R=ncol(posterior.means)
+  q.mat=as.matrix(qvalues)
+  col.mat=NULL
+  for(r in 1:R){
+ if (q.mat[j,r]<=0.05) {
+      col.mat[r]="green"
+    } else if (q.mat[j,r]<0.5) {
+      col.mat[r]="orange"
+    } else if (q.mat[j,r]>=0.50) {
+      col.mat[r]="red"
+    } 
+  }
+  return(col.mat)
+}
+
+
+L2norm = function(x){return(sqrt(sum(x^2)))}
+
+norm_effects = function(m,standardize=TRUE){
+  max_pos = apply(m,1,max)
+  max_neg = apply(-m,1,max)
+  max_sign = ifelse(max_pos>max_neg, 1,-1) #find the sign of the largest effect
+  if(standardize){max_sign=max_sign* apply(m,1,L2norm)}
+  m/max_sign
+}
+
+
+plot_tc = function(lfsr,curvedata,thresh=0.05){
+
+  ##create a matrix showing whether or not lfsr satisfies threshold
+  sigmat = lfsr <= thresh;
+  sigs=which(rowSums(sigmat)==44)
+  iplotCurves(curvedata[sigs,],chartOpts=list(curves_xlab="Tissue",curves_ylab="T statistic"))
+}  
+
+
+plot_ts=function(tissuename,lfsr,curvedata,thresh=0.05,subset=1:44){
+  index_tissue=which(colnames(lfsr) %in% tissuename);
+
+  ##create a matrix showing whether or not lfsr satisfies threshold
+  sigmat = lfsr <= thresh;
+  sigs=which(rowSums(sigmat[,index_tissue,drop=FALSE])==length(tissuename) & rowSums(sigmat[,-index_tissue,drop=FALSE])==0)
+  
+   iplotCurves(curvedata[sigs,subset],chartOpts=list(curves_xlab="Tissue",curves_ylab="curvedata"))}
+
+lfsr=read.table("../Data/Aug13withEDlfsr.txt")[,-1]
+posterior.means=read.table("../Data/Aug13withEDposterior.means.txt")[,-1]
+post.weights=read.table("~/Dropbox/Aug12/Aug13withEDpost.weights.txt")[,-1]
+z.stat=read.table("../Data/maxz.txt")
+maxz=z.stat
+covmat=readRDS("../Data/covmatAug13withED.rds")
+
+
+
+```
+
+
+```{r}
+sum(lfsr<0.05)
+p.vals=t(apply(z.stat,1,function(x){2*(1-pnorm(abs(x)))}))
+hist(p.vals,freq=FALSE)
+abline(h=1)
+library('qvalue')
+qs=qvalue(p.vals)
+sum(qs$qvalues<0.05)
+```
+
+We can also ask for how many genes do we observe at least one significant tissue:
+
+```{r at leastone}
+numsig=apply(lfsr,1,function(x){sum(x<0.05)})
+sum(numsig!=0)
+```
+While using the qvalues,
+
+```{r at leastonesumstats}
+numsigsumstat=apply(qs$qvalue,1,function(x){sum(x<0.05)})
+sum(numsigsumstat!=0)
+```
+
+
+So we improve the ability to detect tissue-level effects by sharing information across tissues and genes to augment `modest' effects in any one tissue in the presence of larger effects in other tissues for a given gene snp pair. 
+
+```{r power}
+
+lbetter=sum(lfsr<0.05&qs$qvalue>0.05)
+qbetter=sum(qs$qvalue<0.05&lfsr>0.05)
+compmat=lfsr<0.05&qs$qvalue>0.05
+```
+
+
+In fact, we find that `r lbetter` of the time, the lfsr identifies a signficiant tissue effect when the qvalue does not, while only `r qbetter` of the time does the qvalue identify associations which our method would not call.
+
+Here's an example in which we are confident in the sign of the effect across tissues because of consistent positive effects across tissues.
+
+```{r lbetter}
+barfunc(1868)
+
+```
+
+There are also example of helping a lost tissue, where we augment the effet size in visceral omentum and the brain tissues basal ganglia because we see large effects in alternative tissues.
+
+```{r lbetterbrain}
+barfunc(2)
+```
+
+However, the overall number of genes detected does not imporve, because in those situation, at the gene level we probably would already have called the gene. We might expect this result, because using univariate statistics in isolation of other gene-snp pairs and in insolation of other tissues does not allow us to adjust our belief in consistently small effects. Furthermore, if a snp demonstrates a tissue specific effect that is not present at high levels in the overall data-set, the tissue specific effect might be reduced, consistent with our suspicion at the unusual pattern. Thus even though our method 
+
+Example:
+
+```{r}
+j=which(numsig==0)[1]
+barfunc(j)
+```
+
+

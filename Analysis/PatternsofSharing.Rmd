@@ -105,3 +105,5 @@ plot(index,index2,main="Rank of Prior Variance in UK=2 vs Rank of Prior Variance
 
 plot(diag(covmat[[3]])/max(diag(covmat[[3]])),diag(covmat[[2]])/max(diag(covmat[[2]])),main="Prior variance in Uk2 vs Prior Variance in Uk3",xlab="Prior variance in Uk3",ylab="Prior Variance in Uk=2")
 text(diag(covmat[[3]])/max(diag(covmat[[3]])),diag(covmat[[2]])/max(diag(covmat[[2]])),colnames(z.stat),cex=0.5)
+```
+

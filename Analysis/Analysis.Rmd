@@ -9,10 +9,11 @@ knitr::opts_chunk$set(cache=TRUE)
 barfunc=function(genename){
   par(mfrow=c(1,2))
   t=genename
- barplot(as.matrix(maxz[t,]),las=2,cex.names=0.5,main=paste0("Z Statistics",rownames(maxz)[t]))
-  b=barplot(as.numeric(posterior.means[t,]),main=paste0("E(Z|EZ)",rownames(maxz)[t]),col=col.func(t,lfsr=lfsr,posterior.means=posterior.means),cex.names=0.5,las=2,ylab="PosteriorMean",names=colnames(posterior.means))
+  name=strsplit(rownames(maxz)[t], "[.]")[[1]][1]
+a=barplot(as.numeric(maxz[t,]),las=2,cex.names=0.5,main=paste0("Z Statistics",name),col=col.func.mle(qs$qvalues,z.stat = maxz,j = t),names=colnames(maxz))
+legend("center",c("qval>0.5","0.5>qval>0.05","qval<0.05"),col=c("red","orange","green"),pch=20)
+b=barplot(as.numeric(posterior.means[t,]),main=paste0("E(Z|EZ)",name),col=col.func(t,lfsr=lfsr,posterior.means=posterior.means),cex.names=0.5,las=2,ylab="PosteriorMean",names=colnames(posterior.means))
 legend("center",c("lfsr>0.5","0.5>lfsr>0.05","lfsr<0.05"),col=c("red","orange","green"),pch=20)
-
 }
 
 het.norm=function(effectsize){
@@ -35,6 +36,25 @@ col.func=function(lfsr,posterior.means,j){
   }
   return(col.mat)
 }
+
+
+
+col.func.mle=function(qvalues,z.stat,j){
+  R=ncol(posterior.means)
+  q.mat=as.matrix(qvalues)
+  col.mat=NULL
+  for(r in 1:R){
+ if (q.mat[j,r]<=0.05) {
+      col.mat[r]="green"
+    } else if (q.mat[j,r]<0.5) {
+      col.mat[r]="orange"
+    } else if (q.mat[j,r]>=0.50) {
+      col.mat[r]="red"
+    } 
+  }
+  return(col.mat)
+}
+
 
 L2norm = function(x){return(sqrt(sum(x^2)))}
 
@@ -85,6 +105,10 @@ maxz=z.stat
 covmat=readRDS("../Data/covmatAug13withED.rds")
 eznorm=het.norm(effectsize = posterior.means)
 znorm=het.norm(effectsize = z.stat)
+
+p.vals=t(apply(z.stat,1,function(x){2*(1-pnorm(abs(x)))}))
+library('qvalue')
+qs=qvalue(p.vals)
 ```
 
 ```{r plothistogram}
@@ -189,62 +213,9 @@ hist(nsig[nsig>0],main="Number of tissues in which eQTl significant", nclass=45,
 ```
 
 
-
-Pull out tissue-specifics; examine examples.
-
-```{r tissuespec, echo=FALSE}
-#pull out snps only significant in 1
-specifics=which(rowSums(sigmat)==1)
-
-##find significant tissues
-nqtls=apply(sigmat[specifics,],2,sum)
-tissue.names=colnames(z.stat)
-barplot(nqtls,las=2,main="Number Tissue Specific QTLS per Tissue",ylim=c(0,420),names=tissue.names,las=2,cex.names=0.5)
-```
-
-Here's an example:
-
-```{r tissuespec.example}
-j=which(rownames(z.stat)=="ENSG00000244171.3_3_142895174_T_G_b37")
-
-barplot(as.matrix(maxz[j,]),las=2,cex.names=0.5,main=paste0("Z Statistics",rownames(maxz)[j]))
-barplot(as.numeric(posterior.means[j,]),main=paste0("E(Z|EZ)",rownames(maxz)[j]),col=col.func(j,lfsr=lfsr,posterior.means=posterior.means),las=2,cex.names=0.8,ylab="PosteriorMean")
-```
-
-Let's examine `r rownames(z.stat)[j]` do discover his function: 
-
-
-pre-B-cell leukemia homeobox 2 pseudogene 1 [Source:HGNC Symbol;Acc:HGNC:8635]
-
-We can find all the ones who have high loading on the 'tissue specific' configs:
-
-```{r singletonconfigs}
-
-pw.singles=post.weights[,sapply(covmat,function(x){sum(diag(x)!=0)==1})]
-singleton.rank=rowSums(pw.singles)
-j=which.max(singleton.rank)
-
-par(mfrow=c(1,2))
-barplot(as.matrix(maxz[j,]),las=2,cex.names=0.5,main=paste0("Z Statistics",rownames(maxz)[j]))
-barplot(as.numeric(posterior.means[j,]),main=paste0("E(Z|EZ)",rownames(maxz)[j]),col=col.func(j,lfsr=lfsr,posterior.means=posterior.means),las=2,cex.names=0.8,ylab="PosteriorMean")
-```
-This particular gene is Desmoplakin, known to be involved in dilated cardiomyopathy. 
-
-```{r consustntconfigs}
-pw.all=post.weights[,sapply(covmat,function(x){sum(diag(x)/max(diag(x)))/sum(x[1,2]!=0)==44})]
-cons.rank=rowSums(pw.all[,6:22])
-j=which.max(cons.rank)
-
-par(mfrow=c(1,2))
-barplot(as.matrix(maxz[j,]),las=2,cex.names=0.5,main=paste0("Z Statistics",rownames(maxz)[j]))
-barplot(as.numeric(posterior.means[j,]),main=paste0("E(Z|EZ)",rownames(maxz)[j]),col=col.func(j,lfsr=lfsr,posterior.means=posterior.means),las=2,cex.names=0.8,ylab="PosteriorMean")
-```
-
-
-
 For each of your sampled beta vectors, normalize beta_t by its “largest" element (where largest means largest in absolute value, but you normalize by the actual value, not the absolute value,  so that the normalized vector has maximum element +1). Then just plot a histogram of the resulting normalized beta values (pooled across all the samples). We should see very strong negative values are rare?
 ```{r hetsim}
-hetaugust=readRDS("~/Dropbox/Aug12/simulatedmvn.rds")
+hetaugust=readRDS("~/Dropbox/Aug12/simulatedmvnnormalized.rds")
 max.val=readRDS("~/Dropbox/Aug12/simulatedmaxval.rds")
 par(mfrow=c(1,2))
 hist(unlist(as.vector(hetaugust)),main="Simulated_Z/Z[,which.max(abs(Z))]",xlab="Znorms_simulatedfromPosterior",freq=F,ylim=c(0,1.5))
@@ -289,8 +260,14 @@ For each simulation, we can make a biplot against the rvalue used to normalize t
 
 ```{r biplotmake}
 hetsign=readRDS("~/Dropbox/Aug12/simulatedmvnsign.rds")
-hetval=readRDS("~/Dropbox/Aug12/simulatedmvn.rds")
+hetval=readRDS("~/Dropbox/Aug12/simulatedmvnnormalized.rds")
+sum(hetsign>0)/length(hetsign)
+sum(hetval>0)/length(hetval)
+
+sum(znorm>0)/length(znorm)
+
 ```
+
 
 ```{r eval=F}
 png("simulatedvsmax.png")
@@ -375,193 +352,6 @@ title(main="LFSRs of Consistent genes", col.main="red",
 
 But we can see that the lfsrs of the heterogeneous SNPs are consistency larger than the lfsrs of the consistent SNP, meaning that our model will alert us to their uncertainty.
 
-To get an idea of the presence of tissue specifics, we can look at the prior weight on the tissue specific configuraitons.
-
-```{r tissuespecqtl}
-thresh=0.05
-dist=as.matrix(lfsr)<=thresh
-
-ones=which(rowSums(dist)==1)
-thresh=0.05
-barplot(apply(lfsr[which(rowSums(lfsr<=thresh)==1),],2,function(x){sum(x<=thresh)}),las=2,cex.names=0.5,main=paste0("Number of eQTL with LFSR<",0.05," in Single Tissue"),ylim=c(0,420))
- 
-zthresh=5
-barplot(apply(maxz[which(rowSums(maxz>zthresh)==1),],2,function(x){sum(x>zthresh)}),las=2,cex.names=0.5,main=paste0("Number of eQTL with Z>",zthresh,"in Single Tissue"))
-```
-
-
-```{r tissuespecpriorweight}
-singleton.weights=pis[sapply(covmat,function(x){sum(diag(x)!=0)==1})]
-sum(colSums(pi.mat[,10:53]))
-```
-
-We might say that only `r sum(colSums(pi.mat[,10:53]))` percent of genes demonstrate tissue specificity.
-
-And how about the 'completely consistent'?
-```{r tissuecon.priorweight}
-#singleton.weights=pis[sapply(covmat,function(x){sum(diag(x)!=0)==1})]
-colSums(pi.mat)[54]
-```
-
-Let's understand qualitatively how matrix ash affects tissue specific effects:
-
-
-First, we plot the 'singletons' of the 'noisy zstats'
-```{r,cache=FALSE}
-library(qtlcharts)
-id=colnames(maxz)
-iplotCurves(as.matrix(maxz)[ones,],1:44,chartOpts=list(xlab="Tissue Indices", ylab="Z_mle",pointcolor=c("slateblue")))
-
-#barplot(as.matrix(maxz)[ones,],las=2,colnames=colnames(maxz))
-#barplot(as.matrix(posterior.means)[ones,],las=2,names=colnames(maxz))
-```
-
-
-Now, we plot the matrix-ash shrunken zstats. Look how clean!
-```{r,cache=FALSE}
-iplotCurves(as.matrix(posterior.means[ones,]),1:44,chartOpts=list(xlab="Tissue Indices", ylab="E(Z|Data)",pointcolor=c("slateblue")))
-
-```
-
-
-Some tissue specific examples:
-
-```{r,cache=F}
-library("qtlcharts")
-
-
- 
-plot_ts("Testis",lfsr, z.stat,0.05)
-plot_ts("Testis",lfsr, posterior.means,0.05)
-plot_ts("Whole_Blood",lfsr, z.stat,0.05)
-plot_ts("Whole_Blood",lfsr, posterior.means,0.05)
-plot_ts("Muscle_Skeletal",lfsr,z.stat,0.05)
-plot_ts("Liver",lfsr, z.stat,0.05)
-plot_ts("Liver",lfsr, posterior.means,0.05)
-
-plot_ts("Lung",lfsr, z.stat,0.05)
-plot_ts("Lung",lfsr, posterior.means,0.05)
-
-
-plot_ts("Lung",lfsr, z.stat,0.05)
-plot_ts("Lung",lfsr, posterior.means,0.05)
-
-plot_ts("Muscle_Skeletal" ,lfsr, z.stat,0.05)
-plot_ts("Muscle_Skeletal" ,lfsr, posterior.means,0.05)
-
-clean_names=sapply(rownames(maxz),function(x){ strsplit(x, "[.]")[[1]][1]})
-liver=which(clean_names=="ENSG00000166923")
-barfunc(genename = liver)
-
-lung=which(clean_names=="ENSG00000151468")
-barfunc(genename = lung)
-
-testes=which(rownames(maxz)=="ENSG00000131848.5_19_56741808_G_A_b37")
-##potassium channel subfamily M regulatory beta subunit 4
-barfunc(genename = testes)
-
-msk=(which(rownames(maxz)=="ENSG00000103316.6_16_21277438_C_T_b37"))
-barfunc(genename = msk)
-##crystallin
-
-ms3=which(clean_names=="ENSG00000152601")
-barfunc(genename = ms3)
-##ENSG00000152601  muscleblind-like (Drosophila)
-
-
-ms4=which(clean_names=="ENSG00000176658")
-barfunc(genename = ms4)
-##ENSG00000152601  muscleblind-like (Drosophila)
-
-thyroid=(which(rownames(maxz)=="ENSG00000075275.12_22_46859003_G_C_b37"))
-##cadherin, EGF LAG seven-pass G-type receptor 1
-barfunc(genename = thyroid)
-
-adrenal=(which(rownames(maxz)=="ENSG00000135643.4_12_70965479_A_G_b37"))
-
-barfunc(genename = adrenal)
-#potassium channel subfamily M regulatory beta subunit 4
-
-wholebloodone=(which(rownames(maxz)=="ENSG00000156110.9_10_75928933_T_C_b37"))
-barfunc(genename = wholebloodone)
-#Adenosine kinase (HGNC Symbol)
-#Entrez gene summary
-#This gene an enzyme which catalyzes the transfer of the gamma-phosphate from ATP to adenosine, thereby serving as a regulator of concentrations of both extracellular adenosine and intracellular adenine nucleotides. Adenosine has widespread effects on the cardiovascular, nervous, respiratory, and immune systems and inhibitors of the enzyme could play an important pharmacological role in increasing intravascular adenosine concentrations and acting as anti-inflammatory agents. Multiple transcript variants encoding different isoforms have been found for this gene. [provided by RefSeq, Jan 2011]"
-
-wholebloodtwo=(which(rownames(maxz)=="ENSG00000078114.14_10_21501314_T_C_b37"))
-
-
-barfunc(genename = wholebloodtwo)
-
-#Experiment name  Transcription profiling of human blood taken from individuals fed an antioxidant-rich diet or a diet containing kiwi-fruit to evaluate the effect on gene expression with emphasis on stress and repair related processes [E-MEXP-2030]
-# Source	ArrayExpress
-# Experiment description	Plant-based diets rich in fruit and vegetables can prevent development of several chronic age-related diseases such as cancer and cardiovascular diseases. The mechanisms behind this protective effect is not elucidated. We have studied whether a specially designed antioxidant-rich food diet and a kiwi-fruit intervention can affect whole genome expression in human blood cells with emphasis on stress and repair related process.
-# Chips	
-# Chip ID: OAS12-1 - Annotation by Bgee curators: Anatomical structure ID: EV:0100047 - Developmental stage ID: HsapDO:0000148
-# Probeset ID: 203961_at - Mapped to gene: ENSG00000078114 - Detection flag: absent - Quality: high quality
-
-```
-
-We also denoise and shrink the consistent effects away from 0.
-
-```{r cache=FALSE}
-
-plot_tc(lfsr,curvedata = maxz,thresh = 0.00005)
-plot_tc(lfsr,curvedata = posterior.means,thresh = 0.00005)
-```
-
-**Power comparison**
-
-```{r}
-sum(lfsr<0.05)
-p.vals=t(apply(z.stat,1,function(x){2*(1-pnorm(abs(x)))}))
-hist(p.vals,freq=FALSE)
-abline(h=1)
-library('qvalue')
-qs=qvalue(p.vals)
-sum(qs$qvalues<0.05)
-```
-
-We can also ask for how many genes do we observe at least one significant tissue:
-
-```{r at leastone}
-numsig=apply(lfsr,1,function(x){sum(x<0.05)})
-sum(numsig!=0)
-```
-WHile using the qvalues,
-
-```{r at leastonesumstats}
-numsigsumstat=apply(qs$qvalue,1,function(x){sum(x<0.05)})
-sum(numsigsumstat!=0)
-```
-
-
-So we improve the ability to detect tissue-level effects by sharing information across tissues and genes to augment `modest' effects in any one tissue in the presence of larger effects in other tissues for a given gene snp pair. 
-
-```{r power}
-lmat=lfsr<0.05
-qmat=qs$qvalue<0.05
-lbetter=sum(qmat=="FALSE"&lmat=="TRUE")
-qbetter=sum(lmat=="FALSE"&qmat=="TRUE")
-```
-
-In fact, we find that `r lbetter` of the time, the lfsr identifies a signficiant tissue effect when the qvalue does not, while only `r qbetter` of the time does the qvalue identify associations which our method would not call.
-
-Here's an example in which the effect in Adipose Visceral Omentum and Adrenal Gland is augmented by large effects in other tissues:
-```{r lbetter}
-j=2
-barfunc(j)
-```
-
-However, the overall number of genes detected does not imporve, because in those situation, at the gene level we probably would already have called the gene. We might expect this result, because using univariate statistics in isolation of other gene-snp pairs and in insolation of other tissues does not allow us to adjust our belief in consistently small effects. Furthermore, if a snp demonstrates a tissue specific effect that is not present at high levels in the overall data-set, the tissue specific effect might be reduced, consistent with our suspicion at the unusual pattern. Thus even though our method 
-
-Example:
-
-```{r}
-j=which(numsig==0)[1]
-barfunc(j)
-```
-
 
 Now, for each QTL I want to examine the posterior means of the tissues in which it was 'active' (at an lfsr threshold) and find QTL whose sign differed in at least 2 significant QTL. We restrict our analysis to only those gene snp pairs who show significance in at least one tissue:
 
@@ -601,7 +391,6 @@ sum(heterogeneity)
 If we compare with original z statistics:
 
 ```{r}
-
 zhets=apply(z.stat,1,function(dat){pos=sum(dat>0);neg=sum(dat<0);pos*neg!=0})
 sum(zhets)
 ```
