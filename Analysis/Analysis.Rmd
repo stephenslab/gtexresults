@@ -510,11 +510,11 @@ plot_tc(lfsr,curvedata = maxz,thresh = 0.00005)
 plot_tc(lfsr,curvedata = posterior.means,thresh = 0.00005)
 ```
 
-Power compariosn
+**Power comparison**
 
 ```{r}
 sum(lfsr<0.05)
-p.vals=2*(1-pnorm((as.matrix(unlist(abs(z.stat))))))
+p.vals=t(apply(z.stat,1,function(x){2*(1-pnorm(abs(x)))}))
 hist(p.vals,freq=FALSE)
 abline(h=1)
 library('qvalue')
@@ -522,7 +522,46 @@ qs=qvalue(p.vals)
 sum(qs$qvalues<0.05)
 ```
 
-Also, 
+We can also ask for how many genes do we observe at least one significant tissue:
+
+```{r at leastone}
+numsig=apply(lfsr,1,function(x){sum(x<0.05)})
+sum(numsig!=0)
+```
+WHile using the qvalues,
+
+```{r at leastonesumstats}
+numsigsumstat=apply(qs$qvalue,1,function(x){sum(x<0.05)})
+sum(numsigsumstat!=0)
+```
+
+
+So we improve the ability to detect tissue-level effects by sharing information across tissues and genes to augment `modest' effects in any one tissue in the presence of larger effects in other tissues for a given gene snp pair. 
+
+```{r power}
+lmat=lfsr<0.05
+qmat=qs$qvalue<0.05
+lbetter=sum(qmat=="FALSE"&lmat=="TRUE")
+qbetter=sum(lmat=="FALSE"&qmat=="TRUE")
+```
+
+In fact, we find that `r lbetter` of the time, the lfsr identifies a signficiant tissue effect when the qvalue does not, while only `r qbetter` of the time does the qvalue identify associations which our method would not call.
+
+Here's an example in which the effect in Adipose Visceral Omentum and Adrenal Gland is augmented by large effects in other tissues:
+```{r lbetter}
+j=2
+barfunc(j)
+```
+
+However, the overall number of genes detected does not imporve, because in those situation, at the gene level we probably would already have called the gene. We might expect this result, because using univariate statistics in isolation of other gene-snp pairs and in insolation of other tissues does not allow us to adjust our belief in consistently small effects. Furthermore, if a snp demonstrates a tissue specific effect that is not present at high levels in the overall data-set, the tissue specific effect might be reduced, consistent with our suspicion at the unusual pattern. Thus even though our method 
+
+Example:
+
+```{r}
+j=which(numsig==0)[1]
+barfunc(j)
+```
+
 
 Now, for each QTL I want to examine the posterior means of the tissues in which it was 'active' (at an lfsr threshold) and find QTL whose sign differed in at least 2 significant QTL. We restrict our analysis to only those gene snp pairs who show significance in at least one tissue:
 
@@ -565,5 +604,4 @@ If we compare with original z statistics:
 
 zhets=apply(z.stat,1,function(dat){pos=sum(dat>0);neg=sum(dat<0);pos*neg!=0})
 sum(zhets)
-```
 ```
