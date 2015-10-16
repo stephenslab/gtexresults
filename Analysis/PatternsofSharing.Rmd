@@ -86,3 +86,22 @@ heatmap.2(x,Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",tra
 
 We can see that as expected, for the single rank matrices 5 8 and 4,the effects in one tissue perfectly predict their effect in another tissue, and accordingly the correlation is either -1 or 1. However, the non-single rank matrices that are most important - matrices 3 and 2 - more subtle intermediate levels of correlation of effect are present.
 
+
+We can segregate the tissues by their relative importance on the diagonal of the top two covariance matrices.
+```{r plot tissues by importance on diagonal}
+order1=colnames(z.stat)[order(diag(covmat[[3]]),decreasing=TRUE)]
+order2=colnames(z.stat)[order(diag(covmat[[2]]),decreasing=TRUE)]
+
+
+index=rep(0,44)
+for(r in 1:length(colnames(z.stat))){tissue=colnames(z.stat)[r];index[r]=which(order1==tissue)}
+
+index2=rep(0,44)
+for(r in 1:length(colnames(z.stat))){tissue=colnames(z.stat)[r];index2[r]=which(order2==tissue)}
+
+plot(index,index2,main="Rank of Prior Variance in UK=2 vs Rank of Prior Variance in Uk=3",xlab="Rank in Uk=3",ylab="Rank in Uk=2")
+ text(index,index2,colnames(z.stat),cex=0.5)
+
+
+plot(diag(covmat[[3]])/max(diag(covmat[[3]])),diag(covmat[[2]])/max(diag(covmat[[2]])),main="Prior variance in Uk2 vs Prior Variance in Uk3",xlab="Prior variance in Uk3",ylab="Prior Variance in Uk=2")
+text(diag(covmat[[3]])/max(diag(covmat[[3]])),diag(covmat[[2]])/max(diag(covmat[[2]])),colnames(z.stat),cex=0.5)
