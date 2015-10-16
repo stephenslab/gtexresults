@@ -47,7 +47,7 @@ We can see that the first and most important matrix shows highly correlated gene
 ```{r order of importance}
 k=3
 colnames(z.stat)[order(diag(covmat[[k]]),decreasing = TRUE)][1:10]
-barplot(sort(diag(covmat[[k]])/max(diag(covmat[[k]])),decreasing=TRUE),names=colnames(z.stat)[order(diag(covmat[[2]]),decreasing=TRUE)],las=2,col=c(rep("green",11),rep("orange",11),rep("magenta",11),rep("red",11)),main=paste0("PriorEffectSizeUk",k),cex.names = 0.5)
+barplot(sort(diag(covmat[[k]])/max(diag(covmat[[k]])),decreasing=TRUE),names=colnames(z.stat)[order(diag(covmat[[k]]),decreasing=TRUE)],las=2,col=c(rep("green",11),rep("orange",11),rep("magenta",11),rep("red",11)),main=paste0("PriorEffectSizeUk",k),cex.names = 0.5)
 ```
 
 I've colored the sizes by those tissues in each quartile.
