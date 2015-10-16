@@ -43,19 +43,29 @@ heatmap.2(x/max(diag(covmat[[k]])),Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="n
 
 
 ```
-
 We can see that the first and most important matrix shows highly correlated genetic effects in brain and that the largest effects are correspondingly also seen in brain:
 ```{r order of importance}
-colnames(z.stat)[order(diag(covmat[[3]]),decreasing = TRUE)][1:10]
-barplot(sort(diag(covmat[[3]])/max(diag(covmat[[3]])),decreasing=TRUE),names=colnames(z.stat)[order(diag(covmat[[3]]),decreasing=TRUE)],las=2,col=c(rep("green",11),rep("orange",11),rep("magenta",11),rep("red",11)),main="PriorEffectSize",cex.names = 0.5)
+k=3
+colnames(z.stat)[order(diag(covmat[[k]]),decreasing = TRUE)][1:10]
+barplot(sort(diag(covmat[[k]])/max(diag(covmat[[k]])),decreasing=TRUE),names=colnames(z.stat)[order(diag(covmat[[2]]),decreasing=TRUE)],las=2,col=c(rep("green",11),rep("orange",11),rep("magenta",11),rep("red",11)),main=paste0("PriorEffectSizeUk",k),cex.names = 0.5)
 ```
+
 I've colored the sizes by those tissues in each quartile.
+
 ```{r}
 normdag=(diag(covmat[[3]])/max(diag(covmat[[3]])))
 quantile(normdag)
 name.order=colnames(z.stat)[order(diag(covmat[[3]]),decreasing=T)]
 name.order[1:10]
 
+```
+
+While in the second most important U_k, Uk=2, the brains have the smallest prior effect size.
+
+```{r secondimportant}
+colnames(z.stat)[order(diag(covmat[[2]]),decreasing = TRUE)][1:10]
+k=2
+barplot(sort(diag(covmat[[k]])/max(diag(covmat[[k]])),decreasing=TRUE),names=colnames(z.stat)[order(diag(covmat[[2]]),decreasing=TRUE)],las=2,col=c(rep("green",11),rep("orange",11),rep("magenta",11),rep("red",11)),main=paste0("PriorEffectSizeUk",k),cex.names = 0.5)
 ```
 
 We can see that in all the common matrices, the patterns of correlation among tissue are distinct, but brains seem consistently correalted even though occasionally they may have large or small prior effects, as reflected on the diagonal of the covariance matrix $U_{k}$.
