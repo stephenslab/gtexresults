@@ -4,6 +4,9 @@ output: html_document
 ---
 Patterns of consistency. Let's image the most common covariance matrices.
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+```
 
 ```{r}
 covmat=readRDS("../Data/covmatAug13withED.rds")
@@ -69,7 +72,7 @@ for(k in important){
 heatmap.2(x,Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofCov2CorU_k",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
 }
  
-
-
 ```
+
+We can see that as expected, for the single rank matrices 5 8 and 4,the effects in one tissue perfectly predict their effect in another tissue, and accordingly the correlation is either -1 or 1. However, the non-single rank matrices that are most important - matrices 3 and 2 - more subtle intermediate levels of correlation of effect are present.
 
