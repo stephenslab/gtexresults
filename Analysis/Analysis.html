@@ -68,6 +68,8 @@ img {
 <li>a specific suggestion for a plot: for each of your sampled beta vectors, normalize beta_t by its “largest” element (where largest means largest in absolute value, but you normalize by the actual value, not the absolute value, so that the normalized vector has maximum element +1). Then just plot a histogram of the resulting normalized beta values (pooled across all the samples). We should see very strong negative values are rare?</li>
 </ol>
 <p>Here I use posterior means:</p>
+<pre><code>## [1] 0.8383845</code></pre>
+<pre><code>## [1] 0.7180483</code></pre>
 <pre class="r"><code>par(mfrow=c(1,2))
 hist(as.vector(unlist(eznorm)),main=&quot;E(Z|Data)/E(Z|Data)[max(abs(E(Z|Data))]&quot;,freq=F,xlab=&quot;E(Z|Data)/E(Z|Data)[max(abs(E(Z|Data))]&quot;,ylim=c(0,2))
 hist(as.vector(unlist(znorm)),main=&quot;Z/Z[max(abs(Z)]&quot;,freq=F,xlab=&quot;Z/Z[max(abs(Z)]&quot;,ylim=c(0,2))</code></pre>
@@ -210,7 +212,18 @@ if(length(plow)==0){return(&quot;FALSE&quot;)}##for ones who show no significant
 else{pos=sum(plow&gt;0);neg=sum(plow&lt;0);pos*neg!=0}})
 sum(s==&quot;TRUE&quot;)</code></pre>
 <pre><code>## [1] 3180</code></pre>
-<pre class="r"><code>hets=which(s==&quot;TRUE&quot;)</code></pre>
+<pre class="r"><code>hets=which(s==&quot;TRUE&quot;)
+
+###Now do it for univariate Z statistics
+
+thresh=0.05
+z=sapply(seq(1:nrow(posterior.means)),function(x){
+l=lfsr[x,];p=z.stat[x,];plow=p[which(l&lt;thresh)];##grab only those posterior means that are 'significant'
+if(length(plow)==0){return(&quot;FALSE&quot;)}##for ones who show no significants, they can't be heterogenous
+else{pos=sum(plow&gt;0);neg=sum(plow&lt;0);pos*neg!=0}})
+sum(z==&quot;TRUE&quot;)</code></pre>
+<pre><code>## [1] 9655</code></pre>
+<pre class="r"><code>hets=which(z==&quot;TRUE&quot;)</code></pre>
 <p>Now, for each snp, simulate 100 draws from mvnorm according to posterior weights; count proportion of times signs differ. This takes about 2 hours .</p>
 <pre class="r"><code>heterogeneity=sapply(seq(1:nrow(maxz)),function(j){sim.array.generation(j,b.j.hat=maxz,s.j,covmat,pis,sim=100)})
 write.table(heterogeneity,&quot;heterogeneityindex.txt&quot;,row.names=rownames(maxz))</code></pre>
@@ -224,6 +237,8 @@ hist(heterogeneity,main=&quot;Proportion of Simulations with H0 False&quot;,freq
 <pre class="r"><code>zhets=apply(z.stat,1,function(dat){pos=sum(dat&gt;0);neg=sum(dat&lt;0);pos*neg!=0})
 sum(zhets)</code></pre>
 <pre><code>## [1] 14557</code></pre>
+<pre class="r"><code>sum(zhets)/length(zhets)</code></pre>
+<pre><code>## [1] 0.9059058</code></pre>
 
 
 </div>

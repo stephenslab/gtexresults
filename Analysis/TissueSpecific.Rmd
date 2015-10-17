@@ -92,6 +92,8 @@ lfsr=read.table("../Data/Aug13withEDlfsr.txt")[,-1]
 posterior.means=read.table("../Data/Aug13withEDposterior.means.txt")[,-1]
 post.weights=read.table("~/Dropbox/Aug12/Aug13withEDpost.weights.txt")[,-1]
 z.stat=read.table("../Data/maxz.txt")
+colnames(lfsr)=colnames(z.stat);
+colnames(posterior.means)=colnames(z.stat)
 maxz=z.stat
 covmat=readRDS("../Data/covmatAug13withED.rds")
 
@@ -103,6 +105,7 @@ qs=qvalue(p.vals)
 ```
 
 ```{r tissuespecqtl}
+colnames(lfsr)=colnames(z.stat);
 thresh=0.05
 dist=as.matrix(lfsr)<=thresh
 
@@ -177,8 +180,7 @@ Here's an example:
 ```{r tissuespec.example}
 j=which(rownames(z.stat)=="ENSG00000244171.3_3_142895174_T_G_b37")
 
-barplot(as.matrix(maxz[j,]),las=2,cex.names=0.5,main=paste0("Z Statistics",rownames(maxz)[j]))
-barplot(as.numeric(posterior.means[j,]),main=paste0("E(Z|EZ)",rownames(maxz)[j]),col=col.func(j,lfsr=lfsr,posterior.means=posterior.means),las=2,cex.names=0.8,ylab="PosteriorMean")
+barfunc(j)
 ```
 
 Let's examine `r rownames(z.stat)[j]` do discover his function: 
@@ -193,10 +195,8 @@ We can find all the ones who have high loading on the 'tissue specific' configs:
 pw.singles=post.weights[,sapply(covmat,function(x){sum(diag(x)!=0)==1})]
 singleton.rank=rowSums(pw.singles)
 j=which.max(singleton.rank)
+barfunc(j)
 
-par(mfrow=c(1,2))
-barplot(as.matrix(maxz[j,]),las=2,cex.names=0.5,main=paste0("Z Statistics",rownames(maxz)[j]))
-barplot(as.numeric(posterior.means[j,]),main=paste0("E(Z|EZ)",rownames(maxz)[j]),col=col.func(j,lfsr=lfsr,posterior.means=posterior.means),las=2,cex.names=0.8,ylab="PosteriorMean")
 ```
 This particular gene is Desmoplakin, known to be involved in dilated cardiomyopathy. 
 
@@ -205,9 +205,7 @@ pw.all=post.weights[,sapply(covmat,function(x){sum(diag(x)/max(diag(x)))/sum(x[1
 cons.rank=rowSums(pw.all[,6:22])
 j=which.max(cons.rank)
 
-par(mfrow=c(1,2))
-barplot(as.matrix(maxz[j,]),las=2,cex.names=0.5,main=paste0("Z Statistics",rownames(maxz)[j]))
-barplot(as.numeric(posterior.means[j,]),main=paste0("E(Z|EZ)",rownames(maxz)[j]),col=col.func(j,lfsr=lfsr,posterior.means=posterior.means),las=2,cex.names=0.8,ylab="PosteriorMean")
+barfunc(j)
 ```
 
 
@@ -218,9 +216,6 @@ Some tissue specific examples:
 
 ```{r,cache=F}
 library("qtlcharts")
-
-
- 
 plot_ts("Testis",lfsr, z.stat,0.05)
 plot_ts("Testis",lfsr, posterior.means,0.05)
 plot_ts("Whole_Blood",lfsr, z.stat,0.05)

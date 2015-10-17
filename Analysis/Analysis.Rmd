@@ -104,7 +104,9 @@ z.stat=read.table("../Data/maxz.txt")
 maxz=z.stat
 covmat=readRDS("../Data/covmatAug13withED.rds")
 eznorm=het.norm(effectsize = posterior.means)
+sum(eznorm>0)/length(eznorm)
 znorm=het.norm(effectsize = z.stat)
+sum(znorm>0)/length(znorm)
 
 p.vals=t(apply(z.stat,1,function(x){2*(1-pnorm(abs(x)))}))
 library('qvalue')
@@ -372,6 +374,19 @@ if(length(plow)==0){return("FALSE")}##for ones who show no significants, they ca
 else{pos=sum(plow>0);neg=sum(plow<0);pos*neg!=0}})
 sum(s=="TRUE")
 hets=which(s=="TRUE")
+
+###Now do it for univariate Z statistics
+
+thresh=0.05
+z=sapply(seq(1:nrow(posterior.means)),function(x){
+l=lfsr[x,];p=z.stat[x,];plow=p[which(l<thresh)];##grab only those posterior means that are 'significant'
+if(length(plow)==0){return("FALSE")}##for ones who show no significants, they can't be heterogenous
+else{pos=sum(plow>0);neg=sum(plow<0);pos*neg!=0}})
+sum(z=="TRUE")
+hets=which(z=="TRUE")
+
+
+
 ```
 
 Now, for each snp, simulate 100 draws from mvnorm according to posterior weights; count proportion of times signs differ. This takes about 2 hours .
@@ -393,4 +408,5 @@ If we compare with original z statistics:
 ```{r}
 zhets=apply(z.stat,1,function(dat){pos=sum(dat>0);neg=sum(dat<0);pos*neg!=0})
 sum(zhets)
+sum(zhets)/length(zhets)
 ```
