@@ -89,11 +89,13 @@ plot_ts=function(tissuename,lfsr,curvedata,thresh=0.05,subset=1:44){
    iplotCurves(curvedata[sigs,subset],chartOpts=list(curves_xlab="Tissue",curves_ylab="curvedata"))}
 
 lfsr=read.table("../Data/Aug13withEDlfsr.txt")[,-1]
+
 posterior.means=read.table("../Data/Aug13withEDposterior.means.txt")[,-1]
 post.weights=read.table("~/Dropbox/Aug12/Aug13withEDpost.weights.txt")[,-1]
 z.stat=read.table("../Data/maxz.txt")
-colnames(lfsr)=colnames(z.stat);
-colnames(posterior.means)=colnames(z.stat)
+
+colnames(lfsr)=colnames(posterior.means)=colnames(z.stat)
+rownames(lfsr)=rownames(posterior.means)=rownames(z.stat)
 maxz=z.stat
 covmat=readRDS("../Data/covmatAug13withED.rds")
 
@@ -237,6 +239,9 @@ plot_ts("Muscle_Skeletal" ,lfsr, posterior.means,0.05)
 clean_names=sapply(rownames(maxz),function(x){ strsplit(x, "[.]")[[1]][1]})
 liver=which(clean_names=="ENSG00000166923")
 barfunc(genename = liver)
+
+msk=which(clean_names=="ENSG00000092054")
+barfunc(genename = msk)
 
 lung=which(clean_names=="ENSG00000151468")
 barfunc(genename = lung)
