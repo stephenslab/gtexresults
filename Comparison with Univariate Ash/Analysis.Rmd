@@ -135,7 +135,7 @@ We can see that Matrix ASH identifies `r sum(lfsr.mash<thresh)/sum(lfsr.ash<thre
 ```{r count.number.genes}
 gene.func=function(lfsr,thresh){
 sigmat=lfsr<thresh
-sum(rowSums(sigmat)!=1)}
+sum(rowSums(sigmat)!=0)}
 
 gene.func(lfsr.mash,thresh=0.05)
 gene.func(lfsr.ash,thresh=0.05)
