@@ -47,7 +47,7 @@ We can see that the first and most important matrix shows highly correlated gene
 ```{r order of importance}
 k=3
 colnames(z.stat)[order(diag(covmat[[k]]),decreasing = TRUE)][1:10]
-barplot(sort(diag(covmat[[k]])/max(diag(covmat[[k]])),decreasing=TRUE),names=colnames(z.stat)[order(diag(covmat[[k]]),decreasing=TRUE)],las=2,col=c(rep("green",11),rep("orange",11),rep("magenta",11),rep("red",11)),main=paste0("PriorEffectSizeUk",k),cex.names = 0.5)
+barplot(sort(diag(covmat[[k]])/max(diag(covmat[[k]])),decreasing=TRUE),names=colnames(z.stat)[order(diag(covmat[[k]]),decreasing=TRUE)],las=2,col=c(rep("green",11),rep("orange",11),rep("magenta",11),rep("red",11)),main=paste0("PriorEffectSizeUk",k),cex.names = .5)
 ```
 
 I've colored the sizes by those tissues in each quartile.
@@ -65,7 +65,21 @@ While in the second most important U_k, Uk=2, the brains have the smallest prior
 ```{r secondimportant}
 colnames(z.stat)[order(diag(covmat[[2]]),decreasing = TRUE)][1:10]
 k=2
-barplot(sort(diag(covmat[[k]])/max(diag(covmat[[k]])),decreasing=TRUE),names=colnames(z.stat)[order(diag(covmat[[2]]),decreasing=TRUE)],las=2,col=c(rep("green",11),rep("orange",11),rep("magenta",11),rep("red",11)),main=paste0("PriorEffectSizeUk",k),cex.names = 0.5)
+barplot(sort(diag(covmat[[k]])/max(diag(covmat[[k]])),decreasing=TRUE),names=colnames(z.stat)[order(diag(covmat[[k]]),decreasing=TRUE)],las=2,col=c(rep("green",11),rep("orange",11),rep("magenta",11),rep("red",11)),main=paste0("PriorEffectSizeUk",k),cex.names = 0.5)
+```
+
+
+And in $U_k=4$ and $U_k=8$, we see some tissue specific effects:
+
+```{r secondimportant}
+
+k=4
+barplot(sort(diag(covmat[[k]])/max(diag(covmat[[k]])),decreasing=TRUE),names=colnames(z.stat)[order(diag(covmat[[k]]),decreasing=TRUE)],las=2,col=c(rep("green",11),rep("orange",11),rep("magenta",11),rep("red",11)),main=paste0("PriorEffectSizeUk",k),cex.names = 0.5)
+
+k=8
+barplot(sort(diag(covmat[[k]])/max(diag(covmat[[k]])),decreasing=TRUE),names=colnames(z.stat)[order(diag(covmat[[k]]),decreasing=TRUE)],las=2,col=c(rep("green",11),rep("orange",11),rep("magenta",11),rep("red",11)),main=paste0("PriorEffectSizeUk",k),cex.names = 0.5)
+
+
 ```
 
 We can see that in all the common matrices, the patterns of correlation among tissue are distinct, but brains seem consistently correalted even though occasionally they may have large or small prior effects, as reflected on the diagonal of the covariance matrix $U_{k}$.
