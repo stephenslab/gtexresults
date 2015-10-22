@@ -190,9 +190,9 @@ barplot(t(as.matrix(pis)))</code></pre>
 ## [3,]    0 0.000000000    0    0    0
 ## [4,]    0 0.000000000    0    0    0
 ## [5,]    0 0.000000000    0    0    0</code></pre>
-<p>Now, we can compute the posterior quanitites for each gene snp pair. Here, we’ll test it on 500 gene snp pairs.</p>
+<p>Now, we can compute the posterior quanitites for each gene snp pair.</p>
 <pre class="r"><code>weightedquants=lapply(seq(1:10000),function(j){total.quant.per.snp(j,covmat,b.gp.hat=b.test,se.gp.hat = se.test,pis,A=&quot;Simulations&quot;,checkpoint = FALSE)})</code></pre>
-<p>We can now use ash to compute the same quantitesin a univariate fashion:</p>
+<p>We can now use ash to compute the same quantities in a univariate fashion:</p>
 <pre class="r"><code>train.z=b.train
 train.v=se.train
 
@@ -213,11 +213,11 @@ univariate.ash.pm[,x]=max.z.fit$PosteriorMean
 univariate.ash.lfsr[,x]=max.z.fit$lfsr
 }
 
-write.table(univariate.ash.pm,file=&quot;univariate.ash.pm.lfsr&quot;)
-write.table(univariate.ash.lfsr,file=&quot;univariate.ash.lfsr&quot;)</code></pre>
+write.table(univariate.ash.pm,file=&quot;univariate.ash.pm.txt&quot;)
+write.table(univariate.ash.lfsr,file=&quot;univariate.ash.lfsr.txt&quot;)</code></pre>
 <p>Now, moment of truth, compare to make sure the estimates minimize mean squared error:</p>
-<pre class="r"><code>post.means=read.table(&quot;~/Dropbox/test/Simulationsposterior.means.txt&quot;)[,-1]
-pmash=univariate.ash.pm
+<pre class="r"><code>post.means=read.table(&quot;Simulationsposterior.means.txt&quot;)[,-1]
+pmash=read.table(&quot;univariate.ash.pm.txt&quot;)
 
 sqrt(mean((b.truth.test-post.means)^2))</code></pre>
 <pre><code>## [1] 0.01345106</code></pre>

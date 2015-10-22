@@ -108,7 +108,7 @@ Now, we can compute the posterior quanitites for each gene snp pair.
 weightedquants=lapply(seq(1:10000),function(j){total.quant.per.snp(j,covmat,b.gp.hat=b.test,se.gp.hat = se.test,pis,A="Simulations",checkpoint = FALSE)})
 ```
 
-We can now use ash to compute the same quantitesin a univariate fashion:
+We can now use ash to compute the same quantities in a univariate fashion:
 
 ```{r}
 
@@ -132,8 +132,8 @@ univariate.ash.pm[,x]=max.z.fit$PosteriorMean
 univariate.ash.lfsr[,x]=max.z.fit$lfsr
 }
 
-write.table(univariate.ash.pm,file="univariate.ash.pm.lfsr")
-write.table(univariate.ash.lfsr,file="univariate.ash.lfsr")
+write.table(univariate.ash.pm,file="univariate.ash.pm.txt")
+write.table(univariate.ash.lfsr,file="univariate.ash.lfsr.txt")
 
 ```
 
@@ -141,7 +141,7 @@ Now, moment of truth, compare to make sure the estimates minimize mean squared e
 
 ```{r}
 post.means=read.table("Simulationsposterior.means.txt")[,-1]
-pmash=read.table("univariate.ash.pm")
+pmash=read.table("univariate.ash.pm.txt")
 
 sqrt(mean((b.truth.test-post.means)^2))
 sqrt(mean((b.truth.test-pmash)^2))
