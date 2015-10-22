@@ -23,6 +23,12 @@ het.norm=function(effectsize){
   x/x[which.max(abs(x))]
 }))}
 
+
+sign.norm=function(effectsize){
+  t(apply(effectsize,1,function(x){
+  x/sign(x[which.max(abs(x))])
+}))}
+
 col.func=function(lfsr,posterior.means,j){
   R=ncol(posterior.means)
   lfsr.mat=as.matrix(lfsr)
@@ -162,4 +168,131 @@ sum(h=="TRUE")}
 
 inconsistent.func(pm.ash,lfsr.ash)
 inconsistent.func(pm.mash,lfsr.mash)
+```
 
+
+If we restrict our analysis to only those considered significant at an lfsr threshold using ash computed LFSR, we have a smaller number, but this is simply because so many fewer associations are called significant using ash. Using the MASH lfsrs, the results are identical to using the univariate z statistics. WE can compare to the matrix ash posterior means as well.
+
+```{r}
+ thresh=0.05
+z=sapply(seq(1:nrow(pm.ash)),function(x){
+l=lfsr.ash[x,];p=pm.ash[x,];plow=p[which(l<thresh)];##grab only those posterior means that are 'significant'
+if(length(plow)==0){return("FALSE")}##for ones who show no significants, they can't be heterogenous
+else{pos=sum(plow>0);neg=sum(plow<0);pos*neg!=0}})
+sum(z==TRUE)
+
+
+z=sapply(seq(1:nrow(pm.ash)),function(x){
+l=lfsr.mash[x,];p=pm.ash[x,];plow=p[which(l<thresh)];##grab only those posterior means that are 'significant'
+if(length(plow)==0){return("FALSE")}##for ones who show no significants, they can't be heterogenous
+else{pos=sum(plow>0);neg=sum(plow<0);pos*neg!=0}})
+sum(z==TRUE)
+
+
+
+z=sapply(seq(1:nrow(pm.mash)),function(x){
+l=lfsr.mash[x,];p=pm.mash[x,];plow=p[which(l<thresh)];##grab only those posterior means that are 'significant'
+if(length(plow)==0){return("FALSE")}##for ones who show no significants, they can't be heterogenous
+else{pos=sum(plow>0);neg=sum(plow<0);pos*neg!=0}})
+sum(z==TRUE)
+```
+
+
+
+
+
+```
+
+
+We can also consider a histogram of normalized posterior means:
+
+```{r}
+z.stat=read.table("../Data/maxz.txt")
+znorm=het.norm(effectsize = z.stat)
+sum(znorm>0)/length(znorm)
+
+matrix.ash.norm=het.norm(effectsize = pm.mash)
+sum(matrix.ash.norm>0)/length(matrix.ash.norm)
+
+par(mfrow=c(1,3))
+
+hist(matrix.ash.norm,freq=FALSE,ylim=c(0,5),nclass=100,main="Z_jr|Data/Z_jr[which.max(abs(Z_jr|Data))],MASH")
+legend("left",legend=paste0("mash.norm<0=",round((sum(matrix.ash.norm<0)/length(matrix.ash.norm)),3)))
+uni.ash.norm=het.norm(effectsize = pm.ash)
+sum(uni.ash.norm>0)/length(uni.ash.norm)
+hist(uni.ash.norm,freq=FALSE,ylim=c(0,5),nclass=100,main="Z_jr|Data/Z_jr[which.max(abs(Z_jr|Data))],ASH")
+legend("left",legend=paste0("uni.norm<0=",round((sum(uni.ash.norm<0)/length(matrix.ash.norm)),3)))
+hist(znorm,freq=FALSE,ylim=c(0,5),nclass=100,main="Z_jr|Data/Z_jr[which.max(abs(Z_jr|Data))],Z_raw")
+legend("left",legend=paste0("z.norm<0=",round((sum(znorm<0)/length(matrix.ash.norm)),3)))
+
+
+mash.sign=sign.norm(effectsize = pm.mash)
+uni.sign=sign.norm(effectsize = pm.ash)
+z.sign=sign.norm(effectsize = z.stat)
+
+par(mfrow=c(1,3))
+hist(mash.sign,freq=FALSE,ylim=c(0,1),nclass=100,main="Z_jr|Data/sign(Z_jr[which.max(abs(Z_jr|Data))],MASH)")
+legend("left",legend=paste0("mash.sign<0=",round((sum(matrix.ash.norm<0)/length(matrix.ash.norm)),3)))
+hist(uni.sign,freq=FALSE,ylim=c(0,1),nclass=100,main="Z_jr|Data/sign(Z_jr[which.max(abs(Z_jr|Data))],ASH)")
+legend("left",legend=paste0("uni.sign<0=",round((sum(uni.ash.norm<0)/length(matrix.ash.norm)),3)))
+
+hist(z.sign,freq=FALSE,ylim=c(0,1),nclass=100,main="Z_jr|Data/sign(Z_jr[which.max(abs(Z_jr|Data))],Z.raw)")
+legend("left",legend=paste0("z.sign<0=",round((sum(znorm<0)/length(matrix.ash.norm)),3)))
+
+```
+
+
+
+Understandably, there are no examples in which the sign of the posterior mean using univariate ash is flipped because there is no sharing of information across tissues, while with matrix ash, the sign changes about 18% of the time:
+
+```{r comparing signs}
+sum2=z.stat*pm.mash
+sum(sum2<0)/length(unlist(sum2))
+sumash=z.stat*pm.ash
+sum(sumash<0)/length(unlist(sum2))
+```
+
+
+```{r}
+rep.col<-function(x,n){
+   matrix(rep(x,each=n), ncol=n, byrow=TRUE)
+}
+bi_plot_funcmaxz=function(max.val,znorm){
+ a=rep.col(max.val,44)
+  plot(znorm,a,main="MaxValuevsSimulatedNormalizedValue",xlab="SimulatedArrayDividedbyMaxVal",ylab="MaximumValue",col=rgb(0,100,0,50,maxColorValue=255), pch=16)
+  }
+
+max.val=apply(pm.ash,1,function(x){
+  x[which.max(abs(x))]
+})
+
+
+png("uni.ash.biplot.png")
+par(mfrow=c(1,2))
+bi_plot_funcmaxz(max.val = max.val,znorm = uni.ash.norm)
+bi_plot_funcmaxz(max.val = max.val,znorm = uni.sign)
+dev.off()
+
+
+
+max.val=apply(pm.mash,1,function(x){
+  x[which.max(abs(x))]
+})
+
+png("mash.biplot.png")
+par(mfrow=c(1,2))
+bi_plot_funcmaxz(max.val = max.val,znorm = matrix.ash.norm)
+bi_plot_funcmaxz(max.val = max.val,znorm = mash.sign)
+dev.off()
+
+
+
+max.val=apply(z.stat,1,function(x){
+  x[which.max(abs(x))]
+})
+
+png("z.biplot.png")
+par(mfrow=c(1,2))
+bi_plot_funcmaxz(max.val = max.val,znorm = znorm)
+bi_plot_funcmaxz(max.val = max.val,znorm = z.sign)
+dev.off()
