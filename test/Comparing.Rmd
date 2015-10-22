@@ -152,6 +152,8 @@ And plot the posterior means vs the truth:
 ```{r}
 nulls=which(b.truth.test[,1]=="0",)
 null.vals=intersect(1:nrow(post.means),nulls)
+post.means=as.matrix(post.means)
+pmash=as.matrix(pmash)
 par(mfrow=c(1,2))
 plot(as.matrix(b.test),as.matrix(post.means),xlab="Bhat",ylab="Post.MeanswithMASH",main="Post.MeanvsMLE,MASH")
 points(b.test[null.vals,],post.means[null.vals,],col="red")
