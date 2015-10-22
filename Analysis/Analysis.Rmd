@@ -246,7 +246,7 @@ bi_plot_funct=function(sim,max.val,sim.array){
   j=sim
   mat.col=max.val[,j]
   a=rep.col(max.val[,j],44)
-  plot(sim.array[,j,],a,main="MaxValuevsSimulatedNormalizedValue",xlab="SimulatedArrayDividedbyMaxVal",ylab="MaximumValue")
+  plot(sim.array[,j,],a,main="MaxValuevsSimulatedNormalizedValue",xlab="SimulatedArrayDividedbyMaxVal",ylab="MaximumValue",col=rgb(0,100,0,50,maxColorValue=255), pch=16)
   }
 
 
@@ -274,8 +274,9 @@ sum(znorm>0)/length(znorm)
 ```{r eval=F}
 png("simulatedvsmax.png")
 par(mfrow=c(1,2))
-bi_plot_funct(sim=5,max.val = max.val,sim.array=hetsign)
 bi_plot_funct(sim=5,max.val = max.val,sim.array=hetval)
+bi_plot_funct(sim=5,max.val = max.val,sim.array=hetsign)
+
 dev.off()
 
 z.max=apply(z.stat,1,function(x){x[which.max(abs(x))]})
