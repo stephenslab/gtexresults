@@ -6,7 +6,7 @@ output: pdf_document
 In this document I compare with univariate ash
 
 ```{r code,echo=FALSE}
-setwd("~/Dropbox/UnivariateAsh")
+#setwd("~/Dropbox/UnivariateAsh")
 knitr::opts_chunk$set(cache=TRUE)
 barfunc=function(genename){
   par(mfrow=c(1,2))
@@ -252,8 +252,24 @@ sumash=z.stat*pm.ash
 sum(sumash<0)/length(unlist(sum2))
 ```
 
+Let's consider the biplots of the values vs their maximums:
+First, I plot the biplot of the posterior means using univariate ash vs their maximums:
 
-```{r}
+![alt text](uniashbiplot.png)
+
+Then, I make the same plot using the posterior means using matrix ash vs their maximums:
+
+![alt text](mashbiplot.png)
+
+I verify that this is the same as the simulated values with matrix vs their maximums:
+
+![alt text](unvsmax.png)
+
+And I also plot the univariate z stats vs their maximums:
+
+![alt text](zbiplot.png)
+
+```{r, eval=FALSE}
 rep.col<-function(x,n){
    matrix(rep(x,each=n), ncol=n, byrow=TRUE)
 }
@@ -296,3 +312,4 @@ par(mfrow=c(1,2))
 bi_plot_funcmaxz(max.val = max.val,znorm = znorm)
 bi_plot_funcmaxz(max.val = max.val,znorm = z.sign)
 dev.off()
+```

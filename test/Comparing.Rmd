@@ -146,3 +146,13 @@ pmash=read.table("univariate.ash.pm.txt")
 sqrt(mean((b.truth.test-post.means)^2))
 sqrt(mean((b.truth.test-pmash)^2))
 ```
+
+And plot the posterior means vs the truth:
+
+```{r}
+nulls=which(b.truth.test[,1]=="0",)
+null.vals=intersect(1:nrow(post.means),nulls)
+points(b.test[null.vals,],post.means[null.vals,],col="red")
+plot(as.matrix(b.test),as.matrix(post.means))
+points(b.test[null.vals,],post.means[null.vals,],col="red")
+```
