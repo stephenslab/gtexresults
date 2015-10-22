@@ -101,7 +101,7 @@ barplot(t(as.matrix(pis)))
 (covmat[[which.max(pis)]])
 ```
 
-Now, we can compute the posterior quanitites for each gene snp pair. Here, we'll test it on 500 gene snp pairs.
+Now, we can compute the posterior quanitites for each gene snp pair. 
 
 ```{r}
 
@@ -140,8 +140,8 @@ write.table(univariate.ash.lfsr,file="univariate.ash.lfsr")
 Now, moment of truth, compare to make sure the estimates minimize mean squared error:
 
 ```{r}
-post.means=read.table("~/Dropbox/test/Simulationsposterior.means.txt")[,-1]
-pmash=univariate.ash.pm
+post.means=read.table("Simulationsposterior.means.txt")[,-1]
+pmash=read.table("univariate.ash.pm")
 
 sqrt(mean((b.truth.test-post.means)^2))
 sqrt(mean((b.truth.test-pmash)^2))
