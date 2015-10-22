@@ -289,7 +289,7 @@ dev.off()
 
 
 ```
-
+![alt text](simulatedvsmax.png)
 Understanding patterns of sharing:
 
 ```{r evaluations, echo=F}
