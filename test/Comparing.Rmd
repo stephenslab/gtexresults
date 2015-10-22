@@ -1,0 +1,148 @@
+---
+title: "Comparing"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+```
+
+```{r}
+
+#devtools::install_github("surbut/matrix_ash")
+rm(list=ls())
+library("mash")
+library("bigmemory")
+library("SQUAREM")
+library("mvtnorm")
+#source("~/matrix_ash/R/main.R")
+#source("~/matrix_ash/R/sarah's_mixem.R")
+
+suppressPackageStartupMessages(require("mash"))
+suppressPackageStartupMessages(require("bigmemory"))
+suppressPackageStartupMessages(require("SQUAREM"))
+suppressPackageStartupMessages(require("mvtnorm"))
+library('ashr')
+```
+
+Then, we need to load our matrix of 'strong' t statistics to create the covariance matrices as well as the matrix of factors from our SFA model. In this example, we will not use the additional BMA configurations (i.e., bma=FALSE). Also load the maximum beta hats and t statistics for grid selection.
+
+```{r}
+set.seed(123)
+R=5
+covdat = factor_sim(J=1000,K=10,betasd=1,esd=0.1,d=5)
+b.gp.hat=covdat$betahat
+se.gp.hat=covdat$sebetahat
+t.stat=covdat$tstat
+
+lambda.mat=covdat$lambda
+factor.mat=covdat$factors
+covmat=compute.covmat(b.gp.hat,se.gp.hat,Q=5,t.stat,lambda.mat=lambda.mat,P=2,A="simulation",factor.mat=factor.mat,bma=TRUE)
+
+##Alternatively, use minparam=sqrt(10) and maxparam = 1/1.1
+
+K=length(covmat)
+K
+covmat[[K]]
+
+```
+Now, we let's remove these strong tstats and split simulate new data into test and training. This will compute the HM weights on training data and return a file of likelihoods for the training data. I use my factor simulator to simulate true betas and betahats. Note that we want only the rownames to include meta data (and not an additional column) because this will impace the dimension compatibility of the prior covariance matrices and V.
+
+```{r}
+rm(b.gp.hat)
+rm(se.gp.hat)
+
+newdat = factor_sim(J=10000,K=10,betasd=1,esd=0.1,d=5)
+b.train=newdat$betahat
+se.train=newdat$sebetahat
+
+
+##Not 
+indices=seq(1,nrow(b.train))
+rownames(b.train)=paste("gene_snp",indices,sep="")##now, we want our data frame to have rownames
+
+J=nrow(b.train)
+head(b.train)
+```
+
+Now, we separate into training data. I will train on 10000 gene snp Pairs, which tra
+
+```{r}
+compute.hm.train(train.b = b.train,se.train = se.train,covmat = covmat,A="Simulations")
+##compute the HM weights on training data
+##check to show that the likelihood computatations are correct
+```
+
+```{r}
+A="Simulations"
+likmat=readRDS(paste0("liketrain",A,".rds"))
+likmat[1,1:10]
+lik.func(b.mle = b.train[1,],V.gp.hat = diag(se.train[1,])^2,covmat)[1:10]
+```
+Note creation of three files: pis, a pdf of pis, and a matrix  of likelihoods of training data.
+Now,we remove the training data and create our test data. We can see that it contains the gene snp pairs in the rows and the standardized effect across subgroups in the columns.
+
+```{r}
+
+testdat = factor_sim(J=10000,K=10,betasd=1,esd=0.1,d=5)
+saveRDS(testdat,"testdat.rds")
+b.test=testdat$betahat
+se.test=testdat$sebetahat
+b.truth.test=testdat$beta
+````
+
+We read in the previously computed pis and the covariane matrix and compute the test likelihood and corresponding weights. Note the return of a file of test likeilihoods and posterior weights. Here, I will only do the computation for 100 gene-snp pairs. 
+
+```{r}
+A="Simulations"
+pis=readRDS(paste0("pis",A,".rds"))$pihat
+
+barplot(t(as.matrix(pis)))
+(covmat[[which.max(pis)]])
+```
+
+Now, we can compute the posterior quanitites for each gene snp pair. Here, we'll test it on 500 gene snp pairs.
+
+```{r}
+
+weightedquants=lapply(seq(1:10000),function(j){total.quant.per.snp(j,covmat,b.gp.hat=b.test,se.gp.hat = se.test,pis,A="Simulations",checkpoint = FALSE)})
+```
+
+We can now use ash to compute the same quantitesin a univariate fashion:
+
+```{r}
+
+train.z=b.train
+train.v=se.train
+
+z.stat=b.test
+v.j=se.test
+
+univariate.ash.pm=matrix(nrow=nrow(z.stat),ncol=ncol(z.stat))
+univariate.ash.lfsr=matrix(nrow=nrow(z.stat),ncol=ncol(z.stat))
+
+R=ncol(z.stat)
+
+for(x in 1:R){
+
+b=ash(betahat=train.z[,x],sebetahat=train.v[,x],mixcompdist="normal")##fit weights on random data
+g.fix=b$fitted.g
+max.z.fit=ash(betahat=z.stat[,x], sebetahat=v.j[,x],g=g.fix,control=list(maxiter=0))
+univariate.ash.pm[,x]=max.z.fit$PosteriorMean
+univariate.ash.lfsr[,x]=max.z.fit$lfsr
+}
+
+write.table(univariate.ash.pm,file="univariate.ash.pm.lfsr")
+write.table(univariate.ash.lfsr,file="univariate.ash.lfsr")
+
+```
+
+Now, moment of truth, compare to make sure the estimates minimize mean squared error:
+
+```{r}
+post.means=read.table("~/Dropbox/test/Simulationsposterior.means.txt")[,-1]
+pmash=univariate.ash.pm
+
+sqrt(mean((b.truth.test-post.means)^2))
+sqrt(mean((b.truth.test-pmash)^2))
+```
