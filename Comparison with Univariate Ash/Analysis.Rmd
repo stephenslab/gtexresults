@@ -136,7 +136,7 @@ sum(lfsr.mash<thresh)
 sum(lfsr.ash<thresh)
 ```
 
-We can see that Matrix ASH identifies `r sum(lfsr.mash<thresh)/sum(lfsr.ash<thresh)` more associations than using univariate ash. Furthemore, if we consider the number of genes with at least one LFSR less than threshold, we also identify more using this multivariate method. Using 
+We can see that Matrix ASH identifies `r sum(lfsr.mash<thresh)/sum(lfsr.ash<thresh)` more associations than using univariate ash. Furthemore, if we consider the number of genes with at least one LFSR less than threshold. Using 
 
 ```{r count.number.genes}
 gene.func=function(lfsr,thresh){
@@ -145,6 +145,8 @@ sum(rowSums(sigmat)!=0)}
 
 gene.func(lfsr.mash,thresh=0.05)
 gene.func(lfsr.ash,thresh=0.05)
+
+sum(lfsr.mash<thresh&lfsr.ash>thresh)
 ```
 
 
