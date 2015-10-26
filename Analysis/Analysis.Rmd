@@ -113,6 +113,12 @@ library('qvalue')
 qs=qvalue(p.vals)
 ```
 
+```{r}
+sum(eznorm>0)/length(eznorm)
+znorm=het.norm(effectsize = z.stat)
+sum(znorm>0)/length(znorm)
+```
+
 ```{r plothistogram}
 par(mfrow=c(1,2))
 hist(as.vector(unlist(eznorm)),main="E(Z|Data)/E(Z|Data)[max(abs(E(Z|Data))]",freq=F,xlab="E(Z|Data)/E(Z|Data)[max(abs(E(Z|Data))]",ylim=c(0,2))
