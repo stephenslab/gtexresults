@@ -98,16 +98,21 @@ lfsr=read.table("../Data/Aug13withEDlfsr.txt")[,-1]
 posterior.means=read.table("../Data/Aug13withEDposterior.means.txt")[,-1]
 post.weights=read.table("~/Dropbox/Aug12/Aug13withEDpost.weights.txt")[,-1]
 
-
+posterior.betas=read.table("../Data/Aug13withEDposterior.betas.txt")
+maxbetas=read.table("../Data/maxbetahats.txt"))
 
 z.stat=read.table("../Data/maxz.txt")
 maxz=z.stat
 covmat=readRDS("../Data/covmatAug13withED.rds")
 eznorm=het.norm(effectsize = posterior.means)
+ebnorm=het.norm(effectsize=posterior.betas)
+sum(ebnorm>0)/length(ebnorm)
 sum(eznorm>0)/length(eznorm)
-znorm=het.norm(effectsize = z.stat)
-sum(znorm>0)/length(znorm)
 
+znorm=het.norm(effectsize = z.stat)
+bnorm=het.norm(effectsize = maxbetas)
+sum(znorm>0)/length(znorm)
+sum(bnorm>0)/length(bnorm)
 p.vals=t(apply(z.stat,1,function(x){2*(1-pnorm(abs(x)))}))
 library('qvalue')
 qs=qvalue(p.vals)
@@ -124,6 +129,22 @@ par(mfrow=c(1,2))
 hist(as.vector(unlist(eznorm)),main="E(Z|Data)/E(Z|Data)[max(abs(E(Z|Data))]",freq=F,xlab="E(Z|Data)/E(Z|Data)[max(abs(E(Z|Data))]",ylim=c(0,2))
 hist(as.vector(unlist(znorm)),main="Z/Z[max(abs(Z)]",freq=F,xlab="Z/Z[max(abs(Z)]",ylim=c(0,2))
 
+
+par(mfrow=c(1,2))
+hist(as.vector(unlist(ebnorm)),main="E(B|Data)/E(B|Data)[max(abs(E(B|Data))]",freq=F,xlab="E(B|Data)/E(B|Data)[max(abs(E(B|Data))]",ylim=c(0,2),nclass=100)
+hist(as.vector(unlist(bnorm)),main="B/B[max(abs(B)]",freq=F,xlab="B/B[max(abs(B)]",ylim=c(0,2),nclass=100)
+
+het.func=function(normdat,threshold){
+  apply(normdat,1,function(x){sum(x<threshold)})}
+
+
+plot(density(het.func(ebnorm,threshold=0.2)),main="Number of Tissues in which B.norm<alpha*MaxB",xlab="NumberofTissues",ylim=c(0,0.2),xlim=c(0,43))
+lines(density(het.func(ebnorm,threshold=0.3)),col="green")
+lines(density(het.func(ebnorm,threshold=0.4)),col="blue")
+lines(density(het.func(ebnorm,threshold=0.5)),col="red")
+lines(density(het.func(ebnorm,threshold=0.6)),col="purple")
+lines(density(het.func(ebnorm,threshold=0.7)),col="orange")
+legend("center",col=c("black","green","blue","red","purple","orange"),legend=c("alpha=0.2","alpha=0.3","alpha=0.4","alpha=0.5","alpha=0.6","alpha=0.7"),lty=1)
 ```
 
 Now, we might want to plot a biplot of these values vs the value used to normalize it:
@@ -139,6 +160,10 @@ par(mfrow=c(1,2))
 plot(eznorm,maxes,main="NormalizingZvsNormalized_PM",xlab="E(Z|data)_norm",ylab="NormalizingValue")
 plot(znorm,maxes,main="NormalizingZvsNormalized_Zmle",xlab="Z_norm",ylab="NormalizingValue")
 
+
+maxes=t(apply(posterior.betas,1,function(x){
+  rep(x[which.max(abs(x))],R)
+}))
 
 
 
@@ -159,10 +184,18 @@ het.sign=function(effectsize){
 ezsign=het.sign(effectsize = posterior.means)
 zsign=het.sign(effectsize = z.stat)
 
+ebsign=het.sign(effectsize = posterior.betas)
+bsign=het.sign(effectsize = maxbetas)
+
 par(mfrow=c(1,2))
 hist(as.vector(unlist(ezsign)),main="E(Z|Data)/sign(E(Z|Data)[max(abs(E(Z|Data))])",freq=F,xlab="E(Z|Data)/sign(E(Z|Data)[max(abs(E(Z|Data))])",ylim=c(0,0.4))
 hist(as.vector(unlist(zsign)),main="Z/Z[max(abs(Z)]",freq=F,xlab="Z/sign(Z[max(abs(Z)])",ylim=c(0,0.4))
 
+
+
+par(mfrow=c(1,2))
+hist(as.vector(unlist(ebsign)),main="E(Z|Data)/sign(E(Z|Data)[max(abs(E(Z|Data))])",freq=F,xlab="E(Z|Data)/sign(E(Z|Data)[max(abs(E(Z|Data))])")
+hist(as.vector(unlist(bsign)),main="Z/Z[max(abs(Z)]",freq=F,xlab="Z/sign(Z[max(abs(Z)])",ylim=c(0,4))
 ```
 
 
@@ -375,7 +408,7 @@ Then we look to see if the posterior means differed in sign.
 Now, for each QTL I want to examine the posterior means of the tissues in which it was 'active' (at an lfsr threshold) and find QTL whose sign differed in at least 2 significant QTL.
 ```{r, heterogeneity by threshold}
 thresh=0.05
-s=sapply(seq(1:nrow(posterior.means)),function(x){
+s=sapply(seq(1:nrow(posterior.betas)),function(x){
 l=lfsr[x,];p=posterior.means[x,];plow=p[which(l<thresh)];##grab only those posterior means that are 'significant'
 if(length(plow)==0){return("FALSE")}##for ones who show no significants, they can't be heterogenous
 else{pos=sum(plow>0);neg=sum(plow<0);pos*neg!=0}})
@@ -385,7 +418,7 @@ hets=which(s=="TRUE")
 ###Now do it for univariate Z statistics
 
 thresh=0.05
-z=sapply(seq(1:nrow(posterior.means)),function(x){
+z=sapply(seq(1:nrow(maxz)),function(x){
 l=lfsr[x,];p=z.stat[x,];plow=p[which(l<thresh)];##grab only those posterior means that are 'significant'
 if(length(plow)==0){return("FALSE")}##for ones who show no significants, they can't be heterogenous
 else{pos=sum(plow>0);neg=sum(plow<0);pos*neg!=0}})
