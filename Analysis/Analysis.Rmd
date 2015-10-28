@@ -86,6 +86,13 @@ plot_ts=function(tissuename,lfsr,curvedata,thresh=0.05,subset=1:44){
    iplotCurves(curvedata[sigs,subset],chartOpts=list(curves_xlab="Tissue",curves_ylab="curvedata"))}
 
 
+bi_plot_funcmaxz=function(max.val,znorm){
+ a=rep.col(max.val,44)
+  plot(znorm,a,main="MaxValuevsSimulatedNormalizedValue",xlab="SimulatedArrayDividedbyMaxVal",ylab="MaximumValue")
+  }
+
+
+
 ```
 
 ii) a specific suggestion for a  plot: for each of your sampled beta vectors, normalize beta_t by its “largest" element (where largest means largest in absolute value, but you normalize by the actual value, not the absolute value,  so that the normalized vector has maximum element +1). Then just plot a histogram of the resulting normalized beta values (pooled across all the samples). We should see very strong negative values are rare?
@@ -99,35 +106,36 @@ posterior.means=read.table("../Data/Aug13withEDposterior.means.txt")[,-1]
 post.weights=read.table("~/Dropbox/Aug12/Aug13withEDpost.weights.txt")[,-1]
 
 posterior.betas=read.table("../Data/Aug13withEDposterior.betas.txt")
-maxbetas=read.table("../Data/maxbetahats.txt"))
+maxbetas=read.table("../Data/maxbetahats.txt")
 
 z.stat=read.table("../Data/maxz.txt")
 maxz=z.stat
 covmat=readRDS("../Data/covmatAug13withED.rds")
 eznorm=het.norm(effectsize = posterior.means)
 ebnorm=het.norm(effectsize=posterior.betas)
-sum(ebnorm>0)/length(ebnorm)
-sum(eznorm>0)/length(eznorm)
+
 
 znorm=het.norm(effectsize = z.stat)
 bnorm=het.norm(effectsize = maxbetas)
-sum(znorm>0)/length(znorm)
-sum(bnorm>0)/length(bnorm)
+
 p.vals=t(apply(z.stat,1,function(x){2*(1-pnorm(abs(x)))}))
 library('qvalue')
 qs=qvalue(p.vals)
 ```
 
 ```{r}
+sum(ebnorm>0)/length(ebnorm)
 sum(eznorm>0)/length(eznorm)
+
 znorm=het.norm(effectsize = z.stat)
 sum(znorm>0)/length(znorm)
+sum(bnorm>0)/length(bnorm)
 ```
 
 ```{r plothistogram}
 par(mfrow=c(1,2))
-hist(as.vector(unlist(eznorm)),main="E(Z|Data)/E(Z|Data)[max(abs(E(Z|Data))]",freq=F,xlab="E(Z|Data)/E(Z|Data)[max(abs(E(Z|Data))]",ylim=c(0,2))
-hist(as.vector(unlist(znorm)),main="Z/Z[max(abs(Z)]",freq=F,xlab="Z/Z[max(abs(Z)]",ylim=c(0,2))
+hist(as.vector(unlist(eznorm)),main="E(Z|Data)/E(Z|Data)[max(abs(E(Z|Data))]",freq=F,xlab="E(Z|Data)/E(Z|Data)[max(abs(E(Z|Data))]",ylim=c(0,2),nclass=100)
+hist(as.vector(unlist(znorm)),main="Z/Z[max(abs(Z)]",freq=F,xlab="Z/Z[max(abs(Z)]",ylim=c(0,2),nclass=100)
 
 
 par(mfrow=c(1,2))
@@ -155,15 +163,62 @@ maxes=t(apply(posterior.means,1,function(x){
   rep(x[which.max(abs(x))],R)
 }))
 
-png("normstuff.png")
+
+max.mle=t(apply(maxz,1,function(x){
+  rep(x[which.max(abs(x))],R)
+}))
+
+png("normstuffez.png")
 par(mfrow=c(1,2))
-plot(eznorm,maxes,main="NormalizingZvsNormalized_PM",xlab="E(Z|data)_norm",ylab="NormalizingValue")
-plot(znorm,maxes,main="NormalizingZvsNormalized_Zmle",xlab="Z_norm",ylab="NormalizingValue")
+plot(abs(maxes),eznorm,main="NormalizingZvsNormalized_PM",xlab="absNormalizingValue",ylab="E(Z|data)_norm", 
+     col=rgb(0,100,0,50,maxColorValue=255), pch=16)
+
+plot(abs(max.mle),znorm,,main="NormalizingZvsNormalized_Zmle",ylab="Z_norm",xlab="absNormalizingValue",col=rgb(0,100,0,50,maxColorValue=255), pch=16)
+
+dev.off()
+
+png("normstuffez_sign.png")
+par(mfrow=c(1,2))
+plot(abs(maxes),ezsign,main="NormalizingZvsNormalized_PM",xlab="absNormalizingValue",ylab="E(Z|data)_norm", 
+     col=rgb(0,100,0,50,maxColorValue=255), pch=16)
+
+plot(abs(max.mle),zsign,main="NormalizingZvsNormalized_Zmle",ylab="Z_norm",xlab="absNormalizingValue",col=rgb(0,100,0,50,maxColorValue=255), pch=16)
+dev.off()
+
+
 
 
 maxes=t(apply(posterior.betas,1,function(x){
   rep(x[which.max(abs(x))],R)
 }))
+
+max.mle=t(apply(maxb,1,function(x){
+  rep(x[which.max(abs(x))],R)
+}))
+
+png("normstuffeb.png")
+par(mfrow=c(1,2))
+plot(abs(maxes),ebnorm,main="NormalizingBvsNormalized_PM",xlab="absNormalizingValue",ylab="E(Z|data)_norm", 
+     col=rgb(0,100,0,50,maxColorValue=255), pch=16)
+plot(abs(max.mle),bnorm,main="NormalizingBvsNormalized_Zmle",ylab="Z_norm",xlab="absNormalizingValue",col=rgb(0,100,0,50,maxColorValue=255), pch=16)
+dev.off()
+
+png("normstuffeb_sign.png")
+par(mfrow=c(1,2))
+plot(abs(maxes),ebsign,main="NormalizingBvsNormalized_PM",xlab="absNormalizingValue",ylab="E(B|data)_sign", 
+     col=rgb(0,100,0,50,maxColorValue=255), pch=16)
+plot(abs(max.mle),bsign,main="NormalizingBvsNormalized_Zmle",ylab="B_norm",xlab="absNormalizingValue",col=rgb(0,100,0,50,maxColorValue=255), pch=16)
+dev.off()
+
+
+png("ecdf.png")
+e=ecdf(ebnorm)
+plot(e,main="eCDFofBNorm")
+lines(ecdf(bnorm),col="red")
+legend("left",lty=1,col=c("black","red"),legend=c("E(B|Data)/E(B|Data)[which.max(abs(E(B|Data))]","B.mle/B.mle[which.max(abs(B.mle)]"))
+dev.off()
+
+
 
 
 
@@ -194,8 +249,8 @@ hist(as.vector(unlist(zsign)),main="Z/Z[max(abs(Z)]",freq=F,xlab="Z/sign(Z[max(a
 
 
 par(mfrow=c(1,2))
-hist(as.vector(unlist(ebsign)),main="E(Z|Data)/sign(E(Z|Data)[max(abs(E(Z|Data))])",freq=F,xlab="E(Z|Data)/sign(E(Z|Data)[max(abs(E(Z|Data))])")
-hist(as.vector(unlist(bsign)),main="Z/Z[max(abs(Z)]",freq=F,xlab="Z/sign(Z[max(abs(Z)])",ylim=c(0,4))
+hist(as.vector(unlist(ebsign)),main="E(B|Data)/sign(E(B|Data)[max(abs(E(B|Data))])",freq=F,xlab="E(B|Data)/sign(E(B|Data)[max(abs(E(B|Data))])")
+hist(as.vector(unlist(bsign)),main="B/B[max(abs(B)]",freq=F,xlab="B/sign(B[max(abs(B)])",ylim=c(0,4))
 ```
 
 
@@ -289,11 +344,6 @@ bi_plot_funct=function(sim,max.val,sim.array){
   }
 
 
-bi_plot_funcmaxz=function(max.val,znorm){
- a=rep.col(max.val,44)
-  plot(znorm,a,main="MaxValuevsSimulatedNormalizedValue",xlab="SimulatedArrayDividedbyMaxVal",ylab="MaximumValue")
-  }
-
 
 ```
 
@@ -330,6 +380,9 @@ dev.off()
 
 ```
 ![alt text](simulatedvsmax.png)
+![alt text](../Figures/normstuffeb_sign.png)
+![alt text](../Figures/normstuffeb.png)
+![alt text](../Figures/ecdf.png)
 Understanding patterns of sharing:
 
 ```{r evaluations, echo=F}
