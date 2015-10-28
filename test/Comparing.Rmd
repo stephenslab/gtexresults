@@ -160,3 +160,11 @@ points(b.test[null.vals,],post.means[null.vals,],col="red")
 plot(as.matrix(b.test),as.matrix(pmash),xlab="Bhat",ylab="Post.MeanswithASH",main="Post.MeanvsMLE,ASH")
 points(b.test[null.vals,],as.matrix(pmash[null.vals,]),col="red")
 ```
+
+```{r datalookslike}
+hist(testdat$beta[1:80,],nclass=100,freq=FALSE,main="HistogramofTrueEffects")
+lines(density(testdat$beta[81:1000,]),col="red")
+
+hist(testdat$betahat[1:80,],nclass=100,freq=FALSE,main="HistogramofEstEffects")
+lines(density(testdat$betahat[81:1000,]),col="red")
+```
