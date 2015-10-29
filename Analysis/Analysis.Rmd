@@ -198,16 +198,16 @@ max.mle=t(apply(maxb,1,function(x){
 
 png("normstuffeb.png")
 par(mfrow=c(1,2))
-plot(abs(maxes),ebnorm,main="NormalizingBvsNormalized_PM",xlab="absNormalizingValue",ylab="E(Z|data)_norm", 
+plot(abs(maxes),ebnorm,main="NormalizingBvsNormalized_PM",xlab="absNormalizingValue",ylab="E(B|data)_norm", 
      col=rgb(0,100,0,50,maxColorValue=255), pch=16)
-plot(abs(max.mle),bnorm,main="NormalizingBvsNormalized_Zmle",ylab="Z_norm",xlab="absNormalizingValue",col=rgb(0,100,0,50,maxColorValue=255), pch=16)
+plot(abs(max.mle),bnorm,main="NormalizingBvsNormalized_Zmle",ylab="B_norm",xlab="absNormalizingValue",col=rgb(0,100,0,50,maxColorValue=255), pch=16)
 dev.off()
 
 png("normstuffeb_sign.png")
 par(mfrow=c(1,2))
 plot(abs(maxes),ebsign,main="NormalizingBvsNormalized_PM",xlab="absNormalizingValue",ylab="E(B|data)_sign", 
      col=rgb(0,100,0,50,maxColorValue=255), pch=16)
-plot(abs(max.mle),bsign,main="NormalizingBvsNormalized_Zmle",ylab="B_norm",xlab="absNormalizingValue",col=rgb(0,100,0,50,maxColorValue=255), pch=16)
+plot(abs(max.mle),bsign,main="NormalizingBvsNormalized_Zmle",ylab="B_normsign",xlab="absNormalizingValue",col=rgb(0,100,0,50,maxColorValue=255), pch=16)
 dev.off()
 
 
