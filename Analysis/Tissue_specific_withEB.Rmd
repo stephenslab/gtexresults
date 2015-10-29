@@ -14,9 +14,9 @@ barfunc=function(genename){
   par(mfrow=c(1,2))
   t=genename
   name=strsplit(rownames(maxb)[t], "[.]")[[1]][1]
-a=barplot(as.numeric(maxb[t,]),las=2,cex.names=0.5,main=paste0("Z Statistics",name),col=col.func.mle(qs$qvalues,b.stat = maxb,j = t),names=colnames(maxb))
+a=barplot(as.numeric(maxb[t,]),las=2,cex.names=0.5,main=paste0("B Statistics",name),col=col.func.mle(qs$qvalues,b.stat = maxb,j = t),names=colnames(maxb))
 legend("center",c("qval>0.5","0.5>qval>0.05","qval<0.05"),col=c("red","orange","green"),pch=20)
-b=barplot(as.numeric(posterior.means[t,]),main=paste0("E(Z|EZ)",name),col=col.func(t,lfsr=lfsr,posterior.means=posterior.means),cex.names=0.5,las=2,ylab="PosteriorMean",names=colnames(posterior.means))
+b=barplot(as.numeric(posterior.means[t,]),main=paste0("E(B|EZ)",name),col=col.func(t,lfsr=lfsr,posterior.means=posterior.means),cex.names=0.5,las=2,ylab="PosteriorMean",names=colnames(posterior.means))
 legend("center",c("lfsr>0.5","0.5>lfsr>0.05","lfsr<0.05"),col=c("red","orange","green"),pch=20)
 }
 
@@ -292,8 +292,24 @@ barfunc(genename = wholebloodtwo)
 # Probeset ID: 203961_at - Mapped to gene: ENSG00000078114 - Detection flag: absent - Quality: high quality
 
 
-wholebloodthree=(which(rownames(maxb)=="ENSG000000181722.11_3_114267837_A_G_b37"))
+wholebloodthree=(which(rownames(maxb)=="ENSG00000181722.11_3_114267837_A_G_b37"))
 
+
+lfsr.ash=read.table("../Comparison with Univariate Ash//univariate.ash.lfsr.txt")
+lfsr.mash=read.table("../Data/Aug13withEDlfsr.txt")
+
+t=wholebloodthree
+par(mfrow=c(1,3))
+
+b=barplot(as.numeric(maxb[t,]),main=paste0("B.MLE,ENSG00000181722"),cex.names=0.5,las=2,ylab="B.mle",names=colnames(maxb),ylim=c(-0.2,.2))
+
+
+
+b=barplot(as.numeric(pm.mash.beta[t,]),main=paste0("E(B|EB.mash),ENSG00000181722"),col=col.func(t,lfsr=lfsr.mash,posterior.means=posterior.means),cex.names=0.5,las=2,ylab="PosteriorMean",names=colnames(posterior.means),ylim=c(-0.2,0.2))
+legend("top",c("lfsr>0.5","0.5>lfsr>0.05","lfsr<0.05"),col=c("red","orange","green"),pch=20)
+
+b=barplot(as.numeric(pm.ash.beta[t,]),main=paste0("E(B|EB_ash),ENSG00000181722"),col=col.func(t,lfsr=lfsr.ash,posterior.means=posterior.means),cex.names=0.5,las=2,ylab="PosteriorMean",names=colnames(posterior.means),ylim=c(-0.2,0.2));
+legend("top",c("lfsr>0.5","0.5>lfsr>0.05","lfsr<0.05"),col=c("red","orange","green"),pch=20)
 
 barfunc(genename = wholebloodthree)
 
