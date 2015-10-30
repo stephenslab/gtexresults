@@ -105,6 +105,24 @@ library('qvalue')
 qs=qvalue(p.vals)
 
 
+standard.error=read.table("../Data/standard.error.txt")
+pm.ash=read.table("~//Dropbox/UnivariateAsh/univariate.ash.pm.txt")
+
+pm.ash.beta=pm.ash*standard.error
+rm(pm.ash)
+lfsr.ash=read.table("~/Dropbox/UnivariateAsh/univariate.ash.lfsr.txt")
+maxz=read.table("~/Dropbox/jul3/maxz.txt")
+maxb=read.table("../Data/maxbetahats.txt")
+
+pm.mash=read.table("~/Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1]
+
+pm.mash.beta=pm.mash*standard.error
+rm(pm.mash)
+lfsr.mash=read.table("~/Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
+colnames(pm.mash.beta)=colnames(pm.ash.beta)=colnames(lfsr.mash)=colnames(maxz)
+
+
+
 ```
 
 ```{r tissuespecqtl}
@@ -296,7 +314,7 @@ wholebloodthree=(which(rownames(maxb)=="ENSG00000181722.11_3_114267837_A_G_b37")
 
 
 lfsr.ash=read.table("../Comparison with Univariate Ash//univariate.ash.lfsr.txt")
-lfsr.mash=read.table("../Data/Aug13withEDlfsr.txt")
+lfsr.mash=read.table("../Data/Aug13withEDlfsr.txt")[,-1]
 
 t=wholebloodthree
 par(mfrow=c(1,3))

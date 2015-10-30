@@ -106,15 +106,17 @@ barplot(apply(lfsr[which(rowSums(lfsr<=thresh)==1),],2,function(x){sum(x<=thresh
 ```{r get data,echo=FALSE}
 standard.error=read.table("../Data/standard.error.txt")
 pm.ash=read.table("~//Dropbox/UnivariateAsh/univariate.ash.pm.txt")
-rm(pm.ash)
+
 pm.ash.beta=pm.ash*standard.error
+rm(pm.ash)
 lfsr.ash=read.table("~/Dropbox/UnivariateAsh/univariate.ash.lfsr.txt")
 maxz=read.table("~/Dropbox/jul3/maxz.txt")
 maxb=read.table("../Data/maxbetahats.txt")
 
 pm.mash=read.table("~/Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1]
-rm(pm.mash)
+
 pm.mash.beta=pm.mash*standard.error
+rm(pm.mash)
 lfsr.mash=read.table("~/Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
 colnames(pm.mash.beta)=colnames(pm.ash.beta)=colnames(lfsr.mash)=colnames(maxz)
 
@@ -127,7 +129,7 @@ plot(unlist(as.vector(maxb)),unlist(as.vector(pm.mash.beta)),col=rgb(0,100,0,50,
 dev.off()
 
 ```
-![alt text](..comparebeta.png)
+![alt text](comparebeta.png)
 ```{r includeimage,echo=FALSE}
 getwd()
 
@@ -184,7 +186,7 @@ If we restrict our analysis to only those considered significant at an lfsr thre
 
 
 
-z=sapply(seq(1:nrow(pm.ash)),function(x){
+z=sapply(seq(1:nrow(pm.ash.beta)),function(x){
 l=lfsr.mash[x,];p=pm.ash.beta[x,];plow=p[which(l<thresh)];##grab only those posterior means that are 'significant'
 if(length(plow)==0){return("FALSE")}##for ones who show no significants, they can't be heterogenous
 else{pos=sum(plow>0);neg=sum(plow<0);pos*neg!=0}})
@@ -274,21 +276,12 @@ sum(sumash<0)/length(unlist(sum2))
 ```
 
 Let's consider the biplots of the values vs their maximums:
-First, I plot the biplot of the posterior means using univariate ash vs their maximums:
+First, I plot the biplot of the Maximum values vs their Normalized using Posterior means computed with matrix ash, univariate ash, and univariate summary statistics.
 
-![alt text](uniashbiplot.png)
+![alt text](../Figures/normstuffeb_sign.png)
 
-Then, I make the same plot using the posterior means using matrix ash vs their maximums:
 
-![alt text](mashbiplot.png)
 
-I verify that this is the same as the simulated values with matrix vs their maximums:
-
-![alt text](unvsmax.png)
-
-And I also plot the univariate z stats vs their maximums:
-
-![alt text](zbiplot.png)
 
 ```{r, eval=FALSE}
 R=ncol(pm.mash.beta)

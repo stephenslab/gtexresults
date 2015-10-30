@@ -25,7 +25,7 @@ order(colSums(pi.mat),decreasing = T)
 We can see that just 5 matrices appear to receive the majority of the prior weight ( `r sum(colSums(pi.mat)[1:5])`) .
 
 ```{r important.mats}
-(important=order(colSums(pi.mat),decreasing = T)[1:5])
+(important=order(colSums(pi.mat),decreasing = T)[1:10])
 ```
 
 ```{r message=FALSE, warning=FALSE, echo=FALSE}
@@ -33,7 +33,7 @@ library(gplots)
 library(ggplot2)
 #install.packages("fields")
 library(fields)
-for(k in important){
+for(k in 2:9){
   x=covmat[[k]]
   colnames(x)=colnames(z.stat)
   rownames(x)=colnames(z.stat)
@@ -62,7 +62,7 @@ name.order[1:10]
 
 While in the second most important U_k, Uk=2, the brains have the smallest prior effect size.
 
-```{r secondimportant}
+```{r secondimportant.two}
 colnames(z.stat)[order(diag(covmat[[2]]),decreasing = TRUE)][1:10]
 k=2
 barplot(sort(diag(covmat[[k]])/max(diag(covmat[[k]])),decreasing=TRUE),names=colnames(z.stat)[order(diag(covmat[[k]]),decreasing=TRUE)],las=2,col=c(rep("green",11),rep("orange",11),rep("magenta",11),rep("red",11)),main=paste0("PriorEffectSizeUk",k),cex.names = 0.5)
