@@ -290,6 +290,9 @@ barfunc(genename = wholebloodtwo)
 # Chip ID: OAS12-1 - Annotation by Bgee curators: Anatomical structure ID: EV:0100047 - Developmental stage ID: HsapDO:0000148
 # Probeset ID: 203961_at - Mapped to gene: ENSG00000078114 - Detection flag: absent - Quality: high quality
 
+wholebloodthree=(which(rownames(maxz)=="ENSG00000181722.11_3_114267837_A_G_b37"))
+
+barfunc(genename = wholebloodthree)
 ```
 
 We also denoise and shrink the consistent effects away from 0.

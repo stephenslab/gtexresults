@@ -280,7 +280,9 @@ First, I plot the biplot of the Maximum values vs their Normalized using Posteri
 
 ![alt text](../Figures/normstuffeb_sign.png)
 
+![alt text](../Figures/normstuffeb.png)
 
+![alt text](../Figures/ecdf.png)
 
 
 ```{r, eval=FALSE}
