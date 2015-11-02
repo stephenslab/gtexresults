@@ -1,0 +1,163 @@
+---
+title: "ExamplesofHighLoadingsonUks"
+output: html_document
+---
+
+The purpose of this Document is to demonstrate gene-snp pairs that have high loadings. First we need to load the posterior wieghts and pis.
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+
+weightplot=function(genename,max.weight,covmat){
+  par(mfrow=c(1,2))
+  k=max.weight
+  barplot(diag(covmat[[k]])/max(diag(covmat[[k]])),names=colnames(z.stat),las=2,col="gray",main=paste0("PriorEffectSizeUk",k),cex.names = 0.5)
+
+  t=genename
+  name=strsplit(rownames(z.stat)[t], "[.]")[[1]][1]
+b=barplot(as.numeric(posterior.means[t,]),main=paste0("E(Z|EZ)",name),col=col.func(t,lfsr=lfsr,posterior.means=posterior.means),cex.names=0.5,las=2,ylab="PosteriorMean",names=colnames(posterior.means))
+legend("top",c("lfsr>0.5","0.5>lfsr>0.05","lfsr<0.05"),col=c("red","orange","green"),pch=20)
+}
+col.func=function(lfsr,posterior.means,j){
+  R=ncol(posterior.means)
+  lfsr.mat=as.matrix(lfsr)
+  col.mat=NULL
+  for(r in 1:R){
+ if (lfsr.mat[j,r]<=0.05) {
+      col.mat[r]="green"
+    } else if (lfsr.mat[j,r]<0.5) {
+      col.mat[r]="orange"
+    } else if (lfsr.mat[j,r]>=0.50) {
+      col.mat[r]="red"
+    } 
+  }
+  return(col.mat)
+}
+```
+
+```{r load data,echo=FALSE}
+covmat=readRDS("../Data/covmatAug13withED.rds")
+pis=readRDS("../Data/pisAug13withED.rds")$pihat
+z.stat=read.table("../Data/maxz.txt")
+pi.mat=matrix(pis,ncol=54,byrow=T)
+lfsr=read.table("../Data/Aug13withEDlfsr.txt")[,-1]
+#post.weights=read.table("~/Dropbox/Aug12/Aug13withEDpost.weights.txt")[,-1]
+posterior.means=read.table("../Data/Aug13withEDposterior.means.txt")[,-1]
+colnames(posterior.means)=colnames(lfsr)=colnames(z.stat)
+
+barplot(t(as.matrix(colSums(pi.mat))),names=c((paste0("K",seq(1:54)))),las=2,cex.names=0.5,main="PiHat")
+```
+
+```{r eval=FALSE}
+c=NULL
+r=NULL
+for(i in 1:nrow(post.weights)){
+  pw.mat=matrix(as.matrix(post.weights[i,]),ncol=54,byrow=T)
+  c[i]=which.max(colSums(pw.mat))
+  r[i]=which.max(rowSums(pw.mat))
+  }
+
+write.table(c,"../Data/maxColsums.txt",row.names=rownames(z.stat))
+write.table(r,"../Data/maxrowsums.txt",row.names=rownames(z.stat))  
+})
+```
+
+
+```{r, echo=FALSE}
+cols=read.table("../Data/maxColsums.txt")[,1]
+rows=read.table("../Data/maxrowsums.txt")[,1]
+```
+
+
+
+```{r eval=FALSE}
+
+for(i in 10:19){
+weightplot(genename = which(cols==9&rows>10)[i],max.weight = 9,covmat = covmat)
+}
+
+for(i in 1:20){
+print(c(i,rownames(z.stat)[which(cols==9&rows>10)[i]]))
+}
+```
+
+First, we show examples with high loadings on $U_K2$ and $U_K3$ which are the rank 44 and rank 3 Output of ED, initialized with the Empirical Covariance Matrix and the Rank 3 dimensional reduction of it.
+
+
+```{r rank4 and rank3, echo=FALSE}
+
+two.ex.1=which(rownames(z.stat)=="ENSG00000007341.14_1_113076756_T_C_b37")
+two.ex.2=which(rownames(z.stat)=="ENSG00000008838.13_17_38189055_A_G_b37")
+
+weightplot(genename = two.ex.1,max.weight = 2,covmat = covmat)
+weightplot(genename = two.ex.2,max.weight = 2,covmat = covmat)
+
+three.ex.1=which(rownames(z.stat)=="ENSG00000205771.2_15_44721087_T_A_b37")
+three.ex.2=which(rownames(z.stat)=="ENSG00000253520.1_5_179052185_C_G_b37")
+three.ex.3=which(rownames(z.stat)=="ENSG00000249898.3_8_6521432_T_C_b37")
+three.ex.4=which(rownames(z.stat)=="ENSG00000058404.15_7_44259706_G_A_b37")
+
+    
+weightplot(genename = three.ex.1,max.weight = 3,covmat = covmat)
+weightplot(genename = three.ex.2,max.weight = 3,covmat = covmat)
+weightplot(genename = three.ex.3,max.weight = 3,covmat = covmat)
+weightplot(genename = three.ex.4,max.weight = 3,covmat = covmat)
+```
+
+Next, we show examples from some of the single rank matrices. Note how in 8, testes is anticorrelated with everything.
+
+```{r,echo=FALSE}
+
+four.ex.1=which(rownames(z.stat)=="ENSG00000198835.3_1_229156248_A_C_b37")
+four.ex.2=which(rownames(z.stat)=="ENSG00000151287.12_13_103277654_G_A_b37")
+four.ex.3=which(rownames(z.stat)=="ENSG00000219928.2_9_89369786_A_T_b37")
+four.ex.4=which(rownames(z.stat)=="ENSG00000273254.1_21_29423427_C_T_b37")
+four.ex.5=which(rownames(z.stat)=="ENSG00000090674.11_19_7556384_A_G_b37")
+
+
+weightplot(genename = four.ex.1,max.weight = 4,covmat = covmat)
+weightplot(genename = four.ex.2,max.weight = 4,covmat = covmat)
+weightplot(genename = four.ex.3,max.weight = 4,covmat = covmat)
+weightplot(genename = four.ex.4,max.weight = 4,covmat = covmat)
+weightplot(genename = four.ex.5,max.weight = 4,covmat = covmat)
+
+
+
+five.ex.2=which(rownames(z.stat)=="ENSG00000186130.4_9_126151949_G_T_b37")
+five.ex.3=which(rownames(z.stat)=="ENSG00000197296.5_20_42987274_AAAC_A_b37")
+five.ex.4=which(rownames(z.stat)=="ENSG00000164051.9_3_47835889_C_T_b37")
+five.ex.5=which(rownames(z.stat)=="ENSG00000120029.8_10_103924251_G_A_b37")
+
+weightplot(genename = five.ex.2,max.weight = 5,covmat = covmat)
+weightplot(genename = five.ex.3,max.weight = 5,covmat = covmat)
+weightplot(genename = five.ex.4,max.weight = 5,covmat = covmat)
+weightplot(genename = five.ex.5,max.weight = 5,covmat = covmat)
+
+
+library(gplots)
+library(ggplot2)
+
+k=8
+x=cov2cor(covmat[[8]])
+  colnames(x)=colnames(z.stat)
+  rownames(x)=colnames(z.stat)
+heatmap.2(x,Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofCov2CorU_k",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
+
+eight.ex.2=which(rownames(z.stat)=="ENSG00000169962.4_1_909238_G_C_b37")
+eight.ex.3=which(rownames(z.stat)=="ENSG00000126070.14_1_36363172_C_T_b37")
+eight.ex.4=which(rownames(z.stat)=="ENSG00000121073.9_17_48685792_G_A_b37")
+
+weightplot(genename = eight.ex.2,max.weight = 8,covmat = covmat)
+weightplot(genename = eight.ex.3,max.weight = 8,covmat = covmat)
+weightplot(genename = eight.ex.4,max.weight = 8,covmat = covmat)
+
+
+nine.ex.2=which(rownames(z.stat)=="ENSG00000059588.5_1_234612995_T_C_b37")
+nine.ex.3=which(rownames(z.stat)=="ENSG00000051009.6_11_6224755_T_C_b37")
+nine.ex.4=which(rownames(z.stat)=="ENSG00000011021.17_1_11869101_T_C_b37")
+
+weightplot(genename = nine.ex.2,max.weight = 9,covmat = covmat)
+weightplot(genename = nine.ex.3,max.weight = 9,covmat = covmat)
+weightplot(genename = nine.ex.4,max.weight = 9,covmat = covmat)
+```
