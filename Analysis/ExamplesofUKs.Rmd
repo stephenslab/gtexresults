@@ -10,14 +10,20 @@ The purpose of this Document is to demonstrate gene-snp pairs that have high loa
 knitr::opts_chunk$set(cache=TRUE)
 
 weightplot=function(genename,max.weight,covmat){
-  par(mfrow=c(1,2))
+  par(mfrow=c(1,3))
   k=max.weight
   barplot(diag(covmat[[k]])/max(diag(covmat[[k]])),names=colnames(z.stat),las=2,col="gray",main=paste0("PriorEffectSizeUk",k),cex.names = 0.5)
 
   t=genename
   name=strsplit(rownames(z.stat)[t], "[.]")[[1]][1]
+a=barplot(as.numeric(z.stat[t,]),las=2,cex.names=0.5,main=paste0("Z Statistics",name),names=colnames(z.stat))
+legend("center",c("qval>0.5","0.5>qval>0.05","qval<0.05"),col=c("red","orange","green"),pch=20)
+
+
 b=barplot(as.numeric(posterior.means[t,]),main=paste0("E(Z|EZ)",name),col=col.func(t,lfsr=lfsr,posterior.means=posterior.means),cex.names=0.5,las=2,ylab="PosteriorMean",names=colnames(posterior.means))
 legend("top",c("lfsr>0.5","0.5>lfsr>0.05","lfsr<0.05"),col=c("red","orange","green"),pch=20)
+
+
 }
 col.func=function(lfsr,posterior.means,j){
   R=ncol(posterior.means)
@@ -34,6 +40,10 @@ col.func=function(lfsr,posterior.means,j){
   }
   return(col.mat)
 }
+
+
+library(gplots)
+library(ggplot2)
 ```
 
 ```{r load data,echo=FALSE}
@@ -53,15 +63,14 @@ First, we recall the covariance matrices:
 
 
 ```{r message=FALSE, warning=FALSE, echo=FALSE,eval=FALSE}
-library(gplots)
-library(ggplot2)
+
 #install.packages("fields")
 library(fields)
 for(k in 2:9){
   x=covmat[[k]]
   colnames(x)=colnames(z.stat)
   rownames(x)=colnames(z.stat)
-heatmap.2(x/max(diag(covmat[[k]])),Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
+heatmap.2(x/max(diag(covmat[[k]])),Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T,names=colnames(z.stat))
 }
  
 ```
@@ -105,7 +114,10 @@ First, we show examples with high loadings on $U_K2$ and $U_K3$ which are the ra
 
 ```{r rank4 and rank3, echo=FALSE}
 k=2
-heatmap.2(covmat[[k]]/max(diag(covmat[[k]])),Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
+x=covmat[[k]]/max(diag(covmat[[k]]))
+  colnames(x)=colnames(z.stat)
+  rownames(x)=colnames(z.stat)                  
+heatmap.2(x,Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
 
 two.ex.1=which(rownames(z.stat)=="ENSG00000007341.14_1_113076756_T_C_b37")
 two.ex.2=which(rownames(z.stat)=="ENSG00000008838.13_17_38189055_A_G_b37")
@@ -114,8 +126,11 @@ weightplot(genename = two.ex.1,max.weight = 2,covmat = covmat)
 weightplot(genename = two.ex.2,max.weight = 2,covmat = covmat)
 
 k=3
-heatmap.2(covmat[[k]]/max(diag(covmat[[k]])),Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
+x=covmat[[k]]/max(diag(covmat[[k]]))
 
+  colnames(x)=colnames(z.stat)
+  rownames(x)=colnames(z.stat)                  
+heatmap.2(x,Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
 #three.ex.1=which(rownames(z.stat)=="ENSG00000205771.2_15_44721087_T_A_b37")
 three.ex.2=which(rownames(z.stat)=="ENSG00000253520.1_5_179052185_C_G_b37")
 three.ex.3=which(rownames(z.stat)=="ENSG00000249898.3_8_6521432_T_C_b37")
@@ -137,7 +152,10 @@ Some things to remember:
 
 ```{r echo=FALSE,eval=TRUE}
 k=4
-heatmap.2(covmat[[k]]/max(diag(covmat[[k]])),Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
+x=covmat[[k]]/max(diag(covmat[[k]]))
+  colnames(x)=colnames(z.stat)
+  rownames(x)=colnames(z.stat)                  
+heatmap.2(x,Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
 
 four.ex.1=which(rownames(z.stat)=="ENSG00000198835.3_1_229156248_A_C_b37")
 four.ex.2=which(rownames(z.stat)=="ENSG00000151287.12_13_103277654_G_A_b37")
@@ -158,7 +176,11 @@ weightplot(genename = four.ex.3,max.weight = 4,covmat = covmat)
 
 ```{r echo=FALSE}
 k=5
-heatmap.2(covmat[[k]]/max(diag(covmat[[k]])),Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
+x=covmat[[k]]/max(diag(covmat[[k]]))
+  colnames(x)=colnames(z.stat)
+  rownames(x)=colnames(z.stat)                  
+heatmap.2(x,Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
+
 
 five.ex.2=which(rownames(z.stat)=="ENSG00000186130.4_9_126151949_G_T_b37")
 five.ex.3=which(rownames(z.stat)=="ENSG00000197296.5_20_42987274_AAAC_A_b37")
@@ -182,7 +204,7 @@ k=8
 x=cov2cor(covmat[[8]])
   colnames(x)=colnames(z.stat)
   rownames(x)=colnames(z.stat)
-heatmap.2(x,Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofCov2CorU_k",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
+heatmap.2(x,Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofCov2CorU_k",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T,names=colnames(z.stat))
 
 eight.ex.2=which(rownames(z.stat)=="ENSG00000169962.4_1_909238_G_C_b37")
 eight.ex.3=which(rownames(z.stat)=="ENSG00000126070.14_1_36363172_C_T_b37")
@@ -197,7 +219,10 @@ weightplot(genename = eight.ex.3,max.weight = 8,covmat = covmat)
 
 ```{r echo=TRUE}
 k=9
-heatmap.2(covmat[[9]]/max(diag(covmat[[9]])),Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
+x=covmat[[k]]/max(diag(covmat[[k]]))
+  colnames(x)=colnames(z.stat)
+  rownames(x)=colnames(z.stat)                  
+heatmap.2(x,Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
 
 nine.ex.2=which(rownames(z.stat)=="ENSG00000059588.5_1_234612995_T_C_b37")
 nine.ex.3=which(rownames(z.stat)=="ENSG00000009830.7_14_77776501_T_A_b37")
@@ -205,5 +230,5 @@ nine.ex.4=which(rownames(z.stat)=="ENSG00000011021.17_1_11869101_T_C_b37")
 
 weightplot(genename = nine.ex.2,max.weight = 9,covmat = covmat)
 weightplot(genename = nine.ex.3,max.weight = 9,covmat = covmat)
-weightplot(genename = nine.ex.4,max.weight = 9,covmat = covmat)
+#weightplot(genename = nine.ex.4,max.weight = 9,covmat = covmat)
 ```
