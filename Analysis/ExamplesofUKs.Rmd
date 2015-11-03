@@ -49,7 +49,24 @@ colnames(posterior.means)=colnames(lfsr)=colnames(z.stat)
 barplot(t(as.matrix(colSums(pi.mat))),names=c((paste0("K",seq(1:54)))),las=2,cex.names=0.5,main="PiHat")
 ```
 
-```{r eval=FALSE}
+First, we recall the covariance matrices:
+
+
+```{r message=FALSE, warning=FALSE, echo=FALSE,eval=FALSE}
+library(gplots)
+library(ggplot2)
+#install.packages("fields")
+library(fields)
+for(k in 2:9){
+  x=covmat[[k]]
+  colnames(x)=colnames(z.stat)
+  rownames(x)=colnames(z.stat)
+heatmap.2(x/max(diag(covmat[[k]])),Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
+}
+ 
+```
+
+```{r eval=FALSE, echo=F}
 c=NULL
 r=NULL
 for(i in 1:nrow(post.weights)){
@@ -73,8 +90,8 @@ rows=read.table("../Data/maxrowsums.txt")[,1]
 
 ```{r eval=FALSE}
 
-for(i in 10:19){
-weightplot(genename = which(cols==9&rows>10)[i],max.weight = 9,covmat = covmat)
+for(i in 1:19){
+weightplot(genename = which(cols==3&rows>10)[i],max.weight = 3,covmat = covmat)
 }
 
 for(i in 1:20){
@@ -85,7 +102,10 @@ print(c(i,rownames(z.stat)[which(cols==9&rows>10)[i]]))
 First, we show examples with high loadings on $U_K2$ and $U_K3$ which are the rank 44 and rank 3 Output of ED, initialized with the Empirical Covariance Matrix and the Rank 3 dimensional reduction of it.
 
 
+
 ```{r rank4 and rank3, echo=FALSE}
+k=2
+heatmap.2(covmat[[k]]/max(diag(covmat[[k]])),Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
 
 two.ex.1=which(rownames(z.stat)=="ENSG00000007341.14_1_113076756_T_C_b37")
 two.ex.2=which(rownames(z.stat)=="ENSG00000008838.13_17_38189055_A_G_b37")
@@ -93,21 +113,31 @@ two.ex.2=which(rownames(z.stat)=="ENSG00000008838.13_17_38189055_A_G_b37")
 weightplot(genename = two.ex.1,max.weight = 2,covmat = covmat)
 weightplot(genename = two.ex.2,max.weight = 2,covmat = covmat)
 
-three.ex.1=which(rownames(z.stat)=="ENSG00000205771.2_15_44721087_T_A_b37")
+k=3
+heatmap.2(covmat[[k]]/max(diag(covmat[[k]])),Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
+
+#three.ex.1=which(rownames(z.stat)=="ENSG00000205771.2_15_44721087_T_A_b37")
 three.ex.2=which(rownames(z.stat)=="ENSG00000253520.1_5_179052185_C_G_b37")
 three.ex.3=which(rownames(z.stat)=="ENSG00000249898.3_8_6521432_T_C_b37")
 three.ex.4=which(rownames(z.stat)=="ENSG00000058404.15_7_44259706_G_A_b37")
 
     
-weightplot(genename = three.ex.1,max.weight = 3,covmat = covmat)
+#weightplot(genename = three.ex.1,max.weight = 3,covmat = covmat)
 weightplot(genename = three.ex.2,max.weight = 3,covmat = covmat)
 weightplot(genename = three.ex.3,max.weight = 3,covmat = covmat)
-weightplot(genename = three.ex.4,max.weight = 3,covmat = covmat)
+#weightplot(genename = three.ex.4,max.weight = 3,covmat = covmat)
 ```
 
-Next, we show examples from some of the single rank matrices. Note how in 8, testes is anticorrelated with everything.
+Next, we show examples from some of the single rank matrices. 
+Some things to remember: 
 
-```{r,echo=FALSE}
+*in 4, we observe tissue specific behavior in whole blood and we note that the brains and whole blood are correlated while everything else is anticorrelated*
+
+
+
+```{r echo=FALSE,eval=TRUE}
+k=4
+heatmap.2(covmat[[k]]/max(diag(covmat[[k]])),Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
 
 four.ex.1=which(rownames(z.stat)=="ENSG00000198835.3_1_229156248_A_C_b37")
 four.ex.2=which(rownames(z.stat)=="ENSG00000151287.12_13_103277654_G_A_b37")
@@ -119,22 +149,32 @@ four.ex.5=which(rownames(z.stat)=="ENSG00000090674.11_19_7556384_A_G_b37")
 weightplot(genename = four.ex.1,max.weight = 4,covmat = covmat)
 weightplot(genename = four.ex.2,max.weight = 4,covmat = covmat)
 weightplot(genename = four.ex.3,max.weight = 4,covmat = covmat)
-weightplot(genename = four.ex.4,max.weight = 4,covmat = covmat)
-weightplot(genename = four.ex.5,max.weight = 4,covmat = covmat)
+#weightplot(genename = four.ex.4,max.weight = 4,covmat = covmat)
+#weightplot(genename = four.ex.5,max.weight = 4,covmat = covmat)
 
+```
 
+*in 5, brain was anticorrelated with most other tissues*
+
+```{r echo=FALSE}
+k=5
+heatmap.2(covmat[[k]]/max(diag(covmat[[k]])),Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
 
 five.ex.2=which(rownames(z.stat)=="ENSG00000186130.4_9_126151949_G_T_b37")
 five.ex.3=which(rownames(z.stat)=="ENSG00000197296.5_20_42987274_AAAC_A_b37")
 five.ex.4=which(rownames(z.stat)=="ENSG00000164051.9_3_47835889_C_T_b37")
 five.ex.5=which(rownames(z.stat)=="ENSG00000120029.8_10_103924251_G_A_b37")
 
-weightplot(genename = five.ex.2,max.weight = 5,covmat = covmat)
-weightplot(genename = five.ex.3,max.weight = 5,covmat = covmat)
-weightplot(genename = five.ex.4,max.weight = 5,covmat = covmat)
+#weightplot(genename = five.ex.2,max.weight = 5,covmat = covmat)
+#weightplot(genename = five.ex.3,max.weight = 5,covmat = covmat)
 weightplot(genename = five.ex.5,max.weight = 5,covmat = covmat)
+weightplot(genename = five.ex.4,max.weight = 5,covmat = covmat)
 
+```
 
+*Note how in 8, testes is anticorrelated with everything and also tissue specific*
+
+```{r echo=TRUE}
 library(gplots)
 library(ggplot2)
 
@@ -146,15 +186,21 @@ heatmap.2(x,Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",tra
 
 eight.ex.2=which(rownames(z.stat)=="ENSG00000169962.4_1_909238_G_C_b37")
 eight.ex.3=which(rownames(z.stat)=="ENSG00000126070.14_1_36363172_C_T_b37")
-eight.ex.4=which(rownames(z.stat)=="ENSG00000121073.9_17_48685792_G_A_b37")
+#eight.ex.4=which(rownames(z.stat)=="ENSG00000121073.9_17_48685792_G_A_b37")
 
 weightplot(genename = eight.ex.2,max.weight = 8,covmat = covmat)
 weightplot(genename = eight.ex.3,max.weight = 8,covmat = covmat)
-weightplot(genename = eight.ex.4,max.weight = 8,covmat = covmat)
+#weightplot(genename = eight.ex.4,max.weight = 8,covmat = covmat)
+```
 
+*And in 9, we see small effects in brain and large tissue specific effects in testis and whole blood*
+
+```{r echo=TRUE}
+k=9
+heatmap.2(covmat[[9]]/max(diag(covmat[[9]])),Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
 
 nine.ex.2=which(rownames(z.stat)=="ENSG00000059588.5_1_234612995_T_C_b37")
-nine.ex.3=which(rownames(z.stat)=="ENSG00000051009.6_11_6224755_T_C_b37")
+nine.ex.3=which(rownames(z.stat)=="ENSG00000009830.7_14_77776501_T_A_b37")
 nine.ex.4=which(rownames(z.stat)=="ENSG00000011021.17_1_11869101_T_C_b37")
 
 weightplot(genename = nine.ex.2,max.weight = 9,covmat = covmat)
