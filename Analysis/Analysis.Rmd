@@ -143,16 +143,30 @@ hist(as.vector(unlist(ebnorm)),main="E(B|Data)/E(B|Data)[max(abs(E(B|Data))]",fr
 hist(as.vector(unlist(bnorm)),main="B/B[max(abs(B)]",freq=F,xlab="B/B[max(abs(B)]",ylim=c(0,2),nclass=100)
 
 het.func=function(normdat,threshold){
-  apply(normdat,1,function(x){sum(x<threshold)})}
+  apply(abs(normdat),1,function(x){sum(x<threshold)})}
 
 
-plot(density(het.func(ebnorm,threshold=0.2)),main="Number of Tissues in which B.norm<alpha*MaxB",xlab="NumberofTissues",ylim=c(0,0.2),xlim=c(0,43))
-lines(density(het.func(ebnorm,threshold=0.3)),col="green")
-lines(density(het.func(ebnorm,threshold=0.4)),col="blue")
-lines(density(het.func(ebnorm,threshold=0.5)),col="red")
-lines(density(het.func(ebnorm,threshold=0.6)),col="purple")
-lines(density(het.func(ebnorm,threshold=0.7)),col="orange")
+hist((het.func((ebnorm,threshold=0.2)),main="Number of Tissues in which B.norm<alpha*MaxB",xlab="NumberofTissues",nclass=50)
+lines(table(het.func(ebnorm,threshold=0.3)),col="green")
+lines(table(het.func(ebnorm,threshold=0.4)),col="blue")
+lines(table(het.func(ebnorm,threshold=0.5)),col="red")
+lines(table(het.func(ebnorm,threshold=0.6)),col="purple")
+lines(table(het.func(ebnorm,threshold=0.7)),col="orange")
 legend("center",col=c("black","green","blue","red","purple","orange"),legend=c("alpha=0.2","alpha=0.3","alpha=0.4","alpha=0.5","alpha=0.6","alpha=0.7"),lty=1)
+
+
+
+het.func=function(normdat,threshold){
+  apply(abs(normdat),1,function(x){sum(x>threshold)})}
+
+
+hist((het.func(ebnorm,threshold=0.2)),main="Number of Tissues in which B.norm>alpha*MaxB",xlab="NumberofTissues",nclass=50)
+lines(table(het.func(ebnorm,threshold=0.3)),col="green")
+lines(table(het.func(ebnorm,threshold=0.4)),col="blue")
+lines(table(het.func(ebnorm,threshold=0.5)),col="red")
+lines(table(het.func(ebnorm,threshold=0.6)),col="purple")
+#lines(table(het.func(ebnorm,threshold=0.7)),col="orange")
+legend("center",col=c("black","green","blue","red","purple"),legend=c("alpha=0.2","alpha=0.3","alpha=0.4","alpha=0.5","alpha=0.6"),lty=1)
 ```
 
 Now, we might want to plot a biplot of these values vs the value used to normalize it:
