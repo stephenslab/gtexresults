@@ -193,7 +193,7 @@ sum(matrix.ash.norm.brain>0.5)/length(matrix.ash.norm.brain)
 
 Now, let's plot:
 ```{r}
-par(mfrow=c(1,3))
+par(mfrow=c(1,2))
 
 hist(matrix.ash.norm,freq=FALSE,ylim=c(0,5),nclass=100,main="B_jr|Data/B_jr[which.max(abs(B_jr|Data))],MASH")
 legend("left",legend=paste0("mash.norm<0=",round((sum(matrix.ash.norm<0)/length(matrix.ash.norm)),3)))
