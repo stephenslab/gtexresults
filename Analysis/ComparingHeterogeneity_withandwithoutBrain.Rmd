@@ -14,6 +14,11 @@ lfsr.mash=read.table("../withoutbrain/nobrainlfsr.txt")[,-1]
 pm.mash=read.table("../withoutbrain//nobrainposterior.means.txt")[,-1]
 standard.error=read.table("../Data/standard.error.txt")[,-c(7:16)]
 pm.mash.beta=pm.mash*standard.error
+
+pm.ash=read.table("../Comparison with Univariate Ash/univariate.ash.pm.txt")[,-c(7:16)]
+lfsr.ash=read.table("../Comparison with Univariate Ash/univariate.ash.lfsr.txt")[,-c(7:16)]
+pm.ash.beta=pm.ash*standard.error
+
 colnames(lfsr.mash)=colnames(pm.mash)=colnames(pm.mash.beta)=colnames(z.stat)
 
 barfunc=function(genename){
@@ -148,6 +153,7 @@ sum(h=="TRUE")}
 
 
 inconsistent.func(pm.mash.beta,lfsr.mash)
+inconsistent.func(pm.ash.beta,lfsr.mash)
 ```
 
 
@@ -176,15 +182,24 @@ sum(bnorm>0)/length(bnorm)
 matrix.ash.norm=het.norm(effectsize = pm.mash.beta)
 sum(matrix.ash.norm>0)/length(matrix.ash.norm)
 
+uni.ash.norm=het.norm(effectsize = pm.ash.beta)
+sum(uni.ash.norm>0)/length(matrix.ash.norm)
+
 pm.mash.beta.brain=read.table("../Data//Aug13withEDposterior.betas.txt")
 matrix.ash.norm.brain=het.norm(effectsize = pm.mash.beta.brain)
 sum(matrix.ash.norm.brain>0)/length(matrix.ash.norm.brain)
+
+ash.norm=het.norm(effectsize = pm.ash.beta)
+
+
 ```
 
 
 We might also be interested in the proportion that are greater than a particular threshold of max effect. This 
 ```{r by threshold}
 sum(bnorm>0.5)/length(bnorm)
+
+sum(uni.ash.norm>0.5)/length(bnorm)
 
 sum(matrix.ash.norm>0.5)/length(matrix.ash.norm)
 
@@ -193,25 +208,28 @@ sum(matrix.ash.norm.brain>0.5)/length(matrix.ash.norm.brain)
 
 Now, let's plot:
 ```{r}
-par(mfrow=c(1,2))
+par(mfrow=c(1,3))
 
-hist(matrix.ash.norm,freq=FALSE,ylim=c(0,5),nclass=100,main="B_jr|Data/B_jr[which.max(abs(B_jr|Data))],MASH")
+hist(matrix.ash.norm,freq=FALSE,ylim=c(0,5),nclass=100,main="B_jr|Data/B_jr[which.max(abs(B_jr|Data))],MASHNOBRAIN")
 legend("left",legend=paste0("mash.norm<0=",round((sum(matrix.ash.norm<0)/length(matrix.ash.norm)),3)))
-hist(bnorm,freq=FALSE,ylim=c(0,5),nclass=100,main="B_jr|Data/B_jr[which.max(abs(B_jr|Data))],Z_raw")
+hist(matrix.ash.norm.brain,freq=FALSE,ylim=c(0,5),nclass=100,main="WITHBRAIN,MASH")
+legend("left",legend=paste0("mash.norm<0=",round((sum(matrix.ash.norm.brain<0)/length(matrix.ash.norm.brain)),3)))
+hist(bnorm,freq=FALSE,ylim=c(0,5),nclass=100,main="B_jr|Data/B_jr[which.max(abs(B_jr|Data))],B_raw")
 legend("left",legend=paste0("b.norm<0=",round((sum(bnorm<0)/length(matrix.ash.norm)),3)))
 
 
 mash.sign=sign.norm(effectsize = pm.mash.beta)
+mash.sign.brain=sign.norm(effectsize = pm.mash.beta.brain)
 
 b.sign=sign.norm(effectsize = maxb)
 
-par(mfrow=c(1,2))
+par(mfrow=c(1,3))
 hist(mash.sign,freq=FALSE,ylim=c(0,10),main="B_jr|Data/sign(B_jr[which.max(abs(B_jr|Data))],MASH",nclass=50)
 legend("left",legend=paste0("mash.sign<0=",round((sum(matrix.ash.norm<0)/length(matrix.ash.norm)),3)))
-
-
+hist(mash.sign.brain,freq=FALSE,ylim=c(0,10),main="WITHBRAIN,MASH",nclass=50)
+legend("left",legend=paste0("mash.sign<0=",round((sum(matrix.ash.norm.brain<0)/length(matrix.ash.norm.brain)),3)))
 hist(b.sign,freq=FALSE,ylim=c(0,10),main="B_jr|Data/sign(B_jr[which.max(abs(B_jr|Data))],Z.raw)",nclass=50)
-legend("left",legend=paste0("z.sign<0=",round((sum(bnorm<0)/length(matrix.ash.norm)),3)))
+legend("left",legend=paste0("z.sign<0=",round((sum(bnorm<0)/length(bnorm)),3)))
 
 ```
 
