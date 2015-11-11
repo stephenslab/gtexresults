@@ -64,8 +64,9 @@ iplotCurves(curveMatrix = z.stat[het.genes.with.brain<2,],chartOpts=list(curves_
 
 Let's consider what happens when we remove brains:
 ```{r,cache=FALSE}
-iplotCurves(curveMatrix = pm.mash.beta[het.genes.no.brain >40,])
-iplotCurves(curveMatrix = b.stat[het.genes.no.brain>40,-c(7:16)])
+library("qtlcharts")
+iplotCurves(curveMatrix = pm.mash.beta[het.genes.no.brain>30,])
+iplotCurves(curveMatrix = b.stat[het.genes.no.brain>30,-c(7:16)])
 ```
 
 Now, we look at singletons:
