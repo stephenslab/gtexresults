@@ -116,7 +116,7 @@ thresh=0.05
 barplot(apply(lfsr[which(rowSums(lfsr<=thresh)==1),],2,function(x){sum(x<=thresh)}),las=2,cex.names=0.5,main=paste0("Number of eQTL with LFSR<",0.05," in Single Tissue"),ylim=c(0,420))
  
 zthresh=5
-barplot(apply(maxz[which(rowSums(maxz>zthresh)==1),],2,function(x){sum(x>zthresh)}),las=2,cex.names=0.5,main=paste0("Number of eQTL with Z>",zthresh,"in Single Tissue"))
+barplot(apply(maxz[which(rowSums(maxz>zthresh)==1),],2,function(x){sum(x>zthresh)}),las=2,cex.names=0.5,main=paste0("Number of eQTL with Z>",zthresh,"in Single Tissue"),ylim=c(0,400))
 ```
 
 
