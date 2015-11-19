@@ -265,15 +265,29 @@ max.mle=t(apply(maxb,1,function(x){
   rep(x[which.max(abs(x))],R)
 }))
 
+max.mash.brain=t(apply(pm.mash.beta.brain,1,function(x){
+  rep(x[which.max(abs(x))],44)
+}))
 
 
 
 png("../Figures/normstuffeb_nobrain.png")
 par(mfrow=c(1,2))
 plot(abs(max.mash),matrix.ash.norm,main="NormalizingB.MASH",xlab="absNormalizingValue",ylab="E(B|data)_norm", 
-     col=rgb(0,100,0,50,maxColorValue=255), pch=16,xlim=c(0,1))
-plot(abs(max.mle),bnorm,main="NormalizingB.MLE",ylab="B_norm",xlab="absNormalizingValue",col=rgb(0,100,0,50,maxColorValue=255), pch=16,xlim=c(0,1))
+     col=rgb(0,100,0,50,maxColorValue=255), pch=16,xlim=c(0,2))
+plot(abs(max.mle),bnorm,main="NormalizingB.MLE",ylab="B_norm",xlab="absNormalizingValue",col=rgb(0,100,0,50,maxColorValue=255), pch=16,xlim=c(0,2))
 dev.off()
+
+
+png("../Figures/normstuffeb_brain.png")
+par(mfrow=c(1,1))
+plot(abs(max.mash.brain),matrix.ash.norm.brain,main="NormalizingB.MASH",xlab="absNormalizingValue",ylab="E(B|data)_norm", 
+     col=rgb(0,100,0,50,maxColorValue=255), pch=16,xlim=c(0,2))
+plot(abs(max.mle),bnorm,main="NormalizingB.MLE",ylab="B_norm",xlab="absNormalizingValue",col=rgb(0,100,0,50,maxColorValue=255), pch=16,xlim=c(0,2))
+dev.off()
+
+
+
 
 
 png("../Figures/normstuffeb_sign_nobrain.png")

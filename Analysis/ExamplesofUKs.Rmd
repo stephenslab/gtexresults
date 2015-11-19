@@ -7,8 +7,16 @@ The purpose of this Document is to demonstrate gene-snp pairs that have high loa
 
 
 ```{r setup, include=FALSE}
+
 knitr::opts_chunk$set(cache=TRUE)
 
+newfunc=function(t){
+  par(mfrow=c(1,2))
+  name=strsplit(rownames(z.stat)[t], "[.]")[[1]][1]
+a=barplot(as.numeric(z.stat[t,]),las=2,cex.names=0.5,main=paste0("Z Statistics",name),names=colnames(z.stat))
+b=barplot(as.numeric(posterior.means[t,]),main=paste0("E(Z|EZ)",name),col=col.func(t,lfsr=lfsr,posterior.means=posterior.means),
+          cex.names=0.5,las=2,ylab="PosteriorMean",names=colnames(posterior.means))
+}
 weightplot=function(genename,max.weight,covmat){
   par(mfrow=c(1,3))
   k=max.weight
@@ -201,18 +209,18 @@ library(gplots)
 library(ggplot2)
 
 k=8
-x=cov2cor(covmat[[8]])
+x=covmat[[k]]/max(diag(covmat[[k]]))
   colnames(x)=colnames(z.stat)
   rownames(x)=colnames(z.stat)
 heatmap.2(x,Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofCov2CorU_k",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T,names=colnames(z.stat))
 
 eight.ex.2=which(rownames(z.stat)=="ENSG00000169962.4_1_909238_G_C_b37")
 eight.ex.3=which(rownames(z.stat)=="ENSG00000126070.14_1_36363172_C_T_b37")
-#eight.ex.4=which(rownames(z.stat)=="ENSG00000121073.9_17_48685792_G_A_b37")
+eight.ex.4=which(rownames(z.stat)=="ENSG00000121073.9_17_48685792_G_A_b37")
 
 weightplot(genename = eight.ex.2,max.weight = 8,covmat = covmat)
 weightplot(genename = eight.ex.3,max.weight = 8,covmat = covmat)
-#weightplot(genename = eight.ex.4,max.weight = 8,covmat = covmat)
+weightplot(genename = eight.ex.4,max.weight = 8,covmat = covmat)
 ```
 
 *And in 9, we see small effects in brain and large tissue specific effects in testis and whole blood*
@@ -231,4 +239,7 @@ nine.ex.4=which(rownames(z.stat)=="ENSG00000011021.17_1_11869101_T_C_b37")
 weightplot(genename = nine.ex.2,max.weight = 9,covmat = covmat)
 weightplot(genename = nine.ex.3,max.weight = 9,covmat = covmat)
 #weightplot(genename = nine.ex.4,max.weight = 9,covmat = covmat)
+
+newfunc(t=nine.ex.2)
+newfunc(t=nine.ex.3)
 ```
