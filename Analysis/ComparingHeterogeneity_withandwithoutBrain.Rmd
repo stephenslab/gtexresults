@@ -330,7 +330,7 @@ het.func=function(normdat,threshold){
   apply(abs(normdat),1,function(x){sum(x>threshold)})}
 
 
-hist((het.func(ebnorm,threshold=0.2)),main="Number of Tissues in which B.norm>alpha*MaxB",xlab="NumberofTissues",nclass=50,col="blue")
+hist((het.func(ebnorm,threshold=0.5)),main="Number of Tissues in which B.norm>alpha*MaxB",xlab="NumberofTissues",nclass=30,col="blue",freq=FALSE)
 #lines(table(het.func(ebnorm,threshold=0.3)),col="green")
 #lines(table(het.func(ebnorm,threshold=0.4)),col="blue")
 lines(table(het.func(ebnorm,threshold=0.5)),col="red")
@@ -363,10 +363,10 @@ het.func=function(normdat,threshold){
   apply(abs(normdat),1,function(x){sum(x>threshold)})}
 
 
-hist((het.func(ebnorm,threshold=0.2)),main="Number of Tissues in which B.norm>alpha*MaxBWITHBRAIN",xlab="NumberofTissues",nclass=50,col="blue")
+hist((het.func(ebnorm,threshold=0.5)),main="Number of Tissues in which B.norm>0.5*MaxBWITHBRAIN",xlab="NumberofTissues",nclass=50,col="blue",freq=FALSE)
 #lines(table(het.func(ebnorm,threshold=0.3)),col="green")
 #lines(table(het.func(ebnorm,threshold=0.4)),col="blue")
-lines(table(het.func(ebnorm,threshold=0.5)),col="red")
+#lines(table(het.func(ebnorm,threshold=0.5)),col="red")
 #lines(table(het.func(ebnorm,threshold=0.6)),col="purple")
 #lines(table(het.func(ebnorm,threshold=0.7)),col="orange")
-legend("center",col=c("blue","red"),legend=c("alpha=0.2","alpha=0.5"),lty=1)
+#legend("center",col=c("blue","red"),legend=c("alpha=0.2","alpha=0.5"),lty=1)
