@@ -142,7 +142,7 @@ thresh=0.05
 sum(lfsr.mash<thresh)
 ```
 
-Let's also count how many associations we might count as inconsistent by simply counting the number of times the signs differed in a vector of posterior means for a given gene snp pair. This changes without brain, as without brain, there were 9597 inconsistent instances.
+Let's also count how many associations we might count as inconsistent by simply counting the number of times the signs differed in a vector of posterior means for a given gene snp pair. This changes without brain, as with brain, there were 9597 inconsistent instances.
 
 ```{r}
 
@@ -150,8 +150,6 @@ inconsistent.func=function(posterior.means,lfsr,thresh=0.05){
 h=apply(posterior.means,1,function(p){
   pos=sum(p>0);neg=sum(p<0);pos*neg!=0})
 sum(h=="TRUE")}
-
-
 inconsistent.func(pm.mash.beta,lfsr.mash)
 inconsistent.func(pm.ash.beta,lfsr.mash)
 ```
@@ -253,6 +251,10 @@ First, I plot the biplot of the Maximum values vs their Normalized using Posteri
 ![alt text](../Figures/ecdf_nobrain.png)
 
 
+![alt text](../Figures/normstuffeb_brain.png)
+
+![alt text](../Figures/ecdf_brain.png)
+
 ```{r, eval=FALSE}
 R=ncol(pm.mash.beta)
 colnames(pm.mash.beta)=colnames(maxb)
@@ -272,10 +274,10 @@ max.mash.brain=t(apply(pm.mash.beta.brain,1,function(x){
 
 
 png("../Figures/normstuffeb_nobrain.png")
-par(mfrow=c(1,2))
+#par(mfrow=c(1,2))
 plot(abs(max.mash),matrix.ash.norm,main="NormalizingB.MASH",xlab="absNormalizingValue",ylab="E(B|data)_norm", 
      col=rgb(0,100,0,50,maxColorValue=255), pch=16,xlim=c(0,2))
-plot(abs(max.mle),bnorm,main="NormalizingB.MLE",ylab="B_norm",xlab="absNormalizingValue",col=rgb(0,100,0,50,maxColorValue=255), pch=16,xlim=c(0,2))
+#plot(abs(max.mle),bnorm,main="NormalizingB.MLE",ylab="B_norm",xlab="absNormalizingValue",col=rgb(0,100,0,50,maxColorValue=255), pch=16,xlim=c(0,2))
 dev.off()
 
 
@@ -283,7 +285,7 @@ png("../Figures/normstuffeb_brain.png")
 par(mfrow=c(1,1))
 plot(abs(max.mash.brain),matrix.ash.norm.brain,main="NormalizingB.MASH",xlab="absNormalizingValue",ylab="E(B|data)_norm", 
      col=rgb(0,100,0,50,maxColorValue=255), pch=16,xlim=c(0,2))
-plot(abs(max.mle),bnorm,main="NormalizingB.MLE",ylab="B_norm",xlab="absNormalizingValue",col=rgb(0,100,0,50,maxColorValue=255), pch=16,xlim=c(0,2))
+#plot(abs(max.mle),bnorm,main="NormalizingB.MLE",ylab="B_norm",xlab="absNormalizingValue",col=rgb(0,100,0,50,maxColorValue=255), pch=16,xlim=c(0,2))
 dev.off()
 
 
@@ -299,9 +301,17 @@ dev.off()
 
 
 png("../Figures/ecdf_nobrain.png")
-e=ecdf(ebnorm)
+e=ecdf(matrix.ash.norm)
 plot(e,main="eCDFofBNorm.nobrain")
-lines(ecdf(bnorm),col="red")
+lines(ecdf(het.norm(b.stat[,-c(7:16)])),col="red")
+
+legend("left",lty=1,col=c("black","red"),legend=c("E(B|Data)/E(B|Data)[which.max(abs(E(B|Data))]","B.mle/B.mle[which.max(abs(B.mle)]"))
+dev.off()
+
+png("../Figures/ecdf_brain.png")
+e=ecdf(matrix.ash.norm.brain)
+plot(e,main="eCDFofBNorm.brain")
+lines(ecdf(het.norm(b.stat)),col="red")
 legend("left",lty=1,col=c("black","red"),legend=c("E(B|Data)/E(B|Data)[which.max(abs(E(B|Data))]","B.mle/B.mle[which.max(abs(B.mle)]"))
 dev.off()
 
@@ -349,13 +359,13 @@ ebnorm=het.norm(effectsize=pm.mash.beta.brain)
 het.func=function(normdat,threshold){
   apply(abs(normdat),1,function(x){sum(x<threshold)})}
 
-hist(het.func(ebnorm,threshold=0.2),main="Number of Tissues in which B.norm<alpha*MaxBWITHBRAIN",xlab="NumberofTissue",nclass=35,col="blue")
+#hist(het.func(ebnorm,threshold=0.2),main="Number of Tissues in which B.norm<alpha*MaxBWITHBRAIN",xlab="NumberofTissue",nclass=35,col="blue")
 #lines(table(het.func(ebnorm,threshold=0.3)),col="green")
 #lines(table(het.func(ebnorm,threshold=0.4)),col="blue")
-lines(table(het.func(ebnorm,threshold=0.5)),col="red")
+#lines(table(het.func(ebnorm,threshold=0.5)),col="red")
 #lines(table(het.func(ebnorm,threshold=0.6)),col="purple")
 #lines(table(het.func(ebnorm,threshold=0.7)),col="orange")
-legend("center",col=c("blue","red"),legend=c("alpha=0.2","alpha=0.5"),lty=1)
+#legend("center",col=c("blue","red"),legend=c("alpha=0.2","alpha=0.5"),lty=1)
 
 
 
@@ -383,6 +393,7 @@ s=sapply(seq(1:44),function(x){
 tissue.match=which(h==x)
 median(abs(max.mash.brain[tissue.match]))})
    
+plot(seq(1:44),s)
 
 ebnorm=het.norm(effectsize=b.stat)
 h=het.func(ebnorm,threshold=0.5)
