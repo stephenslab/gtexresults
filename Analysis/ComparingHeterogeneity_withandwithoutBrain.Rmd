@@ -255,7 +255,7 @@ First, I plot the biplot of the Maximum values vs their Normalized using Posteri
 
 ![alt text](../Figures/ecdf_brain.png)
 
-```{r, eval=FALSE}
+```{r, eval=FALSE,echo=FALSE}
 R=ncol(pm.mash.beta)
 colnames(pm.mash.beta)=colnames(maxb)
 
@@ -320,19 +320,10 @@ dev.off()
 And finally, we can compare the magnitude heterogeneity - that is, the number of tissues in which the eQTL has an activity greater than $\alpha$ or (less than $\alpha$) of the maximum effect.
 
 
-```{r}
-het.func=function(normdat,threshold){
-  apply(abs(normdat),1,function(x){sum(x<threshold)})}
+```{r echo=FALSE}
 
 ebnorm=matrix.ash.norm
 
-hist(het.func(ebnorm,threshold=0.2),main="Number of Tissues in which B.norm<alpha*MaxB",xlab="NumberofTissue",nclass=35,col="blue")
-#lines(table(het.func(ebnorm,threshold=0.3)),col="green")
-#lines(table(het.func(ebnorm,threshold=0.4)),col="blue")
-lines(table(het.func(ebnorm,threshold=0.5)),col="red")
-#lines(table(het.func(ebnorm,threshold=0.6)),col="purple")
-#lines(table(het.func(ebnorm,threshold=0.7)),col="orange")
-legend("center",col=c("blue","red"),legend=c("alpha=0.2","alpha=0.5"),lty=1)
 
 
 
@@ -343,16 +334,16 @@ het.func=function(normdat,threshold){
 hist((het.func(ebnorm,threshold=0.5)),main="Number of Tissues in which B.norm>alpha*MaxB",xlab="NumberofTissues",nclass=30,col="blue",freq=FALSE)
 #lines(table(het.func(ebnorm,threshold=0.3)),col="green")
 #lines(table(het.func(ebnorm,threshold=0.4)),col="blue")
-lines(table(het.func(ebnorm,threshold=0.5)),col="red")
+#lines(table(het.func(ebnorm,threshold=0.5)),col="red")
 #lines(table(het.func(ebnorm,threshold=0.6)),col="purple")
 #lines(table(het.func(ebnorm,threshold=0.7)),col="orange")
-legend("center",col=c("blue","red"),legend=c("alpha=0.2","alpha=0.5"),lty=1)
+#legend("center",col=c("blue","red"),legend=c("alpha=0.2","alpha=0.5"),lty=1)
 
 ```
 
 Let's compare to using the brains:
 
-```{r}
+```{r echo=FALSE}
 ebnorm=het.norm(effectsize=pm.mash.beta.brain)
 
 
@@ -382,7 +373,7 @@ hist((het.func(ebnorm,threshold=0.5)),main="Number of Tissues in which B.norm>0.
 #legend("center",col=c("blue","red"),legend=c("alpha=0.2","alpha=0.5"),lty=1)
 ```
 
-Now, let's consider the number of tissues vs normalziing value.
+Now, let's consider the number of tissues vs normalziing value. We plot the median of the value used to normalize for each group of SNPs that are of the same number of tissue class.
 
 ```{r}
 ebnorm=het.norm(effectsize=pm.mash.beta.brain)
@@ -394,7 +385,11 @@ tissue.match=which(h==x)
 median(abs(max.mash.brain[tissue.match]))})
    
 plot(seq(1:44),s)
+```
 
+
+```{r eval=FALSE, echo=FALSE}
+b.stat=read.table("../Data/maxbetahats.txt")
 ebnorm=het.norm(effectsize=b.stat)
 h=het.func(ebnorm,threshold=0.5)
 max.mash.brain=apply(b.stat,1,function(x){
@@ -404,7 +399,10 @@ tissue.match=which(h==x)
 median(abs(max.mash.brain[tissue.match]))})
 
 plot(seq(1:44),s)
+```
 
+Now, let's look at excluding brain:
+```{r}
 ebnorm=het.norm(effectsize=pm.mash.beta)
 h=het.func(ebnorm,threshold=0.5)
 max.mash=apply(pm.mash.beta,1,function(x){
@@ -415,4 +413,16 @@ median(abs(max.mash[tissue.match]))})
 
 plot(seq(1:ncol(pm.mash.beta)),s)
 ```
-     
+
+
+
+Let's compare the empirical distribtuion with and wihtout brains of the proportion of tissues which are greater than 50% of maximum effect:
+
+```{r prop.max.effect.ecdf}
+require( Hmisc )
+Ecdf(x = het.func(het.norm(effectsize=pm.mash.beta),threshold=0.5)/34,main="eCDF of Proportion of Tissues which are greater than 50% of maximum effect",col="blue",lty=2,xlab="Proportion of Tissues greater than 50% max effect")
+Ecdf(x = het.func(het.norm(effectsize=pm.mash.beta.brain),threshold=0.5)/44,add = TRUE, col = 'red', lty = 1)
+legend("bottomright",legend=c("Brain","NoBrain"),col=c("red","blue"),lty=c(1,2))
+
+
+```
