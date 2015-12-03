@@ -35,7 +35,7 @@ library(gplots)
 library(ggplot2)
 #install.packages("fields")
 library(fields)
-for(k in important){
+for(k in 2:9){
   x=covmat[[k]]
   colnames(x)=colnames(z.stat)
   rownames(x)=colnames(z.stat)
