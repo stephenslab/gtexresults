@@ -3,7 +3,7 @@ title: "NoBrainHeterogeneity"
 output: html_document
 ---
 
-```{r load data}
+```{r load data,echo=FALSE}
 
 knitr::opts_chunk$set(cache=TRUE)
 covmat=readRDS("../withoutbrain/covmatnobrain.rds")
@@ -118,7 +118,7 @@ barplot(apply(lfsr[which(rowSums(lfsr<=thresh)==1),],2,function(x){sum(x<=thresh
 
 Let's plot singletons:
 
-```{r}
+```{r,echo=FALSE}
 thresh=0.05
 plot_singletontissues(lfsr.mash,thresh,method="MATRIXASH")
 maxb=read.table("../Data/maxbetahats.txt")[,-c(7:16)]
@@ -347,6 +347,12 @@ Let's compare to using the brains:
 ebnorm=het.norm(effectsize=pm.mash.beta.brain)
 
 
+sign.tissue.func=function(normdat){
+  apply(normdat,1,function(x){
+    sum(x<0)})}
+
+
+
 het.func=function(normdat,threshold){
   apply(abs(normdat),1,function(x){sum(x<threshold)})}
 
@@ -363,14 +369,23 @@ het.func=function(normdat,threshold){
 het.func=function(normdat,threshold){
   apply(abs(normdat),1,function(x){sum(x>threshold)})}
 
+par(mfrow=c(1,2))
+hist((het.func(het.norm(effectsize=pm.mash.beta.brain),threshold=0.5)),main="Number of Tissues in which B.norm>0.5*MaxBALLTISSUES",xlab="NumberofTissues",nclass=50,col="blue",freq=FALSE)
 
-hist((het.func(ebnorm,threshold=0.5)),main="Number of Tissues in which B.norm>0.5*MaxBWITHBRAIN",xlab="NumberofTissues",nclass=50,col="blue",freq=FALSE)
+hist((het.func(het.norm(effectsize=pm.mash.beta),threshold=0.5)),main="Number of Tissues in which B.norm>0.5*MaxBEXCLUDINGBRAIN",xlab="NumberofTissues",nclass=40,col="blue",freq=FALSE)
+
+hist(sign.tissue.func(het.norm(effectsize=pm.mash.beta.brain)),main="Number of Tissues in which SignDifferentThanMax,ALL",xlab="NumberofTissues",nclass=50,col="blue",freq=FALSE)
+hist(sign.tissue.func(het.norm(effectsize=pm.mash.beta)),main="Number of Tissues in which SignDifferentThanMax, EXCLUDING brain",xlab="NumberofTissues",nclass=40,col="blue",freq=FALSE)
 #lines(table(het.func(ebnorm,threshold=0.3)),col="green")
 #lines(table(het.func(ebnorm,threshold=0.4)),col="blue")
 #lines(table(het.func(ebnorm,threshold=0.5)),col="red")
 #lines(table(het.func(ebnorm,threshold=0.6)),col="purple")
 #lines(table(het.func(ebnorm,threshold=0.7)),col="orange")
 #legend("center",col=c("blue","red"),legend=c("alpha=0.2","alpha=0.5"),lty=1)
+
+brain.norm=het.norm(effectsize=pm.mash.beta.brain[,c(7:16)])
+hist(het.func(brain.norm,threshold=0.5),main="Number of Tissues in which B.norm>0.5*MaxBrainOnly",xlab="NumberofTissues",nclass=12,col="blue",freq=FALSE)
+
 ```
 
 Now, let's consider the number of tissues vs normalziing value. We plot the median of the value used to normalize for each group of SNPs that are of the same number of tissue class.
@@ -415,14 +430,13 @@ plot(seq(1:ncol(pm.mash.beta)),s)
 ```
 
 
-
 Let's compare the empirical distribtuion with and wihtout brains of the proportion of tissues which are greater than 50% of maximum effect:
 
 ```{r prop.max.effect.ecdf}
 require( Hmisc )
-Ecdf(x = het.func(het.norm(effectsize=pm.mash.beta),threshold=0.5)/34,main="eCDF of Proportion of Tissues which are greater than 50% of maximum effect",col="blue",lty=2,xlab="Proportion of Tissues greater than 50% max effect")
+Ecdf(x = het.func(het.norm(effectsize=pm.mash.beta),threshold=0.5)/34,main="eCDF of Proportion of Tissues which are greater than 50% of maximum effect",col="blue",lty=1,xlab="Proportion of Tissues greater than 50% max effect")
 Ecdf(x = het.func(het.norm(effectsize=pm.mash.beta.brain),threshold=0.5)/44,add = TRUE, col = 'red', lty = 1)
-legend("bottomright",legend=c("Brain","NoBrain"),col=c("red","blue"),lty=c(1,2))
-
-
+Ecdf(x = het.func(brain.norm,threshold=0.5)/10,add = TRUE, col = 'green', lty = 1)
+legend("bottomright",legend=c("AllTissues","NoBrain","BrainOnly"),col=c("red","blue","green"),lty=c(1,1,1))
 ```
+

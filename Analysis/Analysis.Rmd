@@ -319,7 +319,7 @@ vi) we want to avoid pitfalls of thresholding. However, as long as we keep these
 thresh=0.05
 sigmat=(lfsr<=thresh)
 nsig= rowSums(sigmat)
-hist(nsig[nsig>0],main="Number of tissues in which eQTl significant", nclass=45,xlab="Number of tissues")
+ hist(nsig[nsig>0],main="Number of tissues in which eQTl significant", nclass=45,xlab="Number of tissues",freq=TRUE)
 ```
 
 
