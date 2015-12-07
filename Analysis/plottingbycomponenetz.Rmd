@@ -29,18 +29,20 @@ biplot_by_component=function(tissue1,tissue2){
 plot(pm.mash.brain[components==2,i],pm.mash.brain[components==2,j],col="yellow",xlab=colnames(pm.mash.brain)[i],ylab=colnames(pm.mash.brain)[j])
 points(pm.mash.brain[components==9,i],pm.mash.brain[components==9,j],col="blue")
 points(pm.mash.brain[components==49,i],pm.mash.brain[components==49,j],col="black")
-points(pm.mash.brain[components==8,i],pm.mash.brain[components==8,j],col="orange")
-
 points(pm.mash.brain[components==3,i],pm.mash.brain[components==3,j],col="green")
+
+points(pm.mash.brain[components==4,i],pm.mash.brain[components==4,j],col="red")
 points(pm.mash.brain[components==5,i],pm.mash.brain[components==5,j],col="pink")
 points(pm.mash.brain[components==53,i],pm.mash.brain[components==53,j],col="violet")
+points(pm.mash.brain[components==8,i],pm.mash.brain[components==8,j],col="orange")
 }
 
 biplot_by_component(34,44)
 biplot_by_component(34,40)
 biplot_by_component(44,40)
 biplot_by_component(tissue1 = 7,40)
-biplot_by_component(tissue1 = 7,44)
+biplot_by_component(tissue1 = 7,tissue2=44)
+biplot_by_component(tissue1 = 7,tissue2=29)
 
 ```
 

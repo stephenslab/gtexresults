@@ -115,6 +115,8 @@ ones=which(rowSums(sigs)==1)
 barplot(apply(lfsr[which(rowSums(lfsr<=thresh)==1),],2,function(x){sum(x<=thresh)}),las=2,cex.names=0.5,main=paste0("Number of eQTL with",method,"<0.05 in Single Tissue"),ylim=c(0,620))
 }
 
+
+pm.mash.beta.brain=read.table("../Data//Aug13withEDposterior.betas.txt")
 ```
 
 Let's plot singletons:
@@ -355,19 +357,6 @@ sign.tissue.func=function(normdat){
 
 
 het.func=function(normdat,threshold){
-  apply(abs(normdat),1,function(x){sum(x<threshold)})}
-
-#hist(het.func(ebnorm,threshold=0.2),main="Number of Tissues in which B.norm<alpha*MaxBWITHBRAIN",xlab="NumberofTissue",nclass=35,col="blue")
-#lines(table(het.func(ebnorm,threshold=0.3)),col="green")
-#lines(table(het.func(ebnorm,threshold=0.4)),col="blue")
-#lines(table(het.func(ebnorm,threshold=0.5)),col="red")
-#lines(table(het.func(ebnorm,threshold=0.6)),col="purple")
-#lines(table(het.func(ebnorm,threshold=0.7)),col="orange")
-#legend("center",col=c("blue","red"),legend=c("alpha=0.2","alpha=0.5"),lty=1)
-
-
-
-het.func=function(normdat,threshold){
   apply(abs(normdat),1,function(x){sum(x>threshold)})}
 
 par(mfrow=c(1,3))
@@ -378,16 +367,10 @@ hist((het.func(het.norm(effectsize=pm.mash.beta),threshold=0.5)),main="Number of
 brain.norm=het.norm(effectsize=pm.mash.beta.brain[,c(7:16)])
 hist(het.func(brain.norm,threshold=0.5),main="Number of Tissues in which B.norm>0.5*MaxBrainOnly",xlab="NumberofTissues",nclass=12,col="blue",freq=FALSE)
 
-hist(sign.tissue.func(het.norm(effectsize=pm.mash.beta.brain)),main="Number of Tissues in which SignDifferentThanMax,ALL",xlab="NumberofTissues",nclass=50,col="blue",freq=FALSE)
-hist(sign.tissue.func(het.norm(effectsize=pm.mash.beta)),main="Number of Tissues in which SignDifferentThanMax, EXCLUDING brain",xlab="NumberofTissues",nclass=40,col="blue",freq=FALSE)
-hist(sign.tissue.func(het.norm(effectsize=pm.mash.beta.brain[,c(7:16)])),main="Number of Tissues in which SignDifferentThanMax,brain",xlab="NumberofTissues",nclass=40,col="blue",freq=FALSE)
+hist(sign.tissue.func(het.norm(effectsize=pm.mash.beta.brain))/44,main="Number of Tissues in which SignDifferentThanMax,ALL",xlab="NumberofTissues",nclass=50,col="blue",freq=FALSE,ylim=c(0,4))
+hist(sign.tissue.func(het.norm(effectsize=pm.mash.beta))/34,main="Number of Tissues in which SignDifferentThanMax, EXCLUDING brain",xlab="NumberofTissues",nclass=40,col="blue",freq=FALSE,ylim=c(0,4))
+hist(sign.tissue.func(het.norm(effectsize=pm.mash.beta.brain[,c(7:16)]))/10,main="Number of Tissues in which SignDifferentThanMax,brain",xlab="NumberofTissues",nclass=40,col="blue",freq=FALSE,ylim=c(0,4))
 
-#lines(table(het.func(ebnorm,threshold=0.3)),col="green")
-#lines(table(het.func(ebnorm,threshold=0.4)),col="blue")
-#lines(table(het.func(ebnorm,threshold=0.5)),col="red")
-#lines(table(het.func(ebnorm,threshold=0.6)),col="purple")
-#lines(table(het.func(ebnorm,threshold=0.7)),col="orange")
-#legend("center",col=c("blue","red"),legend=c("alpha=0.2","alpha=0.5"),lty=1)
 
 
 
@@ -447,7 +430,7 @@ legend("bottomright",legend=c("AllTissues","NoBrain","BrainOnly"),col=c("red","b
 
 Let's comapre the sum of normalized bstatistics across tissues.For each gene, compute sum (norm.b)^2 such that norm.b>0 (eliminate off diretion).
 
-```{r,echo=FALSE}
+```{r echo=FALSE}
 normalized.nobrain=het.norm(pm.mash.beta)
 normalized.all=het.norm(pm.mash.beta.brain)
 normalized.brainonly=het.norm(pm.mash.beta.brain[,c(7:16)])
@@ -503,13 +486,15 @@ hetindex.brain.only=apply(normalized.brainonly,1,function(x){
 # legend("topright",col=c("green","red"),legend=c("ExcludingBrain","AllTissues"),lty=1)
 
 par(mfrow=c(1,3));
-hist(hetindex,main="Histogram of Sum of (Normalized Bjr^2),AllTissues",xlab="Homogeneity Index",col="blue",freq=F);
-hist(hetindex.nobrain,main="Histogram of Sum of (Normalized Bjr^2),NoBrain",xlab="Homogeneity Index",col="blue",freq=F)
-hist(hetindex.brain.only,main="Histogram of Sum of (Normalized Bjr^2),BrainONLY",xlab="Homogeneity Index",col="blue",freq=F)
+hist(hetindex,main="Histogram of Sum of (Normalized Bjr),AllTissues",xlab="Homogeneity Index",col="blue",freq=F);
+hist(hetindex.nobrain,main="Histogram of Sum of (Normalized Bjr),NoBrain",xlab="Homogeneity Index",col="blue",freq=F)
+hist(hetindex.brain.only,main="Histogram of Sum of (Normalized Bjr),BrainONLY",xlab="Homogeneity Index",col="blue",freq=F)
 
 # par(mfrow=c(1,3))
 # 
 # hist(rowSums(het.norm(abs(pm.mash.beta.brain))),main="Histogram of Sum of (Normalized Bjr^2),ALL",xlab="Homogeneity Index",col="blue",freq=F)
 # hist(rowSums(het.norm(abs(pm.mash.beta))),main="Histogram of Sum of (Normalized Bjr^2),NOBRAIN",xlab="Homogeneity Index",col="blue",freq=F)
 # hist(rowSums(het.norm(abs(pm.mash.beta.brain[,c(7:16)]))),main="Histogram of Sum of (Normalized Bjr^2),BrainOnly",xlab="Homogeneity Index",col="blue",freq=F)
+
+```
 
