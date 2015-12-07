@@ -1,0 +1,53 @@
+---
+title: "PlottingByColSumsScatterplot"
+output: html_document
+---
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on 
+
+```{r load.data, echo=FALSE}
+pm.mash.brain=read.table("../Data/Aug13withEDposterior.means.txt")[,-1]
+maxz=read.table("../Data/maxz.txt")
+#pm.mash=read.table("../withoutbrain//nobrainposterior.means.txt")[,-1]
+colnames(pm.mash.brain)=colnames(maxz)
+components=read.table("../Data/maxColsums.txt")[,1]
+```
+
+```{r,fig.ext='png',cache=TRUE,eval=FALSE}
+
+for (i in 1:43){
+  for(j in (i+1):44){
+    plot(pm.mash.brain[,i],pm.mash.brain[,j],col=components,xlab=colnames(pm.mash.beta.brain)[i],ylab=colnames(pm.mash.beta.brain)[j])}}
+  
+```
+
+Maybe pick out a few examples:
+```{r collapsedbrains,echo=FALSE}
+biplot_by_component=function(tissue1,tissue2){
+  i=tissue1;j=tissue2
+  pm.mash.brain=as.matrix(pm.mash.brain)
+plot(pm.mash.brain[components==2,i],pm.mash.brain[components==2,j],col="yellow",xlab=colnames(pm.mash.brain)[i],ylab=colnames(pm.mash.brain)[j])
+points(pm.mash.brain[components==9,i],pm.mash.brain[components==9,j],col="blue")
+points(pm.mash.brain[components==49,i],pm.mash.brain[components==49,j],col="black")
+points(pm.mash.brain[components==8,i],pm.mash.brain[components==8,j],col="orange")
+
+points(pm.mash.brain[components==3,i],pm.mash.brain[components==3,j],col="green")
+points(pm.mash.brain[components==5,i],pm.mash.brain[components==5,j],col="pink")
+points(pm.mash.brain[components==53,i],pm.mash.brain[components==53,j],col="violet")
+}
+
+biplot_by_component(34,44)
+biplot_by_component(34,40)
+biplot_by_component(44,40)
+biplot_by_component(tissue1 = 7,40)
+biplot_by_component(tissue1 = 7,44)
+
+```
+
+
+
+
+
+
+
+
