@@ -16,6 +16,9 @@ pm.mash=read.table("../withoutbrain//nobrainposterior.means.txt")[,-1]
 standard.error=read.table("../Data/standard.error.txt")[,-c(7:16)]
 pm.mash.beta=pm.mash*standard.error
 
+pm.mash.all=read.table("../Data//Aug13withEDposterior.means.txt")[,-1]
+
+
 pm.ash=read.table("../Comparison with Univariate Ash/univariate.ash.pm.txt")[,-c(7:16)]
 lfsr.ash=read.table("../Comparison with Univariate Ash/univariate.ash.lfsr.txt")[,-c(7:16)]
 pm.ash.beta=pm.ash*standard.error
@@ -320,36 +323,9 @@ dev.off()
 
 ```
 
-And finally, we can compare the magnitude heterogeneity - that is, the number of tissues in which the eQTL has an activity greater than $\alpha$ or (less than $\alpha$) of the maximum effect.
-
-
-```{r echo=FALSE}
-
-ebnorm=matrix.ash.norm
-
-
-
-
-het.func=function(normdat,threshold){
-  apply(abs(normdat),1,function(x){sum(x>threshold)})}
-
-
-hist((het.func(ebnorm,threshold=0.5)),main="Number of Tissues in which B.norm>alpha*MaxB",xlab="NumberofTissues",nclass=30,col="blue",freq=FALSE)
-#lines(table(het.func(ebnorm,threshold=0.3)),col="green")
-#lines(table(het.func(ebnorm,threshold=0.4)),col="blue")
-#lines(table(het.func(ebnorm,threshold=0.5)),col="red")
-#lines(table(het.func(ebnorm,threshold=0.6)),col="purple")
-#lines(table(het.func(ebnorm,threshold=0.7)),col="orange")
-#legend("center",col=c("blue","red"),legend=c("alpha=0.2","alpha=0.5"),lty=1)
-
-```
-
-Let's compare to using the brains:
+And finally, we can compare the magnitude heterogeneity - that is, the number of tissues in which the eQTL has an activity greater than $\alpha$ or (less than $\alpha$) of the maximum effect. Let's compare using and excluding brains. We can see that excluding brains from our analysis tends to push our distribution towards homogeneity, in that a greater number of eQTL have a majoirty of their tissues close to the effect.
 
 ```{r echo=FALSE}
-ebnorm=het.norm(effectsize=pm.mash.beta.brain)
-
-
 sign.tissue.func=function(normdat){
   apply(normdat,1,function(x){
     sum(x<0)})}
@@ -367,16 +343,16 @@ hist((het.func(het.norm(effectsize=pm.mash.beta),threshold=0.5)),main="Number of
 brain.norm=het.norm(effectsize=pm.mash.beta.brain[,c(7:16)])
 hist(het.func(brain.norm,threshold=0.5),main="Number of Tissues in which B.norm>0.5*MaxBrainOnly",xlab="NumberofTissues",nclass=12,col="blue",freq=FALSE)
 
-hist(sign.tissue.func(het.norm(effectsize=pm.mash.beta.brain))/44,main="Number of Tissues in which SignDifferentThanMax,ALL",xlab="NumberofTissues",nclass=50,col="blue",freq=FALSE,ylim=c(0,4))
-hist(sign.tissue.func(het.norm(effectsize=pm.mash.beta))/34,main="Number of Tissues in which SignDifferentThanMax, EXCLUDING brain",xlab="NumberofTissues",nclass=40,col="blue",freq=FALSE,ylim=c(0,4))
-hist(sign.tissue.func(het.norm(effectsize=pm.mash.beta.brain[,c(7:16)]))/10,main="Number of Tissues in which SignDifferentThanMax,brain",xlab="NumberofTissues",nclass=40,col="blue",freq=FALSE,ylim=c(0,4))
+hist(sign.tissue.func(het.norm(effectsize=pm.mash.beta.brain))/44,main="Proportion of Tissues in which SignDifferentThanMax,ALL",xlab="NumberofTissues",nclass=50,col="blue",freq=FALSE,ylim=c(0,40))
+hist(sign.tissue.func(het.norm(effectsize=pm.mash.beta))/34,main="Proportion of Tissues in which SignDifferentThanMax, EXCLUDING brain",xlab="NumberofTissues",nclass=40,col="blue",freq=FALSE,ylim=c(0,40))
+hist(sign.tissue.func(het.norm(effectsize=pm.mash.beta.brain[,c(7:16)]))/10,main="Proportion ofin which SignDifferentThanMax,brain",xlab="NumberofTissues",nclass=40,col="blue",freq=FALSE,ylim=c(0,40))
 
 
 
 
 ```
 
-Now, let's consider the number of tissues vs normalziing value. We plot the median of the value used to normalize for each group of SNPs that are of the same number of tissue class.
+Now, let's consider the number of tissues vs normalziing value. We plot the median of the value used to normalize for each group of SNPs that are of the same number of tissue class. We can see that the 'brain homogenous effects' (i.e., tissues in which the brain was chosen as the tissue of max effect) seem to have a lower median max effect, indicating that when brain is the highest, the other effects tend to be small. 
 
 ```{r}
 ebnorm=het.norm(effectsize=pm.mash.beta.brain)
@@ -391,7 +367,7 @@ plot(seq(1:44),s)
 ```
 
 
-```{r eval=FALSE, echo=FALSE}
+```{r eval=TRUE, echo=FALSE}
 b.stat=read.table("../Data/maxbetahats.txt")
 ebnorm=het.norm(effectsize=b.stat)
 h=het.func(ebnorm,threshold=0.5)
@@ -418,7 +394,7 @@ plot(seq(1:ncol(pm.mash.beta)),s)
 ```
 
 
-Let's compare the empirical distribtuion with and wihtout brains of the proportion of tissues which are greater than 50% of maximum effect:
+Let's compare the empirical distribtuion with and without brains of the proportion of tissues which are greater than 50% of maximum effect:
 
 ```{r prop.max.effect.ecdf}
 require( Hmisc )
@@ -497,4 +473,28 @@ hist(hetindex.brain.only,main="Histogram of Sum of (Normalized Bjr),BrainONLY",x
 # hist(rowSums(het.norm(abs(pm.mash.beta.brain[,c(7:16)]))),main="Histogram of Sum of (Normalized Bjr^2),BrainOnly",xlab="Homogeneity Index",col="blue",freq=F)
 
 ```
+
+How do the tissues with high or low values of our heterogeneity index behave?
+
+Let's looks at how heterogeneity behaves. Here, we plot examples in which the vast majority of tissues have a heterogeneity index greater than 50%. We plot the E(Z|D) for those in which the QTL were 'homogeneous ' in most: 
+
+```{r,cache=FALSE,echo=TRUE}
+h.all=het.func(normalized.all,threshold=0.5)## Normalize and determine heterogeneity based on E(b\Data) with negative values excluded
+h.all=het.func(het.norm(pm.mash.beta.brain),threshold = 0.5)
+library(qtlcharts)
+rownames(pm.mash.all)=rownames(normalized.all)
+iplotCurves(curveMatrix = pm.mash.all[h.all>40,],chartOpts=list(curves_xlab="Tissue", curves_ylab="E(Z|D)"))
+
+#iplotCurves(curveMatrix = pm.mash.all[hetindex>30,],chartOpts=list(curves_xlab="Tissue", curves_ylab="E(Z|D)"))
+#iplotCurves(curveMatrix = pm.mash.beta.brain[h.all<2,])
+```
+
+Now, we look at eQTL in which the effects are consistent in only a few:
+```{r,cache=FALSE}
+iplotCurves(curveMatrix = pm.mash.all[h.all<2,],chartOpts=list(curves_xlab="Tissue", curves_ylab="E(Z|D)"))
+#iplotCurves(curveMatrix = pm.mash.all[hetindex<2,],chartOpts=list(curves_xlab="Tissue", curves_ylab="E(Z|D)"))
+#iplotCurves(curveMatrix = z.stat[het.genes.with.brain<2,],chartOpts=list(curves_xlab="Tissue", curves_ylab="Z.statBrain"))
+```
+From this comparison we can also see that the non-homogenous eQTL tned to have smaller max effects.
+
 
