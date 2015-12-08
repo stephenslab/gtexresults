@@ -352,7 +352,8 @@ hist(sign.tissue.func(het.norm(effectsize=pm.mash.beta.brain[,c(7:16)]))/10,main
 
 ```
 
-Now, let's consider the number of tissues vs normalziing value. We plot the median of the value used to normalize for each group of SNPs that are of the same number of tissue class. We can see that the 'brain homogenous effects' (i.e., tissues in which the brain was chosen as the tissue of max effect) seem to have a lower median max effect, indicating that when brain is the highest, the other effects tend to be small. 
+Now, let's consider the number of tissues vs normalziing value. We plot the median of the value used to normalize for each group of SNPs that are of the same number of tissue class. For each 's' class, grab QTL that have that many tissues > max effect, find the effect used to normalize them, and take median of those s class maxes.
+We can see that the 'brain homogenous effects' (i.e., tissues in which the brain was chosen as the tissue of max effect) seem to have a lower median max effect, indicating that when brain is the highest, the other effects tend to be small. 
 
 ```{r}
 ebnorm=het.norm(effectsize=pm.mash.beta.brain)
@@ -363,7 +364,7 @@ s=sapply(seq(1:44),function(x){
 tissue.match=which(h==x)
 median(abs(max.mash.brain[tissue.match]))})
    
-plot(seq(1:44),s)
+plot(seq(1:44),s,ylab="Median(Abs(MaxValue))foreQTLofSclass",xlab="NumberofTissues>50% maxEffect")
 ```
 
 
@@ -381,7 +382,7 @@ plot(seq(1:44),s)
 ```
 
 Now, let's look at excluding brain:
-```{r}
+```{r eval=FALSE}
 ebnorm=het.norm(effectsize=pm.mash.beta)
 h=het.func(ebnorm,threshold=0.5)
 max.mash=apply(pm.mash.beta,1,function(x){
