@@ -43,6 +43,8 @@ biplot_by_component(44,40)
 biplot_by_component(tissue1 = 7,40)
 biplot_by_component(tissue1 = 7,tissue2=44)
 biplot_by_component(tissue1 = 7,tissue2=29)
+biplot_by_component(tissue1 = 42,tissue2=29)
+biplot_by_component(tissue1 = 18,tissue2=29)
 
 ```
 
