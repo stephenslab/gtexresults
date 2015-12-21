@@ -1,0 +1,50 @@
+---
+title: "BMAreallystinksonRealDATA"
+output: html_document
+---
+
+On real data, we show that BMA estimation results in certain snps with very poor likelihoods.
+
+```{r}
+
+pm=read.table("~/Dropbox/bmaonlyposterior.means.txt")[,-1]
+badguys=unique(which(is.na(pm),arr.ind=TRUE)[,1])
+z=read.table("~/Dropbox/jul3//maxz.txt")
+pm.bma=pm[-badguys,]
+maxz=read.table("~/Dropbox/jul3//maxz.txt")[-badguys,]
+pm.mash=read.table("~/Dropbox/Aug12/Aug13withEDposterior.means.txt")[-badguys,-1]
+covmat.bma=readRDS("~/Dropbox/covmatbmaonly.rds")
+pis=readRDS("~/Dropbox/pisbmaonly.rds")$pihat
+##now compute correlations
+
+
+cor(unlist(as.vector(pm.bma)),unlist(as.vector(maxz)))
+cor(unlist(as.vector(pm.mash)),unlist(as.vector(maxz)))
+```
+
+Indeed, watch this - see how for these snps, the likelihood is so poor that you cannot compute posterior weights.
+```{r}
+badguys##find the NAS
+##why are they na?
+source("~/matrix_ash/R/mixEM.R")
+source("~/matrix_ash/R/main.R")
+library('mvtnorm')
+j=badguys[2]
+v.j=matrix(rep(1,16069*44),nrow=16069,ncol=44)
+b.mle=as.vector(t(z[j,]))##turn i into a R x 1 vector
+V.j.hat=diag(v.j[j,])^2
+V.j.hat.inv <- solve(V.j.hat)
+lik.snp=lik.func(b.mle,V.j.hat,covmat.bma)
+sum(lik.snp)
+head(lik.snp)
+post.weights=t(lik.snp*pis/sum(lik.snp*pis))
+head(post.weights)[1:10]
+
+```
+We should see what these gene snp pairs look like.
+```{r}
+barplot((as.matrix(z[badguys[1],])),names=colnames(z),las=2,main=rownames(z)[badguys[1]])
+barplot((as.matrix(z[badguys[2],])),names=colnames(z),las=2,main=rownames(z)[badguys[2]])
+barplot((as.matrix(z[badguys[3],])),names=colnames(z),las=2,main=rownames(z)[badguys[3]])
+barplot((as.matrix(z[badguys[4],])),names=colnames(z),las=2,main=rownames(z)[badguys[4]])
+```
