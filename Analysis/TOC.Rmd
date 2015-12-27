@@ -15,3 +15,4 @@ title: "Home"
 *  [Examples of Effect Sizes by loading on componenet](plottingbycomponenetz.html)
 *  [Comparison With UniAsh](ComparingwithUnivAsh_beta.pdf)
 *  [Tissue Specific Examples](TissueSpecific.html)
+*  [Considering the Failure of BMA](ComparingtoanalysiswithBMA.html)
