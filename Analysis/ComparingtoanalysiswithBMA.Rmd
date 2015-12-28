@@ -22,6 +22,17 @@ cor(unlist(as.vector(pm.bma)),unlist(as.vector(maxz)))
 cor(unlist(as.vector(pm.mash)),unlist(as.vector(maxz)))
 ```
 
+First, let's look at where most of the prior weight goes using BMA, and compare this to our 'learned matrices'
+
+```{r, prior.weight.bar}
+pi.mat=matrix(data = pis,nrow = 22,ncol =45,byrow = TRUE)
+barplot(colSums(pi.mat),xlab="Non0Tissue",las=2,names=c(colnames(maxz),"all"),main="BMAlitePriorWeight")
+
+pi.mash=readRDS("../Data/pisAug13withED.rds")$pihat
+pi.mat.mash=matrix(data = pi.mash,nrow = 22,ncol =54,byrow = TRUE)
+barplot(colSums(pi.mat.mash),xlab="Uk",las=2,names=c(paste0("Uk",seq(1:9)),colnames(maxz),"all"),main="MASHPriorWeight")
+```
+
 Indeed, watch this - see how for these snps, the likelihood is so poor that you cannot compute posterior weights.
 ```{r}
 badguys##find the NAS
