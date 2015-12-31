@@ -1,0 +1,157 @@
+\documentclass[11pt, oneside]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   		% ... or a4paper or a5paper or ... 
+%\geometry{landscape}                		% Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+								% TeX will automatically convert eps --> pdf in pdflatex		
+\usepackage{amssymb}
+
+
+\nonstopmode  % to allow pdflatex to compile even if errors are raised (e.g. missing figures)
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{graphicx}
+% \graphicspath{{./figures/}} % save all figures in the same directory
+\usepackage{color} 
+\usepackage{hyperref}
+\usepackage{parskip}
+\setlength{\parindent}{0pt}
+
+% Text layout
+\topmargin 0.0cm
+\oddsidemargin 0.5cm
+\evensidemargin 0.5cm
+\textwidth 16cm 
+\textheight 21cm
+
+%% PLEASE INCLUDE ALL MACROS BELOW
+\newcommand{\etal}{\textit{et al.}} % use as "\etal{}" in citations
+%\newcommand{\Prob}{\mathbb{P}} % symbol for proba
+\newcommand{\Prd}{\mathsf{P}} % symbol for discrete proba
+\newcommand{\Exp}{\mathbb{E}} % symbol for expectation
+\newcommand{\Var}{\mathbb{V}} % symbol for variance
+\newcommand{\Cov}{\mathbb{C}} % symbol for covariance
+\newcommand{\Norm}{{\mathcal{N}}} % symbol for Normal distribution
+\newcommand{\BF}{{\text{BF}}} % symbol for Bayes factor
+\newcommand{\Lik}{{\mathcal{L}}} % symbol for 
+
+\begin{document}
+
+\section*{Materials and Methods}
+
+Let  $\bm{b_{j}}$ represents the genetic effect of SNP-gene pair $j$ across $R$ = 44 tissues.
+
+We assume the following mixture prior for the $R$ dimensional vector of true effects,  
+
+ \begin{equation}
+  \bm{b_{j}} | \bm{\pi},\bf{U}, \bm{\omega} \sim \sum_{k,l} \pi_{k,l} \;{\it N}_R(x; \bm{0}, \omega_l U_{k})
+\end{equation}
+
+Where ${\it N}_R(.; \bm{0}, \omega_l U_{k})$ denotes the density of a normal distribution with mean $\bm{0}$ and variance $\omega_l U_{k}$.
+
+
+%As mentioned above, 
+Each component of the mixture distribution is characterized by these prior covariance matrices, $U_{k}$ which capture the pattern of effects across tissues. Critically, this prior distribution is the same for all $J$ - hence the hierarchical incorporation of shared information.
+
+\subsection{ Covariance Matrices}
+
+For a given $\omega_{l}$, we specify 4 `types' of $RxR$ prior covariance matrices $U_{k,l}$.
+\begin{enumerate}
+
+\item $U_{k=1,l}$ = $\omega_l$ $\mathbf{I}_{R}$
+
+\item $U_{k=2,l}$ = $\omega_l$X_{z}$ The (naively) estimated tissue covariance matrix as estimated from the column-centered J \times R$ matrix of $Z$ statistics, $Z_{center}$: $\frac{1}{J}$ $Z_{center}$^{t}$ $Z_{center}$
+
+\item $U_{k=3,l}$ = $\omega_l$ $\frac{1}{J}$ $V_{1...p}$ $d^{2}_{1...p}$   $V^{t}_{1..p}$ is the rank $p$ eigenvector approximation of the tissue covariance matrices, i.e., the sum of the first $p$ eigenvector approximations, where $\pcv_{1...p}$  represent the eigenvectors of the covariance matrix of tissues and $\pcd_{1...p}$ are the first $p$ eigenvalues.
+
+\item $U_{k=4:4+Q-1,l}$ = $\frac{1}{J}(($\Lambda\mathbf{F})^{t} \Lambda \mathbf{F})_{q}$ corresponding to the $q_{th}$ sparse factor representation of the tissue covariance matrix %(not the sum of the first $q$, as above)
+
+\item $U_{k=4+Q,l}$ = $\frac{1}{J}$ ($\($\Lambda \mathbf{F})^{t} \Lambda \mathbf{F}$ is the sparse factor representation of the tissue covariance matrix, estimated using all $q$ factors.
+
+
+
+\item $U_{k=5+Q:R+4+Q,l}$ = $\frac{1}{J}$ $([1 0 0 . . ]'[1 0 0  . . .])$ %is the sparse factor representation of the tissue covariance matrix, estimated using all $q$ factors.
+\item $U_{k=R+5+Q,l}$ = $\frac{1}{J}$ $([1 1 1 . . .]'[1 1 1 . . .])$
+\item $[1 0 0 0 ...]$ or $[1 1 1  ...]$ represent configurations such that given membership,$\bm{b_{j}}$ arise from the same prior variance.
+\end{itemize}
+
+
+
+\subsection{Deconvolution}
+To retrieve a `denoised' or `deconvoluted' estimate of the non-single rank dimensional reduction matrices, we then perform deconvolution after initializing the EM algorithm with  the matrices specified in (2), (3) and (5). The final results of this iterative procedure preserves the rank of the initialization matrix, and allows us to use the `true' effect at each component component $\bm{{b}_{j}}$ as missing data in deconvoluting the prior covariance matrices. In brief, this algorithm works by treating not only the component identity but also the true effect $\bm{{b}_{j}}$  as unobserved data, and maximizing the likelihood over the expectation of the complete data likelihood, considering the values $\bm{{b}_{j}}$ as extra missing data (in addition to the indicator variables $q_{ij}$) (Bovy et al, 2014). This allows us to write down the `full data' log likelihood as follows:
+
+\begin{equation}
+\begin{center}
+\begin{aligned}
+\phi=\sum_{J} \sum_{K} q_{jk} ln \alpha_{k} \it{N}(\hat{\bm{{b}_{j}}}|0,U_{k}+V_{j})\\
+\phi=\sum_{J} \sum_{K} q_{jk} ln \alpha_{k} \it{N}(\bm{{b}_{j}}|0,U_{k})
+\end{aligned}
+\end{center}
+\end{equation}
+
+
+Where $\alpha_{k}$ represents $\pi_k$ and $q_{jk}$ is the latent identifier variable.
+
+
+%\subsection{Generation of List of Covariance Matrices}
+%We then use these three non single-rank covariance matrix in place of our original choice of the empirical covariance matrix, SFA and SVD approximations. Here, I also used the Identity (K=1), 5 single-rank SFA factors (K=4-9), and the 44+1 $eqtlbma.lite$ configurations (K=10:54) in steps (7) and (8) to a assemble a full list of covariance matrices. Briefly, these  $eqtlbma.lite$ are an attempt to capture 'singleton' and 'fully shared' configurations in which the gene-snp pair is active in only one or all tissues. In the latter case, the variance of the distribution of underlying effect sizes is equal in all tissues.  This is 54 matrices, and we then proceed to chooses an $'L'$ element grid according to the range of effect sizes present in the initial 16,069 x 44 matrix of strong Z statistics to create a KxL list of covariance matrices. In the GTeX data set we choose a grid with 22 omegas for a total of 1188 covariance matrices.
+\subsection{Likelihood}
+
+By maximum likelihood in each tissue separately, we can easily obtain the observed estimates of the standardized genotype effect sizes, $\hat{\bm{b}}_{j}$, and their observed squared standard errors recorded on the diagonal of an $R \times R$ matrix noted $\hat{V}_{j} = \Var(\hat{\bm{b}}_{j})$. 
+We assume that the matrix of standard errors of $\hat{\bm{b}}_{j}$, $V_{j}$ as approximated by $\hat{V_{j}}$ is diagonal and  that $\hat{V}_{j}$ is an accurate point estimate for the standard error and that these standard errors are independent between tissues.
+
+If we now view $\hat{\bm{b}}_{j}$ and $\hat{V}_{j}$ as \emph{observed data}, we can write a new ``likelihood'' using only the sufficient statistics,   $\hat{\bm{b}}_{j}$ and $\hat{V}_{j}$:
+
+\begin{equation}
+  \label{new_lik}
+  \hat{\bm{b}}_{j} | \bm{b}_{j} \sim \Norm_R(\bf{x}; \bm{b}_{j}, \hat{V}_{j})
+\end{equation}
+
+\subsection{Posterior Quantities}
+%Now that I have the estimated these prior mixture weights stored in the vector $\textbf{\pis}$. I proceed to the inference step, where I compute the posterior weights and corresponding posterior quantities across all original 16,069 gene-snp pairs. In brief, the posterior mean, post covariance matrix and tissue specific tail probabilities are computed across all K components for each gene snp pair, and then weighted according to the posterior weights. This is performed in the $\textbf{weightedquants}$ step.
+We know that for a single multivariate {\it Normal}  the posterior on  $\bm{b} | U$ is  simply: 
+
+\begin{equation}
+\[
+\bm{b} | \hat{\bm{b}} \sim {\it N}_R(\bm{\tilde{\mu}}, \tilde{U})
+\]
+\end{equation}
+
+where:
+\begin{itemize}
+\item $\bm{\tilde{\mu}}= \tilde{U}(\hat{V}^{-1} \hat{\bm{b}})$
+\item $ \tilde{U} = ({U}^{-1} + \hat{V}^{-1})^{-1}$.
+\end{itemize}
+
+Let us concatenate the list of all KxL combinations of prior covariance matrices $U_{k}$ and their scaling parameters $\omega_{l}$ into a KxL list and assign this length K for simplicity of notation.
+
+Now each $U_{k}$ imparts information about both $\emph{scale}$ and $\emph{direction}$
+. 
+Furthermore, a mixture-multivariate normal prior and a normal likelihood yields a mixture multivariate posterior, where the final posterior distribution is simply a weighted combination of multivariate normal distributions, each now characterized by it's posterior mean $\tilde{\bm{\mu}}_{k}$ and covariance  $\tilde{U}_{k} = (U_{k}^{-1} + \hat{V}^{-1})^{-1}$.
+
+\begin{equation}
+\begin{aligned}
+  \label{eq:mixpost}
+\bm{b}_j | \hat{\bm{b}}, \hat{V}, \hat{\bm{\pi}} 
+%&= \sum_{k=1,l=1}^{K,L} \sim {\it N}_R(\bm{\mu}_{1kl}, U_{1kl})%p(\bm{b}_{j} | \hat{\bm{b}}_{j}, \hat{V}_{j}, z_{j}=k,l) 
+%p(z=k,l | \hat{\bm{b}}, \hat{V}, \hat{\bm{\pi} }),%v_{j}=1)
+ %\\
+\sim \sum_{k}^{K}  \tilde \pi_{k} {\it N}_R (\bf{x};\bm{\tilde{\mu}}_{k},\tilde{U} _{k} )%,v_{j}=1) 
+
+
+\end{aligned}
+\end{equation}
+
+Where again, ${\it N}_R(.; \bm{0}, \omega_l U_{k})$ denotes the density of a normal distribution with mean $\bm{\tilde{\mu}}_{k}$ and variance $\tilde{U} _{k}$ and the posterior mixture weight $\tilde \pi_{k}$ is simply 
+
+ 
+ \begin{equation}
+ \label{post.pi}
+\tilde \pi_{k} =\frac{ p(\hat{\bm{b}}_{j}| \hat{V}_{j}, z_{j}=k) \hat \pi_{k} } {\sum_{k=1}^{K} p(\hat{\bm{b}}_{j}| \hat{V}_{j}, z_{j}=k) \hat\pi_{k}}
+\end{equation}
+
+Where $z_{j}=k$ is the latent variable indicator of the component identity and each $\hat\pi_{k}$ represents the Maximum Likelihood Estimate of the prior mixture weights assigned to each component.
+\end{document}
