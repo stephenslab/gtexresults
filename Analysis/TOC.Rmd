@@ -16,3 +16,4 @@ title: "Home"
 *  [Comparison With UniAsh](ComparingwithUnivAsh_beta.pdf)
 *  [Tissue Specific Examples](TissueSpecific.html)
 *  [Considering the Failure of BMA](ComparingtoanalysiswithBMA.html)
+*  [Considering the Failure of BMA on Simulated](/Users/sarahurbut/matrix_ash/Vignettes/BmaFails.html)
