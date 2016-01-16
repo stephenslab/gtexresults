@@ -1,44 +1,3 @@
-\documentclass[11pt, oneside]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
-\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
-\geometry{letterpaper}                   		% ... or a4paper or a5paper or ... 
-%\geometry{landscape}                		% Activate for for rotated page geometry
-%\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
-\usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
-								% TeX will automatically convert eps --> pdf in pdflatex		
-\usepackage{amssymb}
-
-
-\nonstopmode  % to allow pdflatex to compile even if errors are raised (e.g. missing figures)
-
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{bm}
-\usepackage{graphicx}
-% \graphicspath{{./figures/}} % save all figures in the same directory
-\usepackage{color} 
-\usepackage{hyperref}
-\usepackage{parskip}
-\setlength{\parindent}{0pt}
-
-% Text layout
-\topmargin 0.0cm
-\oddsidemargin 0.5cm
-\evensidemargin 0.5cm
-\textwidth 16cm 
-\textheight 21cm
-
-%% PLEASE INCLUDE ALL MACROS BELOW
-\newcommand{\etal}{\textit{et al.}} % use as "\etal{}" in citations
-%\newcommand{\Prob}{\mathbb{P}} % symbol for proba
-\newcommand{\Prd}{\mathsf{P}} % symbol for discrete proba
-\newcommand{\Exp}{\mathbb{E}} % symbol for expectation
-\newcommand{\Var}{\mathbb{V}} % symbol for variance
-\newcommand{\Cov}{\mathbb{C}} % symbol for covariance
-\newcommand{\Norm}{{\mathcal{N}}} % symbol for Normal distribution
-\newcommand{\BF}{{\text{BF}}} % symbol for Bayes factor
-\newcommand{\Lik}{{\mathcal{L}}} % symbol for 
-
-\begin{document}
 
 \section*{Materials and Methods}
 
@@ -111,8 +70,9 @@ If we now view $\hat{\bm{b}}_{j}$ and $\hat{V}_{j}$ as \emph{observed data}, we 
 \end{equation}
 
 \subsection{Posterior Quantities}
-%Now that I have the estimated these prior mixture weights stored in the vector $\textbf{\pis}$. I proceed to the inference step, where I compute the posterior weights and corresponding posterior quantities across all original 16,069 gene-snp pairs. In brief, the posterior mean, post covariance matrix and tissue specific tail probabilities are computed across all K components for each gene snp pair, and then weighted according to the posterior weights. This is performed in the $\textbf{weightedquants}$ step.
-We know that for a single multivariate {\it Normal}  the posterior on  $\bm{b} | U$ is  simply: 
+%Now that I have the estimated these prior mixture weights stored in the vector $\textbf{\pis}$. I proceed to the inference step, where I compute the posterior weights and corresponding posterior quantities across all original 16,069 gene-snp pairs. In brief, the posterior mean, post covariance matrix and tissue specific tail probabilities are computed across all K components for each gene snp pair, and then weighted according to the posterior weights. This is performed in the $\textbf{weightedquants}$ step.\includegraphics[]{Methods.pdf}
+
+We aim to report posterior quantities for a given gene-snp pair $\textbf{j}$. We know that for a single multivariate {\it Normal}  the posterior on  $\bm{b} | U$ is  simply: 
 
 \begin{equation}
 \[
@@ -130,16 +90,16 @@ Let us concatenate the list of all KxL combinations of prior covariance matrices
 
 Now each $U_{k}$ imparts information about both $\emph{scale}$ and $\emph{direction}$
 . 
-Furthermore, a mixture-multivariate normal prior and a normal likelihood yields a mixture multivariate posterior, where the final posterior distribution is simply a weighted combination of multivariate normal distributions, each now characterized by it's posterior mean $\tilde{\bm{\mu}}_{k}$ and covariance  $\tilde{U}_{k} = (U_{k}^{-1} + \hat{V}^{-1})^{-1}$.
+Furthermore, a mixture-multivariate normal prior and a normal likelihood yields a mixture multivariate posterior, where the final posterior distribution is simply a weighted combination of multivariate normal distributions, where for each gene-snp pair $\textbf{j}$ is now characterized by it's posterior mean $\tilde{\bm{\mu}}_{jk}$ and covariance  $\tilde{U}_{jk} = (U_{k}^{-1} + \hat{V}_{j}^{-1})^{-1}$.
 
 \begin{equation}
 \begin{aligned}
   \label{eq:mixpost}
-\bm{b}_j | \hat{\bm{b}}, \hat{V}, \hat{\bm{\pi}} 
+\bm{b}_{j} | \hat{\bm{b}_{j}}, \hat{V}_{j}, \hat{\bm{\pi}} 
 %&= \sum_{k=1,l=1}^{K,L} \sim {\it N}_R(\bm{\mu}_{1kl}, U_{1kl})%p(\bm{b}_{j} | \hat{\bm{b}}_{j}, \hat{V}_{j}, z_{j}=k,l) 
 %p(z=k,l | \hat{\bm{b}}, \hat{V}, \hat{\bm{\pi} }),%v_{j}=1)
  %\\
-\sim \sum_{k}^{K}  \tilde \pi_{k} {\it N}_R (\bf{x};\bm{\tilde{\mu}}_{k},\tilde{U} _{k} )%,v_{j}=1) 
+\sim \sum_{k}^{K}  \tilde \pi_{jk} {\it N}_R (\bf{x};\bm{\tilde{\mu}}_{jk},\tilde{U} _{jk} )%,v_{j}=1) 
 
 
 \end{aligned}
@@ -147,11 +107,39 @@ Furthermore, a mixture-multivariate normal prior and a normal likelihood yields 
 
 Where again, ${\it N}_R(.; \bm{0}, \omega_l U_{k})$ denotes the density of a normal distribution with mean $\bm{\tilde{\mu}}_{k}$ and variance $\tilde{U} _{k}$ and the posterior mixture weight $\tilde \pi_{k}$ is simply 
 
- 
+
+
  \begin{equation}
  \label{post.pi}
-\tilde \pi_{k} =\frac{ p(\hat{\bm{b}}_{j}| \hat{V}_{j}, z_{j}=k) \hat \pi_{k} } {\sum_{k=1}^{K} p(\hat{\bm{b}}_{j}| \hat{V}_{j}, z_{j}=k) \hat\pi_{k}}
+\tilde \pi_{jk} =\frac{ p(\hat{\bm{b}}_{j}| \hat{V}_{j}, z_{j}=k) \hat \pi_{k} } {\sum_{k=1}^{K} p(\hat{\bm{b}}_{j}| \hat{V}_{j}, z_{j}=k) \hat\pi_{k}}
 \end{equation}
 
 Where $z_{j}=k$ is the latent variable indicator of the component identity and each $\hat\pi_{k}$ represents the Maximum Likelihood Estimate of the prior mixture weights assigned to each component.
-\end{document}
+
+
+\subsection{Reported Quantities}
+
+For every gene-snp pair `j', we aim to report the effect size as the posterior mean, defined as:
+
+\begin{equation}
+\begin{aligned}
+  \label{eq:mixmean}
+E(\bm{b}_{j} | \hat{\bm{b}_{j}}, \hat{V}_{j}, \hat{\bm{\pi}})
+%&= \sum_{k=1,l=1}^{K,L} \sim {\it N}_R(\bm{\mu}_{1kl}, U_{1kl})%p(\bm{b}_{j} | \hat{\bm{b}}_{j}, \hat{V}_{j}, z_{j}=k,l) 
+%p(z=k,l | \hat{\bm{b}}, \hat{V}, \hat{\bm{\pi} }),%v_{j}=1)
+ %\\
+= \sum_{k}^{K}  \tilde \pi_{k} \bm{\tilde{\mu}}_{k} %,v_{j}=1) 
+
+\end{aligned}
+\end{equation}
+
+
+And the local false sign rate, or posterior probability of incorrectly identifying the sign of the effect for a given tissues 'r' as :
+
+\begin{equation}
+\begin{split}
+P(b_{jr})= 1-max[{\sum_{k}}p({b_{j,r}}>0|\hat{\bm{b}}_{j}, \hat{V}_{j}, z_{j}=k)\tilde \pi_{k}, {\sum_{k}}p({b_{j,r}}<0|\hat{\bm{b}}_{j}, \hat{V}_{j}, z_{j}=k)\tilde \pi_{jk}]
+\end{split}
+\end{equation}
+
+

@@ -9,11 +9,12 @@ title: "Home"
 ## Notes
 
 *  [Heterogeneity Comparisons with and without brain](ComparingHeterogeneity_withandwithoutBrain.html)
-*  [Some examples of Gene Snp Pairs that have high loading on particular componenets](ExamplesofUKs.html)
+*  [Some examples of Gene Snp Pairs that have high loading on particular components](ExamplesofUKs.html)
 *  [Clustered Heatmaps without brain](NoBrainPatternsofSharing.html)
 *  [Clustered Heatmaps with and without brain](UsingStructureinHeatmaps.html)
 *  [Examples of Effect Sizes by loading on componenet](plottingbycomponenetz.html)
 *  [Comparison With UniAsh](ComparingwithUnivAsh_beta.pdf)
 *  [Tissue Specific Examples](TissueSpecific.html)
 *  [Considering the Failure of BMA](ComparingtoanalysiswithBMA.html)
+*  [Considering the Failure of BMA on Simulated](../Figures/normstuffeb_nobrain.png)
 *  [Considering the Failure of BMA on Simulated](/Users/sarahurbut/matrix_ash/Vignettes/BmaFails.html)
