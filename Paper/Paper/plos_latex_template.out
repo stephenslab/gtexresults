@@ -4,5 +4,13 @@
 \BOOKMARK [2][-]{subsection.0.4}{Likelihood}{}% 4
 \BOOKMARK [2][-]{subsection.0.5}{Posterior Quantities}{}% 5
 \BOOKMARK [2][-]{subsection.0.6}{Reported Quantities}{}% 6
-\BOOKMARK [1][-]{section.1}{Testing and Training}{}% 7
-\BOOKMARK [1][-]{section.2}{Training and Testing Procedure: Estimating Hierarchical Weights}{}% 8
+\BOOKMARK [1][-]{section.1}{Results}{}% 7
+\BOOKMARK [2][-]{subsection.1.1}{Demonstrating Features of the Method}{section.1}% 8
+\BOOKMARK [2][-]{subsection.1.2}{Adaptive Shrinkage: The Multivariate Approach}{section.1}% 9
+\BOOKMARK [1][-]{section.2}{Real Data}{}% 10
+\BOOKMARK [2][-]{subsection.2.1}{ A qualitative description of heterogeneity in the GTEX data}{section.2}% 11
+\BOOKMARK [2][-]{subsection.2.2}{Examples of strong loading on Uk3, Uk9 and eQTL-BMA lite}{section.2}% 12
+\BOOKMARK [2][-]{subsection.2.3}{Tissue Specificity}{section.2}% 13
+\BOOKMARK [2][-]{subsection.2.4}{Quantifying Heterogeneity}{section.2}% 14
+\BOOKMARK [1][-]{section.3}{Testing and Training}{}% 15
+\BOOKMARK [1][-]{section.4}{Training and Testing Procedure: Estimating Hierarchical Weights}{}% 16
