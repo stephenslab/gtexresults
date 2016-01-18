@@ -35,6 +35,7 @@ points(pm.mash.brain[components==4,i],pm.mash.brain[components==4,j],col="red")
 points(pm.mash.brain[components==5,i],pm.mash.brain[components==5,j],col="pink")
 points(pm.mash.brain[components==53,i],pm.mash.brain[components==53,j],col="violet")
 points(pm.mash.brain[components==8,i],pm.mash.brain[components==8,j],col="orange")
+abline(c(0,1));abline(h=0);abline(v=0)
 }
 
 biplot_by_component(34,44)
@@ -45,7 +46,7 @@ biplot_by_component(tissue1 = 7,tissue2=44)
 biplot_by_component(tissue1 = 7,tissue2=29)
 biplot_by_component(tissue1 = 42,tissue2=29)
 biplot_by_component(tissue1 = 18,tissue2=29)
-
+biplot_by_component(tissue1 = 7,tissue2=40)
 ```
 
 
