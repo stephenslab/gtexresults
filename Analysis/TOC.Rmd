@@ -14,7 +14,7 @@ The first part of the document performs the analysis excluding brain as suggeste
 In this document, I plot the (unclustered) heatmaps of each of the 'learned' componenets, and examples with high loadings. I think we should use maybe 3 examples for the paper. 
 
 *  [Some examples of Gene Snp Pairs that have high loading on particular components](ExamplesofUKs.html)
-
+*  [Here are Heatmaps of all 8 'learned matrices'](PatternsofSharing.html)
 
 *  [Clustered Heatmaps without brain](NoBrainPatternsofSharing.html)
 *  [Clustered Heatmaps with and without brain](UsingStructureinHeatmaps.html)

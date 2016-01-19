@@ -3,6 +3,7 @@ title: "NoBrainHeterogeneity"
 output: html_document
 ---
 
+The beginning of this document compares the analysis without brain.
 ```{r load data,echo=FALSE}
 knitr::opts_chunk$set(cache=TRUE)
 
