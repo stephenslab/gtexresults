@@ -18,6 +18,7 @@ In this document, I plot the (unclustered) heatmaps of each of the 'learned' com
 
 *  [Clustered Heatmaps without brain](NoBrainPatternsofSharing.html)
 *  [Clustered Heatmaps with and without brain](UsingStructureinHeatmaps.html)
+
 These are pairwise scatterplots where the effects are colored by the component which they have maximal loading on. 
 
 *  [Examples of Effect Sizes by loading on componenet](plottingbycomponenetz.html)
