@@ -1,0 +1,40 @@
+\begin{thebibliography}{1}
+
+\bibitem{nicolae_trait-associated_2010}
+Nicolae DL, Gamazon E, Zhang W, Duan S, Dolan ME, Cox NJ.
+\newblock Trait-{Associated} {SNPs} {Are} {More} {Likely} to {Be} {eQTLs}:
+  {Annotation} to {Enhance} {Discovery} from {GWAS}.
+\newblock PLoS Genetics. 2010 Apr;6(4).
+\newblock Available from:
+  \url{http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2848547/}.
+
+\bibitem{veyrieras_high-resolution_2008}
+Veyrieras JB, Kudaravalli S, Kim SY, Dermitzakis ET, Gilad Y, Stephens M,
+  et~al.
+\newblock High-{Resolution} {Mapping} of {Expression}-{QTLs} {Yields} {Insight}
+  into {Human} {Gene} {Regulation}.
+\newblock PLoS Genet. 2008 Oct;4(10):e1000214.
+\newblock Available from: \url{http://dx.doi.org/10.1371/journal.pgen.1000214}.
+
+\bibitem{flutre_statistical_2013}
+Flutre T, Wen X, Pritchard J, Stephens M.
+\newblock A {Statistical} {Framework} for {Joint} {eQTL} {Analysis} in
+  {Multiple} {Tissues}.
+\newblock PLoS Genet. 2013 May;9(5):e1003486.
+\newblock Available from: \url{http://dx.doi.org/10.1371/journal.pgen.1003486}.
+
+\bibitem{wen_bayesian_2014}
+Wen X, Stephens M.
+\newblock Bayesian methods for genetic association analysis with heterogeneous
+  subgroups: {From} meta-analyses to gene-environment interactions.
+\newblock The Annals of Applied Statistics. 2014 Mar;8(1):176--203.
+\newblock ArXiv:1111.1210 [stat].
+\newblock Available from: \url{http://arxiv.org/abs/1111.1210}.
+
+\bibitem{dimas_common_2009}
+Dimas AS, Deutsch S, Stranger BE, Montgomery SB, Borel C, Attar-Cohen H, et~al.
+\newblock Common regulatory variation impacts gene expression in a cell
+  type-dependent manner.
+\newblock Science (New York, NY). 2009 Sep;325(5945):1246--1250.
+
+\end{thebibliography}

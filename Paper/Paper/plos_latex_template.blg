@@ -1,0 +1,54 @@
+This is BibTeX, Version 0.99d (TeX Live 2015)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: plos_latex_template.aux
+The style file: plos2015.bst
+A level-1 auxiliary file: ./Introduction/intro.aux
+A level-1 auxiliary file: ./Methods/Overview.aux
+A level-1 auxiliary file: Methods/Methods.aux
+A level-1 auxiliary file: Results/Results.aux
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=20001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Database file #1: gtex.bib.bib
+You've used 5 entries,
+            3170 wiz_defined-function locations,
+            684 strings with 6370 characters,
+and the built_in function-call counts, 13910 in all, are:
+= -- 1717
+> -- 104
+< -- 0
++ -- 62
+- -- 26
+* -- 1239
+:= -- 1502
+add.period$ -- 25
+call.type$ -- 5
+change.case$ -- 1
+chr.to.int$ -- 0
+cite$ -- 5
+duplicate$ -- 965
+empty$ -- 1360
+format.name$ -- 31
+if$ -- 3232
+int.to.chr$ -- 0
+int.to.str$ -- 5
+missing$ -- 66
+newline$ -- 33
+num.names$ -- 5
+pop$ -- 100
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 107
+stack$ -- 0
+substring$ -- 3034
+swap$ -- 155
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 0
+while$ -- 57
+width$ -- 6
+write$ -- 67

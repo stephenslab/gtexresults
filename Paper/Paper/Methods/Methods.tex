@@ -40,19 +40,21 @@ For a given $\omega_{l}$, we specify 4 `types' of $RxR$ prior covariance matrice
 
 
 \subsection{Deconvolution}
-To retrieve a `denoised' or `deconvoluted' estimate of the non-single rank dimensional reduction matrices, we then perform deconvolution after initializing the EM algorithm with  the matrices specified in (2), (3) and (5). The final results of this iterative procedure preserves the rank of the initialization matrix, and allows us to use the `true' effect at each component component $\bm{{b}_{j}}$ as missing data in deconvoluting the prior covariance matrices. In brief, this algorithm works by treating not only the component identity but also the true effect $\bm{{b}_{j}}$  as unobserved data, and maximizing the likelihood over the expectation of the complete data likelihood, considering the values $\bm{{b}_{j}}$ as extra missing data (in addition to the indicator variables $q_{ij}$) (Bovy et al, 2014). This allows us to write down the `full data' log likelihood as follows:
-
-\begin{equation}
-\begin{center}
-\begin{aligned}
-\phi=\sum_{J} \sum_{K} q_{jk} ln \alpha_{k} \it{N}(\hat{\bm{{b}_{j}}}|0,U_{k}+V_{j})\\
-\phi=\sum_{J} \sum_{K} q_{jk} ln \alpha_{k} \it{N}(\bm{{b}_{j}}|0,U_{k})
-\end{aligned}
-\end{center}
-\end{equation}
-
-
-Where $\alpha_{k}$ represents $\pi_k$ and $q_{jk}$ is the latent identifier variable.
+To retrieve a `denoised' or `deconvoluted' estimate of the non-single rank dimensional reduction matrices, we then perform deconvolution after initializing the EM algorithm with  the matrices specified in (2), (3) and (5). The final results of this iterative procedure preserves the rank of the initialization matrix, and allows us to use the `true' effect at each component component $\bm{{b}_{j}}$ as missing data in deconvoluting the prior covariance matrices. In brief, this algorithm works by treating not only the component identity but also the true effect $\bm{{b}_{j}}$  as unobserved data, and maximizing the likelihood over the expectation of the complete data likelihood, considering the values $\bm{{b}_{j}}$ as extra missing data (in addition to the indicator variables $q_{ij}$) (Bovy et al, 2014). 
+%
+%This allows us to write down the `full data' log likelihood as follows:
+%
+%\begin{equation}
+%\begin{center}
+%\begin{aligned}
+%\phi=\sum_{J} \sum_{K} q_{jk} ln \alpha_{k} \it{N}(\hat{\bm{{b}_{j}}}|0,U_{k}+V_{j})\\
+%\phi=\sum_{J} \sum_{K} q_{jk} ln \alpha_{k} \it{N}(\bm{{b}_{j}}|0,U_{k})
+%\end{aligned}
+%\end{center}
+%\end{equation}
+%
+%
+%Where $\alpha_{k}$ represents $\pi_k$ and $q_{jk}$ is the latent identifier variable.
 
 
 %\subsection{Generation of List of Covariance Matrices}
