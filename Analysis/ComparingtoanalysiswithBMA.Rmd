@@ -51,6 +51,11 @@ head(lik.snp)
 post.weights=t(lik.snp*pis/sum(lik.snp*pis))
 head(post.weights)[1:10]
 
+##But this has now been resolved###
+log.lik.snp=log.lik.func(b.mle,V.j.hat,covmat.bma)
+head(log.lik.snp)
+post.weights.with.log=t(log.lik.snp*pis/sum(log.lik.snp*pis))
+head(post.weights.with.log)[1:10]
 ```
 We should see what these gene snp pairs look like.
 ```{r}

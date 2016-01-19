@@ -7,14 +7,26 @@ title: "Home"
 **Code version:** `r system("git log -1 --format='%H'", intern = TRUE)`
 
 ## Notes
+The first part of the document performs the analysis excluding brain as suggested, and the latter compares to the analysis with brain.
 
 *  [Heterogeneity Comparisons with and without brain](ComparingHeterogeneity_withandwithoutBrain.html)
+
+In this document, I plot the (unclustered) heatmaps of each of the 'learned' componenets, and examples with high loadings. I think we should use maybe 3 examples for the paper. 
+
 *  [Some examples of Gene Snp Pairs that have high loading on particular components](ExamplesofUKs.html)
+
+
 *  [Clustered Heatmaps without brain](NoBrainPatternsofSharing.html)
 *  [Clustered Heatmaps with and without brain](UsingStructureinHeatmaps.html)
+These are pairwise scatterplots where the effects are colored by the component which they have maximal loading on. 
+
 *  [Examples of Effect Sizes by loading on componenet](plottingbycomponenetz.html)
+
 *  [Comparison With UniAsh](ComparingwithUnivAsh_beta.pdf)
 *  [Tissue Specific Examples](TissueSpecific.html)
+
+Though the numerical stability issue has been resolved, I think it's worth considering which examples are poorly fit by the BMA lite configs.
 *  [Considering the Failure of BMA](ComparingtoanalysiswithBMA.html)
-*  [Considering the Failure of BMA on Simulated](../Figures/normstuffeb_nobrain.png)
+
+This document details the new fixpoint function, and my previous workaround.
 *  [Considering the Failure of BMA on Simulated](/Users/sarahurbut/matrix_ash/Vignettes/BmaFails.html)
