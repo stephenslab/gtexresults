@@ -1,0 +1,68 @@
+---
+title: "Figures"
+output: html_document
+---
+
+Here, I produce some of the figures for the paper.
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+```
+
+```{r}
+covmat=readRDS("../Data/covmatAug13withED.rds")
+pis=readRDS("../Data/pisAug13withED.rds")$pihat
+z.stat=read.table("../Data/maxz.txt")
+pi.mat=matrix(pis,ncol=54,byrow=T)
+
+barplot(t(as.matrix(colSums(pi.mat))),names=c((paste0("K",seq(1:54)))),las=2,cex.names=0.5,main="PiHat")
+```
+
+
+```{r code for plotting heatmaps together}
+library(gplots)
+library(ggplot2)
+#install.packages("fields")
+library(fields)
+library("gridGraphics")
+gl=list()
+
+grab_grob <- function(){
+  grid.echo()
+  grid.grab()
+}
+
+gl=lapply(2:9,function(k){
+  x=covmat[[k]]
+  colnames(x)=colnames(z.stat)
+  rownames(x)=colnames(z.stat)
+heatmap.2(x/max(diag(covmat[[k]])),Rowv=FALSE,Colv=FALSE,symm=TRUE,key=ifelse(k==2,TRUE,FALSE),#labRow = ifelse(k==5,colnames(z.stat),""),#labCol  = ifelse(k==3,colnames(z.stat),""),
+          dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symbreaks=T,symkey = T)
+grab_grob()
+})
+ 
+grid.newpage()
+library(gridExtra)
+grid.arrange(grobs=gl, ncol=3, clip=TRUE)
+
+# 
+# for(k in 2:9){
+#    ifile <- paste0(k,'_heatmapnew.pdf')
+#     pdf(ifile)
+#   x=covmat[[k]]
+#   colnames(x)=colnames(z.stat)
+#   rownames(x)=colnames(z.stat)
+# heatmap.2(x/max(diag(covmat[[k]])),Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),labRow = ifelse(k==5,,""),labCol  = ifelse(k==3,,""),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T,key=ifelse(k==2,TRUE,FALSE))
+# dev.off()
+# }
+# system('montage -geometry 100% -tile 3x3 ./*_heatmapnew.pdf compiledheatmaps.pdf')
+
+ 
+```
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
