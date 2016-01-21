@@ -33,8 +33,7 @@ To demonstrate the ability of Matrix Ash to powerfully capture these accurately 
 
 \textbf{Figure: Power vs Accuracy Figure}
 \begin{figure}[h]
-\includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/plot1.png}\\
-\hfill
+\includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/plot1.png}&
 \includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-4-1.png}
 \end{figure}\newline
 
@@ -63,7 +62,16 @@ HI_{TS}& 39.98& 40.77&39.51\\
 To demonstrate the utility of shrinking effect size estimates jointly, we consider the estimated effect sizes vs their observed input summary statistics using our joint (Matrix Ash) and comparing to a univariate shrinkage method (Ash). On simulated data, we can also then plot the estimated effect sizes against the true values,  again comparing among methods. Here, we show the results under the setting of tissue specificity, to analyze the behavior of eQTL of each class.\newline
 
 \textbf{Figure: Insert Simulations from TSpecific Conditions here}
-\newline
+\begin{figure}[htbp]
+\includegraphics[width=5cm]{Figures/scatterplot_fittedtspec.png}&
+\includegraphics[width=5cm]{Figures/scatterplot_fittedtspec_ash.png}\\
+\hfill
+\includegraphics[width=5cm]{Figures/scatterplot_truthtspec.png}&
+\includegraphics[width=5cm]{Figures/scatterplot_TRUTHashtspec.png}
+\end{figure}\newline
+
+
+
 
 
 In both Matrix Ash and univariate methods, values with large standard errors will be shrunk more harshly (Ash Paper, Stephens et al). Comparing estimated Z statistics (i.e., $E(Z_{jr}|Data$) vs the observed `raw' input values (i.e., $\hat{b_{jr}}$ allows us to understand the behavior of multivariate vs univariate methods once the standard error has been considered. In this simulated data, where there is an abundance of small effects, both univariate and multivariate methods tend to shrink small observed values towards prior mean at $\bm{0}$ as their likelihoods will be maximized by component with small $\omega$. Critically, considering observed Z statistics of the same size, Matrix Ash does not shrink all small values are shrunk to the same extent, due to the power of joint analysis to consider the effects across tissues in inferring the final vector of effect sizes. Thus the method is dually `adaptive' by considering the abundance of both effect sizes and shapes in the overall data-set.  Here, acknowledging consistency, small effects in one tissue will be augmented in the presence of larger effects  other tissues, resulting in dramatic power increases. 
@@ -83,6 +91,10 @@ But perhaps more importantly, the striking increase in power when compared to un
 
 
 \textbf{Figure: Real Data Scatterplot}
+\begin{figure}[htbp]
+\includegraphics[width=5cm]{Figures/comparebeta.png}&
+\includegraphics[width=5cm]{Figures/comparez.png}\\
+\end{figure}\newline
 
 \begin{table}[ht]
 \caption{Power Comparison}
@@ -99,12 +111,16 @@ Significant $\bf{b}_{jr}$ $\leq$ 0.05%&202087
 %&NA&303106 \\[1ex]
 \hline
 \end{tabular}
-\label{table:power}
+\label{table:power}\newline
 \caption{\textbf{Power} Restricting our analysis to thresholding by local false sign rates, we can quantify the number of associations we identify at a given local false sign rate threshold using the original summary statistics and posterior means computed using multivariate Matrix Ash and Univariate Ash. We can see that Matrix Ash calls nearly twice and 4 times as many associations significant when compared to univariate approach, and is comparable to less-accurate joint approach}
 \end{table}\newline
 
 \textbf{Figure: $\hat{\pi}$ barplot in MASH vs BMAlite}
 \newline
+\begin{figure}[htbp]
+\includegraphics[width=10cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-9-1.png}
+\end{figure}\newline
+
 
 To further contrast our approach with existing joint methods on this data-set, consider a two-tissue example, in which a configuration type approach recognizes only patterns constrained to lie along the x and y axis or along the x-y line. Matrix ash allows for patterns which show consistently larger effects in one tissue over another, with varying amounts of correlation among tissues. In these example from real data, we can see that while eQTL  the green, blue and yellow class appear consistently active in both tissues plotted (Brain and Muscle), the blue and yellow effects have consistently larger effects in Skeletal Muscle than brain, while SNPs of the green class show the reverse. Similarly, eQTL of the yellow close show only loose correlation among the pair of tissues, while eQTL of the green class show strong prediction of activity in one from activity in the other.  Similarly, we can see that eQTL of the pink class tend to show tissue-specificity in Whole Blood relative to testis, while eQTL of the black class show tissue specificity in testis relative to whole blood.\newline
 
@@ -112,9 +128,24 @@ To further contrast our approach with existing joint methods on this data-set, c
 \textbf{Figure: Colored Scatterplots of 2 tissues, contrasting effects between tissues, color coded by responsibility}
 \newline
 
+\begin{figure}[htbp]
+\includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-8-2.png}&
+\includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-8-3.png}\\
+\hfill
+\includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-8-4.png}&
+\includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-8-5.png}
+\end{figure}\newline
+
+
 \subsection{A qualitative description of heterogeneity in the GTEX data}
+\begin{figure}[htbp]
+\includegraphics[width=10cm]{Figures/gtexresultcompiledheatmaps.png}
+\end{figure}\newline
+
  
-Indeed, from the prior weight assigned to the `learned matrices' above coupled with the simulation results in the previous sections, we can see that Matrix Ash is able to accurately parse shared configurations, thus resolving the relationship among tissues in which the QTL is active. \textit{See Supplement for Heatmap of all 8 learned matrices}.  For instance, learned matrix $U_{k}$ = 3 captures gene-snp pairs with large, correlated effects in brain, and is the most prevalent pattern of sharing in the larger data set, as reflected by it's prior weight summed across effect size (see pi barplot). Matrix $U_{k}$ = 2 captures SNPs with small effects in brain and larger effects in thyroid and transformed cell-types (e.g., fibroblasts, lymphocytes). Several of the lower rank matrices whose patterns receive high prior weighting (e.g., $U_{k} = 4,5,8 and 9$) show somewhat tissue specific (i.e., high prior variance in only one tissue-type) effects in testes and whole blood, consistent with our conclusions that whole blood and testes indeed demonstrate an abundance of tissue-specific gene-snp pairs. Here we examine several example gene-snp pairs with a high posterior probability of arising from the covariance patterns captured by our model. We deem this posterior probability of arising from a particular pattern as a high `loading' or `responsibility.' 
+Indeed, from the prior weight assigned to the `learned matrices' above coupled with the simulation results in the previous sections, we can see that Matrix Ash is able to accurately parse shared configurations, thus resolving the relationship among tissues in which the QTL is active. \textit{See Supplement for Heatmap of all 8 learned matrices}. 
+
+For instance, learned matrix $U_{k}$ = 3 captures gene-snp pairs with large, correlated effects in brain, and is the most prevalent pattern of sharing in the larger data set, as reflected by it's prior weight summed across effect size (see pi barplot). Matrix $U_{k}$ = 2 captures SNPs with small effects in brain and larger effects in thyroid and transformed cell-types (e.g., fibroblasts, lymphocytes). Several of the lower rank matrices whose patterns receive high prior weighting (e.g., $U_{k} = 4,5,8 and 9$) show somewhat tissue specific (i.e., high prior variance in only one tissue-type) effects in testes and whole blood, consistent with our conclusions that whole blood and testes indeed demonstrate an abundance of tissue-specific gene-snp pairs. Here we examine several example gene-snp pairs with a high posterior probability of arising from the covariance patterns captured by our model. We deem this posterior probability of arising from a particular pattern as a high `loading' or `responsibility.' 
 
 
 \subsection{Examples of strong loading on UK3, UK9 and eQTL-BMA lite}
@@ -122,12 +153,22 @@ Indeed, from the prior weight assigned to the `learned matrices' above coupled w
 \newline
 \textbf{Figure: High loading on UK3: Captures correlation in sign, quantitative heterogeneity in magnitude along diagonal emphasizes the utility of continuous approach}
 \newline
+\begin{figure}[htbp]
+\includegraphics[width=10cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-12-1.png}\\
+\includegraphics[width=10cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-12-2.png}
+\end{figure}\newline
+
 
 In this particular example, strong, shared effects in brain tissues match an underlying pattern of shared effects present in the larger data set and thus allows this gene-snp pair to find its true match. Brain effect sizes thus borrow strength from one another, and accordingly, the posterior estimates tend to nudge the brains towards a consistent, shared effect. Similarly, an overall tendency towards consistency in sign in the larger data set, as captured by the hierarchical model and reflected in the positive correlation in sign among all tissues, tends to `flip' erratic off directions towards the prevailing positive direction. Heterogeneity in magnitude among the other tissues is reflected in the variety of banding intensity along the diagonal.\newline
 
 
 \textbf{Figure: UK 9: Quantitative specificity in magnitude in Testes/Whole Blood}
 \newline
+\begin{figure}[htbp]
+\includegraphics[width=10cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-13-1.png}\\
+\includegraphics[width=10cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-13-2.png}
+\end{figure}\newline
+
 
 In this example, though the particular pattern featured ($U_{k}=9$) captures correlation in sign among all tissues, significant quantitative heterogeneity is again reflected in the intensity of the banding along the diagonal, in this dramatically dichotomous between testes/whole blood and all other tissues. Here, we introduce the idea of quantitative specificity - e.g., that a SNP can be modestly `active' in all tissues though to dramatically different degrees. here, though this matrix was learned (and not forced, as in eQTLBMA-lite) from the data, the pattern of quantitative tissue specificity in testes and whole blood is evident. Again, erratic, off-directions are flipped in sign. We refer to this as quantitative specificity, because the effects are quantitatively unique to particular tissues - e.g., significantly larger in magnitude in testis than all other tissues - and yet considered non-zero in all tissues. This is in contrast to qualitative specificity, described below, in which we would conclude that the QTL is active in only one tissue. \newline
 
@@ -135,32 +176,47 @@ In this example, though the particular pattern featured ($U_{k}=9$) captures cor
 
 \textbf{Figure: Qualitatitive specificity in Testis Example: High loading on eqtlbmalite config mat}
 \newline
+\begin{figure}[htbp]
+\includegraphics[width=10cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-14-1.png}\\
+\end{figure}\newline
 
 Lastly, the inclusion of the eQTLBMA lite configurations (in which the SNP has a non-zero effect in only one tissue) coupled with the learned patterns of tissue specificity evident in matrices $U_{k}: 5-9$ serve to allow the preservation of qualitatively specific effects. Here, we show a gene-snp pair demonstrating high loading on one of the eqtlbma-lite configuration matrices - indeed, we reject the significance of the effect size estimates in all tissues but testes, a pattern consistent with the presence of tissue-specificity described below. Together, these results cement the resolution afforded by methods which can distinguish among tissues in which a QTL is called active, beyond reducing genetic effects to binary `on' or `off' conclusions.
 
 
 \subsection{Tissue Specificity}
 
-One of the criticisms of a joint approach might be its loss of tissue-specificity. That is, by considering effects across subgroups in estimating the effect size, one might lose sight of tissue-specific activity when it exists. Here, we demonstrate our ability to recognize such specificity both quantitatively, as described above through learned patterns of sharing which specify consistently larger effects in one tissue over others, and qualitatively through forced prior effect size mass on 0.  For each tissue, we can ask how many gene-snp pairs meet a given significance threshold in that tissue alone.\newline
+One of the criticisms of a joint approach might be its loss of tissue-specificity. That is, by considering effects across subgroups in estimating the effect size, one might lose sight of tissue-specific activity when it exists. Here, we demonstrate our ability to recognize such specificity both quantitatively, as described above through learned patterns of sharing which specify consistently larger effects in one tissue over others, and qualitatively through forced prior effect size mass on 0.  For each tissue, we can ask how many gene-snp pairs meet a given significance threshold in that tissue alone.Furthermore, tissue specific eQTL demonstrate the smoothing feature of this joint shrinkage approach: for gene SNP pairs which demonstrate strong effects in only one tissue, the weaker erratic tissue are shrunk towards the prior mean at $\bm{0}$, resulting in a tissue specific smoothing.\newline
 
 
-\textbf{Figure: Number of QTL per Tissue Plot}
+\textbf{Figure: Tissue Specific Smoothing Plot and NumberTissueSpecific}
 \newline
+\begin{figure}[htbp]
+\includegraphics[width=10cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-15-1.png}\\
+\end{figure}\newline
 
-Furthermore, tissue specific eQTL demonstrate the smoothing feature of this joint shrinkage approach: for gene SNP pairs which demonstrate strong effects in only one tissue, the weaker erratic tissue are shrunk towards the prior mean at $\bm{0}$, resulting in a tissue specific smoothing.\newline
 
 
-\textbf{Figure: Tissue Specific Smoothing Plot}
-\newline
 
 \subsection{Quantifying Heterogeneity}
 
 
-Armed with a vector of effect size estimates across 44 tissues, $\bm{b_{j}}$, we can move beyond asking in how many tissues is a given gene-snp pair significant, and ask about the relationship in effect size and direction among tissues in which the gene-snp pair is active. From a biological standpoint, we might produce that effects of a different sign are rare. Similar to the heterogeneity index described in the simulation framework above which attempted to describe heterogeneity in magnitude, we can plot the number of tissues in which the sign is differ than the effect with maximum absolute value. Considering this results with and without the inclusion of the brain tissues, which appear to behave as a strongly correlated group, we observe several phenomenon. The majority of gene-snp pairs are consistent in sign (indeed, only about $20\%$ of genes show two significant effects of a different sign when including brain, and even fewer $(14.8\%)$ when excluding brains) and removing brains from our analysis tends to push us towards consistency, suggesting that brain appears to behave as a large tissue-specific entity. After normalizing each gene-snp effect size coefficient $b_{jr}$ by the effect size with the maximum value for the gene, we can also ask what proportion of these are positive. We come to similar conclusions with $83\%$ and $87\%$ with and without brain demonstrating positive normalized effects, respectively. \newline
+Armed with a vector of effect size estimates across 44 tissues, $\bm{b_{j}}$, we can move beyond asking in how many tissues is a given gene-snp pair significant, and ask about the relationship in effect size and direction among tissues in which the gene-snp pair is active.
+
+\textbf{Figure: Number of QTL per Tissue Plot}
+\newline
+\newline
+\begin{figure}[htbp]
+\includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-16-1.png}\\
+\end{figure}\newline
+
+ From a biological standpoint, we might produce that effects of a different sign are rare. Similar to the heterogeneity index described in the simulation framework above which attempted to describe heterogeneity in magnitude, we can plot the number of tissues in which the sign is differ than the effect with maximum absolute value. Considering this results with and without the inclusion of the brain tissues, which appear to behave as a strongly correlated group, we observe several phenomenon. The majority of gene-snp pairs are consistent in sign (indeed, only about $20\%$ of genes show two significant effects of a different sign when including brain, and even fewer $(14.8\%)$ when excluding brains) and removing brains from our analysis tends to push us towards consistency, suggesting that brain appears to behave as a large tissue-specific entity. After normalizing each gene-snp effect size coefficient $b_{jr}$ by the effect size with the maximum value for the gene, we can also ask what proportion of these are positive. We come to similar conclusions with $83\%$ and $87\%$ with and without brain demonstrating positive normalized effects, respectively. \newline
 
 
 \textbf{Figure: Sign Heterogeneity Distribution Figure}
 \newline
+\begin{figure}[htbp]
+\includegraphics[width=10cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-20-1.png}\\
+\end{figure}\newline
 
 Furthermore, we can now quantify the heterogeneity index in magnitude described in the simulation framework above, and ask, for each gene, in how many tissues is the effect greater than equal to a significant fraction, here $50\%$ of the maximum effect. Again, homogenous genes will tend to be featured towards the right of the distribution with maximal value at 44. Intuitively, the majority of their effects across tissues are similar in magnitude, while heterogeneous genes will be featured towards the left of the distribution, with tissue-specific genes posessing a heterogeneity index of 1. Again, excluding brain form the analysis tends to nudge us towards a belief in consistency. 
 
@@ -187,12 +243,27 @@ E(At least 50\% max value) &0.354&0.449\\
 
 \textbf{Figure: Magnitude Heterogeneity Index Distribution}
 \newline
+\begin{figure}[htbp]
+\includegraphics[width=10cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-23-1.png}\\
+\end{figure}\newline
+
 
 Attempting to understand which genes tend to behave the most homogeneously or heterogeneously, we can plot the value used to normalize each gene, e.g., the `maximum' effect size across tissue of the gene, against the normalized values. We can see that if a large effect is present, it tends to be in the presence of homogenous effects across the board, while small normalizing effects tend to be in the presence of effects that are more variable in sign and magnitude. Furthermore, aggregating the gene-snp pairs at a given heterogeneity index and classifying them by the effect used to normalize (e.g., the `max effect') we can see that gene-snp pairs with greater Heterogeneity indices tend to have larger effects. \newline
 
 
 \textbf{Figure: Insert Plot of Normalized Effect vs Max value (e.g., biplot)}
+\newline
+\begin{figure}[htbp]
+\includegraphics[width=5cm]{Figures/normstuffeb_nobrain.png}&
+\includegraphics[width=5cm]{Figures/normstuffeb_alltissues.png}&
+\end{figure}\newline
+
 \textbf{Figure: Insert Median Max Effect by HI Index}
+\newline
+\begin{figure}[htbp]
+\includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-24-1.png}\\
+\end{figure}\newline
+
 \textbf{Figure: QTL chart by HI index: homogenous or heterogenous}
 
 

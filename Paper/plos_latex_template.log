@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  21 JAN 2016 10:44
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  21 JAN 2016 12:01
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1687,6 +1687,17 @@ Package pdftex.def Info: Figures/PlotsForPaper_files/figure-html/plot1.png used
  on input line 36.
 (pdftex.def)             Requested size: 142.26378pt x 101.61473pt.
 
+./Results/Results.tex:36: Misplaced alignment tab character &.
+l.36 ...lotsForPaper_files/figure-html/plot1.png}&
+                                                  
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+
 <Figures/PlotsForPaper_files/figure-html/unnamed-chunk-4-1.png, id=167, 1349.04
 pt x 963.6pt>
 File: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-4-1.png Graphic fil
@@ -1694,7 +1705,7 @@ e (type png)
 
 <use Figures/PlotsForPaper_files/figure-html/unnamed-chunk-4-1.png>
 Package pdftex.def Info: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-
-4-1.png used on input line 38.
+4-1.png used on input line 37.
 (pdftex.def)             Requested size: 142.26378pt x 101.61473pt.
 
 
@@ -1702,19 +1713,19 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 Runaway argument?
 {\bfseries b_{j}$ across tissues by the effect which has the maximum \ETC.
-./Results/Results.tex:82: Paragraph ended before \text@ was complete.
+./Results/Results.tex:90: Paragraph ended before \text@ was complete.
 <to be read again> 
                    \par 
-l.82 ...ly `consistent' configuration ($\hat{\pi}}
+l.90 ...ly `consistent' configuration ($\hat{\pi}}
                                                   $ figure, as SNPs demonstr...
 I suspect you've forgotten a `}', causing me to apply this
 control sequence to too much text. How can we recover?
 My plan is to forget the whole thing and hope for the best.
 
-./Results/Results.tex:82: Missing $ inserted.
+./Results/Results.tex:90: Missing $ inserted.
 <inserted text> 
                 $
-l.82 ...ly `consistent' configuration ($\hat{\pi}}
+l.90 ...ly `consistent' configuration ($\hat{\pi}}
                                                   $ figure, as SNPs demonstr...
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
@@ -1727,29 +1738,29 @@ Package epstopdf Info: Source file: <PLOS-submission.eps>
 (epstopdf)                    size: 15292 bytes
 (epstopdf)             Command: <repstopdf --outfile=PLOS-submission-eps-conver
 ted-to.pdf PLOS-submission.eps>
-(epstopdf)             \includegraphics on input line 82.
+(epstopdf)             \includegraphics on input line 90.
 Package epstopdf Info: Output file is already uptodate.
 File: PLOS-submission-eps-converted-to.pdf Graphic file (type pdf)
 <use PLOS-submission-eps-converted-to.pdf>
 Package pdftex.def Info: PLOS-submission-eps-converted-to.pdf used on input lin
-e 82.
+e 90.
 (pdftex.def)             Requested size: 144.54pt x 23.42201pt.
  [8
 
 
 ]
-./Results/Results.tex:82: Missing $ inserted.
+./Results/Results.tex:90: Missing $ inserted.
 <inserted text> 
                 $
-l.82 ...ly `consistent' configuration ($\hat{\pi}}
+l.90 ...ly `consistent' configuration ($\hat{\pi}}
                                                   $ figure, as SNPs demonstr...
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./Results/Results.tex:82: Extra }, or forgotten $.
+./Results/Results.tex:90: Extra }, or forgotten $.
 <template> \unskip \hfil }
                           \hskip \tabcolsep \endtemplate 
-l.82 ...ly `consistent' configuration ($\hat{\pi}}
+l.90 ...ly `consistent' configuration ($\hat{\pi}}
                                                   $ figure, as SNPs demonstr...
 I've deleted a group-closing symbol because it seems to be
 spurious, as in `$x}$'. But perhaps the } is legitimate and
@@ -1757,18 +1768,18 @@ you forgot something else, as in `\hbox{$x}'. In such cases
 the way to recover is to insert both the forgotten and the
 deleted material, e.g., by typing `I$}'.
 
-./Results/Results.tex:82: Missing $ inserted.
+./Results/Results.tex:90: Missing $ inserted.
 <inserted text> 
                 $
-l.82 ...ly `consistent' configuration ($\hat{\pi}}
+l.90 ...ly `consistent' configuration ($\hat{\pi}}
                                                   $ figure, as SNPs demonstr...
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./Results/Results.tex:82: Missing } inserted.
+./Results/Results.tex:90: Missing } inserted.
 <inserted text> 
                 }
-l.82 ...ly `consistent' configuration ($\hat{\pi}}
+l.90 ...ly `consistent' configuration ($\hat{\pi}}
                                                   $ figure, as SNPs demonstr...
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -1776,18 +1787,18 @@ With luck, this will get me unwedged. But if you
 really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
-./Results/Results.tex:82: Missing $ inserted.
+./Results/Results.tex:90: Missing $ inserted.
 <inserted text> 
                 $
-l.82 ...ly `consistent' configuration ($\hat{\pi}}
+l.90 ...ly `consistent' configuration ($\hat{\pi}}
                                                   $ figure, as SNPs demonstr...
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./Results/Results.tex:82: Extra }, or forgotten $.
+./Results/Results.tex:90: Extra }, or forgotten $.
 <template> \unskip \hfil }
                           \hskip \tabcolsep \endtemplate 
-l.82 ...ly `consistent' configuration ($\hat{\pi}}
+l.90 ...ly `consistent' configuration ($\hat{\pi}}
                                                   $ figure, as SNPs demonstr...
 I've deleted a group-closing symbol because it seems to be
 spurious, as in `$x}$'. But perhaps the } is legitimate and
@@ -1795,24 +1806,108 @@ you forgot something else, as in `\hbox{$x}'. In such cases
 the way to recover is to insert both the forgotten and the
 deleted material, e.g., by typing `I$}'.
 
-./Results/Results.tex:82: Missing $ inserted.
+./Results/Results.tex:90: Missing $ inserted.
 <inserted text> 
                 $
-l.82 ...ly `consistent' configuration ($\hat{\pi}}
+l.90 ...ly `consistent' configuration ($\hat{\pi}}
                                                   $ figure, as SNPs demonstr...
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./Results/Results.tex:82: Missing } inserted.
+./Results/Results.tex:90: Missing } inserted.
 <inserted text> 
                 }
-l.82 ...ly `consistent' configuration ($\hat{\pi}}
+l.90 ...ly `consistent' configuration ($\hat{\pi}}
                                                   $ figure, as SNPs demonstr...
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
 With luck, this will get me unwedged. But if you
 really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
+
+<Figures/scatterplot_fittedtspec.png, id=175, 481.8pt x 481.8pt>
+File: Figures/scatterplot_fittedtspec.png Graphic file (type png)
+
+<use Figures/scatterplot_fittedtspec.png>
+Package pdftex.def Info: Figures/scatterplot_fittedtspec.png used on input line
+ 90.
+(pdftex.def)             Requested size: 142.26378pt x 142.26208pt.
+
+./Results/Results.tex:90: Misplaced alignment tab character &.
+<argument> ...igures/scatterplot_fittedtspec.png}&
+                                                   \includegraphics [width=5...
+l.90 ...ly `consistent' configuration ($\hat{\pi}}
+                                                  $ figure, as SNPs demonstr...
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+<Figures/scatterplot_fittedtspec_ash.png, id=176, 481.8pt x 481.8pt>
+File: Figures/scatterplot_fittedtspec_ash.png Graphic file (type png)
+
+<use Figures/scatterplot_fittedtspec_ash.png>
+Package pdftex.def Info: Figures/scatterplot_fittedtspec_ash.png used on input 
+line 90.
+(pdftex.def)             Requested size: 142.26378pt x 142.26208pt.
+
+<Figures/scatterplot_truthtspec.png, id=177, 481.8pt x 481.8pt>
+File: Figures/scatterplot_truthtspec.png Graphic file (type png)
+
+<use Figures/scatterplot_truthtspec.png>
+Package pdftex.def Info: Figures/scatterplot_truthtspec.png used on input line 
+90.
+(pdftex.def)             Requested size: 142.26378pt x 142.26208pt.
+
+./Results/Results.tex:90: Misplaced alignment tab character &.
+<argument> ...Figures/scatterplot_truthtspec.png}&
+                                                   \includegraphics [width=5...
+l.90 ...ly `consistent' configuration ($\hat{\pi}}
+                                                  $ figure, as SNPs demonstr...
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+<Figures/scatterplot_TRUTHashtspec.png, id=178, 481.8pt x 481.8pt>
+File: Figures/scatterplot_TRUTHashtspec.png Graphic file (type png)
+
+<use Figures/scatterplot_TRUTHashtspec.png>
+Package pdftex.def Info: Figures/scatterplot_TRUTHashtspec.png used on input li
+ne 90.
+(pdftex.def)             Requested size: 142.26378pt x 142.26208pt.
+Package epstopdf Info: Source file: <PLOS-submission.eps>
+(epstopdf)                    date: 2015-03-16 16:44:14
+(epstopdf)                    size: 283246 bytes
+(epstopdf)             Output file: <PLOS-submission-eps-converted-to.pdf>
+(epstopdf)                    date: 2015-08-11 11:31:50
+(epstopdf)                    size: 15292 bytes
+(epstopdf)             Command: <repstopdf --outfile=PLOS-submission-eps-conver
+ted-to.pdf PLOS-submission.eps>
+(epstopdf)             \includegraphics on input line 90.
+Package epstopdf Info: Output file is already uptodate.
+File: PLOS-submission-eps-converted-to.pdf Graphic file (type pdf)
+
+<use PLOS-submission-eps-converted-to.pdf>
+Package pdftex.def Info: PLOS-submission-eps-converted-to.pdf used on input lin
+e 90.
+(pdftex.def)             Requested size: 144.54pt x 23.42201pt.
+ [9 <./Figures/PlotsForPaper_files/figure-html/plot1.png> <./Figures/PlotsForPa
+per_files/figure-html/unnamed-chunk-4-1.png>]
+./Results/Results.tex:90: Extra }, or forgotten $.
+\textbf  #1->\ifmmode \nfss@text {\bfseries #1}
+                                               \else \hmode@bgroup \text@com...
+l.90 ...ly `consistent' configuration ($\hat{\pi}}
+                                                  $ figure, as SNPs demonstr...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
 
 Package epstopdf Info: Source file: <PLOS-submission.eps>
 (epstopdf)                    date: 2015-03-16 16:44:14
@@ -1822,96 +1917,113 @@ Package epstopdf Info: Source file: <PLOS-submission.eps>
 (epstopdf)                    size: 15292 bytes
 (epstopdf)             Command: <repstopdf --outfile=PLOS-submission-eps-conver
 ted-to.pdf PLOS-submission.eps>
-(epstopdf)             \includegraphics on input line 82.
+(epstopdf)             \includegraphics on input line 91.
 Package epstopdf Info: Output file is already uptodate.
 File: PLOS-submission-eps-converted-to.pdf Graphic file (type pdf)
 <use PLOS-submission-eps-converted-to.pdf>
 Package pdftex.def Info: PLOS-submission-eps-converted-to.pdf used on input lin
-e 82.
+e 91.
 (pdftex.def)             Requested size: 144.54pt x 23.42201pt.
- [9 <./Figures/PlotsForPaper_files/figure-html/plot1.png> <./Figures/PlotsForPa
-per_files/figure-html/unnamed-chunk-4-1.png>]
-./Results/Results.tex:82: Extra }, or forgotten $.
-\textbf  #1->\ifmmode \nfss@text {\bfseries #1}
-                                               \else \hmode@bgroup \text@com...
-l.82 ...ly `consistent' configuration ($\hat{\pi}}
-                                                  $ figure, as SNPs demonstr...
-I've deleted a group-closing symbol because it seems to be
-spurious, as in `$x}$'. But perhaps the } is legitimate and
-you forgot something else, as in `\hbox{$x}'. In such cases
-the way to recover is to insert both the forgotten and the
-deleted material, e.g., by typing `I$}'.
+ [10 <./Figures/scatterplot_fittedtspec.png> <./Figures/scatterplot_fittedtspec
+_ash.png> <./Figures/scatterplot_truthtspec.png> <./Figures/scatterplot_TRUTHas
+htspec.png>]
+<Figures/comparebeta.png, id=199, 481.8pt x 481.8pt>
+File: Figures/comparebeta.png Graphic file (type png)
 
-./Results/Results.tex:92: Missing $ inserted.
+<use Figures/comparebeta.png>
+Package pdftex.def Info: Figures/comparebeta.png used on input line 95.
+(pdftex.def)             Requested size: 142.26378pt x 142.26208pt.
+
+./Results/Results.tex:95: Misplaced alignment tab character &.
+l.95 ...phics[width=5cm]{Figures/comparebeta.png}&
+                                                  
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+<Figures/comparez.png, id=200, 481.8pt x 481.8pt>
+File: Figures/comparez.png Graphic file (type png)
+ <use Figures/comparez.png>
+Package pdftex.def Info: Figures/comparez.png used on input line 96.
+(pdftex.def)             Requested size: 142.26378pt x 142.26208pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 95--97
+
+ []
+
+./Results/Results.tex:104: Missing $ inserted.
 <inserted text> 
                 $
-l.92 Metric & LFSR_
-                   {Matrix Ash} & LFSR_{ASH}&eQTL-BMALite \\ [0.5ex] % inser...
+l.104 Metric & LFSR_
+                    {Matrix Ash} & LFSR_{ASH}&eQTL-BMALite \\ [0.5ex] % inse...
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./Results/Results.tex:92: Extra }, or forgotten $.
+./Results/Results.tex:104: Extra }, or forgotten $.
 <template> \unskip \hfil }
                           \hskip \tabcolsep \endtemplate 
-l.92 Metric & LFSR_{Matrix Ash} &
-                                  LFSR_{ASH}&eQTL-BMALite \\ [0.5ex] % inser...
+l.104 Metric & LFSR_{Matrix Ash} &
+                                   LFSR_{ASH}&eQTL-BMALite \\ [0.5ex] % inse...
 I've deleted a group-closing symbol because it seems to be
 spurious, as in `$x}$'. But perhaps the } is legitimate and
 you forgot something else, as in `\hbox{$x}'. In such cases
 the way to recover is to insert both the forgotten and the
 deleted material, e.g., by typing `I$}'.
 
-./Results/Results.tex:92: Missing $ inserted.
+./Results/Results.tex:104: Missing $ inserted.
 <inserted text> 
                 $
-l.92 Metric & LFSR_{Matrix Ash} &
-                                  LFSR_{ASH}&eQTL-BMALite \\ [0.5ex] % inser...
+l.104 Metric & LFSR_{Matrix Ash} &
+                                   LFSR_{ASH}&eQTL-BMALite \\ [0.5ex] % inse...
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./Results/Results.tex:92: Missing } inserted.
+./Results/Results.tex:104: Missing } inserted.
 <inserted text> 
                 }
-l.92 Metric & LFSR_{Matrix Ash} &
-                                  LFSR_{ASH}&eQTL-BMALite \\ [0.5ex] % inser...
+l.104 Metric & LFSR_{Matrix Ash} &
+                                   LFSR_{ASH}&eQTL-BMALite \\ [0.5ex] % inse...
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
 With luck, this will get me unwedged. But if you
 really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
-./Results/Results.tex:92: Missing $ inserted.
+./Results/Results.tex:104: Missing $ inserted.
 <inserted text> 
                 $
-l.92 Metric & LFSR_{Matrix Ash} & LFSR_
-                                       {ASH}&eQTL-BMALite \\ [0.5ex] % inser...
+l.104 Metric & LFSR_{Matrix Ash} & LFSR_
+                                        {ASH}&eQTL-BMALite \\ [0.5ex] % inse...
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./Results/Results.tex:92: Extra }, or forgotten $.
+./Results/Results.tex:104: Extra }, or forgotten $.
 <template> \unskip \hfil }
                           \hskip \tabcolsep \endtemplate 
-l.92 Metric & LFSR_{Matrix Ash} & LFSR_{ASH}&
-                                             eQTL-BMALite \\ [0.5ex] % inser...
+l.104 Metric & LFSR_{Matrix Ash} & LFSR_{ASH}&
+                                              eQTL-BMALite \\ [0.5ex] % inse...
 I've deleted a group-closing symbol because it seems to be
 spurious, as in `$x}$'. But perhaps the } is legitimate and
 you forgot something else, as in `\hbox{$x}'. In such cases
 the way to recover is to insert both the forgotten and the
 deleted material, e.g., by typing `I$}'.
 
-./Results/Results.tex:92: Missing $ inserted.
+./Results/Results.tex:104: Missing $ inserted.
 <inserted text> 
                 $
-l.92 Metric & LFSR_{Matrix Ash} & LFSR_{ASH}&
-                                             eQTL-BMALite \\ [0.5ex] % inser...
+l.104 Metric & LFSR_{Matrix Ash} & LFSR_{ASH}&
+                                              eQTL-BMALite \\ [0.5ex] % inse...
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./Results/Results.tex:92: Missing } inserted.
+./Results/Results.tex:104: Missing } inserted.
 <inserted text> 
                 }
-l.92 Metric & LFSR_{Matrix Ash} & LFSR_{ASH}&
-                                             eQTL-BMALite \\ [0.5ex] % inser...
+l.104 Metric & LFSR_{Matrix Ash} & LFSR_{ASH}&
+                                              eQTL-BMALite \\ [0.5ex] % inse...
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
 With luck, this will get me unwedged. But if you
@@ -1919,18 +2031,28 @@ really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
 
-./Results/Results.tex:104: LaTeX Error: There's no line here to end.
+./Results/Results.tex:116: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.104 \end{table}\newline
+l.116 \end{table}\newline
                          
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
+
+<Figures/PlotsForPaper_files/figure-html/unnamed-chunk-9-1.png, id=201, 1349.04
+pt x 963.6pt>
+File: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-9-1.png Graphic fil
+e (type png)
+
+<use Figures/PlotsForPaper_files/figure-html/unnamed-chunk-9-1.png>
+Package pdftex.def Info: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-
+9-1.png used on input line 121.
+(pdftex.def)             Requested size: 284.52756pt x 203.22946pt.
 Package epstopdf Info: Source file: <PLOS-submission.eps>
 (epstopdf)                    date: 2015-03-16 16:44:14
 (epstopdf)                    size: 283246 bytes
@@ -1939,68 +2061,106 @@ Package epstopdf Info: Source file: <PLOS-submission.eps>
 (epstopdf)                    size: 15292 bytes
 (epstopdf)             Command: <repstopdf --outfile=PLOS-submission-eps-conver
 ted-to.pdf PLOS-submission.eps>
-(epstopdf)             \includegraphics on input line 108.
-Package epstopdf Info: Output file is already uptodate.
-File: PLOS-submission-eps-converted-to.pdf Graphic file (type pdf)
-<use PLOS-submission-eps-converted-to.pdf>
-Package pdftex.def Info: PLOS-submission-eps-converted-to.pdf used on input lin
-e 108.
-(pdftex.def)             Requested size: 144.54pt x 23.42201pt.
- [10]
-Package epstopdf Info: Source file: <PLOS-submission.eps>
-(epstopdf)                    date: 2015-03-16 16:44:14
-(epstopdf)                    size: 283246 bytes
-(epstopdf)             Output file: <PLOS-submission-eps-converted-to.pdf>
-(epstopdf)                    date: 2015-08-11 11:31:50
-(epstopdf)                    size: 15292 bytes
-(epstopdf)             Command: <repstopdf --outfile=PLOS-submission-eps-conver
-ted-to.pdf PLOS-submission.eps>
-(epstopdf)             \includegraphics on input line 120.
+(epstopdf)             \includegraphics on input line 126.
 Package epstopdf Info: Output file is already uptodate.
 File: PLOS-submission-eps-converted-to.pdf Graphic file (type pdf)
 
 <use PLOS-submission-eps-converted-to.pdf>
 Package pdftex.def Info: PLOS-submission-eps-converted-to.pdf used on input lin
-e 120.
+e 126.
 (pdftex.def)             Requested size: 144.54pt x 23.42201pt.
- [11]
+ [11 <./Figures/comparebeta.png> <./Figures/comparez.png>]
+<Figures/PlotsForPaper_files/figure-html/unnamed-chunk-8-2.png, id=211, 1349.04
+pt x 963.6pt>
+File: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-8-2.png Graphic fil
+e (type png)
 
-./Results/Results.tex:122: LaTeX Error: There's no line here to end.
+<use Figures/PlotsForPaper_files/figure-html/unnamed-chunk-8-2.png>
+Package pdftex.def Info: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-
+8-2.png used on input line 132.
+(pdftex.def)             Requested size: 142.26378pt x 101.61473pt.
+
+./Results/Results.tex:132: Misplaced alignment tab character &.
+l.132 ...files/figure-html/unnamed-chunk-8-2.png}&
+                                                  
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+
+<Figures/PlotsForPaper_files/figure-html/unnamed-chunk-8-3.png, id=212, 1349.04
+pt x 963.6pt>
+File: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-8-3.png Graphic fil
+e (type png)
+
+<use Figures/PlotsForPaper_files/figure-html/unnamed-chunk-8-3.png>
+Package pdftex.def Info: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-
+8-3.png used on input line 133.
+(pdftex.def)             Requested size: 142.26378pt x 101.61473pt.
+
+<Figures/PlotsForPaper_files/figure-html/unnamed-chunk-8-4.png, id=213, 1349.04
+pt x 963.6pt>
+File: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-8-4.png Graphic fil
+e (type png)
+
+<use Figures/PlotsForPaper_files/figure-html/unnamed-chunk-8-4.png>
+Package pdftex.def Info: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-
+8-4.png used on input line 135.
+(pdftex.def)             Requested size: 142.26378pt x 101.61473pt.
+
+./Results/Results.tex:135: Misplaced alignment tab character &.
+l.135 ...files/figure-html/unnamed-chunk-8-4.png}&
+                                                  
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+
+<Figures/PlotsForPaper_files/figure-html/unnamed-chunk-8-5.png, id=214, 1349.04
+pt x 963.6pt>
+File: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-8-5.png Graphic fil
+e (type png)
+
+<use Figures/PlotsForPaper_files/figure-html/unnamed-chunk-8-5.png>
+Package pdftex.def Info: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-
+8-5.png used on input line 136.
+(pdftex.def)             Requested size: 142.26378pt x 101.61473pt.
+
+
+./Results/Results.tex:137: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.122 \newline
-              
+l.137 \end{figure}\newline
+                          
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-Package epstopdf Info: Source file: <PLOS-submission.eps>
-(epstopdf)                    date: 2015-03-16 16:44:14
-(epstopdf)                    size: 283246 bytes
-(epstopdf)             Output file: <PLOS-submission-eps-converted-to.pdf>
-(epstopdf)                    date: 2015-08-11 11:31:50
-(epstopdf)                    size: 15292 bytes
-(epstopdf)             Command: <repstopdf --outfile=PLOS-submission-eps-conver
-ted-to.pdf PLOS-submission.eps>
-(epstopdf)             \includegraphics on input line 145.
-Package epstopdf Info: Output file is already uptodate.
-File: PLOS-submission-eps-converted-to.pdf Graphic file (type pdf)
-<use PLOS-submission-eps-converted-to.pdf>
-Package pdftex.def Info: PLOS-submission-eps-converted-to.pdf used on input lin
-e 145.
-(pdftex.def)             Requested size: 144.54pt x 23.42201pt.
- [12]
+<Figures/gtexresultcompiledheatmaps.png, id=215, 1517.67pt x 1517.67pt>
+File: Figures/gtexresultcompiledheatmaps.png Graphic file (type png)
 
-./Results/Results.tex:185: LaTeX Error: There's no line here to end.
+<use Figures/gtexresultcompiledheatmaps.png>
+Package pdftex.def Info: Figures/gtexresultcompiledheatmaps.png used on input l
+ine 142.
+(pdftex.def)             Requested size: 284.52756pt x 284.51611pt.
+
+
+./Results/Results.tex:143: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.185 \end{table} \newline
+l.143 \end{figure}\newline
                           
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -2014,14 +2174,325 @@ Package epstopdf Info: Source file: <PLOS-submission.eps>
 (epstopdf)                    size: 15292 bytes
 (epstopdf)             Command: <repstopdf --outfile=PLOS-submission-eps-conver
 ted-to.pdf PLOS-submission.eps>
-(epstopdf)             \includegraphics on input line 192.
+(epstopdf)             \includegraphics on input line 147.
 Package epstopdf Info: Output file is already uptodate.
 File: PLOS-submission-eps-converted-to.pdf Graphic file (type pdf)
 <use PLOS-submission-eps-converted-to.pdf>
 Package pdftex.def Info: PLOS-submission-eps-converted-to.pdf used on input lin
-e 192.
+e 147.
 (pdftex.def)             Requested size: 144.54pt x 23.42201pt.
- [13])
+ [12 <./Figures/PlotsForPaper_files/figure-html/unnamed-chunk-9-1.png> <./Figur
+es/PlotsForPaper_files/figure-html/unnamed-chunk-8-2.png> <./Figures/PlotsForPa
+per_files/figure-html/unnamed-chunk-8-3.png> <./Figures/PlotsForPaper_files/fig
+ure-html/unnamed-chunk-8-4.png> <./Figures/PlotsForPaper_files/figure-html/unna
+med-chunk-8-5.png>]
+
+./Results/Results.tex:153: LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.153 \newline
+              
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+<Figures/PlotsForPaper_files/figure-html/unnamed-chunk-12-1.png, id=228, 1349.0
+4pt x 963.6pt>
+File: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-12-1.png Graphic fi
+le (type png)
+
+<use Figures/PlotsForPaper_files/figure-html/unnamed-chunk-12-1.png>
+Package pdftex.def Info: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-
+12-1.png used on input line 157.
+(pdftex.def)             Requested size: 284.52756pt x 203.22946pt.
+
+<Figures/PlotsForPaper_files/figure-html/unnamed-chunk-12-2.png, id=229, 1349.0
+4pt x 963.6pt>
+File: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-12-2.png Graphic fi
+le (type png)
+
+<use Figures/PlotsForPaper_files/figure-html/unnamed-chunk-12-2.png>
+Package pdftex.def Info: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-
+12-2.png used on input line 158.
+(pdftex.def)             Requested size: 284.52756pt x 203.22946pt.
+Package epstopdf Info: Source file: <PLOS-submission.eps>
+(epstopdf)                    date: 2015-03-16 16:44:14
+(epstopdf)                    size: 283246 bytes
+(epstopdf)             Output file: <PLOS-submission-eps-converted-to.pdf>
+(epstopdf)                    date: 2015-08-11 11:31:50
+(epstopdf)                    size: 15292 bytes
+(epstopdf)             Command: <repstopdf --outfile=PLOS-submission-eps-conver
+ted-to.pdf PLOS-submission.eps>
+(epstopdf)             \includegraphics on input line 160.
+Package epstopdf Info: Output file is already uptodate.
+File: PLOS-submission-eps-converted-to.pdf Graphic file (type pdf)
+
+<use PLOS-submission-eps-converted-to.pdf>
+Package pdftex.def Info: PLOS-submission-eps-converted-to.pdf used on input lin
+e 160.
+(pdftex.def)             Requested size: 144.54pt x 23.42201pt.
+ [13 <./Figures/gtexresultcompiledheatmaps.png>]
+Package epstopdf Info: Source file: <PLOS-submission.eps>
+(epstopdf)                    date: 2015-03-16 16:44:14
+(epstopdf)                    size: 283246 bytes
+(epstopdf)             Output file: <PLOS-submission-eps-converted-to.pdf>
+(epstopdf)                    date: 2015-08-11 11:31:50
+(epstopdf)                    size: 15292 bytes
+(epstopdf)             Command: <repstopdf --outfile=PLOS-submission-eps-conver
+ted-to.pdf PLOS-submission.eps>
+(epstopdf)             \includegraphics on input line 160.
+Package epstopdf Info: Output file is already uptodate.
+File: PLOS-submission-eps-converted-to.pdf Graphic file (type pdf)
+ <use PLOS-submission-eps-converted-to.pdf>
+Package pdftex.def Info: PLOS-submission-eps-converted-to.pdf used on input lin
+e 160.
+(pdftex.def)             Requested size: 144.54pt x 23.42201pt.
+ [14 <./Figures/PlotsForPaper_files/figure-html/unnamed-chunk-12-1.png> <./Figu
+res/PlotsForPaper_files/figure-html/unnamed-chunk-12-2.png>]
+<Figures/PlotsForPaper_files/figure-html/unnamed-chunk-13-1.png, id=245, 1349.0
+4pt x 963.6pt>
+File: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-13-1.png Graphic fi
+le (type png)
+
+<use Figures/PlotsForPaper_files/figure-html/unnamed-chunk-13-1.png>
+Package pdftex.def Info: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-
+13-1.png used on input line 168.
+(pdftex.def)             Requested size: 284.52756pt x 203.22946pt.
+
+<Figures/PlotsForPaper_files/figure-html/unnamed-chunk-13-2.png, id=246, 1349.0
+4pt x 963.6pt>
+File: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-13-2.png Graphic fi
+le (type png)
+
+<use Figures/PlotsForPaper_files/figure-html/unnamed-chunk-13-2.png>
+Package pdftex.def Info: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-
+13-2.png used on input line 169.
+(pdftex.def)             Requested size: 284.52756pt x 203.22946pt.
+Package epstopdf Info: Source file: <PLOS-submission.eps>
+(epstopdf)                    date: 2015-03-16 16:44:14
+(epstopdf)                    size: 283246 bytes
+(epstopdf)             Output file: <PLOS-submission-eps-converted-to.pdf>
+(epstopdf)                    date: 2015-08-11 11:31:50
+(epstopdf)                    size: 15292 bytes
+(epstopdf)             Command: <repstopdf --outfile=PLOS-submission-eps-conver
+ted-to.pdf PLOS-submission.eps>
+(epstopdf)             \includegraphics on input line 174.
+Package epstopdf Info: Output file is already uptodate.
+File: PLOS-submission-eps-converted-to.pdf Graphic file (type pdf)
+
+<use PLOS-submission-eps-converted-to.pdf>
+Package pdftex.def Info: PLOS-submission-eps-converted-to.pdf used on input lin
+e 174.
+(pdftex.def)             Requested size: 144.54pt x 23.42201pt.
+ [15 <./Figures/PlotsForPaper_files/figure-html/unnamed-chunk-13-1.png> <./Figu
+res/PlotsForPaper_files/figure-html/unnamed-chunk-13-2.png>]
+<Figures/PlotsForPaper_files/figure-html/unnamed-chunk-14-1.png, id=255, 1349.0
+4pt x 963.6pt>
+File: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-14-1.png Graphic fi
+le (type png)
+
+<use Figures/PlotsForPaper_files/figure-html/unnamed-chunk-14-1.png>
+Package pdftex.def Info: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-
+14-1.png used on input line 180.
+(pdftex.def)             Requested size: 284.52756pt x 203.22946pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 180--181
+
+ []
+
+Package epstopdf Info: Source file: <PLOS-submission.eps>
+(epstopdf)                    date: 2015-03-16 16:44:14
+(epstopdf)                    size: 283246 bytes
+(epstopdf)             Output file: <PLOS-submission-eps-converted-to.pdf>
+(epstopdf)                    date: 2015-08-11 11:31:50
+(epstopdf)                    size: 15292 bytes
+(epstopdf)             Command: <repstopdf --outfile=PLOS-submission-eps-conver
+ted-to.pdf PLOS-submission.eps>
+(epstopdf)             \includegraphics on input line 189.
+Package epstopdf Info: Output file is already uptodate.
+File: PLOS-submission-eps-converted-to.pdf Graphic file (type pdf)
+<use PLOS-submission-eps-converted-to.pdf>
+Package pdftex.def Info: PLOS-submission-eps-converted-to.pdf used on input lin
+e 189.
+(pdftex.def)             Requested size: 144.54pt x 23.42201pt.
+ [16 <./Figures/PlotsForPaper_files/figure-html/unnamed-chunk-14-1.png>]
+<Figures/PlotsForPaper_files/figure-html/unnamed-chunk-15-1.png, id=263, 1349.0
+4pt x 963.6pt>
+File: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-15-1.png Graphic fi
+le (type png)
+
+<use Figures/PlotsForPaper_files/figure-html/unnamed-chunk-15-1.png>
+Package pdftex.def Info: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-
+15-1.png used on input line 194.
+(pdftex.def)             Requested size: 284.52756pt x 203.22946pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 194--195
+
+ []
+
+
+<Figures/PlotsForPaper_files/figure-html/unnamed-chunk-16-1.png, id=264, 1349.0
+4pt x 963.6pt>
+File: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-16-1.png Graphic fi
+le (type png)
+
+<use Figures/PlotsForPaper_files/figure-html/unnamed-chunk-16-1.png>
+Package pdftex.def Info: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-
+16-1.png used on input line 209.
+(pdftex.def)             Requested size: 142.26378pt x 101.61473pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 209--210
+
+ []
+
+Package epstopdf Info: Source file: <PLOS-submission.eps>
+(epstopdf)                    date: 2015-03-16 16:44:14
+(epstopdf)                    size: 283246 bytes
+(epstopdf)             Output file: <PLOS-submission-eps-converted-to.pdf>
+(epstopdf)                    date: 2015-08-11 11:31:50
+(epstopdf)                    size: 15292 bytes
+(epstopdf)             Command: <repstopdf --outfile=PLOS-submission-eps-conver
+ted-to.pdf PLOS-submission.eps>
+(epstopdf)             \includegraphics on input line 213.
+Package epstopdf Info: Output file is already uptodate.
+File: PLOS-submission-eps-converted-to.pdf Graphic file (type pdf)
+<use PLOS-submission-eps-converted-to.pdf>
+Package pdftex.def Info: PLOS-submission-eps-converted-to.pdf used on input lin
+e 213.
+(pdftex.def)             Requested size: 144.54pt x 23.42201pt.
+ [17 <./Figures/PlotsForPaper_files/figure-html/unnamed-chunk-15-1.png> <./Figu
+res/PlotsForPaper_files/figure-html/unnamed-chunk-16-1.png>]
+<Figures/PlotsForPaper_files/figure-html/unnamed-chunk-20-1.png, id=274, 1349.0
+4pt x 963.6pt>
+File: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-20-1.png Graphic fi
+le (type png)
+
+<use Figures/PlotsForPaper_files/figure-html/unnamed-chunk-20-1.png>
+Package pdftex.def Info: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-
+20-1.png used on input line 218.
+(pdftex.def)             Requested size: 284.52756pt x 203.22946pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 218--219
+
+ []
+
+
+./Results/Results.tex:241: LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.241 \end{table} \newline
+                          
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+<Figures/PlotsForPaper_files/figure-html/unnamed-chunk-23-1.png, id=275, 1349.0
+4pt x 963.6pt>
+File: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-23-1.png Graphic fi
+le (type png)
+
+<use Figures/PlotsForPaper_files/figure-html/unnamed-chunk-23-1.png>
+Package pdftex.def Info: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-
+23-1.png used on input line 247.
+(pdftex.def)             Requested size: 284.52756pt x 203.22946pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 247--248
+
+ []
+
+Package epstopdf Info: Source file: <PLOS-submission.eps>
+(epstopdf)                    date: 2015-03-16 16:44:14
+(epstopdf)                    size: 283246 bytes
+(epstopdf)             Output file: <PLOS-submission-eps-converted-to.pdf>
+(epstopdf)                    date: 2015-08-11 11:31:50
+(epstopdf)                    size: 15292 bytes
+(epstopdf)             Command: <repstopdf --outfile=PLOS-submission-eps-conver
+ted-to.pdf PLOS-submission.eps>
+(epstopdf)             \includegraphics on input line 252.
+Package epstopdf Info: Output file is already uptodate.
+File: PLOS-submission-eps-converted-to.pdf Graphic file (type pdf)
+<use PLOS-submission-eps-converted-to.pdf>
+Package pdftex.def Info: PLOS-submission-eps-converted-to.pdf used on input lin
+e 252.
+(pdftex.def)             Requested size: 144.54pt x 23.42201pt.
+ [18 <./Figures/PlotsForPaper_files/figure-html/unnamed-chunk-20-1.png>]
+Package epstopdf Info: Source file: <PLOS-submission.eps>
+(epstopdf)                    date: 2015-03-16 16:44:14
+(epstopdf)                    size: 283246 bytes
+(epstopdf)             Output file: <PLOS-submission-eps-converted-to.pdf>
+(epstopdf)                    date: 2015-08-11 11:31:50
+(epstopdf)                    size: 15292 bytes
+(epstopdf)             Command: <repstopdf --outfile=PLOS-submission-eps-conver
+ted-to.pdf PLOS-submission.eps>
+(epstopdf)             \includegraphics on input line 252.
+Package epstopdf Info: Output file is already uptodate.
+File: PLOS-submission-eps-converted-to.pdf Graphic file (type pdf)
+ <use PLOS-submission-eps-converted-to.pdf>
+Package pdftex.def Info: PLOS-submission-eps-converted-to.pdf used on input lin
+e 252.
+(pdftex.def)             Requested size: 144.54pt x 23.42201pt.
+
+[19 <./Figures/PlotsForPaper_files/figure-html/unnamed-chunk-23-1.png>]
+<Figures/normstuffeb_nobrain.png, id=292, 481.8pt x 481.8pt>
+File: Figures/normstuffeb_nobrain.png Graphic file (type png)
+
+<use Figures/normstuffeb_nobrain.png>
+Package pdftex.def Info: Figures/normstuffeb_nobrain.png used on input line 257
+.
+(pdftex.def)             Requested size: 142.26378pt x 142.26208pt.
+
+./Results/Results.tex:257: Misplaced alignment tab character &.
+l.257 ...th=5cm]{Figures/normstuffeb_nobrain.png}&
+                                                  
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+<Figures/normstuffeb_alltissues.png, id=293, 481.8pt x 481.8pt>
+File: Figures/normstuffeb_alltissues.png Graphic file (type png)
+
+<use Figures/normstuffeb_alltissues.png>
+Package pdftex.def Info: Figures/normstuffeb_alltissues.png used on input line 
+258.
+(pdftex.def)             Requested size: 142.26378pt x 142.26208pt.
+
+./Results/Results.tex:258: Misplaced alignment tab character &.
+l.258 ...5cm]{Figures/normstuffeb_alltissues.png}&
+                                                  
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+
+<Figures/PlotsForPaper_files/figure-html/unnamed-chunk-24-1.png, id=294, 1349.0
+4pt x 963.6pt>
+File: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-24-1.png Graphic fi
+le (type png)
+
+<use Figures/PlotsForPaper_files/figure-html/unnamed-chunk-24-1.png>
+Package pdftex.def Info: Figures/PlotsForPaper_files/figure-html/unnamed-chunk-
+24-1.png used on input line 264.
+(pdftex.def)             Requested size: 142.26378pt x 101.61473pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 264--265
+
+ []
+
+)
 Package epstopdf Info: Source file: <PLOS-submission.eps>
 (epstopdf)                    date: 2015-03-16 16:44:14
 (epstopdf)                    size: 283246 bytes
@@ -2033,12 +2504,12 @@ ted-to.pdf PLOS-submission.eps>
 (epstopdf)             \includegraphics on input line 256.
 Package epstopdf Info: Output file is already uptodate.
 File: PLOS-submission-eps-converted-to.pdf Graphic file (type pdf)
-
-<use PLOS-submission-eps-converted-to.pdf>
+ <use PLOS-submission-eps-converted-to.pdf>
 Package pdftex.def Info: PLOS-submission-eps-converted-to.pdf used on input lin
 e 256.
 (pdftex.def)             Requested size: 144.54pt x 23.42201pt.
- [14]
+ [20 <./Figures/normstuffeb_nobrain.png> <./Figures/normstuffeb_alltissues.png>
+ <./Figures/PlotsForPaper_files/figure-html/unnamed-chunk-24-1.png>]
 Package epstopdf Info: Source file: <PLOS-submission.eps>
 (epstopdf)                    date: 2015-03-16 16:44:14
 (epstopdf)                    size: 283246 bytes
@@ -2050,20 +2521,19 @@ ted-to.pdf PLOS-submission.eps>
 (epstopdf)             \includegraphics on input line 382.
 Package epstopdf Info: Output file is already uptodate.
 File: PLOS-submission-eps-converted-to.pdf Graphic file (type pdf)
-
-<use PLOS-submission-eps-converted-to.pdf>
+ <use PLOS-submission-eps-converted-to.pdf>
 Package pdftex.def Info: PLOS-submission-eps-converted-to.pdf used on input lin
 e 382.
 (pdftex.def)             Requested size: 144.54pt x 23.42201pt.
- [15
+
+[21
 
 ] (./plos_latex_template.bbl
 Package microtype Info: Loading generic settings for font family
 (microtype)             `cmtt' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-)
-
+) 
 AED: lastpage setting LastPage
 Package epstopdf Info: Source file: <PLOS-submission.eps>
 (epstopdf)                    date: 2015-03-16 16:44:14
@@ -2080,7 +2550,7 @@ File: PLOS-submission-eps-converted-to.pdf Graphic file (type pdf)
 Package pdftex.def Info: PLOS-submission-eps-converted-to.pdf used on input lin
 e 401.
 (pdftex.def)             Requested size: 144.54pt x 23.42201pt.
- [16]
+ [22]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 401.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 401.
  (./plos_latex_template.aux
@@ -2090,20 +2560,16 @@ Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 401.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 401.
 Package rerunfilecheck Info: File `plos_latex_template.out' has not changed.
 (rerunfilecheck)             Checksum: 367B87219A897A92E5129A39B2093B00;1185.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 401.
  ) 
 Here is how much of TeX's memory you used:
- 10736 strings out of 493089
- 161789 string characters out of 6134842
- 292386 words of memory out of 5000000
- 13876 multiletter control sequences out of 15000+600000
+ 10877 strings out of 493089
+ 167941 string characters out of 6134842
+ 292387 words of memory out of 5000000
+ 13972 multiletter control sequences out of 15000+600000
  13636 words of font info for 73 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 42i,16n,45p,1803b,406s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,16n,43p,1806b,366s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 }</usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb>
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><
@@ -2124,10 +2590,10 @@ ive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texli
 ve/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texliv
 e/2015/texmf-dist/fonts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/
 2015/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on plos_latex_template.pdf (16 pages, 472348 bytes).
+Output written on plos_latex_template.pdf (22 pages, 2793733 bytes).
 PDF statistics:
- 311 PDF objects out of 1000 (max. 8388607)
- 266 compressed objects within 3 object streams
- 71 named destinations out of 1000 (max. 500000)
- 15512 words of extra memory for PDF output out of 17280 (max. 10000000)
+ 409 PDF objects out of 1000 (max. 8388607)
+ 310 compressed objects within 4 object streams
+ 91 named destinations out of 1000 (max. 500000)
+ 15632 words of extra memory for PDF output out of 17280 (max. 10000000)
 

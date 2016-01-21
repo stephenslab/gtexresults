@@ -156,10 +156,10 @@ dev.off()
 
 ```
 
-![alt text](scatterplot.fittedtspec.png) 
-![alt text](scatterplot.fittedtspec.ash.png)
-![alt text](scatterplot.truthtspec.png)
-![alt text](scatterplot.TRUTHashtspec.png)
+![alt text](scatterplot_fittedtspec.png) 
+![alt text](scatterplot_fittedtspec_ash.png)
+![alt text](scatterplot_truthtspec.png)
+![alt text](scatterplot_TRUTHashtspec.png)
 
 ##REAL DATA RESULTS
 
@@ -376,13 +376,17 @@ heatmap.2(x,Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",tra
 
 nine.ex.2=which(rownames(z.stat)=="ENSG00000059588.5_1_234612995_T_C_b37")
 nine.ex.3=which(rownames(z.stat)=="ENSG00000009830.7_14_77776501_T_A_b37")
-nine.ex.4=which(rownames(z.stat)=="ENSG00000011021.17_1_11869101_T_C_b37")
+spec.ex=which(rownames(z.stat)=="ENSG00000131848.5_19_56741808_G_A_b37")
+
+newfunc(t=nine.ex.3)
 ```
 
- Lastly, the inclusion of the eQTLBMA lite configurations (in which the SNP has a 378 non-zero effect in only one tissue) coupled with the learned patterns of tissue specificity 379 evident in matrices Uk : 5 − 9 serve to allow the preservation of qualitatively specific 380 effects. Here, we show a gene-snp pair demonstrating high loading on one of the 381 eqtlbma-lite configuration matrices - indeed, we reject the significance of the effect size 382 estimates in all tissues but testes, a pattern consistent with the presence of 383 tissue-specificity described below. Together, these results cement the resolution afforded 384 by methods which can distinguish among tissues in which a QTL is called active, 385 beyond reducing genetic effects to binary ‘on’ or ‘off’ conclusions
+ Lastly, the inclusion of the eQTLBMA lite configurations (in which the SNP has a non-zero effect in only one tissue) coupled with the learned patterns of tissue specificity evident in matrices Uk : 5 − 9 serve to allow the preservation of qualitatively specific effects. Here, we show a gene-snp pair demonstrating high loading on one of the eqtlbma-lite configuration matrices - indeed, we reject the significance of the effect size estimates in all tissues but testes, a pattern consistent with the presence of tissue-specificity described below. Together, these results cement the resolution afforded by methods which can distinguish among tissues in which a QTL is called active, beyond reducing genetic effects to binary ‘on’ or ‘off’ conclusions.
+ 
+ 
 ```{r,echo=FALSE}
 #newfunc(t=nine.ex.2)
-newfunc(t=nine.ex.3)
+newfunc(t=spec.ex)
 ```
 
 ## Now we discuss Tissue specificity
