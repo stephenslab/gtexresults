@@ -219,11 +219,11 @@ Now, we would like to compare the pi.matrices to see from where the prior weight
 par(mfrow=c(1,2))
 pi.bma=readRDS("~/Dropbox/pisbmaonly.rds")$pihat
 pi.mat=matrix(data = pi.bma,nrow = 22,ncol =45,byrow = TRUE)
-barplot(colSums(pi.mat),xlab="Non0Tissue",las=2,names=c(colnames(maxz),"all"),main="BMAlitePriorWeight",cex.names = 0.5)
+barplot(colSums(pi.mat),las=2,names=c(colnames(maxz),"all"),main="BMAlitePriorWeight",cex.names = 0.5)
 
 pi.mash=readRDS("../../Data/pisAug13withED.rds")$pihat
 pi.mat.mash=matrix(data = pi.mash,nrow = 22,ncol =54,byrow = TRUE)
-barplot(colSums(pi.mat.mash),xlab="Uk",las=2,names=c(paste0("Uk",seq(1:9)),colnames(maxz),"all"),main="MASHPriorWeight",cex.names = 0.5)
+barplot(colSums(pi.mat.mash),las=2,names=c(paste0("Uk",seq(1:9)),colnames(maxz),"all"),main="MASHPriorWeight",cex.names = 0.5)
 ```
 
 And here, I wanted to demonstrate several 'tissue' by 'tissue plots, where eQTL are grouped by their loading.
@@ -387,7 +387,7 @@ newfunc(t=nine.ex.3)
 
 ## Now we discuss Tissue specificity
 
-```{r,echo=FALSE,eval=FALSE}
+```{r,echo=FALSE,eval=TRUE}
 plot_ts=function(tissuename,lfsr,curvedata,thresh=0.05,subset=1:44){
   index_tissue=which(colnames(lfsr) %in% tissuename);
 
@@ -433,14 +433,6 @@ iplotCurves(as.matrix(posterior.means[ones,]),1:44,chartOpts=list(xlab="Tissue I
 
 ##Heterogeneity Analysis
 
-Recall Results:
-
-```{r,eval=FALSE}
-                                          All  No Brains
-E(DifferentSignPosteriorMean| LFSR≤0.05) 0.802 0.852
-E(At least 50% max value)                0.354 0.449
-```
-
 First, we asked in how many tissues is a QTL signficiant. 
 
 
@@ -454,9 +446,16 @@ hist(nsig[nsig>0],main="Number of tissues in which eQTl significant", nclass=45,
 
 But now, we can ask much more interesting questions.
 
-Heterogeneity in sign:
-
 ```{r,echo=FALSE}
+thresh_inconsistent=function(effectsize,thresh,sigs){
+ z= sapply(seq(1:nrow(effectsize)),function(x){
+l=sigs[x,];p=effectsize[x,];plow=p[which(l<thresh)];##grab only those posterior means that are 'significant'
+if(length(plow)==0){return("FALSE")}##for ones who show no significants, they can't be heterogenous
+else{pos=sum(plow>0);neg=sum(plow<0);pos*neg!=0}
+})
+return(sum(z==TRUE))}
+
+
 het.norm=function(effectsize){
   t(apply(effectsize,1,function(x){
   x/x[which.max(abs(x))]
@@ -476,14 +475,41 @@ sign.tissue.func=function(normdat){
 
 het.func=function(normdat,threshold){
   apply(abs(normdat),1,function(x){sum(x>threshold)})}
+```
 
 
+```{r,echo=FALSE}
 pm.mash.beta.brain=pm.mash.beta
 rm(pm.mash.beta)
+lfsr.brain=read.table("../../Data//Aug13withEDlfsr.txt")[,-1]
 
 pm.mash.nobrain=read.table("../../withoutbrain//nobrainposterior.means.txt")[,-1]
 standard.error.nobrain=read.table("../../Data/standard.error.txt")[,-c(7:16)]
 pm.mash.beta.nobrain=pm.mash.nobrain*standard.error.nobrain
+lfsr.nobrain=read.table("../../withoutbrain/nobrainlfsr.txt")[,-1]
+
+signbrain=mean(het.norm(pm.mash.beta.brain)>0)
+signnobrain=mean(het.norm(pm.mash.beta.nobrain)>0)
+magbrain=mean(het.norm(pm.mash.beta.brain)>0.5)
+magnobrain=mean(het.norm(pm.mash.beta.nobrain)>0.5)
+
+gene_cons_all=1-thresh_inconsistent(effect = pm.mash.beta.brain,thresh=0.05,sigs =lfsr.brain)/nrow(pm.mash.beta.brain)
+gene_cons_nobrain=1-thresh_inconsistent(effect=pm.mash.beta.nobrain,thresh = 0.05,sigs = lfsr.nobrain)/nrow(pm.mash.beta.nobrain)
+```
+
+```{r,eval=FALSE}
+                                              All  No Brains
+$E(ConsistentSignPosteriorMean | LFSR≤0.05)$  0.852 0.802
+E(At least 50% max value)                     0.354 0.449
+Normalized B_jr >0                            0.833 0.879
+```
+
+
+Heterogeneity in sign:
+
+
+
+```{r,echo=FALSE}
 
 
 par(mfrow=c(1,3))

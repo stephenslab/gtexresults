@@ -32,7 +32,11 @@ To demonstrate the ability of Matrix Ash to powerfully capture these accurately 
 
 
 \textbf{Figure: Power vs Accuracy Figure}
-\newline
+\begin{figure}[h]
+\includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/plot1.png}\\
+\hfill
+\includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-4-1.png}
+\end{figure}\newline
 
 In introducing a method to quantify the heterogeneity of effect sizes, we have developed a `heterogeneity index' which attempts to capture the heterogeneity in magnitude among tissues in which the gene-SNP pair is active. For each gene-snp pair $\textbf{j}$, we normalize its vector of effects $\textbf{b_{j}$ across tissues by the effect which has the maximum absolute value; thus for a fully `consistent' gene-snp pair in which all the effects are equal in magnitude, the new vector of normalized effects would consist of all ones, and R=44 tissues would be greater than $50\%$ of the maximum effect. By contrast, for a tissue-specific gene-snp pair, the vast majority of effects would be small fraction of the maximum effect and thus the number of tissues greater than $50\%$ of the maximum effect would be 1 (the effect used to normalize). We can apply this heterogeneity index, here deemed `HI' to the real data, but first wanted to demonstrate the superiority of Matrix Ash in estimating these quantities on simulated data. To quantity the ability of each method to accurately ascertain the heterogeneity, we can compute the heterogeneity index of the real data, and the inferred quantities, and use a modified RMSE:
 
@@ -56,11 +60,11 @@ HI_{TS}& 39.98& 40.77&39.51\\
 
 \subsection{Adaptive Shrinkage: The Multivariate Approach}
 
-To demonstrate the utility of shrinking effect size estimates jointly, we consider the estimated effect sizes vs their observed input summary statistics using our joint (Matrix Ash) and comparing to a univariate shrinkage method (Ash). On simulated data, we can also then plot the estimated effect sizes against the true values,  again comparing among methods. Here, we show the results under the setting of tissue specificity, to analyze the behavior of eQTL of each class. \newline
-
+To demonstrate the utility of shrinking effect size estimates jointly, we consider the estimated effect sizes vs their observed input summary statistics using our joint (Matrix Ash) and comparing to a univariate shrinkage method (Ash). On simulated data, we can also then plot the estimated effect sizes against the true values,  again comparing among methods. Here, we show the results under the setting of tissue specificity, to analyze the behavior of eQTL of each class.\newline
 
 \textbf{Figure: Insert Simulations from TSpecific Conditions here}
 \newline
+
 
 In both Matrix Ash and univariate methods, values with large standard errors will be shrunk more harshly (Ash Paper, Stephens et al). Comparing estimated Z statistics (i.e., $E(Z_{jr}|Data$) vs the observed `raw' input values (i.e., $\hat{b_{jr}}$ allows us to understand the behavior of multivariate vs univariate methods once the standard error has been considered. In this simulated data, where there is an abundance of small effects, both univariate and multivariate methods tend to shrink small observed values towards prior mean at $\bm{0}$ as their likelihoods will be maximized by component with small $\omega$. Critically, considering observed Z statistics of the same size, Matrix Ash does not shrink all small values are shrunk to the same extent, due to the power of joint analysis to consider the effects across tissues in inferring the final vector of effect sizes. Thus the method is dually `adaptive' by considering the abundance of both effect sizes and shapes in the overall data-set.  Here, acknowledging consistency, small effects in one tissue will be augmented in the presence of larger effects  other tissues, resulting in dramatic power increases. 
 
@@ -152,7 +156,7 @@ Furthermore, tissue specific eQTL demonstrate the smoothing feature of this join
 \subsection{Quantifying Heterogeneity}
 
 
-Armed with a vector of effect size estimates across 44 tissues, $\bm{b_{j}}$, we can move beyond asking in how many tissues is a given gene-snp pair significant, and ask about the relationship in effect size and direction among tissues in which the gene-snp pair is active. From a biological standpoint, we might produce that effects of a different sign are rare. Similar to the heterogeneity index described in the simulation framework above which attempted to describe heterogeneity in magnitude, we can plot the number of tissues in which the sign is differ than the effect with maximum absolute value. Considering this results with and without the inclusion of the brain tissues, which appear to behave as a strongly correlated group, we observe several phenomenon. The majority of gene-snp pairs are consistent in sign (indeed, only about $20\%$ of genes show two significant effects of a different sign when including brain, and even fewer $(14.8\%)$ when excluding brains) and removing brains from our analysis tends to push us towards consistency, suggesting that brain appears to behave as a large tissue-specific entity.\newline
+Armed with a vector of effect size estimates across 44 tissues, $\bm{b_{j}}$, we can move beyond asking in how many tissues is a given gene-snp pair significant, and ask about the relationship in effect size and direction among tissues in which the gene-snp pair is active. From a biological standpoint, we might produce that effects of a different sign are rare. Similar to the heterogeneity index described in the simulation framework above which attempted to describe heterogeneity in magnitude, we can plot the number of tissues in which the sign is differ than the effect with maximum absolute value. Considering this results with and without the inclusion of the brain tissues, which appear to behave as a strongly correlated group, we observe several phenomenon. The majority of gene-snp pairs are consistent in sign (indeed, only about $20\%$ of genes show two significant effects of a different sign when including brain, and even fewer $(14.8\%)$ when excluding brains) and removing brains from our analysis tends to push us towards consistency, suggesting that brain appears to behave as a large tissue-specific entity. After normalizing each gene-snp effect size coefficient $b_{jr}$ by the effect size with the maximum value for the gene, we can also ask what proportion of these are positive. We come to similar conclusions with $83\%$ and $87\%$ with and without brain demonstrating positive normalized effects, respectively. \newline
 
 
 \textbf{Figure: Sign Heterogeneity Distribution Figure}
@@ -169,15 +173,15 @@ Taken together, these results suggest the presence of consistency in sign in our
 \hline\hline
 Data & All Tissues  & No Brains  \\ [0.5ex] % inserts table %heading
 \hline
-%Consistent in Sign (normalized value $>$ 0): E(Z$\mid$D)$ &0.833&0.880 \\
+Consistent in Sign $E(b_{jrnorm}|D)$ $>$ 0) &0.833&0.880 \\
 %E(DifferentSign (no threshold)&0.906 ( 0.87 no brains) &0.597&0.481\\
-E(DifferentSignPosteriorMean$\mid$ LFSR$\leq$0.05)&0.802&0.852\\
+E(Consistent SignPosteriorMean$\mid$ LFSR$\leq$0.05)&0.802&0.852\\
 E(At least 50\% max value) &0.354&0.449\\
 %Sign Change &0&0.184&0.179\\[1ex]
 \hline
 \end{tabular}
 \label{table:nonlin}
-\caption{\textbf{Heterogeneity Analysis} At a given significance threshold, we can ask how many gene-pairs contain effects of different signs across tissues. At an arbitrary LFSR threshold of 0.05 for instance, we note that $80\%$ of genes are homogenous in sign when all tissues are considered. Excluding brains from our analysis, this rises to $85\%$. To evaluate consistency in magnitude, we can ask how many gene-snp-tissue effects are greater than $50\%$ of the maximal effect across tissues for the pair. Again, we see that excluding brains from our analysis tends to push this towards consistency.}
+\caption{\textbf{Heterogeneity Analysis} After normalzizing each gene-snp-effect size coefficient by the effect size with maximal value at that gene, we can ask how many of these gene-snp effect coefficients are positive. Similarly, at a given significance threshold, we can ask how many gene-pairs contain effects of different signs across tissues. At an arbitrary LFSR threshold of 0.05 for instance, we note that $80\%$ of genes are homogenous in sign when all tissues are considered. Excluding brains from our analysis, this rises to $85\%$. To evaluate consistency in magnitude, we can ask how many gene-snp-tissue effects are greater than $50\%$ of the maximal effect across tissues for the pair. Again, we see that excluding brains from our analysis tends to push this towards consistency.}
 \end{table} \newline
 
 
