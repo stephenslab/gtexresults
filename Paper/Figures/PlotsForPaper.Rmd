@@ -435,6 +435,8 @@ Now, we plot the matrix-ash shrunken $E(Z|Data)$.
 iplotCurves(as.matrix(posterior.means[ones,]),1:44,chartOpts=list(xlab="Tissue Indices", ylab="E(Z|Data)",pointcolor=c("slateblue")))
 ```
 
+
+![alt text](tspecsmooth.png)
 ##Heterogeneity Analysis
 
 First, we asked in how many tissues is a QTL signficiant. 
@@ -615,7 +617,7 @@ dev.off()
 
 ![alt text](../Figures/normstuffeb_alltissues.png)
 
-
+![alt text](../Figures/hetvshomqtl.png)
 
 
 
