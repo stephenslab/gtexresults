@@ -16,13 +16,19 @@ Here, the covariance matrix $U_{k}$ captures the particular patterns of sharing 
 
 \textbf{Figure: Colorful patterns, caption indicates different patterns of activity across tissues in groups 1-3, same pattern or shape for snps of group 4 but tendency towards small effects}
 
+\newline
+\begin{figure}[htbp]
+\includegraphics[width=10cm]{Figures/Patterns.pdf}
+\end{figure}\newline
+
+
 \subsection{Previous Approach}
  
 Previous work from our lab considered the idea of configuration - i.e., that a tissue was simply `active' or `inactive' in a particular tissues - and thus for R tissues, there were $2^{R}$ possible configurations, which becomes computationally infeasible as $R$ grows.
 
 Furthermore, this considered only the idea that the variance in effect sizes between two tissues was the same across tissues thought to be active and the covariances were also the same among tissues thought to be active in a given `configuration',  and thus failed to incorporate the much richer covariance structure between tissues. For example, many gene SNP pairs might follow a pattern in which it is common to be `active ` across all tissues, but some QTL may have consistently larger effects in liver, lung and thyroid while other QTL may possess consistently larger effects in brain tissues and still another class of gene-snp pairs may show consistently quantitatively specific activity in Whole Blood but non-trivial effects in other tissues. 
 
-As a critical innovation on our previous method $(\cite{flutre_statistical_2013,wen_bayesian_2014})$ the covariance matrices used in our method contain distinct diagonal and off-diagonal elements which reflect data-specific patterns of variation within and covariance between subgroups (tissues). This captures the variation in effect sizes within and between subgroups better than restricting effects to simply `shared' or `unshared' between subgroups. 
+As a critical innovation on our previous method \cite{flutre_statistical_2013,wen_bayesian_2014} the covariance matrices used in our method contain distinct diagonal and off-diagonal elements which reflect data-specific patterns of variation within and covariance between subgroups (tissues). This captures the variation in effect sizes within and between subgroups better than restricting effects to simply `shared' or `unshared' between subgroups. 
  
 Because we can't know the `true covariance matrix' for each gene-snp pair, we aim to assemble a list which sufficiently captures the various patterns, and then `learn' the relative proportions of each pattern of sharing from the data. One can now model each vector of effect sizes $\bm{b}$ each as arising from a mixture that captures all the covariance patterns.
 

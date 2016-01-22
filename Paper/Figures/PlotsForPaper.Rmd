@@ -598,7 +598,7 @@ max.mash.brain=t(apply(pm.mash.beta.brain,1,function(x){
 
 png("normstuffeb_nobrain.png")
 #par(mfrow=c(1,2))
-plot(abs(max.mash),het.norm(effectsize = pm.mash.beta.nobrain),main="NormalizingB.MASH",xlab="absNormalizingValue",ylab="E(B|data)_norm", 
+plot(abs(max.mash),het.norm(effectsize = pm.mash.beta.nobrain),main="E(B_jrnorm,ExcludingBrain)",xlab="absNormalizingValue",ylab="E(B|data)_norm", 
      col=rgb(0,100,0,50,maxColorValue=255), pch=16,xlim=c(0,2))
 #plot(abs(max.mle),bnorm,main="NormalizingB.MLE",ylab="B_norm",xlab="absNormalizingValue",col=rgb(0,100,0,50,maxColorValue=255), pch=16,xlim=c(0,2))
 dev.off()
@@ -606,7 +606,7 @@ dev.off()
 
 png("normstuffeb_alltissues.png")
 par(mfrow=c(1,1))
-plot(abs(max.mash.brain),het.norm(effectsize = pm.mash.beta.brain),main="NormalizingB.MASH",xlab="absNormalizingValue",ylab="E(B|data)_norm", 
+plot(abs(max.mash.brain),het.norm(effectsize = pm.mash.beta.brain),main="E(B_jrnorm,Alltissues)",xlab="absNormalizingValue",ylab="E(B|data)_norm", 
      col=rgb(0,100,0,50,maxColorValue=255), pch=16,xlim=c(0,2))
 #plot(abs(max.mle),bnorm,main="NormalizingB.MLE",ylab="B_norm",xlab="absNormalizingValue",col=rgb(0,100,0,50,maxColorValue=255), pch=16,xlim=c(0,2))
 dev.off()

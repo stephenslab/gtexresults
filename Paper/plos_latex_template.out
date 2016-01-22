@@ -1,17 +1,17 @@
 \BOOKMARK [2][-]{subsection.0.1}{Methods Overview: Approach}{}% 1
 \BOOKMARK [2][-]{subsection.0.2}{Previous Approach}{}% 2
-\BOOKMARK [2][-]{subsection.0.3}{ Covariance Matrices}{}% 3
-\BOOKMARK [2][-]{subsection.0.4}{Deconvolution}{}% 4
-\BOOKMARK [2][-]{subsection.0.5}{Likelihood}{}% 5
-\BOOKMARK [2][-]{subsection.0.6}{Posterior Quantities}{}% 6
-\BOOKMARK [2][-]{subsection.0.7}{Reported Quantities}{}% 7
-\BOOKMARK [1][-]{section.1}{Results}{}% 8
-\BOOKMARK [2][-]{subsection.1.1}{Demonstrating Features of the Method}{section.1}% 9
-\BOOKMARK [2][-]{subsection.1.2}{Adaptive Shrinkage: The Multivariate Approach}{section.1}% 10
-\BOOKMARK [1][-]{section.2}{Real Data}{}% 11
-\BOOKMARK [2][-]{subsection.2.1}{A qualitative description of heterogeneity in the GTEX data}{section.2}% 12
-\BOOKMARK [2][-]{subsection.2.2}{Examples of strong loading on UK3, UK9 and eQTL-BMA lite}{section.2}% 13
-\BOOKMARK [2][-]{subsection.2.3}{Tissue Specificity}{section.2}% 14
-\BOOKMARK [2][-]{subsection.2.4}{Quantifying Heterogeneity}{section.2}% 15
+\BOOKMARK [1][-]{section.1}{Results}{}% 3
+\BOOKMARK [2][-]{subsection.1.1}{Demonstrating Features of the Method}{section.1}% 4
+\BOOKMARK [2][-]{subsection.1.2}{Adaptive Shrinkage: The Multivariate Approach}{section.1}% 5
+\BOOKMARK [1][-]{section.2}{Real Data}{}% 6
+\BOOKMARK [2][-]{subsection.2.1}{A qualitative description of heterogeneity in the GTEX data}{section.2}% 7
+\BOOKMARK [2][-]{subsection.2.2}{Examples of strong loading on UK3, UK9 and eQTL-BMA lite}{section.2}% 8
+\BOOKMARK [2][-]{subsection.2.3}{Tissue Specificity}{section.2}% 9
+\BOOKMARK [2][-]{subsection.2.4}{Quantifying Heterogeneity}{section.2}% 10
+\BOOKMARK [2][-]{subsection.2.5}{ Covariance Matrices}{section.2}% 11
+\BOOKMARK [2][-]{subsection.2.6}{Deconvolution}{section.2}% 12
+\BOOKMARK [2][-]{subsection.2.7}{Likelihood}{section.2}% 13
+\BOOKMARK [2][-]{subsection.2.8}{Posterior Quantities}{section.2}% 14
+\BOOKMARK [2][-]{subsection.2.9}{Reported Quantities}{section.2}% 15
 \BOOKMARK [1][-]{section.3}{Testing and Training}{}% 16
 \BOOKMARK [1][-]{section.4}{Training and Testing Procedure: Estimating Hierarchical Weights}{}% 17
