@@ -3,3 +3,9 @@
 *files
 .R*
 Data/*
+*.bbl
+*.blg
+*.dvi
+*.out
+*.aux
+*.log
