@@ -37,6 +37,7 @@ For a given $\omega_{l}$, we specify 4 `types' of $RxR$ prior covariance matrice
 \item $[1 0 0 0 ...]$ or $[1 1 1  ...]$ represent configurations such that given membership,$\bm{b_{j}}$ arise from the same prior variance.
 \end{itemize}
 
+Critically, the computations above are estimated using the strongest snp per gene as characterized by the maximum absolute value across R tissues, in order to optimally initialize a `denoised' matrix of the true effects. 
 
 
 \subsection{Deconvolution}
@@ -56,9 +57,32 @@ To retrieve a `denoised' or `deconvoluted' estimate of the non-single rank dimen
 %
 %Where $\alpha_{k}$ represents $\pi_k$ and $q_{jk}$ is the latent identifier variable.
 
-
+%
 %\subsection{Generation of List of Covariance Matrices}
-%We then use these three non single-rank covariance matrix in place of our original choice of the empirical covariance matrix, SFA and SVD approximations. Here, I also used the Identity (K=1), 5 single-rank SFA factors (K=4-9), and the 44+1 $eqtlbma.lite$ configurations (K=10:54) in steps (7) and (8) to a assemble a full list of covariance matrices. Briefly, these  $eqtlbma.lite$ are an attempt to capture 'singleton' and 'fully shared' configurations in which the gene-snp pair is active in only one or all tissues. In the latter case, the variance of the distribution of underlying effect sizes is equal in all tissues.  This is 54 matrices, and we then proceed to chooses an $'L'$ element grid according to the range of effect sizes present in the initial 16,069 x 44 matrix of strong Z statistics to create a KxL list of covariance matrices. In the GTeX data set we choose a grid with 22 omegas for a total of 1188 covariance matrices.
+%
+%We then use these three non single-rank covariance matrix in place of our original choice of the empirical covariance matrix, SFA and SVD approximations. Here, I also used the Identity (K=1), 5 single-rank SFA factors (K=4-9), and the 44+1 $eqtlbma.lite$ configurations (K=10:54) in steps (7) and (8) to a assemble a full list of covariance matrices. Briefly, these  $eqtlbma.lite$ are an attempt to capture 'singleton' and 'fully shared' configurations in which the gene-snp pair is active in only one or all tissues. In the latter case, the variance of the distribution of underlying effect sizes is equal in all tissues.  This is 54 matrices, and we then proceed to chooses an $'L'$ element grid according to the range of effect sizes present in the overall data set in order to create a KxL list of covariance matrices. In the GTeX data set described in the text, we choose a grid with 22 $\omega$ for a total of 1188 covariance matrices.
+
+
+\subsection{Mixture Weights: Estimate $\hat{\bm{\pi}}$}
+We wish to choose the model which best maximizes the probability of observing the data set. 
+
+Incomplete Data likelihood:
+%Here, the total likelihood of the test data set over $K$ components: 
+
+\begin{equation}
+L(\bm\pi;{\hat{\bm{b}})} = \prod_{j=1}^J \sum_{k}^{K} \pi_{k} P(\hat{\bm{b_{j}}} | z_{j}=k)
+\label{eq:pihat}
+\end{equation}
+
+Here, in order to obtain mixture weights $(\bm\pi;{\hat{\bm{b}})}$ which reflect the abundance of each pattern of sharing in the overall data set, we use a random set of gene-snp pairs (i.e., not restricting our analysis strong Z statistics used in the section above). 
+
+\begin{itemize}
+\item  To estimate the hierarchical prior weights $\hat{\bm{\pi}}$ we compute the likelihood at each of these randomly chosen gene-snp pairs $j$ by evaluating the probability of observing $\bm{\hat{b}_{j}}$ given that we know the true $\bm{b_{j}}$ arises from component $k$
+\item  Use the EM algorithm to estimate the optimal combination of weights using the  $JxK$ matrix of likelihoods computed according to ($\ref{eqn:new_lik}$).
+\end{itemize}
+
+%We then use these weights to estimate the test set log-likelihood.
+
 \subsection{Likelihood}
 
 By maximum likelihood in each tissue separately, we can easily obtain the observed estimates of the standardized genotype effect sizes, $\hat{\bm{b}}_{j}$, and their observed squared standard errors recorded on the diagonal of an $R \times R$ matrix noted $\hat{V}_{j} = \Var(\hat{\bm{b}}_{j})$. 
@@ -67,12 +91,13 @@ We assume that the matrix of standard errors of $\hat{\bm{b}}_{j}$, $V_{j}$ as a
 If we now view $\hat{\bm{b}}_{j}$ and $\hat{V}_{j}$ as \emph{observed data}, we can write a new ``likelihood'' using only the sufficient statistics,   $\hat{\bm{b}}_{j}$ and $\hat{V}_{j}$:
 
 \begin{equation}
-  \label{new_lik}
-  \hat{\bm{b}}_{j} | \bm{b}_{j} \sim \Norm_R(\bf{x}; \bm{b}_{j}, \hat{V}_{j})
+\hat{\bm{b}}_{j} | \bm{b}_{j} \sim \Norm_R(\bf{x}; \bm{b}_{j}, \hat{V}_{j})
+    \label{eqn:new_lik}
 \end{equation}
 
 \subsection{Posterior Quantities}
-%Now that I have the estimated these prior mixture weights stored in the vector $\textbf{\pis}$. I proceed to the inference step, where I compute the posterior weights and corresponding posterior quantities across all original 16,069 gene-snp pairs. In brief, the posterior mean, post covariance matrix and tissue specific tail probabilities are computed across all K components for each gene snp pair, and then weighted according to the posterior weights. This is performed in the $\textbf{weightedquants}$ step.\includegraphics[]{Methods.pdf}
+
+Armed with the prior mixture weights stored in the K x L vector $\hat{\bm{\pi}}$ we proceed to the inference step and compute the posterior weights ($\ref{eqn:postpi}$) and corresponding posterior quantities across all original 16,069 gene-snp pairs. %In brief, the posterior mean and tissue specific tail probabilities are computed across all K components for each gene snp pair, and then weighted according to the posterior weights. This is performed in the $\textbf{weightedquants}$ step.\includegraphics[]{Methods.pdf}
 
 We aim to report posterior quantities for a given gene-snp pair $\textbf{j}$. We know that for a single multivariate {\it Normal}  the posterior on  $\bm{b} | U$ is  simply: 
 
@@ -112,12 +137,11 @@ Where again, ${\it N}_R(.; \bm{0}, \omega_l U_{k})$ denotes the density of a nor
 
 
  \begin{equation}
- \label{post.pi}
 \tilde \pi_{jk} =\frac{ p(\hat{\bm{b}}_{j}| \hat{V}_{j}, z_{j}=k) \hat \pi_{k} } {\sum_{k=1}^{K} p(\hat{\bm{b}}_{j}| \hat{V}_{j}, z_{j}=k) \hat\pi_{k}}
+ \label{eqn:postpi}
 \end{equation}
 
-Where $z_{j}=k$ is the latent variable indicator of the component identity and each $\hat\pi_{k}$ represents the Maximum Likelihood Estimate of the prior mixture weights assigned to each component (using the EM algorithm, see Ash for details).
-
+Where $z_{j}=k$ is the latent variable indicator of the component identity and each $\hat\pi_{k}$ represents the Maximum Likelihood Estimate of the prior mixture weights assigned to each component (\ref{eq:pihat}).
 
 \subsection{Reported Quantities}
 
@@ -125,23 +149,24 @@ For every gene-snp pair `j', we aim to report the effect size as the posterior m
 
 \begin{equation}
 \begin{aligned}
-  \label{eq:mixmean}
 E(\bm{b}_{j} | \hat{\bm{b}_{j}}, \hat{V}_{j}, \hat{\bm{\pi}})
 %&= \sum_{k=1,l=1}^{K,L} \sim {\it N}_R(\bm{\mu}_{1kl}, U_{1kl})%p(\bm{b}_{j} | \hat{\bm{b}}_{j}, \hat{V}_{j}, z_{j}=k,l) 
 %p(z=k,l | \hat{\bm{b}}, \hat{V}, \hat{\bm{\pi} }),%v_{j}=1)
  %\\
 = \sum_{k}^{K}  \tilde \pi_{k} \bm{\tilde{\mu}}_{k} %,v_{j}=1) 
-
 \end{aligned}
+\label{eq:mixmean}
 \end{equation}
 
 
 And the local false sign rate, or posterior probability of incorrectly identifying the sign of the effect for a given tissues `r' as :
 
 \begin{equation}
+  \label{eq:lfsr}
 \begin{split}
 P(b_{jr})= 1-max[{\sum_{k}}p({b_{j,r}}>0|\hat{\bm{b}}_{j}, \hat{V}_{j}, z_{j}=k)\tilde \pi_{k}, {\sum_{k}}p({b_{j,r}}<0|\hat{\bm{b}}_{j}, \hat{V}_{j}, z_{j}=k)\tilde \pi_{jk}]
 \end{split}
 \end{equation}
 
+For the results section of this paper, we report the  posterior mean ($\ref{eq:mixmean}$) and LFSR ($\ref{eq:lfsr}$) for the `top' snp per gene, but armed with the hierarchical weights (\ref{eq:pihat}) and covariance matrices $\textbf{U}$ the posteriors can be computed for any gene-snp pair.
 
