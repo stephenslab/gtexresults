@@ -139,19 +139,19 @@ points(t[tspecific],univariate.ash.pm[tspecific],col="green")
 dev.off()
 
 
-png("scatterplot.truthtspec.png")
-plot(as.matrix(t.truth.test[1:10000,]),as.matrix(post.means),col=adjustcolor("blue", alpha=0.5), pch=16,main="E(Z|Data) vs Z.true",ylab="E(Z|Data)",xlab="Z.truth")
+png("scatterplot_truthtspec.png")
+plot(as.matrix(t.truth.test[1:10000,]),as.matrix(post.means),col=adjustcolor("blue", alpha=0.5), pch=16,main="E(Z|Data_mash) vs Z.true",ylab="E(Z|Data)",xlab="Z.truth")
 points(t.truth.test[null.vals,],post.means[null.vals,],col="red")
 points(t.truth.test[tspecific],post.means[tspecific],col="green")
-legend("right",legend=c(paste0("RMSE=",round(sqrt(mean((t.truth.test[1:10000,]-post.means)^2)),2)),"Tissue_specific","TrueNulls"),pch=1,col=c("black","green","red"))
+legend("right",legend=c(paste0("RMSE=",round(sqrt(mean((t.truth.test[1:10000,]-post.means)^2)),2)),"Tissue_specific","TrueNulls"),pch=1,col=c("blue","green","red"))
 dev.off()
 
 
-png("scatterplot.TRUTHashtspec.png")
+png("scatterplot_TRUTHashtspec.png")
 plot(as.matrix(t.truth.test[1:10000,]),as.matrix(univariate.ash.pm),col=adjustcolor("blue", alpha=0.5), pch=16,main="E(Z|Data.ash) vs Z.True",ylab="E(Z|Data)",xlab="Z.True")
 points(t.truth.test[null.vals,],univariate.ash.pm[null.vals,],col="red")
 points(t.truth.test[tspecific],univariate.ash.pm[tspecific],col="green")
-legend("right",legend=c(paste0("RMSE=",round(sqrt(mean((t.truth.test[1:10000,]-univariate.ash.pm)^2)),2)),"Tissue_specific","TrueNulls"),pch=1,col=c("black","green","red"))
+legend("right",legend=c(paste0("RMSE=",round(sqrt(mean((t.truth.test[1:10000,]-univariate.ash.pm)^2)),2)),"Tissue_specific","TrueNulls"),pch=1,col=c("blue","green","red"))
 dev.off()
 
 ```
