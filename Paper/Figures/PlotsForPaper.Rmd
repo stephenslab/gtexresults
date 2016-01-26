@@ -108,7 +108,7 @@ legend("bottom",legend=c("MASH","BMALite","ASH"),pch=c(2,1,3),col=c("blue","red"
 title("Number of True Association Captured vs Significance (LFSR) Threshold")
 ```
 
-Now show the scatterplots demonstrating the tissue.specific scenario. Recall that the  purpose is to simulate according to the patterns of sharing present in the GTEX V6 Data, where 100 snps in cis of 500 genes, $\pi_0$ is 0.80, and there is sharing according to gtex covmats 2:9 and about 35% tissues specific.We can also plot the scatterplot to observe the behavior of 'null'(in red) and 'real'(in blue) associations. We see that our joint analysis reduces the Root Mean Squared Error (RMSE) and provides ample shrinkage of 'null values'.
+Now show the scatterplots demonstrating the tissue.specific scenario. Recall that the  purpose is to simulate according to the patterns of sharing present in the GTEX V6 Data, where 100 snps in cis of 500 genes, $\pi_0$ is 0.80, and there is sharing according to gtex covmats 2:9 and about 35% tissues specific. We can also plot the scatterplot to observe the behavior of 'null'(in red) and 'real'(in blue) associations. We see that our joint analysis reduces the Root Mean Squared Error (RMSE) and provides ample shrinkage of 'null values'.
 
 ```{r scatterplot,eval=FALSE, echo=FALSE}
 post.means=as.matrix(mash.means)
@@ -154,12 +154,50 @@ points(t.truth.test[tspecific],univariate.ash.pm[tspecific],col="green")
 legend("right",legend=c(paste0("RMSE=",round(sqrt(mean((t.truth.test[1:10000,]-univariate.ash.pm)^2)),2)),"Tissue_specific","TrueNulls"),pch=1,col=c("blue","green","red"))
 dev.off()
 
+
+
+#######
+
+png("scatterplotfittedbspec.png")
+plot(as.matrix(bhat[1:10000,]),as.matrix(post.means)*sebetahat[1:10000,],col=adjustcolor("blue", alpha=0.5), pch=16,main="E(B|Data) vs Bmle",ylab="E(B|Data)",xlab="Bmle")
+points(bhat[null.vals,],post.means[null.vals,]*sebetahat[null.vals,],col="red")
+points(bhat[tspecific],post.means[tspecific]*sebetahat[tspecific],col="green")
+dev.off()
+
+png("scatterplotfitted_bspec_ash.png")
+plot(as.matrix(bhat[1:10000,]),as.matrix(univariate.ash.pm)*sebetahat[1:10000,],col=adjustcolor("blue", alpha=0.5), pch=16,main="E(B|Data_ash) vs Bmle",ylab="E(B|Data_ash)",xlab="Bmle")
+points(bhat[null.vals,],univariate.ash.pm[null.vals,]*sebetahat[null.vals,],col="red")
+points(bhat[tspecific],univariate.ash.pm[tspecific]*sebetahat[tspecific],col="green")
+dev.off()
+
+
+png("scatterplot_truthbspec.png")
+plot(as.matrix(beta[1:10000,]),as.matrix(post.means)*sebetahat[1:10000,],col=adjustcolor("blue", alpha=0.5), pch=16,main="E(B|Data_mash) vs B.true",ylab="E(B|Data)",xlab="B.truth")
+points(beta[null.vals,],post.means[null.vals,]*sebetahat[null.vals,],col="red")
+points(beta[tspecific],post.means[tspecific]*sebetahat[tspecific],col="green")
+legend("right",legend=c(paste0("RMSE=",round(sqrt(mean((beta[1:10000,]-post.means*sebetahat[1:10000,])^2)),2)),"Tissue_specific","TrueNulls"),pch=1,col=c("blue","green","red"))
+dev.off()
+
+
+png("scatterplot_TRUTHashbspec.png")
+plot(as.matrix(beta[1:10000,]),as.matrix(univariate.ash.pm)*sebetahat[1:10000,],col=adjustcolor("blue", alpha=0.5), pch=16,main="E(B|Data.ash) vs B.true",ylab="E(B|Data)",xlab="B.True")
+points(beta[null.vals,],univariate.ash.pm[null.vals,]*sebetahat[null.vals,],col="red")
+points(beta[tspecific],univariate.ash.pm[tspecific]*sebetahat[tspecific],col="green")
+legend("right",legend=c(paste0("RMSE=",round(sqrt(mean((beta[1:10000,]-univariate.ash.pm*sebetahat[1:10000,])^2)),2)),"Tissue_specific","TrueNulls"),pch=1,col=c("blue","green","red"))
+dev.off()
+
 ```
 
 ![alt text](scatterplot_fittedtspec.png) 
 ![alt text](scatterplot_fittedtspec_ash.png)
 ![alt text](scatterplot_truthtspec.png)
 ![alt text](scatterplot_TRUTHashtspec.png)
+
+
+![alt text](scatterplotfittedbspec.png) 
+![alt text](scatterplotfittedbspecash.png)
+![alt text](scatterplot_truthbspec.png)
+![alt text](scatterplot_TRUTHashbspec.png)
 
 ##REAL DATA RESULTS
 
@@ -358,7 +396,9 @@ k=3
 x=covmat[[k]]/max(diag(covmat[[k]]))
 colnames(x)=colnames(z.stat)
   rownames(x)=colnames(z.stat)                  
-heatmap.2(x,Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
+# heatmap.2(x,Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
+
+barplot(diag(x),las=2,main=paste("Prior Variance of Effect Size for Uk",k),cex.names = 0.5)
 #newfunc(three.ex.2)
 newfunc(three.ex.3)
 
@@ -368,17 +408,23 @@ In this example, though the particular pattern featured (Uk = 9) captures correl
 
 ```{r,echo=FALSE}
 
-k=9
+#k=9
+k=5
 x=covmat[[k]]/max(diag(covmat[[k]]))
   colnames(x)=colnames(z.stat)
   rownames(x)=colnames(z.stat)                  
-heatmap.2(x,Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
-
+# heatmap.2(x,Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
+five.ex=which(rownames(z.stat)=="ENSG00000120029.8_10_103924251_G_A_b37")
 nine.ex.2=which(rownames(z.stat)=="ENSG00000059588.5_1_234612995_T_C_b37")
 nine.ex.3=which(rownames(z.stat)=="ENSG00000009830.7_14_77776501_T_A_b37")
 spec.ex=which(rownames(z.stat)=="ENSG00000131848.5_19_56741808_G_A_b37")
+#barplot(diag(x),las=2,main=paste("Prior Variance of Effect Size for Uk",k),cex.names = 0.5)
 
-newfunc(t=nine.ex.3)
+#newfunc(t=nine.ex.3)
+
+barplot(diag(x),las=2,main=paste("Prior Variance of Effect Size for Uk",k),cex.names = 0.5)
+
+newfunc(t=five.ex)
 ```
 
  Lastly, the inclusion of the eQTLBMA lite configurations (in which the SNP has a non-zero effect in only one tissue) coupled with the learned patterns of tissue specificity evident in matrices Uk : 5 − 9 serve to allow the preservation of qualitatively specific effects. Here, we show a gene-snp pair demonstrating high loading on one of the eqtlbma-lite configuration matrices - indeed, we reject the significance of the effect size estimates in all tissues but testes, a pattern consistent with the presence of tissue-specificity described below. Together, these results cement the resolution afforded by methods which can distinguish among tissues in which a QTL is called active, beyond reducing genetic effects to binary ‘on’ or ‘off’ conclusions.
@@ -386,7 +432,10 @@ newfunc(t=nine.ex.3)
  
 ```{r,echo=FALSE}
 #newfunc(t=nine.ex.2)
-newfunc(t=spec.ex)
+wholebloodtwo=(which(rownames(maxz)=="ENSG00000078114.14_10_21501314_T_C_b37"))
+
+
+newfunc(t = wholebloodtwo)
 ```
 
 ## Now we discuss Tissue specificity

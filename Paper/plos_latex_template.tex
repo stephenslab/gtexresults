@@ -300,41 +300,29 @@ We provide a novel framework for estimating effect sizes across multiple subgrou
 %
 %Sed non aliquet felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris commodo justo ac dui pretium imperdiet. Sed suscipit iaculis mi at feugiat. Ut neque ipsum, luctus id lacus ut, laoreet scelerisque urna. Phasellus venenatis, tortor nec vestibulum mattis, massa tortor interdum felis, nec pellentesque metus tortor nec nisl. Ut ornare mauris tellus, vel dapibus arcu suscipit sed. Nam condimentum sem eget mollis euismod. Nullam dui urna, gravida venenatis dui et, tincidunt sodales ex. Nunc est dui, sodales sed mauris nec, auctor sagittis leo. Aliquam tincidunt, ex in facilisis elementum, libero lectus luctus est, non vulputate nisl augue at dolor. For more information, see \nameref{S1_Text}.
 %
-\section*{Supporting Information}
-
-\subsection{Testing and Training}
-
-In order to determine the optimal number and rank of the covariance matrices, we divide our data set into a training and test data set, each containing 8000 genes.
-
-In the training set, we proceed as above: choosing the top SNP for each of the 8000 genes, creating a list of covariance matrices through deconvolution and grid selection of these top 'training gene-snp' pairs. 
-
-Then, within the training data, we similarly choose a random set of gene-snp pairs (restricting our analysis to genes contained in the training set. Again, we choose 20,000 random-gene snp pairs and use the EM algorithm to learn the mixture proportions $\pi$  from this data set.
-
-We then use the KxL vector of $\pi$ from the training set to estimate the log likelihood of each data point in the test data set. If our model is 'overfit' to the training data set, than a larger number of covariance matrices may actually decrease the test log-likelihood. 
-
-I found that the K=1188 set of covariance matrices containing the Identity, the denoised empirical covariance matrix, rank five SFA approximation and rank 3 SVD approximation as well as 5 single-rank SFA factors and the 45 $eqtl.bma.lite$ configurations maximized this likelihood.
 
 
 
 
-\subsection{Training and Testing Procedure: Estimating Hierarchical Weights}
 
-We wish to choose the model which best maximizes the probability of observing the data set. 
-
-Incomplete Data likelihood:
-%Here, the total likelihood of the test data set over $K$ components: 
-
-\begin{equation}
-L(\bm\pi;{\hat{\bm{b}})} = \prod_{j=1}^J \sum_{k}^{K} \pi_{k} P(\hat{\bm{b_{j}}} | z_{j}=k)
-\end{equation}
-
-\begin{itemize}
-\item  To estimate the hierarchical prior weights $\pi_{k}$: compute the likelihood at each each gene-snp pair $j$ by evaluating the probability of observing $\bm{\hat{b}_{j}}$ given that we know the true $\bm{b_{j}}$ arises from component $k$
-\item  Use the EM algorithm to estimate the optimal combination of weights (See Ash et al for details of the EM).
-\end{itemize}
-
-We then use these weights to estimate the test set log-likelihood.
-
+%\subsection{Training and Testing Procedure: Estimating Hierarchical Weights}
+%
+%We wish to choose the model which best maximizes the probability of observing the data set. 
+%
+%Incomplete Data likelihood:
+%%Here, the total likelihood of the test data set over $K$ components: 
+%
+%\begin{equation}
+%L(\bm\pi;{\hat{\bm{b}})} = \prod_{j=1}^J \sum_{k}^{K} \pi_{k} P(\hat{\bm{b_{j}}} | z_{j}=k)
+%\end{equation}
+%
+%\begin{itemize}
+%\item  To estimate the hierarchical prior weights $\pi_{k}$: compute the likelihood at each each gene-snp pair $j$ by evaluating the probability of observing $\bm{\hat{b}_{j}}$ given that we know the true $\bm{b_{j}}$ arises from component $k$
+%\item  Use the EM algorithm to estimate the optimal combination of weights (See Ash et al for details of the EM).
+%\end{itemize}
+%
+%We then use these weights to estimate the test set log-likelihood.
+%
 
 
 % Include only the SI item label in the subsection heading. Use the \nameref{label} command to cite SI items in the text.
