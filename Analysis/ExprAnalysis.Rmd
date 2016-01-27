@@ -7,7 +7,7 @@ Check to see if the QTLs have expression values that are tissue-specific.
 
 ```{r, cache=TRUE,echo=FALSE}
 library('qtlcharts')
-data=read.csv("../Data/AvgExpr.csv",header = T)
+data=read.csv("~/Dropbox/AvgExpr.csv",header = T)
 rownames(data)=data[,1]
 expr.data=data[,-1]
 maxz=read.table("../Data/maxz.txt")
