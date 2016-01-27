@@ -1,0 +1,99 @@
+---
+title: "ShowTissueSpecificPatterns"
+output: html_document
+---
+
+Check to see if the QTLs have expression values that are tissue-specific.
+
+```{r, cache=TRUE,echo=FALSE}
+library('qtlcharts')
+data=read.csv("../Data/AvgExpr.csv",header = T)
+rownames(data)=data[,1]
+expr.data=data[,-1]
+maxz=read.table("../Data/maxz.txt")
+qtl.names=sapply(1:length(rownames(maxz)),function(x){unlist(strsplit(rownames(maxz)[x], "[_]"))[[1]]})
+expr.sort=expr.data[rownames(expr.data)%in%qtl.names,]
+
+lfsr=read.table("../Data/Aug13withEDlfsr.txt")[,-1]
+pmash=read.table("../Data/Aug13withEDposterior.means.txt")[,-1]
+
+
+colnames(lfsr)=colnames(pmash)=colnames(maxz)
+rownames(lfsr)=rownames(pmash)=rownames(maxz)
+
+a=match(qtl.names,rownames(expr.sort))###in order to make sure the gene names are the same in both
+
+
+expr.sort=expr.sort[a,]
+
+head(rownames(expr.sort))[1:5]
+head(rownames(lfsr))[1:5]
+missing.tissues=c(7,8,19,20,24,25,31,34,37)
+exp.sort=expr.sort[,-missing.tissues]
+colnames(exp.sort)=colnames(maxz)
+
+plot_tissuespecific = function(tissuename,lfsr,curvedata,title,thresh=0.05,subset=1:44){
+  index_tissue=which(colnames(lfsr) %in% tissuename);
+  ybar=title
+  ##create a matrix showing whether or not lfsr satisfies threshold
+  sigmat = lfsr <= thresh;
+  sigs=which(rowSums(sigmat[,index_tissue,drop=FALSE])==length(tissuename) & rowSums(sigmat[,-index_tissue,drop=FALSE])==0)
+  #sigs.it=which(lfsr[sigs,index_tissue]<thresh)
+  iplotCurves(curvedata[sigs,subset],chartOpts=list(curves_xlab="Tissue",curves_ylab=ybar))
+}  
+
+bar_example=function(gene.name,expr.sort)
+  {
+  index=which(rownames(expr.sort)==gene.name)
+  barplot(as.matrix(expr.sort[index,]),las=2,main=gene.name)
+  }
+```
+
+Check testis: 
+```{r}
+plot_tissuespecific("Testis",lfsr,log(exp.sort),"log(exp.sort)",thresh=0.05,subset=1:44)
+```
+
+Show that they are eQTL:
+```{r}
+plot_tissuespecific("Testis",lfsr,pmash,"eQTLEffect",thresh=0.05,subset=1:44)
+```
+
+Check Whole Blood
+```{r}
+
+plot_tissuespecific("Whole_Blood",lfsr,log(exp.sort),"log(exp.sort)",thresh=0.05,subset=1:44)
+```
+
+
+QTLplot
+```{r}
+plot_tissuespecific("Whole_Blood",lfsr,pmash,"eQTLEffect",thresh=0.05,subset=1:44)
+```
+I am not seeing evidence of tissue specific expression.
+
+##Check for our select examples:
+
+```{r, whole.blood,cache=T}
+
+gene.name="ENSG00000120029.8"
+bar_example(gene.name,expr.sort)
+
+gene.name="ENSG00000078114.14"
+bar_example(gene.name,expr.sort)
+```
+
+Testis qualitative:
+
+
+```{r, testis,cache=T}
+
+gene.name="ENSG00000059588.5"
+bar_example(gene.name,expr.sort)
+```
+
+So tissue-specificitiy in expression is the exception not the rule, and our examples are good.
+
+
+
+

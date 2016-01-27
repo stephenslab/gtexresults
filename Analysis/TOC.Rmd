@@ -26,6 +26,10 @@ These are pairwise scatterplots where the effects are colored by the component w
 *  [Comparison With UniAsh](ComparingwithUnivAsh_beta.pdf)
 *  [Tissue Specific Examples](TissueSpecific.html)
 
+We also want to check that tissue specificity in expression is NOT occurring and that the select examples we've chosen don't demonstrate that. 
+
+*  [Tissue Specific Examples](ExprAnalysis.html)
+
 Though the numerical stability issue has been resolved, I think it's worth considering which examples are poorly fit by the BMA lite configs.
 *  [Considering the Failure of BMA](ComparingtoanalysiswithBMA.html)
 
