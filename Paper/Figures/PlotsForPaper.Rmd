@@ -687,6 +687,20 @@ dev.off()
 ![alt text](../Figures/hetvshomqtl.png)
 
 
+To plot the PC:
+
+```{r}
+par(mfrow=c(3,3))
+par(mar=c(2,4,4,1))
+for(i in 2:9){
+  
+v=svd(covmat[[i]])$v
+  colnames(v)=rownames(v)=colnames(maxz)
+max.effect=sign(v[,1][which.max(abs(v[,1]))])
+barplot(max.effect*v[,1],las=2,main=paste0("EigenVector1ofUk=",i),col=i-1,axisnames=ifelse(i==7,TRUE,FALSE),cex.names=ifelse(i==7,0.5,NULL))
+}
+```
+
 
 
 
