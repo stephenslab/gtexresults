@@ -19,7 +19,7 @@ univariate.ash.pm=read.table("~/Dropbox/univariate.ash.pm.txt")
 bma.pm=read.table("~/Dropbox/testsimBMAonlyposterior.means.txt")[,-1]
 lfsr.bma=read.table("~/Dropbox/testsimBMAonlylfsr.txt")[,-1]
 lfsr.mash=read.table("~/Dropbox/Simulationslfsr.txt")[,-1]
-lfsr.ash=read.table("~/Dropbox/univariate.ash.lfsr.txt")[,-1]
+lfsr.ash=read.table("~/Dropbox/univariate.ash.lfsr.txt")
 
 ```
 
@@ -45,15 +45,23 @@ cor(unlist(as.vector(t.truth.test[1:10000,])), unlist(as.vector(univariate.ash.p
 
 And here we plot number sig vs significance threshold:
 ```{r echo=FALSE,cache=TRUE}
-plot(0.05,length(intersect(which(beta!=0),which(lfsr.mash<0.05))),col="blue",ylim=c(400,2900),xlim=c(0.01,0.10),pch=2,ylab="NumberofTrueAssociationsCaptured",xlab="LFSRThreshold")
+beta=as.matrix(beta[1:10000,])
+lfsr.mash=as.matrix(lfsr.mash)
+lfsr.ash=as.matrix(lfsr.ash)
+lfsr.bma=as.matrix(lfsr.bma)
+
+
+plot(0.05,sum(sum(beta!=0&lfsr.mash<0.05)),col="blue",ylim=c(0,15000),xlim=c(0.01,0.10),pch=2,ylab="NumberofTrueAssociationsCaptured",xlab="LFSRThreshold")
+
 for(thresh in seq(from = 0.01,to = 0.1,by = 0.001)){
-points(thresh,length(intersect(which(beta!=0),which(lfsr.bma<thresh))),col="red",pch=1)}
+points(thresh,sum(beta!=0&lfsr.mash<thresh),col="blue",pch=1)}
 for(thresh in seq(from = 0.01,to = 0.1,by = 0.001)){
-points(thresh,length(intersect(which(beta!=0),which(lfsr.mash<thresh))),col="blue",pch=2)}
+points(thresh,sum(beta!=0&lfsr.bma<thresh),col="red",pch=2)}
 for(thresh in seq(from = 0.01,to = 0.1,by = 0.001)){
-points(thresh,length(intersect(which(beta!=0),which(lfsr.ash<thresh))),col="green",pch=3)}
+points(thresh,sum(beta!=0&lfsr.ash<thresh),col="green",pch=3)}
+
 legend("bottom",legend=c("MASH","BMALite","ASH"),pch=c(2,1,3),col=c("blue","red","green"))
-title("Number of True Association Captured vs Significance (LFSR) Threshold")
+title("Number of True Association Captured vs Significance (LFSR) Threshold, Under Sharing")
 ```
 
 
@@ -97,15 +105,23 @@ cor(unlist(as.vector(beta[1:10000,])), unlist(as.vector(univariate.ash.pm*sebeta
 
 And here we plot number sig vs significance threshold:
 ```{r echo=FALSE,cache=TRUE}
-plot(0.05,length(intersect(which(beta!=0),which(lfsr.mash<0.05))),col="blue",ylim=c(400,2900),xlim=c(0.01,0.10),pch=2,ylab="NumberofTrueAssociationsCaptured",xlab="LFSRThreshold")
+beta=as.matrix(beta[1:10000,])
+lfsr.mash=as.matrix(lfsr.mash)
+lfsr.ash=as.matrix(lfsr.ash)
+lfsr.bma=as.matrix(lfsr.bma)
+
+
+plot(0.05,sum(sum(beta!=0&lfsr.mash<0.05)),col="blue",ylim=c(0,10000),xlim=c(0.01,0.10),pch=2,ylab="NumberofTrueAssociationsCaptured",xlab="LFSRThreshold")
+
 for(thresh in seq(from = 0.01,to = 0.1,by = 0.001)){
-points(thresh,length(intersect(which(beta!=0),which(lfsr.bma<thresh))),col="red",pch=1)}
+points(thresh,sum(beta!=0&lfsr.mash<thresh),col="blue",pch=1)}
 for(thresh in seq(from = 0.01,to = 0.1,by = 0.001)){
-points(thresh,length(intersect(which(beta!=0),which(lfsr.mash<thresh))),col="blue",pch=2)}
+points(thresh,sum(beta!=0&lfsr.bma<thresh),col="red",pch=2)}
 for(thresh in seq(from = 0.01,to = 0.1,by = 0.001)){
-points(thresh,length(intersect(which(beta!=0),which(lfsr.ash<thresh))),col="green",pch=3)}
+points(thresh,sum(beta!=0&lfsr.ash<thresh),col="green",pch=3)}
+
 legend("bottom",legend=c("MASH","BMALite","ASH"),pch=c(2,1,3),col=c("blue","red","green"))
-title("Number of True Association Captured vs Significance (LFSR) Threshold")
+title("Number of True Association Captured vs Significance (LFSR) Threshold, Under Sharing")
 ```
 
 Now show the scatterplots demonstrating the tissue.specific scenario. Recall that the  purpose is to simulate according to the patterns of sharing present in the GTEX V6 Data, where 100 snps in cis of 500 genes, $\pi_0$ is 0.80, and there is sharing according to gtex covmats 2:9 and about 35% tissues specific. We can also plot the scatterplot to observe the behavior of 'null'(in red) and 'real'(in blue) associations. We see that our joint analysis reduces the Root Mean Squared Error (RMSE) and provides ample shrinkage of 'null values'.
