@@ -114,13 +114,19 @@
 \newcommand{\Normal}{\mathcal{N}}
 \newcommand{\argmax}{\operatornamewithlimits{argmax}}
 \newcommand{\like}{\mathcal{L}}
-
+\setcounter{secnumdepth}{3} % default value for 'report' class is "2"
 % ligatures disabled
 \usepackage{microtype}
 \DisableLigatures[f]{encoding = *, family = * }
 
 
 \usepackage{bm}
+
+
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+
 % rotating package for sideways tables
 \usepackage{rotating}
 
@@ -153,13 +159,16 @@
 \usepackage{lastpage,fancyhdr,graphicx}
 \nonstopmode  % to allow pdflatex to compile even if errors are raised (e.g. missing figures)
 \usepackage{epstopdf}
+
+
+
 \pagestyle{myheadings}
 \pagestyle{fancy}
 \fancyhf{}
 \lhead{\includegraphics[width=2.0in]{PLOS-submission.eps}}
 \rfoot{\thepage/\pageref{LastPage}}
 \renewcommand{\footrule}{\hrule height 2pt \vspace{2mm}}
-\fancyheadoffset[L]{2.25in}
+\fancyheadoffset[L]{2.25in} 
 \fancyfootoffset[L]{2.25in}
 \lfoot{\sf PLOS}
 
@@ -172,6 +181,7 @@
 
 
 \begin{document}
+
 \vspace*{0.35in}
 
 % Title must be 250 characters or less.

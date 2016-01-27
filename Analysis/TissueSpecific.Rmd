@@ -171,6 +171,13 @@ nsig= rowSums(sigmat)
 #pull out snps only significant in 1
 specifics=which(rowSums(sigmat)==1)
 
+tspec_func=function(sigmat,tissuename){
+  index_tissue=which(colnames(sigmat)==tissuename)
+    sigs=which(rowSums(sigmat)==1 & rowSums(sigmat[,-index_tissue])==0)
+  return(rownames(sigmat)[sigs])
+  #return(rownames(rownames(sigmat)[sigs])
+}
+
 ##find significant tissues
 nqtls=apply(sigmat[specifics,],2,sum)
 tissue.names=colnames(z.stat)

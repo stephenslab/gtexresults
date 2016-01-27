@@ -126,16 +126,18 @@ tspecific=cbind(tspec,tissues)
 
 
 
-png("scatterplot.fittedtspec.png")
+png("scatterplot_fittedtspec.png")
 plot(as.matrix(t[1:10000,]),as.matrix(post.means),col=adjustcolor("blue", alpha=0.5), pch=16,main="E(Z|Data) vs Zmle",ylab="E(Z|Data)",xlab="Zmle")
 points(t[null.vals,],post.means[null.vals,],col="red")
 points(t[tspecific],post.means[tspecific],col="green")
+legend("right",legend=c("Tissue_specific","TrueNulls"),pch=1,col=c("green","red"))
 dev.off()
 
-png("scatterplot.fittedtspec.ash.png")
+png("scatterplot_fittedtspec_ash.png")
 plot(as.matrix(t[1:10000,]),as.matrix(univariate.ash.pm),col=adjustcolor("blue", alpha=0.5), pch=16,main="E(Z|Data_ash) vs Zmle",ylab="E(Z|Data_ash)",xlab="Zmle")
 points(t[null.vals,],univariate.ash.pm[null.vals,],col="red")
 points(t[tspecific],univariate.ash.pm[tspecific],col="green")
+legend("right",legend=c("Tissue_specific","TrueNulls"),pch=1,col=c("green","red"))
 dev.off()
 
 
@@ -230,16 +232,16 @@ colnames(pm.mash.beta)=colnames(pm.ash.beta)=colnames(lfsr.mash)=colnames(maxz)
 png("comparebeta.png")
 par(mfrow=c(1,2))
 
-plot(unlist(as.vector(maxb)),unlist(as.vector(pm.ash.beta)),col=rgb(0,100,0,50,maxColorValue=255), pch=16,main="UnivariateAshAppliedtoAllTissues",xlab="B.mle",ylab="UnivariateAshE(B|D)")
-plot(unlist(as.vector(maxb)),unlist(as.vector(pm.mash.beta)),col=rgb(0,100,0,50,maxColorValue=255), pch=16,main="MatrixAshPosteriorMeansvsUnivariateSumStats",xlab="B.mle",ylab="MatrixAshE(B|D)")
+plot(unlist(as.vector(maxb)),unlist(as.vector(pm.ash.beta)),col=rgb(0,100,0,50,maxColorValue=255), pch=16,main="E(B|D)vsB.hat_ASH",xlab="B.hat",ylab="ASH__E(B|D)")
+plot(unlist(as.vector(maxb)),unlist(as.vector(pm.mash.beta)),col=rgb(0,100,0,50,maxColorValue=255), pch=16,main="E(B|D)vsB.hat_MASH",xlab="B.hat",ylab="MASH_E(B|D)")
 dev.off()
 
 
 png("comparez.png")
 par(mfrow=c(1,2))
 
-plot(unlist(as.vector(maxz)),unlist(as.vector(pm.ash)),col=rgb(0,100,0,50,maxColorValue=255), pch=16,main="Z.mle",xlab="SummaryUnivariateZStats",ylab="UnivariateAshE(Z|D)")
-plot(unlist(as.vector(maxz)),unlist(as.vector(pm.mash)),col=rgb(0,100,0,50,maxColorValue=255), pch=16,main="MatrixAshPosteriorMeansvsUnivariateSumStats",xlab="Z.mle",ylab="MatrixAshE(Z|D)")
+plot(unlist(as.vector(maxz)),unlist(as.vector(pm.ash)),col=rgb(0,100,0,50,maxColorValue=255), pch=16,main="E(Z|D)vsZ_ASH",xlab="Z",ylab="ASH__E(Z|D)")
+plot(unlist(as.vector(maxz)),unlist(as.vector(pm.mash)),col=rgb(0,100,0,50,maxColorValue=255), pch=16,main="E(Z|D)vsZ.hat_MASH",xlab="Z",ylab="MASH_E(Z|D)")
 dev.off()
 ```
 ![alt text](comparebeta.png)
@@ -257,7 +259,7 @@ Now, we would like to compare the pi.matrices to see from where the prior weight
 par(mfrow=c(1,2))
 pi.bma=readRDS("~/Dropbox/pisbmaonly.rds")$pihat
 pi.mat=matrix(data = pi.bma,nrow = 22,ncol =45,byrow = TRUE)
-barplot(colSums(pi.mat),las=2,names=c(colnames(maxz),"all"),main="BMAlitePriorWeight",cex.names = 0.5)
+barplot(colSums(pi.mat),las=2,names=c(colnames(maxz),"all"),main="mash.litePriorWeight",cex.names = 0.5)
 
 pi.mash=readRDS("../../Data/pisAug13withED.rds")$pihat
 pi.mat.mash=matrix(data = pi.mash,nrow = 22,ncol =54,byrow = TRUE)

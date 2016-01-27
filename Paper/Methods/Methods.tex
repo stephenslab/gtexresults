@@ -15,7 +15,7 @@ Where ${\it N}_R(.; \bm{0}, \omega_l U_{k})$ denotes the density of a normal dis
 %As mentioned above, 
 Each component of the mixture distribution is characterized by these prior covariance matrices, $U_{k}$ which capture the pattern of effects across tissues. Critically, this prior distribution is the same for all $J$ - hence the hierarchical incorporation of shared information.
 
-\subsection{ Covariance Matrices}
+\subsection{Covariance Matrices}\label{sssec:num1}
 
 For a given $\omega_{l}$, we specify 4 `types' of $RxR$ prior covariance matrices $U_{k,l}$.
 \begin{enumerate}
@@ -62,30 +62,38 @@ To retrieve a `denoised' or `deconvoluted' estimate of the non-single rank dimen
 %
 %We then use these three non single-rank covariance matrix in place of our original choice of the empirical covariance matrix, SFA and SVD approximations. Here, I also used the Identity (K=1), 5 single-rank SFA factors (K=4-9), and the 44+1 $eqtlbma.lite$ configurations (K=10:54) in steps (7) and (8) to a assemble a full list of covariance matrices. Briefly, these  $eqtlbma.lite$ are an attempt to capture 'singleton' and 'fully shared' configurations in which the gene-snp pair is active in only one or all tissues. In the latter case, the variance of the distribution of underlying effect sizes is equal in all tissues.  This is 54 matrices, and we then proceed to chooses an $'L'$ element grid according to the range of effect sizes present in the overall data set in order to create a KxL list of covariance matrices. In the GTeX data set described in the text, we choose a grid with 22 $\omega$ for a total of 1188 covariance matrices.
 
+Let us concatenate the list of all KxL combinations of prior covariance matrices $U_{k}$ and their scaling parameters $\omega_{l}$ into a KxL list and assign this length $P$ for simplicity of notation.
+
+Now each $U_{p}$ imparts information about both $\emph{scale}$ and $\emph{direction}$
 
 \subsection{Mixture Weights: Estimate $\hat{\bm{\pi}}$}
-We wish to choose the model which best maximizes the probability of observing the data set. 
+We wish to choose the model which best maximizes the probability of observing the data set. First, we must estimate the prior mixture weights $\pi$ by maximizing the likelihood 
 
-Incomplete Data likelihood:
+\begin{equation}
+L(\pi;\hat{\bm{b}}, \bm{s}) := p(\hat{\bm{b}}, \bm{s} | \pi) 
+\label{eq:cdll}
+\end{equation}
+
+We express the marginal (observed) data likelihood for a finite mixture (Laird \emph{et al}, 1977):
 %Here, the total likelihood of the test data set over $K$ components: 
 
 \begin{equation}
-L(\bm\pi;{\hat{\bm{b}})} = \prod_{j=1}^J \sum_{k}^{K} \pi_{k} P(\hat{\bm{b_{j}}} | z_{j}=k)
+L(\bm\pi;{\hat{\bm{b}}},\bm{s}) = \prod_{j=1}^J \sum_{p}^{P} \pi_{p} P(\hat{\bm{b_{j}}}, \bm{s} | z_{j}=p)
 \label{eq:pihat}
 \end{equation}
 
-Here, in order to obtain mixture weights $(\bm\pi;{\hat{\bm{b}})}$ which reflect the abundance of each pattern of sharing in the overall data set, we use a random set of gene-snp pairs (i.e., not restricting our analysis strong Z statistics used in the section above). 
+Here, in order to obtain mixture weights $\bm{\pi}$ which reflect the abundance of each pattern of sharing in the overall data set, we use a random set of gene-snp pairs (i.e., not restricting our analysis to the pairs with the strongest Z statistics used in the section above) and obtain the maximum likelihood estimates of the mixture weights, $\hat{\bm{\pi}}$, which maximize the complete data likelihood $\ref{eq:cdll}$ (Laird 1977; Barut 2005).
 
 \begin{itemize}
-\item  To estimate the hierarchical prior weights $\hat{\bm{\pi}}$ we compute the likelihood at each of these randomly chosen gene-snp pairs $j$ by evaluating the probability of observing $\bm{\hat{b}_{j}}$ given that we know the true $\bm{b_{j}}$ arises from component $k$
-\item  Use the EM algorithm to estimate the optimal combination of weights using the  $JxK$ matrix of likelihoods computed according to ($\ref{eqn:new_lik}$).
+\item  To estimate the hierarchical prior weights $\hat{\bm{\pi}}$ we compute the likelihood at each of these randomly chosen gene-snp pairs $j$ by evaluating the probability of observing $\bm{\hat{b}_{j}}$ given that we know the true $\bm{b_{j}}$ arises from component $\bm{p}$ (see \ref{eqn:new_lik}).
+\item  Use the Expectation Maximization (EM) algorithm to estimate the optimal combination of weights using the  $\textbf{JxP}$ matrix of likelihoods computed according to ($\ref{eqn:new_lik}$).
 \end{itemize}
 
 %We then use these weights to estimate the test set log-likelihood.
 
 \subsection{Likelihood}
 
-By maximum likelihood in each tissue separately, we can easily obtain the observed estimates of the standardized genotype effect sizes, $\hat{\bm{b}}_{j}$, and their observed squared standard errors recorded on the diagonal of an $R \times R$ matrix noted $\hat{V}_{j} = \Var(\hat{\bm{b}}_{j})$. 
+By maximum likelihood in each tissue separately, we can easily obtain the observed estimates of the standardized genotype effect sizes, $\hat{\bm{b}}_{j}$, and their observed squared standard errors recorded on the diagonal of an $R \times R$ matrix denoted $\hat{V}_{j} = \Var(\hat{\bm{b}}_{j})$. 
 We assume that the matrix of standard errors of $\hat{\bm{b}}_{j}$, $V_{j}$ as approximated by $\hat{V_{j}}$ is diagonal and  that $\hat{V}_{j}$ is an accurate point estimate for the standard error and that these standard errors are independent between tissues.
 
 If we now view $\hat{\bm{b}}_{j}$ and $\hat{V}_{j}$ as \emph{observed data}, we can write a new ``likelihood'' using only the sufficient statistics,   $\hat{\bm{b}}_{j}$ and $\hat{V}_{j}$:
@@ -95,9 +103,11 @@ If we now view $\hat{\bm{b}}_{j}$ and $\hat{V}_{j}$ as \emph{observed data}, we 
     \label{eqn:new_lik}
 \end{equation}
 
-\subsection{Posterior Quantities}
+In brief, though we report the analysis using $\hat{\bm{b}}_{j}$ and its standard error, inference can be similarly performed on the vector of observed Z statistics $\hat{\bm{Z}}_{j}$ with the matrix of squared Standard Error $\hat{V}_{j}$ thus defined as the RxR Identity Matrix.
 
-Armed with the prior mixture weights stored in the K x L vector $\hat{\bm{\pi}}$ we proceed to the inference step and compute the posterior weights ($\ref{eqn:postpi}$) and corresponding posterior quantities across all original 16,069 gene-snp pairs. %In brief, the posterior mean and tissue specific tail probabilities are computed across all K components for each gene snp pair, and then weighted according to the posterior weights. This is performed in the $\textbf{weightedquants}$ step.\includegraphics[]{Methods.pdf}
+\subsection{Posterior Quantities}\label{sssec:posteriors}
+
+Armed with the prior mixture weights stored in the $P$ vector $\hat{\bm{\pi}}$ we proceed to the inference step and compute the posterior weights ($\ref{eqn:postpi}$) and corresponding posterior quantities across all original 16,069 gene-snp pairs. %In brief, the posterior mean and tissue specific tail probabilities are computed across all K components for each gene snp pair, and then weighted according to the posterior weights. This is performed in the $\textbf{weightedquants}$ step.\includegraphics[]{Methods.pdf}
 
 We aim to report posterior quantities for a given gene-snp pair $\textbf{j}$. We know that for a single multivariate {\it Normal}  the posterior on  $\bm{b} | U$ is  simply: 
 
@@ -113,11 +123,9 @@ where:
 \item $ \tilde{U} = ({U}^{-1} + \hat{V}^{-1})^{-1}$.
 \end{itemize}
 
-Let us concatenate the list of all KxL combinations of prior covariance matrices $U_{k}$ and their scaling parameters $\omega_{l}$ into a KxL list and assign this length K for simplicity of notation.
 
-Now each $U_{k}$ imparts information about both $\emph{scale}$ and $\emph{direction}$
 . 
-Furthermore, a mixture-multivariate normal prior and a normal likelihood yields a mixture multivariate posterior, where the final posterior distribution is simply a weighted combination of multivariate normal distributions, where for each gene-snp pair $\textbf{j}$ is now characterized by it's posterior mean $\tilde{\bm{\mu}}_{jk}$ and covariance  $\tilde{U}_{jk} = (U_{k}^{-1} + \hat{V}_{j}^{-1})^{-1}$.
+Furthermore, a mixture-multivariate normal prior and a normal likelihood yields a mixture multivariate posterior, where the final posterior distribution is simply a weighted combination of multivariate normal distributions, where for each gene-snp pair $\textbf{j}$ is now characterized by it's posterior mean $\tilde{\bm{\mu}}_{jp}$ and covariance  $\tilde{U}_{jp} = (U_{p}^{-1} + \hat{V}_{j}^{-1})^{-1}$.
 
 \begin{equation}
 \begin{aligned}
@@ -126,22 +134,22 @@ Furthermore, a mixture-multivariate normal prior and a normal likelihood yields 
 %&= \sum_{k=1,l=1}^{K,L} \sim {\it N}_R(\bm{\mu}_{1kl}, U_{1kl})%p(\bm{b}_{j} | \hat{\bm{b}}_{j}, \hat{V}_{j}, z_{j}=k,l) 
 %p(z=k,l | \hat{\bm{b}}, \hat{V}, \hat{\bm{\pi} }),%v_{j}=1)
  %\\
-\sim \sum_{k}^{K}  \tilde \pi_{jk} {\it N}_R (\bf{x};\bm{\tilde{\mu}}_{jk},\tilde{U} _{jk} )%,v_{j}=1) 
+\sim \sum_{p}^{P}  \tilde \pi_{jp} {\it N}_R (\bf{x};\bm{\tilde{\mu}}_{jp},\tilde{U} _{jp} )%,v_{j}=1) 
 
 
 \end{aligned}
 \end{equation}
 
-Where again, ${\it N}_R(.; \bm{0}, \omega_l U_{k})$ denotes the density of a normal distribution with mean $\bm{\tilde{\mu}}_{k}$ and variance $\tilde{U} _{k}$ and the posterior mixture weight $\tilde \pi_{k}$ is simply 
+Where again, ${\it N}_R(.; \bm{0}, \omega_l U_{p})$ denotes the density of a normal distribution with mean $\bm{\tilde{\mu}}_{p}$ and variance $\tilde{U} _{p}$ and the posterior mixture weight $\tilde \pi_{p}$ is simply 
 
 
 
  \begin{equation}
-\tilde \pi_{jk} =\frac{ p(\hat{\bm{b}}_{j}| \hat{V}_{j}, z_{j}=k) \hat \pi_{k} } {\sum_{k=1}^{K} p(\hat{\bm{b}}_{j}| \hat{V}_{j}, z_{j}=k) \hat\pi_{k}}
+\tilde \pi_{jp} =\frac{ p(\hat{\bm{b}}_{j}| \hat{V}_{j}, z_{j}=p) \hat \pi_{p} } {\sum_{p=1}^{P} p(\hat{\bm{b}}_{j}| \hat{V}_{j}, z_{j}=p) \hat\pi_{p}}
  \label{eqn:postpi}
 \end{equation}
 
-Where $z_{j}=k$ is the latent variable indicator of the component identity and each $\hat\pi_{k}$ represents the Maximum Likelihood Estimate of the prior mixture weights assigned to each component (\ref{eq:pihat}).
+Where $z_{j}=p$ is the latent variable indicator of the component identity and each $\hat\pi_{p}$ represents the Maximum Likelihood Estimate of the prior mixture weights assigned to each component (\ref{eq:pihat}).
 
 \subsection{Reported Quantities}
 
@@ -153,7 +161,7 @@ E(\bm{b}_{j} | \hat{\bm{b}_{j}}, \hat{V}_{j}, \hat{\bm{\pi}})
 %&= \sum_{k=1,l=1}^{K,L} \sim {\it N}_R(\bm{\mu}_{1kl}, U_{1kl})%p(\bm{b}_{j} | \hat{\bm{b}}_{j}, \hat{V}_{j}, z_{j}=k,l) 
 %p(z=k,l | \hat{\bm{b}}, \hat{V}, \hat{\bm{\pi} }),%v_{j}=1)
  %\\
-= \sum_{k}^{K}  \tilde \pi_{k} \bm{\tilde{\mu}}_{k} %,v_{j}=1) 
+= \sum_{p}^{P}  \tilde \pi_{p} \bm{\tilde{\mu}}_{p} %,v_{j}=1) 
 \end{aligned}
 \label{eq:mixmean}
 \end{equation}
@@ -164,7 +172,7 @@ And the local false sign rate, or posterior probability of incorrectly identifyi
 \begin{equation}
   \label{eq:lfsr}
 \begin{split}
-P(b_{jr})= 1-max[{\sum_{k}}p({b_{j,r}}>0|\hat{\bm{b}}_{j}, \hat{V}_{j}, z_{j}=k)\tilde \pi_{k}, {\sum_{k}}p({b_{j,r}}<0|\hat{\bm{b}}_{j}, \hat{V}_{j}, z_{j}=k)\tilde \pi_{jk}]
+P(b_{jr})= 1-max[{\sum_{p}}p({b_{j,r}}>0|\hat{\bm{b}}_{j}, \hat{V}_{j}, z_{j}=p)\tilde \pi_{p}, {\sum_{p}}p({b_{j,r}}<0|\hat{\bm{b}}_{j}, \hat{V}_{j}, z_{j}=p)\tilde \pi_{jp}]
 \end{split}
 \end{equation}
 
