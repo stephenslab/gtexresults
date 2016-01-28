@@ -78,24 +78,24 @@ To demonstrate the utility of shrinking effect size estimates jointly, we consid
 
 %\textbf{Figure: Insert Simulations from TSpecific Conditions here}
 \begin{figure}[htbp]
-\includegraphics[width=5cm]{Figures/scatterplot_fittedtspec.png}&
-\includegraphics[width=5cm]{Figures/scatterplot_fittedtspec_ash.png}\\
-\hfill
-%\includegraphics[width=5cm]{Figures/scatterplot_truthtspec.png}&
-%\includegraphics[width=5cm]{Figures/scatterplot_TRUTHashtspec.png}
-
-%\includegraphics[width=5cm]{Figures/scatterplot_fittedbspec.png}&
-%\includegraphics[width=5cm]{Figures/scatterplotfitted_bspec_ash.png}\\
+%\includegraphics[width=5cm]{Figures/scatterplot_fittedtspec.png}&
+%\includegraphics[width=5cm]{Figures/scatterplot_fittedtspec_ash.png}\\
 %\hfill
+%%\includegraphics[width=5cm]{Figures/scatterplot_truthtspec.png}&
+%%\includegraphics[width=5cm]{Figures/scatterplot_TRUTHashtspec.png}
+\includegraphics[width=5cm]{Figures/scatterplotfittedbspec.png}&
+\includegraphics[width=5cm]{Figures/scatterplotfitted_bspec_ash.png}\\
+\hfill
 \includegraphics[width=5cm]{Figures/scatterplot_truthbspec.png}&
 \includegraphics[width=5cm]{Figures/scatterplot_TRUTHashbspec.png}
-\caption{\textbf{Understanding Power and Accuracy Gains} In the top left panel, we contrast the power advantage of a joint shrinkage approach with that of a univariate thresholding approach, in which all Z statistics of a given size are shrunk equivalently, independent of the information contained in other tissues. Bottom left, the correlation with the true (simulated) effect sizes values is greater using MASH then univariate methods, and truly null values are shrunk more harshly, while retaining the ability to capture tissue-specific eQTL.}
+\caption{\textbf{Understanding Power and Accuracy Gains} In the top left panel, we contrast the power advantage of a joint shrinkage approach with that of a univariate thresholding approach, in which all observed statistics of a given size are shrunk equivalently, independent of the information contained in other tissues. Using the information contained in other tissues allows us to augment (or shrink less harshly) small effects in one tissue in the presence of larger tissues, while univariate methods ignore alternative tissues. Thus the method is dually `adaptive' by considering the abundance of both effect sizes (here, an abundance of small effects) and shapes in the overall data-set. $\textbf{Bottom left} the correlation with the true (simulated) effect sizes values is greater using MASH then univariate methods, and truly null values are shrunk more harshly, while retaining the ability to capture tissue-specific eQTL.}
  \label{fig:simulationscatter}
 \end{figure}\newline
 
-In both MASH and univariate methods, $\hat{b}_{jr}$ values with large standard errors will be shrunk more harshly (Ash Paper, Stephens $\emph{et al}$). However, under the `EZ' model used here, the standard errors are uniformly one. Thus plotting estimated Z statistics (i.e., $E(Z_{jr}|Data$)) against the observed `raw' input values (i.e., $\hat{Z}_{jr})$ (Figure \ref{fig:simulationscatter}) allows us to understand the behavior of multivariate versus univariate methods once the standard error has been considered. I
+In both MASH and univariate methods, $\hat{b}_{jr}$ values with large standard errors will be shrunk more harshly (Ash Paper, Stephens $\emph{et al}$). However, under the `EZ' model used here, the standard errors are uniformly one. Thus plotting estimated Z statistics (i.e., $E(Z_{jr}|Data$)) against the observed `raw' input values (i.e., $\hat{Z}_{jr})$ (Figure \ref{fig:simulationscatter}) allows us to understand the behavior of multivariate versus univariate methods once the standard error has been considered. 
+However under the simulation framework here, where the standard errors are roughly uniform across tissues, plotting estimated efect sizes (i.e., $E(b_{jr}|Data$)) against the observed `raw' input values (i.e., $\hat{b}_{jr})$ (Figure \ref{fig:simulationscatter}) allows us to understand the behavior of multivariate versus univariate methods once the standard error has been considered. 
 
-In this simulated data-set, where there is an abundance of small effects, both univariate and multivariate methods tend to shrink small observed values towards prior mean at $\bm{0}$ as their likelihoods will be maximized by component with small $\omega$. Critically, considering observed Z statistics of the same size, MASH does not shrink all small values to the same extent, due to the power of joint analysis to consider the effects across tissues in inferring the final vector of effect sizes. Thus the method is dually `adaptive' by considering the abundance of both effect sizes and shapes in the overall data-set.  Here, acknowledging consistency, small effects in one tissue will be augmented in the presence of larger effects  other tissues, resulting in dramatic power increases (Figure \ref{fig:powervaccuracy}).
+In this simulated data-set, where there is an abundance of small effects, both univariate and multivariate methods tend to shrink small observed values of $\hat{\beta}$ towards prior mean at $\bm{0}$ as their likelihoods will be maximized by component with small $\omega$. Critically, considering observed $\bm{\hat{\beta}}$ of the same size, MASH does not shrink all small values to the same extent, due to the power of joint analysis to consider the effects across tissues in inferring the final vector of effect sizes. Thus the method is dually `adaptive' by considering the abundance of both effect sizes and shapes in the overall data-set.  Here, acknowledging consistency, small effects in one tissue will be augmented in the presence of larger effects  other tissues, resulting in dramatic power increases (Figure \ref{fig:powervaccuracy}).
 
 Furthermore, when we plot the estimated effects $E(\beta_{jr}|Data)$ against true effect size $\beta_{jr}$ (Figure \ref{fig:simulationscatter}, $\textbf{bottom}$) and segregate these effects by class  (e.g., active and shared, active and tissue-specific, or null), we see that the correlation among the true and estimated effect $E(\beta|D)$ sizes is much tighter using our multivariate approach. Similarly, truly null effects are shrunk more tightly, due to the fact that in the presence of consistency, small effects across subgroups will lead us to have a high prior belief that an additional small observed effect in that eQTL is also likely to be close to 0. Importantly, tissue-specific QTLs are still captured using our joint approach, demonstrating that if tissue-specific patterns exist in the data, our prior belief will capture this phenomenon and accordingly our posterior estimates will reflect the underlying tissue-specific nature at a given tissue-specific SNP.
 
@@ -108,7 +108,7 @@ Now, we consider the results of our analysis, when applied to the GTEX data set.
 
 Here, we report the analysis on the top SNP for each of 16,069 genes, where the `top' snp is defined as the SNP with the largest observed univariate Z-statistic in absolute value across tissues. As described above and demonstrated in simulations, in the setting of an abundance of small effects in data set, MASH tends to shrink small observed values towards the prior mean at $\bm{0}$. It should be noted that this is a result specific to a particular data set, and in that sense `adaptive' - indeed, if small effects were rare and large effects abundant, such shrinkage would not occur. 
 
-But perhaps more importantly, there is a striking increase in power (Table \ref{table:power}) when compared to univariate methods. There are a total of 44 tissues x 16,069 gene-snp pair associations considered, or 707,036 total tissue-level effect size coefficients. At an $lfsr$ threshold of 0.05, we identify 393,414 significant snp-gene-tissue effects ($b_{jr}$). Using estimates shrunk according to a univariate approach (again, Ash),  we identify only 91,755, meaning that using univariate methods we would be confident our ability to identify the sign in only $13\%$ of cases, while using our joint procedure for estimating effects, we would confidently argue the SNP has a non-zero effect for a gene in a particular tissue over half $(55\%)$ of the time. As described, this tremendous increase in power arises from the fact that in the presence of  a data set possessing consistency, as learned by the hierarchical model, small effects in the presence of a gene containing large effects in alternative tissues will be augmented to reflect such consistency, thus increasing our confidence in its size and direction. While the number of associations capture is slightly greater using the mash-lite approach, we note that the likelihood of the data set under this model is much much worse ($-1298672$ vs $-1267997.5$, see supplementary data `Testing and Training' procedure). Indeed, `mash-lite' would put the vast majority of the prior weight on the fully `consistent' configuration (Figure \ref{fig:pihat}), as SNPs demonstrating activity across all tissues, regardless of how heterogeneous among subgroups, are forced into this configuration. Simulations above demonstrate the lack of accuracy arising from such an approach. %\newline
+But perhaps more importantly, there is a striking increase in power (Table \ref{table:power}) when compared to univariate methods. There are a total of 44 tissues x 16,069 gene-snp pair associations considered, or 707,036 total tissue-level effect size coefficients. At an $lfsr$ threshold of 0.05, we identify 393,414 significant snp-gene-tissue effects ($b_{jr}$). Using estimates shrunk according to a univariate approach (again, Ash),  we identify only 91,755, meaning that using univariate methods we would be confident our ability to identify the sign in only $13\%$ of cases, while using our joint procedure for estimating effects, we would confidently argue the SNP has a non-zero effect for a gene in a particular tissue over half $(55\%)$ of the time. As described, this tremendous increase in power arises from the fact that in the presence of  a data set possessing consistency, as learned by the hierarchical model, small effects in the presence of a gene containing large effects in alternative tissues will be augmented to reflect such consistency, thus increasing our confidence in its size and direction. While the number of associations capture is slightly greater using the mash-lite approach, we note that the likelihood of the data set under this model is much much worse ($-1298672$ vs $-1267997.5$, see supplementary data `Testing and Training' procedure). Critically, `mash-lite' would put the vast majority of the prior weight on the fully `consistent' configuration (Figure \ref{fig:pihat}), as SNPs demonstrating activity across all tissues, regardless of how heterogeneous among subgroups, are forced into this configuration. Simulations above demonstrate the lack of accuracy arising from such an approach.%\newline
 
 
 %\textbf{Figure: Real Data Scatterplot}
@@ -137,6 +137,8 @@ Significant $\bf{b}_{jr}$ $\leq$ 0.05%&202087
 \label{table:power}
 \end{table}\newline
 
+
+
 %\textbf{Figure: $\hat{\pi}$ barplot in MASH vs BMAlite}
 %\newline
 \begin{figure}[htbp]
@@ -146,17 +148,21 @@ Significant $\bf{b}_{jr}$ $\leq$ 0.05%&202087
 \end{figure}\newline
 
 
-To further contrast our approach with existing joint methods on this data-set, consider a two-tissue example, in which a configuration type approach recognizes only patterns constrained to lie along the x and y axis or along the $x-y$ line (Figure \ref{fig:Patterns}). MASH allows for patterns which show consistently larger effects in one tissue over another, with varying amounts of correlation among tissues. In these examples from real data (Figure \ref{fig:twoplot}), we can see that while eQTL of the green, blue and yellow class appear consistently active in both Brain and Muscle , the blue and yellow effects have consistently larger effects in Skeletal Muscle than brain, while SNPs of the green class show the reverse. Similarly, eQTL of the yellow class show only loose correlation among this chosen pair of tissues, while eQTL of the blue class show strong correlation between this pair. Furthermore, we can see that eQTL of the pink class tend to show tissue-specificity in Whole Blood relative to testis, while eQTL of the black class show tissue specificity in testis relative to whole blood. Lastly, within QTL of the yellow class, there exists only loose correlation between testis and lymphocytes, but strong correlation among colonic tissues, indicating the value of capturing distinct patterns of correlation among different pairs of tissues among SNPs of a given class, or between classes. 
-%\newline
+
+
+
+\subsection{A qualitative description of heterogeneity in the GTEX data}
+
+Indeed, from the prior weight assigned to the `learned matrices' above coupled with the simulation results in the previous sections, we can see that MASH is able to accurately parse shared configurations, thus resolving the relationship among tissues in which the QTL is active Figure \ref{fig:pihat}, \ref{fig:pcplot} and Supplementary Figure \ref{fig:allheat}. 
+%To further contrast our approach with existing joint methods on this data-set, consider a two-tissue example, in which a configuration type approach recognizes only patterns constrained to lie along the x and y axis or along the $x-y$ line (Figure \ref{fig:Patterns}). MASH allows for patterns which show consistently larger effects in one tissue over another, with varying amounts of correlation among tissues. In these examples from real data (Figure \ref{fig:twoplot}), we can see that while eQTL of the green, blue and yellow class appear consistently active in both Brain and Muscle , the blue and yellow effects have consistently larger effects in Skeletal Muscle than brain, while SNPs of the green class show the reverse. Similarly, eQTL of the yellow class show only loose correlation among this chosen pair of tissues, while eQTL of the blue class show strong correlation between this pair. Furthermore, we can see that eQTL of the pink class tend to show tissue-specificity in Whole Blood relative to testis, while eQTL of the black class show tissue specificity in testis relative to whole blood. Lastly, within QTL of the yellow class, there exists only loose correlation between testis and lymphocytes, but strong correlation among colonic tissues, indicating the value of capturing distinct patterns of correlation among different pairs of tissues among SNPs of a given class, or between classes. 
+%%\newline
+To further contrast our approach with existing joint methods on this data-set, we compare our results to a configuration approach which recognizes only patterns constrained to lie along the x and y axis or along the $x-y$ line (Figure \ref{fig:Patterns}). MASH allows for patterns which show consistently larger effects in one tissue over another, with varying amounts of correlation among tissues. In these examples from real data, we compare the first principal component of each of the covariance matrices which reflect patterns `learned' from the data (see Methods \ref:sssec:num1 for details). Intuitively, this provides a cursory approximation of the relationship in effect sizes among tissues (Figure \ref{fig:pcplot}). 
 
 \begin{figure}[htbp]
 \includegraphics[width=10cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-28-1.png}
 \caption{\textbf{Relationships Among Tissues Captured} Here, we demonstrate the first principal direction of each pattern of effects across tissues, by simply taking the first eigenvector of each of these covariance matrices. Intuitively, these provide a rank 1 summary of the relationship in effect scales and directions among tissues captured by each pattern.}
 \label{fig:pcplot}
 \end{figure}\newline
-
-To further contrast our approach with existing joint methods on this data-set, we compare our results to a configuration approach which recognizes only patterns constrained to lie along the x and y axis or along the $x-y$ line (Figure \ref{fig:Patterns}). MASH allows for patterns which show consistently larger effects in one tissue over another, with varying amounts of correlation among tissues. In these examples from real data, we compare the first principal component of each of the covariance matrices which reflect patterns `learned' from the data. Intuitively, this provides a cursory approximation of the relationship in effect sizes among tissues (Figure \ref{fig:pcplot}). 
-
 %\textbf{Figure: Colored Scatterplots of 2 tissues, contrasting effects between tissues, color coded by responsibility}
 %\newline
 
@@ -171,43 +177,42 @@ To further contrast our approach with existing joint methods on this data-set, w
 %\end{figure}
 %
 
+%
+%\begin{figure}
+%    \centering
+%    \begin{subfigure}[b]{0.4\textwidth}
+%        \includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-10-1.png}
+%        \caption{Testes vs Whole Blood}
+%        \label{fig:testes}
+%    \end{subfigure}
+%    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
+%      %(or a blank line to force the subfigure onto a new line)
+%    \begin{subfigure}[b]{0.4\textwidth}
+%        \includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-10-3.png}
+%        \caption{Muscle vs Brain}
+%        \label{fig:musclevbrain}
+%    \end{subfigure}
+%%add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
+%    %(or a blank line to force the subfigure onto a new line)
+% 
+%    \begin{subfigure}[b]{0.4\textwidth}
+%        \includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-10-4.png}
+%                \caption{Testes vs Lymphocytes}
+%        \label{fig:testesvslymphocytes}
+%    \end{subfigure}
+%        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
+%      %(or a blank line to force the subfigure onto a new line)
+%    \begin{subfigure}[b]{0.4\textwidth}
+%        \includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-10-5.png}
+%        \caption{Colon Sigmoid vs Tranverse}
+%        \label{fig:colon}
+%    \end{subfigure}
+%    \caption{\textbf {Diverse Array of Relationships among tissues.} While eQTL of the green, blue and yellow class appear consistently active in both Brain and Muscle (\ref{fig:musclevbrain}) , the blue and yellow effects have consistently larger effects in Skeletal Muscle than Brain, while SNPs of the green class show the reverse. Similarly, eQTL of the yellow and blue class show weak and strong correlation among Muscle and Brain, respectively. Similarly, we can see that eQTL of the pink class tend to show tissue-specificity in Whole Blood relative to testis  (\ref{fig:testes}), while eQTL of the black class show tissue specificity in testis relative to whole blood. Lastly, QTL of the yellow class seem only loosely correlated between testis and lymphocytes (\ref{fig:testesvslymphocytes}), but strongly correlated among colonic tissues (\ref{fig:colon}).}
+%\label{fig:twoplot}
+%\end{figure}
 
-\begin{figure}
-    \centering
-    \begin{subfigure}[b]{0.4\textwidth}
-        \includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-10-1.png}
-        \caption{Testes vs Whole Blood}
-        \label{fig:testes}
-    \end{subfigure}
-    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
-      %(or a blank line to force the subfigure onto a new line)
-    \begin{subfigure}[b]{0.4\textwidth}
-        \includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-10-3.png}
-        \caption{Muscle vs Brain}
-        \label{fig:musclevbrain}
-    \end{subfigure}
-%add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
-    %(or a blank line to force the subfigure onto a new line)
- 
-    \begin{subfigure}[b]{0.4\textwidth}
-        \includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-10-4.png}
-                \caption{Testes vs Lymphocytes}
-        \label{fig:testesvslymphocytes}
-    \end{subfigure}
-        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
-      %(or a blank line to force the subfigure onto a new line)
-    \begin{subfigure}[b]{0.4\textwidth}
-        \includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-10-5.png}
-        \caption{Colon Sigmoid vs Tranverse}
-        \label{fig:colon}
-    \end{subfigure}
-    \caption{\textbf {Diverse Array of Relationships among tissues.} While eQTL of the green, blue and yellow class appear consistently active in both Brain and Muscle (\ref{fig:musclevbrain}) , the blue and yellow effects have consistently larger effects in Skeletal Muscle than Brain, while SNPs of the green class show the reverse. Similarly, eQTL of the yellow and blue class show weak and strong correlation among Muscle and Brain, respectively. Similarly, we can see that eQTL of the pink class tend to show tissue-specificity in Whole Blood relative to testis  (\ref{fig:testes}), while eQTL of the black class show tissue specificity in testis relative to whole blood. Lastly, QTL of the yellow class seem only loosely correlated between testis and lymphocytes (\ref{fig:testesvslymphocytes}), but strongly correlated among colonic tissues (\ref{fig:colon}).}
-\label{fig:twoplot}
-\end{figure}
+Each of the U_{k} thus reflects diverse relationships in effect sizes among tissues: for instance, comparing the blaock and red pattern, we see that gene-snp pairs with high posterior probability of arising from the black class demonstrate consistenct smaller effects in brain than other tissues, while gene-snp pairs of the red class demonstrate strong effects in brain as compared to alternative tissues, for example. Similarly, we see that the patterns learned in U_{k} 5 and 8 (blue and yellow) demonstrate a degree of `quantitative' specificity: that is, consistently stronger effects in one tissue (whole blood and testes, respectively) without restricting the effect sizes to zero in alternative tissues. Because these patterns and their relative abundance are `learned' from the data and allow for a superior model fit to methods which restrict effects as `active' or `qualitatively specific', we can use these to understand gross patterns present in the data as well as gene-snp specific effects.
 
-\subsection{A qualitative description of heterogeneity in the GTEX data}
-
-Indeed, from the prior weight assigned to the `learned matrices' above coupled with the simulation results in the previous sections, we can see that MASH is able to accurately parse shared configurations, thus resolving the relationship among tissues in which the QTL is active Figure \ref{fig:pihat} and Supplementary Figure \ref{fig:allheat}. 
 
 For instance, learned matrix $U_{k}$ = 3 captures gene-snp pairs with large, correlated effects in brain, and is the most prevalent pattern of sharing in the larger data set, as reflected by it's prior weight summed across effect size (see Figure \ref{fig:pihat}). Matrix $U_{k}$ = 2 captures SNPs with small effects in brain and larger effects in thyroid and transformed cell-types (e.g., fibroblasts, lymphocytes). Several of the lower rank matrices whose patterns receive high prior weighting (e.g., $U_{k}$ = 4,5,8 and 9) show somewhat tissue specific (i.e., high prior variance in only one tissue-type) effects in testes and whole blood, consistent with our conclusions that whole blood and testes indeed demonstrate an abundance of tissue-specific gene-snp pairs. Here we examine several example gene-snp pairs with a high posterior probability of arising from the covariance patterns captured by our model. We deem this posterior probability of arising from a particular pattern as a high `loading' or `responsibility.' 
 

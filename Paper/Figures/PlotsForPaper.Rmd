@@ -140,21 +140,48 @@ tissues=apply(t.truth.test[tspec,],1,function(x){
 tspecific=cbind(tspec,tissues)
 
 
-
+post.b=as.matrix(post.means)*as.matrix(sebetahat[1:10000,])
 
 png("scatterplot_fittedtspec.png")
-plot(as.matrix(t[1:10000,]),as.matrix(post.means),col=adjustcolor("blue", alpha=0.5), pch=16,main="E(Z|Data) vs Zmle",ylab="E(Z|Data)",xlab="Zmle")
+plot(as.matrix(t[1:10000,]),as.matrix(post.means),col=adjustcolor("blue", alpha=0.5), pch=16,main="E(B|Data)/se(bhat) vs Zmle",ylab="E(B|Data)/sebetahat",xlab="Zmle")
 points(t[null.vals,],post.means[null.vals,],col="red")
-points(t[tspecific],post.means[tspecific],col="green")
-legend("right",legend=c("Tissue_specific","TrueNulls"),pch=1,col=c("green","red"))
+#points(t[tspecific],post.means[tspecific],col="green")
+legend("right",legend=c("TrueActivity","TrueNulls"),pch=1,col=c("blue","red"))
 dev.off()
 
 png("scatterplot_fittedtspec_ash.png")
-plot(as.matrix(t[1:10000,]),as.matrix(univariate.ash.pm),col=adjustcolor("blue", alpha=0.5), pch=16,main="E(Z|Data_ash) vs Zmle",ylab="E(Z|Data_ash)",xlab="Zmle")
+plot(as.matrix(t[1:10000,]),as.matrix(univariate.ash.pm),col=adjustcolor("blue", alpha=0.5), pch=16,main="E(B|Data_ash)/se(bhat) vs Zmle",ylab="E(B|Data)/sebetahat",xlab="Zmle")
 points(t[null.vals,],univariate.ash.pm[null.vals,],col="red")
-points(t[tspecific],univariate.ash.pm[tspecific],col="green")
-legend("right",legend=c("Tissue_specific","TrueNulls"),pch=1,col=c("green","red"))
+#points(t[tspecific],univariate.ash.pm[tspecific],col="green")
+legend("right",legend=c("TrueActivity","TrueNulls"),pch=1,col=c("blue","red"))
 dev.off()
+
+lfsr.mash=as.matrix(lfsr.mash)
+ppsig=as.matrix(1-lfsr.mash)
+
+
+png("scatterplot_fittedtspec_minuslfsr_mash.png")
+
+plot(abs(as.matrix(t[1:10000,])),ppsig,col=adjustcolor("blue", alpha=0.5), pch=16,main="E(Z|Data) vs Zmle",ylab="E(Z|Data)",xlab="Zmle")
+points(abs(t[null.vals,]),ppsig[null.vals,],col="red")
+#points(t[tspecific],post.means[tspecific],col="green")
+legend("right",legend=c("TureAssociations","TrueNulls"),pch=1,col=c("blue","red"))
+dev.off()
+
+
+lfsr.ash=as.matrix(lfsr.ash)
+ppsig.ash=as.matrix(1-lfsr.ash)
+
+
+png("scatterplot_fittedtspec_minuslfsr_ash.png")
+
+plot(abs(as.matrix(t[1:10000,])),ppsig.ash,col=adjustcolor("blue", alpha=0.5), pch=16,main="E(Z|Data) vs Zmle",ylab="E(Z|Data)",xlab="Zmle")
+points(abs(t[null.vals,]),ppsig.ash[null.vals,],col="red")
+#points(t[tspecific],post.means[tspecific],col="green")
+legend("right",legend=c("TureAssociations","TrueNulls"),pch=1,col=c("blue","red"))
+dev.off()
+
+
 
 
 png("scatterplot_truthtspec.png")
@@ -179,29 +206,35 @@ dev.off()
 png("scatterplotfittedbspec.png")
 plot(as.matrix(bhat[1:10000,]),as.matrix(post.means)*sebetahat[1:10000,],col=adjustcolor("blue", alpha=0.5), pch=16,main="E(B|Data) vs Bmle",ylab="E(B|Data)",xlab="Bmle")
 points(bhat[null.vals,],post.means[null.vals,]*sebetahat[null.vals,],col="red")
-points(bhat[tspecific],post.means[tspecific]*sebetahat[tspecific],col="green")
+#points(bhat[tspecific],post.means[tspecific]*sebetahat[tspecific],col="green")
+
+legend("right",legend=c("TrueActivity","TrueNulls"),pch=1,col=c("blue","red"))
 dev.off()
 
 png("scatterplotfitted_bspec_ash.png")
 plot(as.matrix(bhat[1:10000,]),as.matrix(univariate.ash.pm)*sebetahat[1:10000,],col=adjustcolor("blue", alpha=0.5), pch=16,main="E(B|Data_ash) vs Bmle",ylab="E(B|Data_ash)",xlab="Bmle")
 points(bhat[null.vals,],univariate.ash.pm[null.vals,]*sebetahat[null.vals,],col="red")
-points(bhat[tspecific],univariate.ash.pm[tspecific]*sebetahat[tspecific],col="green")
+#points(bhat[tspecific],univariate.ash.pm[tspecific]*sebetahat[tspecific],col="green")
+legend("right",legend=c("TrueActivity","TrueNulls"),pch=1,col=c("blue","red"))
 dev.off()
 
 
 png("scatterplot_truthbspec.png")
 plot(as.matrix(beta[1:10000,]),as.matrix(post.means)*sebetahat[1:10000,],col=adjustcolor("blue", alpha=0.5), pch=16,main="E(B|Data_mash) vs B.true",ylab="E(B|Data)",xlab="B.truth")
+
+mtext(paste0("RMSE=",round(sqrt(mean((beta[1:10000,]-post.means*sebetahat[1:10000,])^2)),2)))
 points(beta[null.vals,],post.means[null.vals,]*sebetahat[null.vals,],col="red")
 points(beta[tspecific],post.means[tspecific]*sebetahat[tspecific],col="green")
-legend("right",legend=c(paste0("RMSE=",round(sqrt(mean((beta[1:10000,]-post.means*sebetahat[1:10000,])^2)),2)),"Tissue_specific","TrueNulls"),pch=1,col=c("blue","green","red"))
+legend("right",legend=c("Shared","Tissue_specific","TrueNulls"),pch=1,col=c("blue","green","red"))
 dev.off()
 
 
 png("scatterplot_TRUTHashbspec.png")
 plot(as.matrix(beta[1:10000,]),as.matrix(univariate.ash.pm)*sebetahat[1:10000,],col=adjustcolor("blue", alpha=0.5), pch=16,main="E(B|Data.ash) vs B.true",ylab="E(B|Data)",xlab="B.True")
+mtext(paste0("RMSE=",round(sqrt(mean((beta[1:10000,]-univariate.ash.pm*sebetahat[1:10000,])^2)),2)))
 points(beta[null.vals,],univariate.ash.pm[null.vals,]*sebetahat[null.vals,],col="red")
 points(beta[tspecific],univariate.ash.pm[tspecific]*sebetahat[tspecific],col="green")
-legend("right",legend=c(paste0("RMSE=",round(sqrt(mean((beta[1:10000,]-univariate.ash.pm*sebetahat[1:10000,])^2)),2)),"Tissue_specific","TrueNulls"),pch=1,col=c("blue","green","red"))
+legend("right",legend=c("Shared","Tissue_specific","TrueNulls"),pch=1,col=c("blue","green","red"))
 dev.off()
 
 ```
