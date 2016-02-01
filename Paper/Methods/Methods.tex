@@ -184,6 +184,25 @@ P(b_{jr})= 1-max[{\sum_{p}}p({b_{j,r}}>0|\hat{\bm{b}}_{j}, \hat{V}_{j}, z_{j}=p)
 
 For the results section of this paper, we report the  posterior mean ($\ref{eq:mixmean}$) and LFSR ($\ref{eq:lfsr}$) for the `top' snp per gene, but armed with the hierarchical weights (\ref{eq:pihat}) and covariance matrices $\textbf{U}$ the posteriors can be computed for any gene-snp pair.
 
+\subsection{Simulation Framework}\label{sssec:simulation}
+
+
+In brief:
+\begin{enumerate}
+\item Assemble a list of simulation covariance matrices reflecting the GTEX `patterns' $\bm{U}$ from the 8 $U_{k}$ `learned' from the GTEX data-set as items (2) through (5) (see Methods \ref{sssec:num1} for details)  scaled by the maximum value along the diagonal, such that the maximal value along the diagonal of all 8 $U_{k}$ is 1.
+\item For `true effects', here 400 simulated gene-SNP pairs, choose a true-component identity $\bm{z}_{j}=k$ by sampling with replacement from one of eight possible patterns $U_{k}$ 
+\item To simulate a variety of effects sizes along each pattern of covariance, for each of these true effect vectors $\bm{b}_{j}$, $\omega_{j}$ is the absolute value of  the random variable $x \sim {\it N}(\bf{x}; \bm{0}, 1)$.
+\item $ \bm{b}_{j}  | \bf{U}, \bm{\omega}, \bm{z} \sim{\it N}_{44} (.; \bm{0}, \omega_j U_{k})$. Here, ${\it N}_R(.; \bm{0}, \omega_j U_{k})$ denotes the density of a normal distribution with mean $\bm{0}$ and variance $\omega_j U_{k}$ .
+
+%\item For all 50,000 gene snp pairs: Treating $V_{j}$ as known, simulate an R vector of Standard Errors S_{j} ${\it N} (.; \bm{0.11}, 0.001))$ in order to emulate  the observed scenario in which the errors are known and IID. $V_{j}$ is diagonalized $S_{j} ^2$.
+\item For all 50,000 gene snp pairs, treat $\bm{s}_{j}$ as known R-vector of standard error, we simulate the R vector of $Error$ as $\textbf{E}_{j} \sim {\it N} (.; \bm{0}, V_{j} )$ where $V_{j} $ represents the diagonalized matrix of squared known standard error, $\bm{s}_{j}^{2}$. 
+\item For all 50,000 gene snp pairs, $\hat{\bm{b}}_{j} | \bm{b}_{j} , V_{j} = \bm{b}_{j} + \textbf{E}_{j}$ %\ \sim \Norm_R(\bf{x}; \bm{b}_{j}, {V}_{j}) 
+and the observed Z statistic for each gene-snp-tissue coordinate can be obtained from this vector of estimated $\hat{\bm{b}_{j}}$ and (known) standard error, $\textbf{s}_{j}$ as $\frac{\hat{\bm{b}}_{j}}{\bm{s_{j}}}$.
+\item In the tissue-specific scenario, for $35\%$ of the `true' gene SNP pairs, simulate $\bm{b}_{j}$ according to one of `5' tissue-specific configurations, using the effect sizes obtained from the simulated $\omega_{j}$ above, according to the sparse matrix described in item (6) (Methods \ref{ssec:num1}). 
+\item Following the framework (detailed Method \ref {sssec:posteriors}) perform inference on the observed summary statistics $\hat{\bm{b}}_{j}$ to estimate the $\emph{posterior mean}$ ($\ref{eq:mixmean}$) and $\emph{lfsr}$ ($\ref{eq:lfsr}$) for all 50,000 gene-snp pairs. 
+\end{enumerate}
+
+
 \section*{Supporting Information}
 
 \subsection{Testing and Training}
