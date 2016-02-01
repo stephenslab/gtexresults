@@ -221,7 +221,7 @@ dev.off()
 
 
 png("scatterplot_truthbspec.png")
-plot(as.matrix(beta[1:10000,]),as.matrix(post.means)*sebetahat[1:10000,],col=adjustcolor("blue", alpha=0.5), pch=16,main="E(B|Data_mash) vs B.true",ylab="E(B|Data)",xlab="B.truth")
+plot(as.matrix(beta[1:10000,]),as.matrix(post.means)*sebetahat[1:10000,],col=adjustcolor("blue", alpha=0.5), pch=16,main="E(B|Data_mash) vs B.true",ylab="E(B|Data)",xlab="B.truth",xlim=c(-2,2),ylim=c(-2,2))
 
 mtext(paste0("RMSE=",round(sqrt(mean((beta[1:10000,]-post.means*sebetahat[1:10000,])^2)),2)))
 points(beta[null.vals,],post.means[null.vals,]*sebetahat[null.vals,],col="red")
@@ -231,7 +231,7 @@ dev.off()
 
 
 png("scatterplot_TRUTHashbspec.png")
-plot(as.matrix(beta[1:10000,]),as.matrix(univariate.ash.pm)*sebetahat[1:10000,],col=adjustcolor("blue", alpha=0.5), pch=16,main="E(B|Data.ash) vs B.true",ylab="E(B|Data)",xlab="B.True")
+plot(as.matrix(beta[1:10000,]),as.matrix(univariate.ash.pm)*sebetahat[1:10000,],col=adjustcolor("blue", alpha=0.5), pch=16,main="E(B|Data.ash) vs B.true",ylab="E(B|Data)",xlab="B.True",xlim=c(-2,2),ylim=c(-2,2))
 mtext(paste0("RMSE=",round(sqrt(mean((beta[1:10000,]-univariate.ash.pm*sebetahat[1:10000,])^2)),2)))
 points(beta[null.vals,],univariate.ash.pm[null.vals,]*sebetahat[null.vals,],col="red")
 points(beta[tspecific],univariate.ash.pm[tspecific]*sebetahat[tspecific],col="green")

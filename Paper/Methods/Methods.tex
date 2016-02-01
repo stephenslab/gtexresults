@@ -75,7 +75,7 @@ We assume that the matrix of standard errors of $\hat{\bm{b}}_{j}$, $V_{j}$ as a
 If we now view $\hat{\bm{b}}_{j}$ and $\hat{V}_{j}$ as \emph{observed data}, we can write a new ``likelihood'' using only the sufficient statistics,   $\hat{\bm{b}}_{j}$ and $\hat{V}_{j}$:
 
 \begin{equation}
-\hat{\bm{b}}_{j} | \bm{b}_{j} \sim \Norm_R(\bf{x}; \bm{b}_{j}, \hat{V}_{j})
+\hat{\bm{b}}_{j} | \bm{b}_{j} \sim \it N_R(\bf{x}; \bm{b}_{j}, \hat{V}_{j})
     \label{eqn:new_lik}
 \end{equation}
 
@@ -91,8 +91,11 @@ Likelihood based methods can then used to determine the superior model fit (see 
 We wish to choose the model which best maximizes the probability of observing the data set. First, we must estimate the prior mixture weights $\pi$ by maximizing the likelihood 
 
 \begin{equation}
-L(\pi;\hat{\bm{b}}, \bm{s}) := p(\hat{\bm{b}}, \bm{s} | \pi) 
+\begin{aligned}
+L(\pi;\hat{\bm{b}}, \bm{s}) &= p(\hat{\bm{b}}, \bm{s} | \pi) \\
+&= {\it N}_R(\hat{\bm{b}}; \bm{0}, U_{p} + V_{j})
 \label{eq:cdll}
+\end{aligned}
 \end{equation}
 
 We express the marginal (observed) data likelihood for a finite mixture (Laird \emph{et al}, 1977):
@@ -198,7 +201,7 @@ In brief:
 \item For all 50,000 gene snp pairs, treat $\bm{s}_{j}$ as known R-vector of standard error, we simulate the R vector of $Error$ as $\textbf{E}_{j} \sim {\it N} (.; \bm{0}, V_{j} )$ where $V_{j} $ represents the diagonalized matrix of squared known standard error, $\bm{s}_{j}^{2}$. 
 \item For all 50,000 gene snp pairs, $\hat{\bm{b}}_{j} | \bm{b}_{j} , V_{j} = \bm{b}_{j} + \textbf{E}_{j}$ %\ \sim \Norm_R(\bf{x}; \bm{b}_{j}, {V}_{j}) 
 and the observed Z statistic for each gene-snp-tissue coordinate can be obtained from this vector of estimated $\hat{\bm{b}_{j}}$ and (known) standard error, $\textbf{s}_{j}$ as $\frac{\hat{\bm{b}}_{j}}{\bm{s_{j}}}$.
-\item In the tissue-specific scenario, for $35\%$ of the `true' gene SNP pairs, simulate $\bm{b}_{j}$ according to one of `5' tissue-specific configurations, using the effect sizes obtained from the simulated $\omega_{j}$ above, according to the sparse matrix described in item (6) (Methods \ref{ssec:num1}). 
+\item In the tissue-specific scenario, for $35\%$ of the `true' gene SNP pairs, simulate $\bm{b}_{j}$ according to one of `5' tissue-specific configurations, using the effect sizes obtained from the simulated $\omega_{j}$ above, according to the sparse matrix described in item (6) (Methods \ref{sssec:num1}). 
 \item Following the framework (detailed Method \ref {sssec:posteriors}) perform inference on the observed summary statistics $\hat{\bm{b}}_{j}$ to estimate the $\emph{posterior mean}$ ($\ref{eq:mixmean}$) and $\emph{lfsr}$ ($\ref{eq:lfsr}$) for all 50,000 gene-snp pairs. 
 \end{enumerate}
 
@@ -213,7 +216,7 @@ In the training set, we proceed as above: choosing the top SNP for each of the 8
 
 Then, within the training data, we similarly choose a random set of gene-snp pairs (restricting our analysis to genes contained in the training set). Specifically, we choose 20,000 random-gene snp pairs and use the EM algorithm to learn the mixture proportions $\bm{\hat{\pi}}$  from this data set as in (\ref{eq:pihat}).
 
-We then use the KxL vector of $\pi$ from the training set to estimate the log likelihood of each data point in the test data set. If our model is 'overfit' to the training data set, then a larger number of covariance matrices may actually decrease the test log-likelihood. 
+We then use the KxL vector of $\pi$ from the training set to estimate the log likelihood of each data point in the test data set. If our model is biased (or `overfit') to the training data set, then a larger number of covariance matrices may actually decrease the test log-likelihood. 
 
 \subsection{Visualizing All Patterns of Sharing}
 \begin{figure}[htbp]
