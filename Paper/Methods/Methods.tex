@@ -6,7 +6,7 @@ Let  $\bm{b_{j}}$ represents the genetic effect of SNP-gene pair $j$ across $R$ 
 We assume the following mixture prior for the $R$ dimensional vector of true effects,  
 
  \begin{equation}
-  \bm{b_{j}} | \bm{\pi},\bf{U}, \bm{\omega} \sim \sum_{k,l} \pi_{k,l} \;{\it N}_R(x; \bm{0}, \omega_l U_{k})
+  \bm{b_{j}} | \bm{\pi},\bf{U}, \bm{\omega} \sim \sum_{k,l} \pi_{k,l} \;{\it N}_R(.; \bm{0}, \omega_l U_{k})
 \end{equation}
 
 Where ${\it N}_R(.; \bm{0}, \omega_l U_{k})$ denotes the density of a normal distribution with mean $\bm{0}$ and variance $\omega_l U_{k}$.
@@ -75,14 +75,15 @@ We assume that the matrix of standard errors of $\hat{\bm{b}}_{j}$, $V_{j}$ as a
 If we now view $\hat{\bm{b}}_{j}$ and $\hat{V}_{j}$ as \emph{observed data}, we can write a new ``likelihood'' using only the sufficient statistics,   $\hat{\bm{b}}_{j}$ and $\hat{V}_{j}$:
 
 \begin{equation}
-\hat{\bm{b}}_{j} | \bm{b}_{j} \sim \it N_R(\bf{x}; \bm{b}_{j}, \hat{V}_{j})
-    \label{eqn:new_lik}
+\hat{\bm{b}}_{j} | \bm{b}_{j}, \hat{V_{j}} \sim {\it N}_R(\hat{\bm{b}}_{j}; \bm{b}_{j}, \hat{V}_{j})
+%&= \sum_{p}^{P} \pi_{p} {\it N}_R(\hat{\bm{b}}; \bm{0}, U_{p} + V_{j})
+\label{eqn:new_lik}
 \end{equation}
 
 In brief, though we report the analysis using $\hat{\bm{b}}_{j}$ and its standard error, inference can be similarly performed using the vector of observed Z statistics ${Z}_{j}$ with the matrix of squared Standard Error $\hat{V}_{j}$ thus defined as the RxR Identity Matrix. This is deemed the `EZ' model and assumes exchangeable standardized effects, e.g., that effects tend to scale with their standard error:
 
  \begin{equation}
-  \frac{\bm{b_{j}}}{\bm{\hat{s_{j}}}} | \bm{\pi},\bf{U}, \bm{\omega} \sim \sum_{k,l} \pi_{k,l} \;{\it N}_R(x; \bm{0}, \omega_l U_{k})
+  \frac{\bm{b_{j}}}{\bm{\hat{s_{j}}}} | \bm{\pi},\bf{U}, \bm{\omega} \sim \sum_{k,l} \pi_{k,l} \;{\it N}_R(.; \bm{0}, \omega_l U_{k})
 \end{equation}
 
 Likelihood based methods can then used to determine the superior model fit (see Supplement (Testing/Training) for details).
@@ -92,25 +93,20 @@ We wish to choose the model which best maximizes the probability of observing th
 
 \begin{equation}
 \begin{aligned}
-L(\pi;\hat{\bm{b}}, \bm{s}) &= p(\hat{\bm{b}}, \bm{s} | \pi) \\
-&= {\it N}_R(\hat{\bm{b}}; \bm{0}, U_{p} + V_{j})
+L(\pi;\hat{\bm{b}}, \bm{s}) &= p(\hat{\bm{b}} | \bm{s},\pi) \\
+&= \prod_{j=1}^J \sum_{p}^{P} \pi_{p} P(\hat{\bm{b_{j}}} | \hat{\bm{s_{j}}}, z_{j}=p)\\
+&= \prod_{j=1}^J \sum_{p}^{P} \pi_{p} {\it N}_R(\hat{\bm{b}}; \bm{0}, U_{p} + V_{j})
 \label{eq:cdll}
 \end{aligned}
 \end{equation}
 
-We express the marginal (observed) data likelihood for a finite mixture (Laird \emph{et al}, 1977):
-%Here, the total likelihood of the test data set over $K$ components: 
 
-\begin{equation}
-L(\bm\pi;{\hat{\bm{b}}},\bm{s}) = \prod_{j=1}^J \sum_{p}^{P} \pi_{p} P(\hat{\bm{b_{j}}} | \hat{\bm{s_{j}}}, z_{j}=p)
-\label{eq:pihat}
-\end{equation}
 
-Here, in order to obtain mixture weights $\bm{\pi}$ which reflect the abundance of each pattern of sharing in the overall data set, we use a random set of gene-snp pairs (i.e., not restricting our analysis to the pairs with the strongest Z statistics used in the section above) and obtain the maximum likelihood estimates of the mixture weights, $\hat{\bm{\pi}}$, which maximize the complete data likelihood $\ref{eq:cdll}$ (Laird 1977; Barut 2005).
+Here, in order to obtain mixture weights $\bm{\pi}$ which reflect the abundance of each pattern of sharing in the overall data set, we use a random set of gene-snp pairs (i.e., not restricting our analysis to the pairs with the strongest Z statistics used in the section above) and obtain the maximum likelihood estimates of the mixture weights, $\hat{\bm{\pi}}$, which maximize the complete data likelihood ($\ref{eq:cdll}$) (Laird 1977; Barut 2005).
 
 \begin{itemize}
 \item  To estimate the hierarchical prior weights $\hat{\bm{\pi}}$ we compute the likelihood at each of these randomly chosen gene-snp pairs $j$ by evaluating the probability of observing $\bm{\hat{b}_{j}}$ given that we know the true $\bm{b_{j}}$ arises from component $\textbf{p}$ (see \ref{eqn:new_lik}).
-\item  Use the Expectation Maximization (EM) algorithm to estimate the optimal combination of weights using the  $\textbf{JxP}$ matrix of likelihoods computed according to ($\ref{eqn:new_lik}$).
+\item  Use the Expectation Maximization (EM) algorithm to estimate the optimal combination of weights as $\bm{\hat{\pi}}$ using the  $\textbf{JxP}$ matrix of likelihoods computed according to ($\ref{eqn:new_lik}$).
 \end{itemize}
 
 %We then use these weights to estimate the test set log-likelihood.
@@ -143,22 +139,20 @@ Furthermore, a mixture-multivariate normal prior and a normal likelihood yields 
 %&= \sum_{k=1,l=1}^{K,L} \sim {\it N}_R(\bm{\mu}_{1kl}, U_{1kl})%p(\bm{b}_{j} | \hat{\bm{b}}_{j}, \hat{V}_{j}, z_{j}=k,l) 
 %p(z=k,l | \hat{\bm{b}}, \hat{V}, \hat{\bm{\pi} }),%v_{j}=1)
  %\\
-\sim \sum_{p}^{P}  \tilde \pi_{jp} {\it N}_R (\bf{x};\bm{\tilde{\mu}}_{jp},\tilde{U} _{jp} )%,v_{j}=1) 
+\sim \sum_{p}^{P}  \tilde \pi_{jp} {\it N}_R (.;\bm{\tilde{\mu}}_{jp},\tilde{U} _{jp} )%,v_{j}=1) 
 
 
 \end{aligned}
 \end{equation}
 
-Where again, ${\it N}_R(.; \bm{0}, \omega_l U_{p})$ denotes the density of a normal distribution with mean $\bm{\tilde{\mu}}_{p}$ and variance $\tilde{U} _{p}$ and the posterior mixture weight $\tilde \pi_{p}$ is simply 
+Where ${\it N}_R(.; \bm{\tilde{\mu}}_{p}, \tilde{U} _{p})$ denotes the density of a normal distribution with mean $\bm{\tilde{\mu}}_{p}$ and variance $\tilde{U} _{p}$ and the posterior mixture weight $\tilde \pi_{p}$ is simply:
 
-
-
- \begin{equation}
+\begin{equation}
 \tilde \pi_{jp} =\frac{ p(\hat{\bm{b}}_{j}| \hat{V}_{j}, z_{j}=p) \hat \pi_{p} } {\sum_{p=1}^{P} p(\hat{\bm{b}}_{j}| \hat{V}_{j}, z_{j}=p) \hat\pi_{p}}
  \label{eqn:postpi}
 \end{equation}
 
-Where $z_{j}=p$ is the latent variable indicator of the component identity and each $\hat\pi_{p}$ represents the Maximum Likelihood Estimate of the prior mixture weights assigned to each component (\ref{eq:pihat}).
+Where $z_{j}=p$ is the latent variable indicator of the component identity and each $\hat\pi_{p}$ represents the Maximum Likelihood Estimate of the prior mixture weights assigned to each component according to (\ref{eq:cdll}).
 
 \subsection{Reported Quantities}
 
@@ -185,7 +179,7 @@ P(b_{jr})= 1-max[{\sum_{p}}p({b_{j,r}}>0|\hat{\bm{b}}_{j}, \hat{V}_{j}, z_{j}=p)
 \end{split}
 \end{equation}
 
-For the results section of this paper, we report the  posterior mean ($\ref{eq:mixmean}$) and LFSR ($\ref{eq:lfsr}$) for the `top' snp per gene, but armed with the hierarchical weights (\ref{eq:pihat}) and covariance matrices $\textbf{U}$ the posteriors can be computed for any gene-snp pair.
+For the results section of this paper, we report the  posterior mean ($\ref{eq:mixmean}$) and LFSR ($\ref{eq:lfsr}$) for the `top' snp per gene, but armed with the hierarchical weights computed in (\ref{eq:cdll}) and covariance matrices $\textbf{U}$ the posteriors can be computed for any gene-snp pair.
 
 \subsection{Simulation Framework}\label{sssec:simulation}
 
@@ -214,7 +208,7 @@ In order to determine the optimal number and rank of the covariance matrices, we
 
 In the training set, we proceed as above: choosing the top SNP for each of the 8000 genes, creating a list of covariance matrices through deconvolution and grid selection of these top 'training gene-snp' pairs. 
 
-Then, within the training data, we similarly choose a random set of gene-snp pairs (restricting our analysis to genes contained in the training set). Specifically, we choose 20,000 random-gene snp pairs and use the EM algorithm to learn the mixture proportions $\bm{\hat{\pi}}$  from this data set as in (\ref{eq:pihat}).
+Then, within the training data, we similarly choose a random set of gene-snp pairs (restricting our analysis to genes contained in the training set). Specifically, we choose 20,000 random-gene snp pairs and use the EM algorithm to learn the mixture proportions $\bm{\hat{\pi}}$  from this data set as in (\ref{eq:cdll}).
 
 We then use the KxL vector of $\pi$ from the training set to estimate the log likelihood of each data point in the test data set. If our model is biased (or `overfit') to the training data set, then a larger number of covariance matrices may actually decrease the test log-likelihood. 
 
