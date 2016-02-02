@@ -20,7 +20,6 @@ bma.pm=read.table("~/Dropbox/testsimBMAonlyposterior.means.txt")[,-1]
 lfsr.bma=read.table("~/Dropbox/testsimBMAonlylfsr.txt")[,-1]
 lfsr.mash=read.table("~/Dropbox/Simulationslfsr.txt")[,-1]
 lfsr.ash=read.table("~/Dropbox/univariate.ash.lfsr.txt")
-abr.names=read.table("../../Data/abbreviate.names.txt")
 
 ```
 
@@ -122,7 +121,34 @@ for(thresh in seq(from = 0.01,to = 0.1,by = 0.001)){
 points(thresh,sum(beta!=0&lfsr.ash<thresh),col="green",pch=3)}
 
 legend("bottom",legend=c("MASH","BMALite","ASH"),pch=c(2,1,3),col=c("blue","red","green"))
-title("Number of True Association Captured vs Significance (LFSR) Threshold, Under Sharing")
+title("True eQTL Called vs Significance (LFSR)")
+
+
+##plot signs correctly
+##this will be positive if the signs are the same and negative if signs are different##
+mash.means=as.matrix(mash.means)
+ash.means=as.matrix(univariate.ash.pm)
+bma.means=as.matrix(bma.pm)
+
+sign.test.mash=beta*mash.means
+sign.test.ash=beta*ash.means
+sign.test.bma=beta*bma.means
+
+plot(0.05,sum(sign.test.mash>0&lfsr.mash<0.05),col="blue",ylim=c(0,15000),xlim=c(0.01,0.10),pch=2,ylab="SignCorrect",xlab="LFSRThreshold")
+
+for(thresh in seq(from = 0.01,to = 0.1,by = 0.001)){
+points(thresh,sum(sign.test.mash>0&lfsr.mash<thresh),col="blue",pch=1)}
+for(thresh in seq(from = 0.01,to = 0.1,by = 0.001)){
+points(thresh,sum(sign.test.bma>0&lfsr.bma<thresh),col="red",pch=2)}
+for(thresh in seq(from = 0.01,to = 0.1,by = 0.001)){
+points(thresh,sum(sign.test.ash>0&lfsr.ash<thresh),col="green",pch=3)}
+
+legend("bottom",legend=c("MASH","BMALite","ASH"),pch=c(2,1,3),col=c("blue","red","green"))
+title("Sign Correct vs Significance (LFSR) Threshold, with TS")
+```
+
+
+
 ```
 
 Now show the scatterplots demonstrating the tissue.specific scenario. Recall that the  purpose is to simulate according to the patterns of sharing present in the GTEX V6 Data, where 100 snps in cis of 500 genes, $\pi_0$ is 0.80, and there is sharing according to gtex covmats 2:9 and about 35% tissues specific. We can also plot the scatterplot to observe the behavior of 'null'(in red) and 'real'(in blue) associations. We see that our joint analysis reduces the Root Mean Squared Error (RMSE) and provides ample shrinkage of 'null values'.
@@ -257,7 +283,7 @@ Now, we would like to do this for the real data, plotting the posterior mean vs 
 
 ```{r,echo=FALSE,eval=TRUE}
 
-
+abr.names=read.table("../../Data/abbreviate.names.txt")
 standard.error=read.table("../../Data/standard.error.txt")
 pm.ash=read.table("~//Dropbox/UnivariateAsh/univariate.ash.pm.txt")
 
@@ -290,8 +316,10 @@ dev.off()
 png("comparez.png")
 par(mfrow=c(1,2))
 
-plot(unlist(as.vector(maxz)),unlist(as.vector(pm.ash)),col=rgb(0,100,0,50,maxColorValue=255), pch=16,main="SignificancevsZ_ASH",xlab="Z",ylab="ASH__E(B|D)*sj")
-plot(unlist(as.vector(maxz)),unlist(as.vector(pm.mash)),col=rgb(0,100,0,50,maxColorValue=255), pch=16,main="E(Z|D)vsZ.hat_MASH",xlab="Z",ylab="MASH__E(B|D)*sj")
+plot(unlist(as.vector(maxz)),unlist(as.vector(pm.ash)),col=rgb(0,100,0,50,maxColorValue=255), pch=16,main="SignificancevsZ.hat_ASH",xlab="Z",ylab="ASH__E(B|D)*sj")
+mtext("Associations called: 91,755")
+plot(unlist(as.vector(maxz)),unlist(as.vector(pm.mash)),col=rgb(0,100,0,50,maxColorValue=255), pch=16,main="SignificancevsZ.hat_MASH",xlab="Z",ylab="MASH__E(B|D)*sj")
+mtext("Associations called: 393,414")
 dev.off()
 ```
 ![alt text](comparebeta.png)
@@ -310,10 +338,11 @@ par(mfrow=c(1,2))
 pi.bma=readRDS("~/Dropbox/pisbmaonly.rds")$pihat
 pi.mat=matrix(data = pi.bma,nrow = 22,ncol =45,byrow = TRUE)
 barplot(colSums(pi.mat),las=2,names=c(as.matrix(abr.names[,2]),"all"),main="mash.litePriorWeight",cex.names = 0.5)
-
+mtext("Likelihood= −1,298,672") 
 pi.mash=readRDS("../../Data/pisAug13withED.rds")$pihat
 pi.mat.mash=matrix(data = pi.mash,nrow = 22,ncol =54,byrow = TRUE)
 barplot(colSums(pi.mat.mash),las=2,names=c(paste0("Uk",seq(1:9)),as.matrix(abr.names[,2]),"all"),main="MASHPriorWeight",cex.names = 0.5)
+mtext("Likelihood = −1,267,997.5")
 ```
 
 And here, I wanted to demonstrate several 'tissue' by 'tissue plots, where eQTL are grouped by their loading.
