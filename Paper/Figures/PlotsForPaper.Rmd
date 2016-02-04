@@ -247,7 +247,7 @@ dev.off()
 
 
 png("scatterplot_truthbspec.png")
-plot(as.matrix(beta[1:10000,]),as.matrix(post.means)*sebetahat[1:10000,],col=adjustcolor("blue", alpha=0.5), pch=16,main="E(B|Data_mash) vs B.true",ylab="E(B|Data)",xlab="B.truth",xlim=c(-2,2),ylim=c(-2,2))
+plot(as.matrix(beta[1:10000,]),as.matrix(post.means)*sebetahat[1:10000,],col=adjustcolor("blue", alpha=0.5), pch=16,main="E(B|Data_mash) vs B.true",ylab="E(B|Data)",xlab="B.truth",xlim=c(-1.5,1.5),ylim=c(-1.5,1.5))
 
 mtext(paste0("RMSE=",round(sqrt(mean((beta[1:10000,]-post.means*sebetahat[1:10000,])^2)),2)))
 points(beta[null.vals,],post.means[null.vals,]*sebetahat[null.vals,],col="red")
@@ -257,7 +257,7 @@ dev.off()
 
 
 png("scatterplot_TRUTHashbspec.png")
-plot(as.matrix(beta[1:10000,]),as.matrix(univariate.ash.pm)*sebetahat[1:10000,],col=adjustcolor("blue", alpha=0.5), pch=16,main="E(B|Data.ash) vs B.true",ylab="E(B|Data)",xlab="B.True",xlim=c(-2,2),ylim=c(-2,2))
+plot(as.matrix(beta[1:10000,]),as.matrix(univariate.ash.pm)*sebetahat[1:10000,],col=adjustcolor("blue", alpha=0.5), pch=16,main="E(B|Data.ash) vs B.true",ylab="E(B|Data)",xlab="B.True",xlim=c(-1.5,1.5),ylim=c(-1.5,1.5))
 mtext(paste0("RMSE=",round(sqrt(mean((beta[1:10000,]-univariate.ash.pm*sebetahat[1:10000,])^2)),2)))
 points(beta[null.vals,],univariate.ash.pm[null.vals,]*sebetahat[null.vals,],col="red")
 points(beta[tspecific],univariate.ash.pm[tspecific]*sebetahat[tspecific],col="green")
@@ -777,7 +777,47 @@ barplot(max.effect*v[,1],las=2,main=paste0("EigenVector1ofUk=",i),#main=ifelse(i
 
 barplot(rep(1,44),main="Consistent Config, mash.lite")
 ```
+Plot sharing at an $LFSR$ of 0.05. We can also compare to the GTEX plots.
+
+```{r, echo=FALSE}
+thresh=0.05
+shared=matrix(NA,nrow = ncol(lfsr.mash),ncol=ncol(lfsr.mash))
+for(i in 1:ncol(lfsr.mash)){
+  for(j in 1:ncol(lfsr.mash)){
+    sig.row=which(lfsr.mash[,i]<thresh)
+    sig.col=which(lfsr.mash[,j]<thresh)
+    shared[i,j]=length(intersect(sig.row,sig.col))/length(union(sig.row,sig.col))
+  }
+
+}
+
+thresh=0.05
+conditional=matrix(NA,nrow = ncol(lfsr.mash),ncol=ncol(lfsr.mash))
+for(i in 1:ncol(lfsr.mash)){
+  for(j in 1:ncol(lfsr.mash)){
+    sig.row=which(lfsr.mash[,i]<thresh)
+    
+    conditional[i,j]=sum(lfsr.mash[sig.row,j]<thresh)/length(sig.row)
+  }
+
+}
+
+colnames(shared)=colnames(maxz)
+rownames(shared)=colnames(maxz)
+
+heatmap.2(shared,Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("Proportion of eQTL Shared"),cexRow=0.5,cexCol=0.5)
+mtext("Defined as QTL if LFSR<0.05")
+#legend("P(eQTL tissue i,j)/P(eQTL tissue i or j)")
 
 
+gtex.tissues=c("Adipose_Subcutaneous","Skin_Sun_Exposed_Lower_leg","Nerve_Tibial","Lung","Artery_Tibial","Thyroid","Heart_Left_Ventricle","Muscle_Skeletal","Whole_Blood")
+indice=match(gtex.tissues,colnames(maxz))
+
+heatmap.2(shared[indice,indice],Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col="heat.colors",main=paste0("SharedAtLFSR<0.05"),cexRow=0.5,cexCol=0.5)
+
+
+heatmap.2(conditional[indice,indice],Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col="heat.colors",main=paste0("SharedAtLFSR<0.05"),cexRow=0.5,cexCol=0.5)
+
+```
 
 
