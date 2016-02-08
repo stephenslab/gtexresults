@@ -259,6 +259,7 @@ We provide a novel framework for estimating effect sizes across multiple subgrou
 \include{./Introduction/intro}
 \include{./Methods/Overview}
 \include{Results/Results}
+\include{Discussion/Discussion}
 \include{Methods/Methods}
 
 
@@ -315,46 +316,6 @@ We provide a novel framework for estimating effect sizes across multiple subgrou
 
 
 
-%\subsection{Training and Testing Procedure: Estimating Hierarchical Weights}
-%
-%We wish to choose the model which best maximizes the probability of observing the data set. 
-%
-%Incomplete Data likelihood:
-%%Here, the total likelihood of the test data set over $K$ components: 
-%
-%\begin{equation}
-%L(\bm\pi;{\hat{\bm{b}})} = \prod_{j=1}^J \sum_{k}^{K} \pi_{k} P(\hat{\bm{b_{j}}} | z_{j}=k)
-%\end{equation}
-%
-%\begin{itemize}
-%\item  To estimate the hierarchical prior weights $\pi_{k}$: compute the likelihood at each each gene-snp pair $j$ by evaluating the probability of observing $\bm{\hat{b}_{j}}$ given that we know the true $\bm{b_{j}}$ arises from component $k$
-%\item  Use the EM algorithm to estimate the optimal combination of weights (See Ash et al for details of the EM).
-%\end{itemize}
-%
-%We then use these weights to estimate the test set log-likelihood.
-%
-
-
-% Include only the SI item label in the subsection heading. Use the \nameref{label} command to cite SI items in the text.
-%\subsection*{S1 Video}
-%\label{S1_Video}
-%{\bf Bold the first sentence.}  Maecenas convallis mauris sit amet sem ultrices gravida. Etiam eget sapien nibh. Sed ac ipsum eget enim egestas ullamcorper nec euismod ligula. Curabitur fringilla pulvinar lectus consectetur pellentesque.
-%
-%\subsection*{S1 Text}
-%\label{S1_Text}
-%{\bf Lorem Ipsum.} Maecenas convallis mauris sit amet sem ultrices gravida. Etiam eget sapien nibh. Sed ac ipsum eget enim egestas ullamcorper nec euismod ligula. Curabitur fringilla pulvinar lectus consectetur pellentesque.
-%
-%\subsection*{S1 Fig}
-%\label{S1_Fig}
-%{\bf Lorem Ipsum.} Maecenas convallis mauris sit amet sem ultrices gravida. Etiam eget sapien nibh. Sed ac ipsum eget enim egestas ullamcorper nec euismod ligula. Curabitur fringilla pulvinar lectus consectetur pellentesque.
-%
-%\subsection*{S2 Fig}
-%\label{S2_Fig}
-%{\bf Lorem Ipsum.} Maecenas convallis mauris sit amet sem ultrices gravida. Etiam eget sapien nibh. Sed ac ipsum eget enim egestas ullamcorper nec euismod ligula. Curabitur fringilla pulvinar lectus consectetur pellentesque.
-%
-%\subsection*{S1 Table}
-%\label{S1_Table}
-%{\bf Lorem Ipsum.} Maecenas convallis mauris sit amet sem ultrices gravida. Etiam eget sapien nibh. Sed ac ipsum eget enim egestas ullamcorper nec euismod ligula. Curabitur fringilla pulvinar lectus consectetur pellentesque.
 %
 \section*{Acknowledgments}
 %Cras egestas velit mauris, eu mollis turpis pellentesque sit amet. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam id pretium nisi. Sed ac quam id nisi malesuada congue. Sed interdum aliquet augue, at pellentesque quam rhoncus vitae.

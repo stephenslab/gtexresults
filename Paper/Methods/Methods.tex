@@ -42,13 +42,13 @@ Critically, the computations above are estimated using the strongest snp per gen
 
 \subsection{Deconvolution}
 To retrieve a `denoised' or `deconvoluted' estimate of the non-single rank dimensional reduction matrices, we then perform deconvolution after initializing the EM algorithm with  the matrices specified in (2), (3) and (5). The final results of this iterative procedure preserves the rank of the initialization matrix, and allows us to use the `true' effect at each component component $\bm{{b}_{j}}$ as missing data in deconvoluting the prior covariance matrices. In brief, this algorithm works by treating not only the component identity but also the true effect $\bm{{b}_{j}}$  as unobserved data, and maximizing the likelihood over the expectation of the complete data likelihood, considering the values $\bm{{b}_{j}}$ as extra missing data (in addition to the indicator variables $q_{ij}$) (Bovy et al, 2014). 
-%
+%%
 %This allows us to write down the `full data' log likelihood as follows:
 %
 %\begin{equation}
 %\begin{center}
 %\begin{aligned}
-%\phi=\sum_{J} \sum_{K} q_{jk} ln \alpha_{k} \it{N}(\hat{\bm{{b}_{j}}}|0,U_{k}+V_{j})\\
+%\phi=\sum_{J} \sum_{K} q_{jk} ln \alpha_{k} \it{N}(\hat{\bm{b}}_{j}|0,U_{k}+V_{j})\\
 %\phi=\sum_{J} \sum_{K} q_{jk} ln \alpha_{k} \it{N}(\bm{{b}_{j}}|0,U_{k})
 %\end{aligned}
 %\end{center}
@@ -56,15 +56,39 @@ To retrieve a `denoised' or `deconvoluted' estimate of the non-single rank dimen
 %
 %
 %Where $\alpha_{k}$ represents $\pi_k$ and $q_{jk}$ is the latent identifier variable.
-
 %
-%\subsection{Generation of List of Covariance Matrices}
+%Now at the E step:
 %
-%We then use these three non single-rank covariance matrix in place of our original choice of the empirical covariance matrix, SFA and SVD approximations. Here, I also used the Identity (K=1), 5 single-rank SFA factors (K=4-9), and the 44+1 $eqtlbma.lite$ configurations (K=10:54) in steps (7) and (8) to a assemble a full list of covariance matrices. Briefly, these  $eqtlbma.lite$ are an attempt to capture 'singleton' and 'fully shared' configurations in which the gene-snp pair is active in only one or all tissues. In the latter case, the variance of the distribution of underlying effect sizes is equal in all tissues.  This is 54 matrices, and we then proceed to chooses an $'L'$ element grid according to the range of effect sizes present in the overall data set in order to create a KxL list of covariance matrices. In the GTeX data set described in the text, we choose a grid with 22 $\omega$ for a total of 1188 covariance matrices.
+%\begin{equation}
+%\begin{center}
+%\begin{aligned}
+%q_{jk}= \alpha_{k} \it{N}(\hat{\bm{b}}_{j};0,U_{k}+V_{j})\\
+%b_{jk}= E(b_{jk} | \hat{\bm{b}}_{j};0,U_{k}+V_{j})\\
+%B_{jk}=E(U_{jk} | \hat{\bm{b}}_{j};0,U_{k}+V_{j})
+%\end{aligned}
+%\end{center}
+%\end{equation}
+%
+%
+%\begin{equation}
+%\begin{center}
+%\begin{aligned}
+% \alpha_{k} = \frac{1}{J} \sum_{J}  q_{jk} \\
+%U_{k}= \frac{1}{q_{k}}\sum_{J} q_{jk} b_{jk} b_{jk} + B_{jk}
+%\end{aligned}
+%\end{center}
+%\end{equation}
+%
+%
+%
+%%
+%%\subsection{Generation of List of Covariance Matrices}
+%%
+%%We then use these three non single-rank covariance matrix in place of our original choice of the empirical covariance matrix, SFA and SVD approximations. Here, I also used the Identity (K=1), 5 single-rank SFA factors (K=4-9), and the 44+1 $eqtlbma.lite$ configurations (K=10:54) in steps (7) and (8) to a assemble a full list of covariance matrices. Briefly, these  $eqtlbma.lite$ are an attempt to capture 'singleton' and 'fully shared' configurations in which the gene-snp pair is active in only one or all tissues. In the latter case, the variance of the distribution of underlying effect sizes is equal in all tissues.  This is 54 matrices, and we then proceed to chooses an $'L'$ element grid according to the range of effect sizes present in the overall data set in order to create a KxL list of covariance matrices. In the GTeX data set described in the text, we choose a grid with 22 $\omega$ for a total of 1188 covariance matrices.
 
 Let us concatenate the list of all KxL combinations of prior covariance matrices $U_{k}$ and their scaling parameters $\omega_{l}$ into a KxL list and assign this length $P$ for simplicity of notation.
 
-Now each $U_{p}$ imparts information about both $\emph{scale}$ and $\emph{direction}$
+Now each $U_{p}$ imparts information about both $\emph{scale}$ and $\emph{direction}$.
 
 
 \subsection{Likelihood}
