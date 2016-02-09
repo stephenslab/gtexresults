@@ -13,29 +13,36 @@ We see that in terms of both power and accuracy, Matrix Ash, here deemed `MASH' 
 RMSE = \sqrt(\sum_{jr}(b_{jr}-E(b_{jr}|Data)^2))
 \end{equation}
 \begin{table}[ht]
-\caption{Accuracy Comparison: RMSE}
-\centering
+\caption{Power and Accuracy Comparison}
+%\centering
 \begin{tabular}{c c c c}
 \hline\hline
 Inference Method & MASH & ASH & mash-lite \\ [0.5ex] % inserts table %heading
 \hline
 RMSE_{S}&0.010&0.030&0.047\\
-RMSE_{TS}&0.008& 0.025&0.043\\ %cor.with.truth_{S}&0.99&0.94&0.84\\
+RMSE_{TS}&0.008& 0.025&0.043\\ 
+PTA Called NonZero at lFSR_{S} 0.05& 0.758&0.20&0.52\\
+PTA Sign Called Correctly at lFSR_{S} 0.05&0.756&0.20&0.49\\%cor.with.truth_{S}&0.99&0.94&0.84\\
+PSA Incorrectly Signed at lFSR_{S} 0.05 &0.0028&0.002&0.039\\%cor.with.truth_{S}&0.99&0.94&0.84\\
+PTA Called NonZero at lFSR_{TS} 0.05& 0.756&0.20&0.52\\
+PTA Sign Called Correctly at lFSR_{TS} 0.05&0.754&0.20&0.49\\%cor.with.truth_{S}&0.99&0.94&0.84\\
+PSA Incorrectly Signed at lFSR_{TS} 0.05& 0.0056&0.001&0.043\\%cor.with.truth_{S}&0.99&0.94&0.84\\
 %cor.with.truth_{TS}&0.99&0.94&0.82\\
 \hline
 \end{tabular}
 \label{table:RMSE}
-\caption{\textbf{Accuracy Analysis} Above we compare the ability of Matrix Ash (`MASH') to capture the true effect-size estimates. We compare with univariate-shrinkage method `ASH' and configuration-specific joint approach `mash-lite'. We report the Root Mean Squared Error (RMSE) and the correlation with the truth.}
+
+\caption{\textbf{Accuracy Analysis} Above we compare the ability of Matrix Ash (`MASH') to capture the true effect-size estimates. We compare with univariate-shrinkage method `ASH' and configuration-specific joint approach `mash-lite'. We report the Root Mean Squared Error (RMSE) under both settings and see a superior performance. Furthermore, in both settings we can consider the proportion of true-associations correctly called non-zero, and the proportion correctly signed, at a given signficance threshold. Lastly, to calibrate our method, we can ask at a given lfsr threshold, what proportion of satisfying associations are incorrectly signed. We see our method is conservative in the sense that at an lfsr threshold of 0.05, only 0.5\% of associations which satisfy the threshold are incorrectly signed. \textbf{PTA}: Proportion of True Associations, \textbf{PSA} Proportion Significant Associations.}
 \end{table}
 
 To demonstrate the ability of MASH to powerfully capture these accurately estimated effect-sizes, we compare the proportion of true associations called significant at a given significance threshold among the three methods. Indeed, MASH proves superior to both methods under each condition (i.e., sharing or tissue-specific). Once called, we can ask in how many of the cases is the sign of the estimated effect correct; again, our ability to correctly identify the direction of the effect is correct more often using our method than any other.
-
-\begin{figure}[h]
-\includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-5-1.png}&
-\includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-5-2.png}
-\caption{\textbf{Power vs Accuracy} \textbf{Left}: Under both the Shared (not shown) and Tissue Specific settings, we identify a greater number of true associations at a given local false sign rate threshold using MASH then either univariate methods (ASH) or joint `configuration style' approaches (mash-lite). \textbf{Right}: Similarly, among associations satisfying a given significance threshold, we are able to correctly identify the sign of the effect in many more instances using MASH then either univariate methods (ASH) or joint `configuration style' approaches (mash-lite).}
-\label{fig:powervaccuracy}
-\end{figure}\newline
+%
+%\begin{figure}[h]
+%\includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-5-1.png}&
+%\includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-5-2.png}
+%\caption{\textbf{Power vs Accuracy} \textbf{Left}: Under both the Shared (not shown) and Tissue Specific settings, we identify a greater number of true associations at a given local false sign rate threshold using MASH then either univariate methods (ASH) or joint `configuration style' approaches (mash-lite). \textbf{Right}: Similarly, among associations satisfying a given significance threshold, we are able to correctly identify the sign of the effect in many more instances using MASH then either univariate methods (ASH) or joint `configuration style' approaches (mash-lite).}
+%\label{fig:powervaccuracy}
+%\end{figure}\newline
 
 In introducing a method to quantify the heterogeneity of effect-sizes, we have developed a `heterogeneity index' which attempts to capture the heterogeneity in magnitude among tissues in which the gene-SNP pair is active. For each gene-snp pair $j$, we normalize its vector of effects $\bm{b_{j}}$ across tissues by the effect which has the maximum absolute value; thus for a fully `consistent' gene-snp pair in which all the effects are equal in magnitude, the new vector of normalized effects would consist of all ones, and R=44 tissues would be greater than $50\%$ of the maximum effect. By contrast, for a tissue-specific gene-snp pair, the vast majority of effects would be a small fraction of the maximum effect and thus the number of tissues greater than $50\%$ of the maximum effect would be 1 (the effect used to normalize). We can apply this heterogeneity index, here deemed $\textbf{`HI'}$ to the real data, but first wanted to demonstrate the superiority of MASH in estimating these quantities on simulated data. To quantity the ability of each method to accurately ascertain the heterogeneity, we can compute the heterogeneity index of the real data, and the inferred quantities, and use a modified RMSE:
 

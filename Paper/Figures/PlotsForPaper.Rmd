@@ -20,7 +20,7 @@ bma.pm=read.table("~/Dropbox/testsimBMAonlyposterior.means.txt")[,-1]
 lfsr.bma=read.table("~/Dropbox/testsimBMAonlylfsr.txt")[,-1]
 lfsr.mash=read.table("~/Dropbox/Simulationslfsr.txt")[,-1]
 lfsr.ash=read.table("~/Dropbox/univariate.ash.lfsr.txt")
-
+thresh=0.05
 ```
 
 Recall RMSE result:
@@ -49,6 +49,33 @@ beta=as.matrix(beta[1:10000,])
 lfsr.mash=as.matrix(lfsr.mash)
 lfsr.ash=as.matrix(lfsr.ash)
 lfsr.bma=as.matrix(lfsr.bma)
+
+sum(sum(beta!=0&lfsr.mash<thresh))/sum(beta!=0)
+sum(sum(beta!=0&lfsr.ash<thresh))/sum(beta!=0)
+sum(sum(beta!=0&lfsr.bma<thresh))/sum(beta!=0)
+
+
+
+mash.means=as.matrix(mash.means)
+ash.means=as.matrix(univariate.ash.pm)
+bma.means=as.matrix(bma.pm)
+
+sign.test.mash=beta*mash.means
+sign.test.ash=beta*ash.means
+sign.test.bma=beta*bma.means
+
+
+
+##ask what proportion of associations do we correctly sign 
+
+sum(sign.test.mash>0&lfsr.mash<thresh)/sum(beta!=0)
+sum(sign.test.ash>0&lfsr.ash<thresh)/sum(beta!=0)
+sum(sign.test.bma>0&lfsr.bma<thresh)/sum(beta!=0)
+
+##ask at a given lfsr threshold, how many are we incorrectly calling 
+sum(sign.test.mash<=0&lfsr.mash<thresh)/sum(lfsr.mash<thresh)
+sum(sign.test.ash<=0&lfsr.ash<thresh)/sum(lfsr.ash<thresh)
+sum(sign.test.bma<00&lfsr.bma<thresh)/sum(lfsr.bma<thresh)
 
 
 plot(0.05,sum(sum(beta!=0&lfsr.mash<0.05)),col="blue",ylim=c(0,15000),xlim=c(0.01,0.10),pch=2,ylab="NumberofTrueAssociationsCaptured",xlab="LFSRThreshold")
@@ -79,6 +106,7 @@ bma.pm=read.table("~/Dropbox/testimBMAonly_tspecposterior.means.txt")[,-1]
 lfsr.bma=read.table("~/Dropbox/testimBMAonly_tspeclfsr.txt")[,-1]
 lfsr.mash=read.table("~/Dropbox/testtissuespeclfsr.txt")[,-1]
 lfsr.ash=read.table("~/Dropbox/univariate.ash.lfsr.tspec.txt")
+thresh=0.05
 
 ```
 
@@ -110,9 +138,11 @@ lfsr.mash=as.matrix(lfsr.mash)
 lfsr.ash=as.matrix(lfsr.ash)
 lfsr.bma=as.matrix(lfsr.bma)
 
+sum(sum(beta!=0&lfsr.mash<thresh))/sum(beta!=0)
+sum(sum(beta!=0&lfsr.ash<thresh))/sum(beta!=0)
+sum(sum(beta!=0&lfsr.bma<thresh))/sum(beta!=0)
 
 plot(0.05,sum(sum(beta!=0&lfsr.mash<0.05)),col="blue",ylim=c(0,10000),xlim=c(0.01,0.10),pch=2,ylab="NumberofTrueAssociationsCaptured",xlab="LFSRThreshold")
-
 for(thresh in seq(from = 0.01,to = 0.1,by = 0.001)){
 points(thresh,sum(beta!=0&lfsr.mash<thresh),col="blue",pch=1)}
 for(thresh in seq(from = 0.01,to = 0.1,by = 0.001)){
@@ -133,6 +163,19 @@ bma.means=as.matrix(bma.pm)
 sign.test.mash=beta*mash.means
 sign.test.ash=beta*ash.means
 sign.test.bma=beta*bma.means
+thresh=0.05
+
+##ask what proportion of associations do we correctly sign 
+
+sum(sign.test.mash>0&lfsr.mash<thresh)/sum(beta!=0)
+sum(sign.test.ash>0&lfsr.ash<thresh)/sum(beta!=0)
+sum(sign.test.ash>0&lfsr.bma<thresh)/sum(beta!=0)
+
+##ask at a given lfsr threshold, how many are we incorrectly calling 
+sum(sign.test.mash<=0&lfsr.mash<thresh)/sum(lfsr.mash<thresh)
+sum(sign.test.ash<=0&lfsr.ash<thresh)/sum(lfsr.ash<thresh)
+sum(sign.test.bma<00&lfsr.bma<thresh)/sum(lfsr.bma<thresh)
+
 
 plot(0.05,sum(sign.test.mash>0&lfsr.mash<0.05),col="blue",ylim=c(0,15000),xlim=c(0.01,0.10),pch=2,ylab="SignCorrect",xlab="LFSRThreshold")
 
