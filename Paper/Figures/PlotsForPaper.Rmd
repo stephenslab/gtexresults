@@ -131,12 +131,22 @@ cor(unlist(as.vector(beta[1:10000,])), unlist(as.vector(mash.means*sebetahat)))
 cor(unlist(as.vector(beta[1:10000,])), unlist(as.vector(univariate.ash.pm*sebetahat)))
 ```
 
-And here we plot number sig vs significance threshold:
+
+Compute nominal mean threshold:
+
 ```{r echo=FALSE,cache=TRUE}
 beta=as.matrix(beta[1:10000,])
 lfsr.mash=as.matrix(lfsr.mash)
 lfsr.ash=as.matrix(lfsr.ash)
 lfsr.bma=as.matrix(lfsr.bma)
+
+mean(lfsr.mash[lfsr.mash<0.05])
+mean(lfsr.ash[lfsr.ash<0.05])
+mean(lfsr.bma[lfsr.bma<0.05])
+```
+And here we plot number sig vs significance threshold:
+```{r echo=FALSE,cache=TRUE}
+
 
 sum(sum(beta!=0&lfsr.mash<thresh))/sum(beta!=0)
 sum(sum(beta!=0&lfsr.ash<thresh))/sum(beta!=0)
@@ -191,8 +201,6 @@ title("Sign Correct vs Significance (LFSR) Threshold, with TS")
 ```
 
 
-
-```
 
 Now show the scatterplots demonstrating the tissue.specific scenario. Recall that the  purpose is to simulate according to the patterns of sharing present in the GTEX V6 Data, where 100 snps in cis of 500 genes, $\pi_0$ is 0.80, and there is sharing according to gtex covmats 2:9 and about 35% tissues specific. We can also plot the scatterplot to observe the behavior of 'null'(in red) and 'real'(in blue) associations. We see that our joint analysis reduces the Root Mean Squared Error (RMSE) and provides ample shrinkage of 'null values'.
 
@@ -885,6 +893,26 @@ for(i in 1:ncol(lfsr.mash)){
 
 heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=redblue(256),main=paste0("Proportion Shared Homogeneity"),cexRow=0.5,cexCol=0.5,symm = T)
 mtext("Defined as het.index>0.5 in both tissues")
+```
 
 
+Starer Figure:
 
+To plot the PC:
+
+```{r starterpic,cache=T}
+
+par(mfrow=c(2,3))
+par(mar=c(4,3,2,1))
+for(i in c(2,3,4,5,9)){
+  
+v=svd(covmat[[i]])$v
+  colnames(v)=rownames(v)=abr.names[,2]
+max.effect=sign(v[,1][which.max(abs(v[,1]))])
+barplot(max.effect*v[,1],las=2,main=paste0("EigenVector1ofUk=",i),#main=ifelse(i!=5,paste0("EigenVector1ofUk=",i),""),ylab=ifelse(i==5,paste0("EigenVector1ofUk=",i),""),
+        col=i-1,axisnames=ifelse(i==2,TRUE,FALSE),cex.names=ifelse(i==2,0.4,NULL))
+#if(i==5) { mtext(paste0("EigenVector1ofUk=",i))}
+}
+
+barplot(rep(1,44),main="Consistent Config, mash.lite")
+```
