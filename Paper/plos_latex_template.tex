@@ -302,7 +302,31 @@ We provide a novel framework for estimating effect sizes across multiple subgrou
 %\subsection*{Subsection 2}
 %\paragraph{3rd Level Heading.} Nulla mi mi, venenatis sed ipsum varius, volutpat euismod diam. Proin rutrum vel massa non gravida. Quisque tempor sem et dignissim rutrum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi at justo vitae nulla elementum commodo eu id massa. In vitae diam ac augue semper tincidunt eu ut eros. Fusce fringilla erat porttitor lectus cursus, vel sagittis arcu lobortis. Aliquam in enim semper, aliquam massa id, cursus neque. Praesent faucibus semper libero.
 
-\section*{Discussion}
+
+\section*{Supporting Information}
+
+\subsection{Testing and Training}
+
+In order to determine the optimal number and rank of the covariance matrices, we divide our data set into a training and test data set, each containing 8000 genes.
+
+In the training set, we proceed as above: choosing the top SNP for each of the 8000 genes, creating a list of covariance matrices through deconvolution and grid selection of these top 'training gene-snp' pairs. 
+
+Then, within the training data, we similarly choose a random set of gene-snp pairs (restricting our analysis to genes contained in the training set). Specifically, we choose 20,000 random-gene snp pairs and use the EM algorithm to learn the mixture proportions $\bm{\hat{\pi}}$  from this data set as in (\ref{eq:cdll}).
+
+We then use the KxL vector of $\pi$ from the training set to estimate the log likelihood of each data point in the test data set. If our model is biased (or `overfit') to the training data set, then a larger number of covariance matrices may actually decrease the test log-likelihood. 
+
+\subsection{Visualizing All Patterns of Sharing}
+\begin{figure}[htbp]
+\includegraphics[width=10cm]{Figures/gtexresultcompiledheatmaps.png}
+\caption{\textbf {Diverse Array of Relationships among tissues.} Here, we use heatmaps to visualize all the patterns of sharing present in the data}
+\label{fig:allheat}
+\end{figure}\newline%\textbf{Figure: $\hat{\pi}$ barplot in MASH vs BMAlite}
+%\newline
+\begin{figure}[htbp]
+\includegraphics[width=10cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-10-1.png}
+\caption{\textbf{Prior Weight Assigned to Patterns of Activity} While a joint method like `mash-lite' assigns the majority of the prior weight to the `consistent' (active across all tissues with the same prior effect-size) configuration, we can see that MASH is able to accurately parse shared configurations, thus resolving the relationship among tissues in which the QTL is active. This is a superior model fit, as judged by the likelihood improvement and simulation results above.}
+\label{fig:pihat}
+\end{figure}\newline
 %Nulla mi mi, venenatis sed ipsum varius, Table~\ref{table1} volutpat euismod diam. Proin rutrum vel massa non gravida. Quisque tempor sem et dignissim rutrum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi at justo vitae nulla elementum commodo eu id massa. In vitae diam ac augue semper tincidunt eu ut eros. Fusce fringilla erat porttitor lectus cursus, vel sagittis arcu lobortis. Aliquam in enim semper, aliquam massa id, cursus neque. Praesent faucibus semper libero.
 %
 %\subsection*{\lorem\ and \ipsum\ Nunc blandit a tortor.}
@@ -317,7 +341,7 @@ We provide a novel framework for estimating effect sizes across multiple subgrou
 
 
 %
-\section*{Acknowledgments}
+
 %Cras egestas velit mauris, eu mollis turpis pellentesque sit amet. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam id pretium nisi. Sed ac quam id nisi malesuada congue. Sed interdum aliquet augue, at pellentesque quam rhoncus vitae.
 
 \nolinenumbers
@@ -338,7 +362,7 @@ We provide a novel framework for estimating effect sizes across multiple subgrou
 
 
 \newpage
-
+\section*{Acknowledgments}
 %\bibliographystyle{nci}
 
 

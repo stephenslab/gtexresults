@@ -32,7 +32,7 @@ PSA Incorrectly Signed at lFSR_{TS} 0.05& 0.0056&0.001&0.043\\%cor.with.truth_{S
 \end{tabular}
 \label{table:RMSE}
 
-\caption{\textbf{Accuracy Analysis} Above we compare the ability of Matrix Ash (`MASH') to capture the true effect-size estimates. We compare with univariate-shrinkage method `ASH' and configuration-specific joint approach `mash-lite'. We report the Root Mean Squared Error (RMSE) under both settings and see a superior performance. Furthermore, in both settings we can consider the proportion of true-associations correctly called non-zero, and the proportion correctly signed, at a given signficance threshold. Lastly, to calibrate our method, we can ask at a given lfsr threshold, what proportion of satisfying associations are incorrectly signed. We see our method is conservative in the sense that at an lfsr threshold of 0.05, only 0.5\% of associations which satisfy the threshold are incorrectly signed. \textbf{PTA}: Proportion of True Associations, \textbf{PSA} Proportion Significant Associations.}
+\caption{\textbf{Accuracy Analysis} Above we compare the ability of Matrix Ash (`MASH') to capture the true effect-size estimates. We compare with univariate-shrinkage method `ASH' and configuration-specific joint approach `mash-lite'. We report the Root Mean Squared Error (RMSE) under both settings and see a superior performance. Furthermore, in both settings we can consider the proportion of true-associations correctly called non-zero, and the proportion correctly signed, at a given signficance threshold. Lastly, to calibrate our method, we can ask at a given lfsr threshold, what proportion of satisfying associations are incorrectly signed. \textbf{PTA}: Proportion of True Associations, \textbf{PSA}: Proportion Significant Associations.}
 \end{table}
 
 To demonstrate the ability of MASH to powerfully capture these accurately estimated effect-sizes, we compare the proportion of true associations called significant at a given significance threshold among the three methods. Indeed, MASH proves superior to both methods under each condition (i.e., sharing or tissue-specific). Once called, we can ask in how many of the cases is the sign of the estimated effect correct; again, our ability to correctly identify the direction of the effect is correct more often using our method than any other.
@@ -104,7 +104,7 @@ Here, we report the analysis on the top SNP for each of 16,069 genes, where the 
 
 But perhaps more importantly, there is a striking increase in power (Table \ref{table:power}) when compared to univariate methods. There are a total of 44 tissues x 16,069 gene-snp pair associations considered, or 707,036 total tissue-level effect-size coefficients. At an $lfsr$ threshold of 0.05, we identify 393,414 significant snp-gene-tissue effects ($b_{jr}$). Using estimates shrunk according to a univariate approach (again, Ash),  we identify only 91,755, meaning that using univariate methods we would be confident our ability to identify the sign in only $13\%$ of cases, while using our joint procedure for estimating effects, we would confidently argue the SNP has a non-zero effect for a gene in a particular tissue over half $(55\%)$ of the time. As described, this tremendous increase in power arises from the fact that in the presence of  a data set possessing consistency, as learned by the hierarchical model, small effects in the presence of a gene containing large effects in alternative tissues will be augmented to reflect such consistency (see Figure \ref{fig:datapower}), thus increasing our confidence in its size and direction. Indeed, examining the proportion of QTL that are shared between each pair of tissues at a given significance threshold, we see that the vast majority of tissues share greater than $60\%$ of the significant QTL contained in both tissues (see Figure \ref{fig:datapower} at right) though there are several tissues - Whole Blood, Testes, and Transformed Cell Types - which exhibit tissue-specific behavior (see Section \ref{ssec:tissuespec} for more details).
 
-While the number of associations captured is slightly greater using the mash-lite approach, we note that the likelihood of the data set under this configuration-based model is much much worse ($-1298672$ vs $-1267997.5$, see supplementary data `Testing and Training' procedure) and thus represent erroneous associations. Critically, `mash-lite' would put the vast majority of the prior weight on the fully `consistent' configuration (Figure \ref{fig:pihat}), as SNPs demonstrating activity across all tissues, regardless of how heterogeneous among subgroups, are forced into this configuration. Simulations above demonstrate the lack of accuracy arising from such an approach.%\newline
+While the number of associations captured is slightly greater using the mash-lite approach, we note that the likelihood of the data set under this configuration-based model is much much worse ($-1298672$ vs $-1267997.5$, see supplementary data `Testing and Training' procedure) and thus represent erroneous associations. Critically, `mash-lite' would put the vast majority of the prior weight on the fully `consistent' configuration (Supplementary Figure \ref{fig:pihat}), as SNPs demonstrating activity across all tissues, regardless of how heterogeneous among subgroups, are forced into this configuration. Simulations above demonstrate the lack of accuracy arising from such an approach.%\newline
 
 
 %\textbf{Figure: Real Data Scatterplot}
@@ -112,8 +112,8 @@ While the number of associations captured is slightly greater using the mash-lit
 %\includegraphics[width=5cm]{Figures/comparebeta.png}&
 \includegraphics[width=5cm]{Figures/comparez.png}
 %\caption{\textbf{Understanding Shrinkage with Real Data} While both univariate and joint methods shrink estimates $\hat{b_{jr}}$  of a given size with large standard error more harshly ($\textbf{Left two panels)}$, comparing the posterior estimates for a given observed $Z$ statistic ($\textbf{right two panels)}$ allows us to visualize the power of joint analysis. Since all observed $Z$ statistics have a standard error of one, 
-\includegraphics[width=8cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-29-1.png}
-\caption{\textbf{Power of Joint Analysis in Real Data} From real data: Z statistics of the same size are shrunk differently depending on the effect across tissues using our joint approach MASH ($\textbf{Left panel, at right}$), when compared to univariate methods $\textbf{left panel, at left}$, which tend to shrink all observed effects of a given size and standard error (i.e., equivalent Z statistics) uniformly, resulting in tremendous power gains (Table $\ref{table:power}$) by the increased significance induced. The increased power is due to the fact that most pairs of tissues share a majority of the QTL called by each, as defined by $P_{shared} = \frac{QTL_i \cap QTL_j}{QTL_i \cup QTL_j$}}
+\includegraphics[width=8cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-30-1.png}
+\caption{\textbf{Power of Joint Analysis in Real Data} From real data: Z statistics of the same size are shrunk differently depending on the effect across tissues using our joint approach MASH ($\textbf{Left panel, at right}$), when compared to univariate methods ($\textbf{left panel, at left}$), which tend to shrink all observed effects of a given size and standard error (i.e., equivalent Z statistics) uniformly, resulting in tremendous power gains (Table $\ref{table:power}$) by the increased significance induced. The increased power is due to the fact that most pairs of tissues share a majority of the QTL called by each, as defined by $P_{shared} = \frac{QTL_i \cap QTL_j}{QTL_i \cup QTL_j$}}
 \label{fig:datapower}
 \end{figure}\newline
 
@@ -138,17 +138,6 @@ Significant $\bf{b}_{jr}$ $\leq$ 0.05%&202087
 
 
 
-%\textbf{Figure: $\hat{\pi}$ barplot in MASH vs BMAlite}
-%\newline
-\begin{figure}[htbp]
-\includegraphics[width=10cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-9-1.png}
-\caption{\textbf{Prior Weight Assigned to Patterns of Activity} While a joint method like `mash-lite' assigns the majority of the prior weight to the `consistent' (active across all tissues with the same prior effect-size) configuration, we can see that MASH is able to accurately parse shared configurations, thus resolving the relationship among tissues in which the QTL is active. This is a superior model fit, as judged by the likelihood improvement and simulation results above.}
-\label{fig:pihat}
-\end{figure}\newline
-
-
-
-
 
 \subsection{A qualitative description of heterogeneity in the GTEX data}
 
@@ -158,7 +147,7 @@ Indeed, from the prior weight assigned to the `learned matrices' (Figure \ref{fi
 To emphasize the contrast  between our approach and existing joint methods on this data-set, we compare our results to a configuration approach which recognizes only patterns constrained to lie along the x and y axis or along the $x-y$ line (Figure \ref{fig:Patterns}). MASH allows for patterns which show consistently larger effects in one tissue over another, with varying amounts of correlation among tissues.   We compare the first principal component of each of these covariance matrices reflecting the patterns `learned' from the data and used as $U_{k}$ to model the effect-size for each gene-snp pair $\bm{b}_{j}$ in Equation $\ref{eqn:mixprior}$ (see Methods \ref{sssec:num1} for details). Intuitively, this provides a single-rank `summary' of the relationship in effect-sizes among tissues (Figure \ref{fig:pcplot}) captured by each pattern. 
 
 \begin{figure}[htbp]
-\includegraphics[width=10cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-28-1.png}
+\includegraphics[width=10cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-29-1.png}
 \caption{\textbf{Relationships Among Tissues Captured} Here, we demonstrate the first principal direction of each pattern of effects across tissues, by simply taking the first eigenvector of each of these covariance matrices. Intuitively, these provide a rank 1 summary of the relationship in effect-sizes and directions among tissues captured by each pattern. They can be contrasted with the `consistent configuration' which assumes the same effect-size for all tissues in which the tissue is active. See Text for details and possible interpretations, and Supplement for guide to tissue abbreviations.}
 \label{fig:pcplot}
 \end{figure}\newline
@@ -225,12 +214,12 @@ Here we examine several example gene-snp pairs with a high posterior probability
 %\textbf{Figure: High loading on UK3: Captures correlation in sign, quantitative heterogeneity in magnitude along diagonal emphasizes the utility of continuous approach}
 %\newline
 \begin{figure}[htbp]
-\includegraphics[width=6cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-12-1.png}&
-\includegraphics[width=8cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-12-2.png}
 \includegraphics[width=6cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-13-1.png}&
 \includegraphics[width=8cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-13-2.png}\\
 \includegraphics[width=6cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-14-1.png}&
 \includegraphics[width=8cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-14-2.png}\\
+\includegraphics[width=6cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-15-1.png}&
+\includegraphics[width=8cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-15-2.png}\\
 \caption{\textbf{High loading on $U_{k}$=3, $U_{k}$=5, and mash-lite}:  While all matrices appear to capture overwhelming correlation in sign, the varying degrees of quantitative heterogeneity in magnitude along the diagonal emphasize the utility of continuous approach. The correlation in sign means that erratic `off-directions' in observed statistics are often flipped ($\textbf{top}$). $\textbf{Center}$: this gene snp-pair demonstrates high loading on the learned (as opposed to forced) pattern of activity $U_{k}=5$ which captures quantitatively specific activity in whole blood. Effects are significant in many tissues, but quantitatively specific to whole blood. $\textbf{Bottom}$: we also find evidence of qualitative heterogeneity, reflected in the example demonstrating high loading on mash-lite configuration matrix, and accordingly only the activity in whole blood is deemed significant.}
 \label{fig:uk3}
 \end{figure}
@@ -263,7 +252,7 @@ One of the criticisms of a joint approach might be its loss of tissue-specificit
 \newline
 \begin{figure}[htbp]
 \begin{center}
-\includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-15-1.png}&
+\includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-16-1.png}&
 \includegraphics[width=8cm]{Figures/tspecsmooth.pdf}
 \end{center}
 \caption{\textbf{Tissue Specificity} At an LFSR threshold of 0.05, we can ask how many QTL are specific to a given tissue. Several patterns of tissue-specific QTLs stand out: transformed cell types, testis, thyroid, and whole blood. Tissue specific eQTL demonstrate the smoothing feature of this joint shrinkage approach}
@@ -282,9 +271,9 @@ Armed with a vector of effect-size estimates across 44 tissues, $\bm{b_{j}}$, we
 
 \newline
 \begin{figure}[htbp]
-\includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-18-1.png}&
-\includegraphics[width=8cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-30-1.png}\\
-\includegraphics[width=8cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-23-1.png}\\
+\includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-19-1.png}&
+\includegraphics[width=8cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-31-1.png}\\
+\includegraphics[width=8cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-24-1.png}\\
 \caption{\textbf{Top Left: Number of Tissues Significant} At a given LFSR threshold (0.05), we can ask for each QTL, in how many tissues is it considered `significant'. However, armed with new information about effect-size we can ask additional questions about heterogeneity, \textbf{Bottom: Heterogeneity in Magnitude:} For each gene-snp pair, we can ask how many tissues is the effect at least $50\%$ of the maximal effect. We consider the distribution of this `Heterogeneity Index' with and without brains included in the analysis. \textbf{Upper right}, once the effects have been normalized, we ask which tissue-level are similar in magnitude to each other and to the tissue with maximum effect.}
 \label{fig:het}
 \end{figure}\newline
@@ -329,7 +318,7 @@ Attempting to understand which genes tend to behave the most homogeneously or he
 \begin{figure}[htbp]
 %\includegraphics[width=5cm]{Figures/normstuffeb_nobrain.png}&
 \includegraphics[width=5cm]{Figures/normstuffeb_alltissues.png}&
-\includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-24-1.png}\\
+\includegraphics[width=5cm]{Figures/PlotsForPaper_files/figure-html/unnamed-chunk-25-1.png}\\
 \includegraphics[width=10cm]{Figures/hetvshomqtl.pdf}
 \caption{\textbf{Understanding Which Effects are the most Homogenous.} For each gene-snp pair, we plot the normalized gene-snp-tissue-effect (e.g., $b_{jr}$) against the largest absolute effect-size for the genes. To learn which genes are more quantitatively homogeneous, we can see that eQTLs in which a large effect is present tend to have more consistent effects across the board, and thus occur in the presence of many normalize $b_{jr}$ close to 1. Furthermore, aggregating genes by their Heterogeneity Index and reporting the median maximal effect for genes of a given H class, we see that the maximum value tends to increase with homogeneity. We can segregate homogenous and heterogenous eQTL and consider their activity across tissues.}
 \label{fig:biplot}
