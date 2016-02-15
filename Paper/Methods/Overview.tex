@@ -22,8 +22,8 @@ Thus the covariance matrix $U_{k}$ captures the particular patterns of sharing r
 
 \newline
 \begin{figure}[htbp]
-\includegraphics[width=10cm]{Figures/Patterns.pdf}\\
-\includegraphics[width=10cm]{Figures/PlotsForPaper_files/figure-html/starterpic-1.png}
+\includegraphics[width=10cm]{Figures/Patterns.pdf}%\\
+%\includegraphics[width=10cm]{Figures/PlotsForPaper_files/figure-html/starterpic-1.png}
 \caption{\textbf{Modeling Many Patterns of Sharing.} \textbf{A:} Here, we display a variety of patterns of sharing present in the data. eQTLs belonging to the first class have large positively correlated effects that are consistent in sign though heterogeneous in magnitude. eQTL of pattern 2 display weak consistent effects in liver, lung and thyroid that are inversely correlated with strong tissue specific effects in brain, while eQTL of pattern 3 demonstrate strong effects in a select a group of tissues (here, lung and brain), but quantitatively weaker though correlated in sign with liver and thyroid. eQTL of the fourth group show patterns similar in `shape' to eQTL in class 1, though their absolute scale is smaller. \textbf{B:} In this two tissue-example, a model which simply calls QTLs `active' or `inactive' assumes that all effects fall along the x, y or 45 degree (1,1) line: estimating heterogenous effects which may be consistently larger in some tissues relative to others and may possess variable correlation among different pairs of tissues allows us to capture more diverse biological patterns. \textbf{C:} In these examples from real data, we illustrate patterns that were `learned' from the data and demonstrate a varying range of quantitative values among tissue we've deemed active. Note $U_{k}$ 2,3 and 9 demonstrate consistent though quantitatively heterogenous effects, while patterns 4 and 5 show varying levels of tissue specificity. Contrast that with the mash-lite approach to consistency, which only allows for homogenous effects throughout.}
 \label{fig:Patterns}
 \end{figure}
@@ -32,7 +32,7 @@ Thus the covariance matrix $U_{k}$ captures the particular patterns of sharing r
 
 \subsection{Previous Approach}
  
-Previous work from our lab considered the idea of configuration - i.e., that a tissue was simply `active' or `inactive' in a particular tissues - and thus for R tissues, there were $2^{R}$ possible configurations, which becomes computationally infeasible as $R$ grows. Thus a non-trivial novelty of our approach is its application to joint estimation of effects across a larger number of $R$= 44 tissues, never before described.
+Previous work from our lab considered the idea of configuration - i.e., that a gene-snp pair was simply `active' or `inactive' in a particular tissues - and thus for R tissues, there were $2^{R}$ possible configurations, which becomes computationally infeasible as $R$ grows. Thus a non-trivial novelty of our approach is its application to joint estimation of effects across a larger number of $R$= 44 tissues, never before described.
 
 Furthermore, this considered only the idea that the variance in effect sizes between two tissues was the same across tissues thought to be active and the covariances were also the same among tissues thought to be active in a given `configuration',  and thus failed to incorporate the much richer covariance structure between tissues. For example, many gene-SNP pairs might follow a pattern in which it is common to be `active' across all tissues, but some QTL may have consistently larger effects in liver, lung and thyroid while other QTL may possess consistently larger effects in brain tissues and still another class of gene-snp pairs may show consistently quantitatively specific activity in whole blood but non-trivial effects in other tissues. 
 

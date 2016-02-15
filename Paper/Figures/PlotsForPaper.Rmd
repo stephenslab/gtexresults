@@ -64,7 +64,10 @@ sign.test.mash=beta*mash.means
 sign.test.ash=beta*ash.means
 sign.test.bma=beta*bma.means
 
-
+###compute nominal lfsr threshold
+mean(lfsr.mash[lfsr.mash<0.05])
+mean(lfsr.ash[lfsr.ash<0.05])
+mean(lfsr.bma[lfsr.bma<0.05])
 
 ##ask what proportion of associations do we correctly sign 
 
@@ -75,7 +78,7 @@ sum(sign.test.bma>0&lfsr.bma<thresh)/sum(beta!=0)
 ##ask at a given lfsr threshold, how many are we incorrectly calling 
 sum(sign.test.mash<=0&lfsr.mash<thresh)/sum(lfsr.mash<thresh)
 sum(sign.test.ash<=0&lfsr.ash<thresh)/sum(lfsr.ash<thresh)
-sum(sign.test.bma<00&lfsr.bma<thresh)/sum(lfsr.bma<thresh)
+sum(sign.test.bma<=0&lfsr.bma<thresh)/sum(lfsr.bma<thresh)
 
 
 plot(0.05,sum(sum(beta!=0&lfsr.mash<0.05)),col="blue",ylim=c(0,15000),xlim=c(0.01,0.10),pch=2,ylab="NumberofTrueAssociationsCaptured",xlab="LFSRThreshold")
