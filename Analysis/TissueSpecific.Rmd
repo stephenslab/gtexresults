@@ -91,7 +91,7 @@ plot_ts=function(tissuename,lfsr,curvedata,thresh=0.05,subset=1:44){
 lfsr=read.table("../Data/Aug13withEDlfsr.txt")[,-1]
 
 posterior.means=read.table("../Data/Aug13withEDposterior.means.txt")[,-1]
-post.weights=read.table("~/Dropbox/Aug12/Aug13withEDpost.weights.txt")[,-1]
+#post.weights=read.table("~/Dropbox/Aug12/Aug13withEDpost.weights.txt")[,-1]
 z.stat=read.table("../Data/maxz.txt")
 
 colnames(lfsr)=colnames(posterior.means)=colnames(z.stat)
