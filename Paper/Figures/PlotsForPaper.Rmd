@@ -393,6 +393,11 @@ barplot(colSums(pi.mat.mash),las=2,names=c(paste0("Uk",seq(1:9)),as.matrix(abr.n
 mtext("Likelihood = −1,267,997.5")
 ```
 
+We can see that the majority of the weight is not on the fully `consistent' configuration, whereas this is not the case for BMA:
+```{r}
+sum(colSums(pi.mat.mash[,-54]))
+sum(colSums(pi.mat[,-45]))
+```
 And here, I wanted to demonstrate several 'tissue' by 'tissue plots, where eQTL are grouped by their loading.
 We see some tissue specific activity, some highly correlated (e.g., both colons), and tissue pairs in which SNPS are active in both (skeletal muscle and brain) but the ratios differ among groups.
 
