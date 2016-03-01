@@ -58,6 +58,17 @@ First, ask how many non-zero associations we capture at a given threshold.
 sum(sum(beta!=0&lfsr.mash<thresh))/sum(beta!=0)
 sum(sum(beta!=0&lfsr.ash<thresh))/sum(beta!=0)
 sum(sum(beta!=0&lfsr.bma<thresh))/sum(beta!=0)
+
+##ask at a given lfsr threshold, how many are we incorrectly calling real
+sum(beta=0&lfsr.mash<thresh)/sum(lfsr.mash<thresh)
+sum(beta=0&lfsr.ash<thresh)/sum(lfsr.ash<thresh)
+sum(beta=0&lfsr.bma<thresh)/sum(lfsr.bma<thresh)
+
+##ask what proportion of null associations are called at a given significance threshold
+
+sum(beta==0&lfsr.mash<thresh)/sum(beta==0)
+sum(beta==0&lfsr.ash<thresh)/sum(beta==0)
+sum(beta==0&lfsr.bma<thresh)/sum(beta==0)
 ```
 Then, we compute the nominal lfsr (S) value, and we ask how many we correctly and incorrectly sign at a given threshold.
 
@@ -155,6 +166,17 @@ First, ask how many non-zero associations we capture at a given threshold.
 sum(sum(beta!=0&lfsr.mash<thresh))/sum(beta!=0)
 sum(sum(beta!=0&lfsr.ash<thresh))/sum(beta!=0)
 sum(sum(beta!=0&lfsr.bma<thresh))/sum(beta!=0)
+
+##ask at a given lfsr threshold, how many are we incorrectly calling real
+sum(beta==0&lfsr.mash<thresh)/sum(lfsr.mash<thresh)
+sum(beta==0&lfsr.ash<thresh)/sum(lfsr.ash<thresh)
+sum(beta==0&lfsr.bma<thresh)/sum(lfsr.bma<thresh)
+
+##ask what proportion of null associations are called at a given significance threshold
+
+sum(beta==0&lfsr.mash<thresh)/sum(beta==0)
+sum(beta==0&lfsr.ash<thresh)/sum(beta==0)
+sum(beta==0&lfsr.bma<thresh)/sum(beta==0)
 ```
 Then, we compute the nominal lfsr (S) value, and we ask how many we correctly and incorrectly sign at a given threshold.
 
@@ -172,10 +194,13 @@ sum(sign.test.mash>0&lfsr.mash<thresh)/sum(beta!=0)
 sum(sign.test.ash>0&lfsr.ash<thresh)/sum(beta!=0)
 sum(sign.test.bma>0&lfsr.bma<thresh)/sum(beta!=0)
 
+
 ##ask at a given lfsr threshold, how many are we incorrectly calling 
 sum(sign.test.mash<=0&lfsr.mash<thresh)/sum(lfsr.mash<thresh)
 sum(sign.test.ash<=0&lfsr.ash<thresh)/sum(lfsr.ash<thresh)
 sum(sign.test.bma<=0&lfsr.bma<thresh)/sum(lfsr.bma<thresh)
+
+
 ```
 
 
