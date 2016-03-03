@@ -58,17 +58,6 @@ First, ask how many non-zero associations we capture at a given threshold.
 sum(sum(beta!=0&lfsr.mash<thresh))/sum(beta!=0)
 sum(sum(beta!=0&lfsr.ash<thresh))/sum(beta!=0)
 sum(sum(beta!=0&lfsr.bma<thresh))/sum(beta!=0)
-
-##ask at a given lfsr threshold, how many are we incorrectly calling real
-sum(beta=0&lfsr.mash<thresh)/sum(lfsr.mash<thresh)
-sum(beta=0&lfsr.ash<thresh)/sum(lfsr.ash<thresh)
-sum(beta=0&lfsr.bma<thresh)/sum(lfsr.bma<thresh)
-
-##ask what proportion of null associations are called at a given significance threshold
-
-sum(beta==0&lfsr.mash<thresh)/sum(beta==0)
-sum(beta==0&lfsr.ash<thresh)/sum(beta==0)
-sum(beta==0&lfsr.bma<thresh)/sum(beta==0)
 ```
 Then, we compute the nominal lfsr (S) value, and we ask how many we correctly and incorrectly sign at a given threshold.
 
@@ -166,17 +155,6 @@ First, ask how many non-zero associations we capture at a given threshold.
 sum(sum(beta!=0&lfsr.mash<thresh))/sum(beta!=0)
 sum(sum(beta!=0&lfsr.ash<thresh))/sum(beta!=0)
 sum(sum(beta!=0&lfsr.bma<thresh))/sum(beta!=0)
-
-##ask at a given lfsr threshold, how many are we incorrectly calling real
-sum(beta==0&lfsr.mash<thresh)/sum(lfsr.mash<thresh)
-sum(beta==0&lfsr.ash<thresh)/sum(lfsr.ash<thresh)
-sum(beta==0&lfsr.bma<thresh)/sum(lfsr.bma<thresh)
-
-##ask what proportion of null associations are called at a given significance threshold
-
-sum(beta==0&lfsr.mash<thresh)/sum(beta==0)
-sum(beta==0&lfsr.ash<thresh)/sum(beta==0)
-sum(beta==0&lfsr.bma<thresh)/sum(beta==0)
 ```
 Then, we compute the nominal lfsr (S) value, and we ask how many we correctly and incorrectly sign at a given threshold.
 
@@ -194,13 +172,10 @@ sum(sign.test.mash>0&lfsr.mash<thresh)/sum(beta!=0)
 sum(sign.test.ash>0&lfsr.ash<thresh)/sum(beta!=0)
 sum(sign.test.bma>0&lfsr.bma<thresh)/sum(beta!=0)
 
-
 ##ask at a given lfsr threshold, how many are we incorrectly calling 
 sum(sign.test.mash<=0&lfsr.mash<thresh)/sum(lfsr.mash<thresh)
 sum(sign.test.ash<=0&lfsr.ash<thresh)/sum(lfsr.ash<thresh)
 sum(sign.test.bma<=0&lfsr.bma<thresh)/sum(lfsr.bma<thresh)
-
-
 ```
 
 
@@ -593,7 +568,7 @@ barplot(v[,1]*sign(v[which.max(abs(v[,1])),1]),las=2,main=paste("Eigenvector 1 o
 newfunc(t=five.ex)
 ```
 
- Lastly, the inclusion of the eQTLBMA lite configurations (in which the SNP has a non-zero effect in only one tissue) coupled with the learned patterns of tissue specificity evident in matrices Uk : 5 − 9 serve to allow the preservation of qualitatively specific effects. Here, we show a gene-snp pair demonstrating high loading on one of the eqtlbma-lite configuration matrices - indeed, we reject the significance of the effect size estimates in all tissues but testes, a pattern consistent with the presence of tissue-specificity described below. Together, these results cement the resolution afforded by methods which can distinguish among tissues in which a QTL is called active, beyond reducing genetic effects to binary ‘on’ or ‘off’ conclusions.
+ Lastly, the inclusion of the eQTLBMA lite configurations (in which the SNP has a non-zero effect in only one tissue) coupled with the learned patterns of tissue specificity evident in matrices Uk : 5 − 9 serve to allow the preservation of qualitatively specific effects. Here, we show a gene-snp pair demonstrating strong posterior probability from arising from one of the eQTL-bma lite configs. Accordingly we reject the significance of the effect size estimates in all tissues but testes, a pattern consistent with the presence of tissue-specificity described below. Together, these results cement the resolution afforded by methods which can distinguish among tissues in which a QTL is called active, beyond reducing genetic effects to binary ‘on’ or ‘off’ conclusions.
  
  
 ```{r,echo=FALSE}
