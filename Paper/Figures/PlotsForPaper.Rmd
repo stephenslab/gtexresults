@@ -918,3 +918,22 @@ barplot(max.effect*v[,1],las=2,main=paste0("EigenVector1ofUk=",i),#main=ifelse(i
 
 barplot(rep(1,44),main="Consistent Config, mash.lite")
 ```
+
+
+Showing heterogeneity:
+For each gene snp pair J, let's Quantify the heterogeneity across tissues in effect sizes. ($$Q_{j} =  \sum_{r} w_{r} ( y_{jr} −  \hat{\mu}_{j}) 2$$). But here, each tissue is weighted equivalently. We can then consider the distribution of these squared differences.
+
+Then $I_{j}^{2}$ is simply $$\frac{Q_{j}-43}{Q_{j}}$$
+
+```{r}
+q.score=function(effect.vec){
+  effect.vec=as.numeric(effect.vec)
+  xbar=mean(effect.vec)
+  sum(1*(effect.vec-xbar)^2)}
+
+qvec=apply(pm.mash.beta,1,q.score)
+I.2=(qvec-43)/qvec
+
+hist(qvec,main="Distribution of Squared Distance from Mean Effect Across Tissues, Q",nclass=100,freq=FALSE)
+hist(I.2,main="Distribution of I^2",nclass=100,freq=FALSE)
+```
