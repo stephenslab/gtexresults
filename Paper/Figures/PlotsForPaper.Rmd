@@ -5,7 +5,9 @@ output: html_document
 
 Here, I produce some of the figures for the paper.
 ```{r setup, include=FALSE}
+library('knitr')
 knitr::opts_chunk$set(cache=TRUE)
+opts_chunk$set(fig.path = "~/Dropbox/PaperEdits/Paper/Figures/PlotsForPaper_files/figure-html/") 
 ```
 
 ##Data from shared simulations##
@@ -348,6 +350,9 @@ pm.mash=read.table("~/Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1]
 pm.mash.beta=pm.mash*standard.error
 
 lfsr.mash=read.table("~/Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
+
+lfsr.bma=read.table("~/Dropbox/bmawithzerolfsr.txt")[,-1]
+colnames(pm.mash.beta)=colnames(pm.ash.beta)=colnames(lfsr.mash)=colnames(maxz)=colnames(lfsr.bma)
 colnames(pm.mash.beta)=colnames(pm.ash.beta)=colnames(lfsr.mash)=colnames(maxz)
 ```
 
@@ -376,16 +381,16 @@ dev.off()
 Recall Power Results:
 ```{r,eval=FALSE}
 Metric                    LFSR_MatrixAsh LFSR_ASH   LFSR_eQTL-BMALite
-Significant b_{jr} ≤ 0.05 393,414           91,755 401,552
+Significant b_{jr} ≤ 0.05 393,414           91,755 314771
 ```
  
 Now, we would like to compare the pi.matrices to see from where the prior weight is arising. Here, we demonstrate the 'parsing'.
 
 ```{r,echo=FALSE}
 par(mfrow=c(1,2))
-pi.bma=readRDS("~/Dropbox/pisbmaonly.rds")$pihat
-pi.mat=matrix(data = pi.bma,nrow = 22,ncol =45,byrow = TRUE)
-barplot(colSums(pi.mat),las=2,names=c(as.matrix(abr.names[,2]),"all"),main="mash.litePriorWeight",cex.names = 0.5)
+pi.bma=readRDS("~/Dropbox/pisbmawithzero.rds")$pihat
+pi.mat=matrix(data = pi.bma[-length(pi.bma)],ncol =48,byrow = TRUE)
+barplot(colSums(pi.mat),las=2,names=c("ID",as.matrix(abr.names[,2]),"het=0.25","het=0.5","het=0"),main="mash.litePriorWeight",cex.names = 0.5)
 mtext("Likelihood= −1,298,672") 
 pi.mash=readRDS("../../Data/pisAug13withED.rds")$pihat
 pi.mat.mash=matrix(data = pi.mash,nrow = 22,ncol =54,byrow = TRUE)
@@ -931,7 +936,7 @@ q.score=function(effect.vec){
   xbar=mean(effect.vec)
   sum(1*(effect.vec-xbar)^2)}
 
-qvec=apply(pm.mash.beta,1,q.score)
+qvec=apply(pm.mash.beta.brain,1,q.score)
 I.2=(qvec-43)/qvec
 
 hist(qvec,main="Distribution of Squared Distance from Mean Effect Across Tissues, Q",nclass=100,freq=FALSE)
