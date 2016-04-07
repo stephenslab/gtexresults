@@ -69,6 +69,7 @@ colnames(x)=colnames(z.stat)
 v=svd(x)$v
 
 rownames(v)=colnames(v)=as.matrix(abr.names)
+par(mar=c(8,4.1,4.1,2.1))
 barplot(v[,1]*sign(v[which.max(abs(v[,1])),1]),las=2,main=paste("Eigenvector 1 of Uk",k),cex.names = 0.5)
 #newfunc(three.ex.2)
 newfunc(three.ex.3)
@@ -96,6 +97,7 @@ spec.ex=which(rownames(z.stat)=="ENSG00000131848.5_19_56741808_G_A_b37")
 
 v=svd(x)$v
 rownames(v)=colnames(v)=as.matrix(abr.names)
+par(mar=c(8,4.1,4.1,2.1))
 barplot(v[,1]*sign(v[which.max(abs(v[,1])),1]),las=2,main=paste("Eigenvector 1 of Uk",k),cex.names = 0.5)
 newfunc(t=five.ex)
 ```
@@ -108,6 +110,7 @@ newfunc(t=five.ex)
 
 eqtlbma.confg=t(as.matrix(c(rep(0,43),1)))
 colnames(eqtlbma.confg)=as.matrix(abr.names)
+par(mar=c(8,4.1,4.1,2.1))
 barplot(eqtlbma.confg,main="SingletonConfig",las=2,cex.names=0.5)
 wholebloodtwo=(which(rownames(maxz)=="ENSG00000078114.14_10_21501314_T_C_b37"))
 newfunc(t = wholebloodtwo)

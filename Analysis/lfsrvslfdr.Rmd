@@ -1,0 +1,27 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+
+```{r}
+library('knitr')
+knitr::opts_chunk$set(cache=TRUE)
+#knitr::opts_chunk$set(eval=FALSE)
+opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/") 
+abr.names=as.matrix(read.table("~/gtexresults_matrixash/Data/abbreviate.names.txt")[,2])
+lfsr.mash=read.table("~/Dropbox/withzero/withzerolfsr.txt")[,-1]
+lfdr.mash=read.table("~/Dropbox/withzero/withzeroposterior.nulls.txt")[,-1]
+
+colnames(lfdr.mash)=colnames(lfsr.mash)=abr.names
+
+```
+
+Here we show variation
+
+```{r lfsrvslfdr, echo=FALSE}
+plot(as.matrix(lfdr.mash),as.matrix(lfsr.mash),col=adjustcolor("blue", alpha=0.1), pch=16,main="LFSR vs LFDR",ylab="LFSR",xlab="LFDR")
+abline(v=0.05,col="red")
+abline(h=0.05,col="red")
+```
+
