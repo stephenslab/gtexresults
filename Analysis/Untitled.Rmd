@@ -1,41 +1,55 @@
 ---
-title: "PlottingByColSumsScatterplot"
+title: "RespondingToMatthew'sIssues"
 output: html_document
 ---
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+Let's make a heatmap of lfsr and lfdr:
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+```{r}
+lfsr=read.table("~/Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
+lfsr[lfsr<0]=0
+lfdr=read.table("~/Dropbox/withzero/withzeroposterior.nulls.txt")[,-1]
 
-```{r load.data, echo=FALSE}
-pm.mash.beta.brain=read.table("../Data/Aug13withEDposterior.betas.txt")
-pm.mash=read.table("../withoutbrain//nobrainposterior.means.txt")[,-1]
-standard.error=read.table("../Data/standard.error.txt")[,-c(7:16)]
-pm.mash.beta=pm.mash*standard.error
-components=read.table("../Data/maxColsums.txt")[,1]
+tissue.names=as.character(read.table("~/gtexresults_matrixash/Data/abbreviate.names.txt")[,2])
+colnames(lfsr)=colnames(lfdr)=tissue.names
 ```
 
-```{r,fig.ext='png',cache=TRUE}
+First, we plot with no sort because we want to compare lfsr and lfdr to show the importance of considering the effect size:
 
-for (i in 1:43){
-  for(j in (i+1):44){
-    plot(pm.mash.beta.brain[,i],pm.mash.beta.brain[,j],col=components,xlab=colnames(pm.mash.beta.brain)[i],ylab=colnames(pm.mash.beta.brain)[j])}}
-  
+```{r, echo=FALSE,eval=FALSE}
+library('gplots')
+png("~/Dropbox/PaperEdits/Paper/Figures/lfsrnosort.png")
+heatmap.2((as.matrix(lfsr)),main="LFSR",dendrogram="none",density="none",Colv=FALSE,Rowv=FALSE,trace="none",col=redblue(256),cexRow=0.5,cexCol=0.5,labRow = "")
+dev.off()
+
+library('gplots')
+png("~/Dropbox/PaperEdits/Paper/Figures/lfdnosort.png")
+heatmap.2((as.matrix(lfdr)),main="LFDR",dendrogram="none",density="none",Colv=FALSE,Rowv = FALSE,trace="none",col=redblue(256),cexRow=0.5,cexCol=0.5,labRow = "")
+dev.off()
+
+
 ```
 
-```{r load.data, echo=FALSE}
-pm.mash.brain=read.table("../Data/Aug13withEDposterior.means.txt")[,-1]
-pm.mash=read.table("../withoutbrain//nobrainposterior.means.txt")[,-1]
+![~/Dropbox/PaperEdits/Paper/Figures/lfdnosort.png](~/Dropbox/PaperEdits/Paper/Figures/lfdnosort.png).
+![~/Dropbox/PaperEdits/Paper/Figures/lfsrnosort.png](~/Dropbox/PaperEdits/Paper/Figures/lfsrnosort.png).
 
-components=read.table("../Data/maxColsums.txt")[,1]
+Now, we plot the sorted lfsr to detect interesting patterns:
+
+```{r, echo=FALSE}
+library('gplots')
+png("~/Dropbox/PaperEdits/Paper/Figures/lfsrsort.png")
+heatmap.2((as.matrix(lfsr)),main="LFSR",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
+          trace="none",col=redblue(256),cexRow=0.5,cexCol=0.5,labRow = "")
+dev.off()
+
+# library('gplots')
+# png("~/Dropbox/PaperEdits/Paper/Figures/lfdrsort.png")
+# heatmap.2((as.matrix(lfdr)),main="LFDR",dendrogram="none",density="none",Colv=FALSE,#Rowv = FALSE,
+#           trace="none",col=redblue(256),cexRow=0.5,cexCol=0.5,labRow = "")
+# dev.off()
+# problems with node overflow for similar values when attempting to sort
+
 ```
 
-```{r,fig.ext='png',cache=TRUE}
-
-for (i in 1:43){
-  for(j in (i+1):44){
-    plot(pm.mash.brain[,i],pm.mash[,j],col=components,xlab=colnames(pm.mash.beta.brain)[i],ylab=colnames(pm.mash.beta.brain)[j])}}
-  
-```
-
+![~/Dropbox/PaperEdits/Paper/Figures/lfsrsort.png](~/Dropbox/PaperEdits/Paper/Figures/lfsrsort.png).
 

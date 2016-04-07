@@ -7,7 +7,7 @@ Here, I produce some of the figures for the paper.
 ```{r setup, include=FALSE}
 library('knitr')
 knitr::opts_chunk$set(cache=TRUE)
-opts_chunk$set(fig.path = "~/Dropbox/PaperEdits/Paper/Figures/PlotsForPaper_files/figure-html/") 
+opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/PlotsForPaper_files/figure-html/") 
 ```
 
 ##Data from shared simulations##
@@ -57,6 +57,7 @@ bma.means=as.matrix(bma.pm)
 ```
 First, ask how many non-zero associations we capture at a given threshold.
 ```{r echo=TRUE}
+#chunk6
 sum(sum(beta!=0&lfsr.mash<thresh))/sum(beta!=0)
 sum(sum(beta!=0&lfsr.ash<thresh))/sum(beta!=0)
 sum(sum(beta!=0&lfsr.bma<thresh))/sum(beta!=0)
@@ -391,11 +392,12 @@ par(mfrow=c(1,2))
 pi.bma=readRDS("~/Dropbox/pisbmawithzero.rds")$pihat
 pi.mat=matrix(data = pi.bma[-length(pi.bma)],ncol =48,byrow = TRUE)
 barplot(colSums(pi.mat),las=2,names=c("ID",as.matrix(abr.names[,2]),"het=0.25","het=0.5","het=0"),main="mash.litePriorWeight",cex.names = 0.5)
-mtext("Likelihood= −1,298,672") 
+mtext("Likelihood= -1,282,984") 
 pi.mash=readRDS("../../Data/pisAug13withED.rds")$pihat
+#pi.mash=readRDS("~/Dropbox/withzero/piswithzero.rds")$pihat[-1189]
 pi.mat.mash=matrix(data = pi.mash,nrow = 22,ncol =54,byrow = TRUE)
 barplot(colSums(pi.mat.mash),las=2,names=c(paste0("Uk",seq(1:9)),as.matrix(abr.names[,2]),"all"),main="MASHPriorWeight",cex.names = 0.5)
-mtext("Likelihood = −1,267,997.5")
+mtext("Likelihood = −1,267,990.5")
 ```
 
 We can see that the majority of the weight is not on the fully `consistent' configuration, whereas this is not the case for BMA:
@@ -724,7 +726,7 @@ hist(sign.tissue.func(het.norm(effectsize=pm.mash.beta.brain[,c(7:16)]))/10,main
 And we consider heterogeneity in magnitude:
 
 ```{r,echo=FALSE}
-par(mfrow=c(1,3))
+par(mfrow=c(1,4))
 hist((het.func(het.norm(effectsize=pm.mash.beta.brain),threshold=0.5)),main="Number of Tissues in which B.norm>0.5*MaxBALLTISSUES",xlab="NumberofTissues",nclass=50,col="blue",freq=FALSE)
 
 hist((het.func(het.norm(effectsize=pm.mash.beta.nobrain),threshold=0.5)),main="Number of Tissues in which B.norm>0.5*MaxBEXCLUDINGBRAIN",xlab="NumberofTissues",nclass=40,col="blue",freq=FALSE)
@@ -732,6 +734,14 @@ hist((het.func(het.norm(effectsize=pm.mash.beta.nobrain),threshold=0.5)),main="N
 brain.norm=het.norm(effectsize=pm.mash.beta.brain[,c(7:16)])
 hist(het.func(brain.norm,threshold=0.5),main="Number of Tissues in which B.norm>0.5*MaxBrainOnly",xlab="NumberofTissues",nclass=12,col="blue",freq=FALSE)
 
+post.means.brain.only=read.table("~/Dropbox/BrainOnly/brainonlyposterior.means.txt")[,-1]
+pm.brain.nbeta=post.means.brain.only*standard.error[,c(7:16)]
+
+brain.norm=het.norm(effectsize=pm.brain.nbeta)
+hist(het.func(brain.norm,threshold=0.5),main="Number of Tissues in which B.norm>0.5*MaxBrainOnly",xlab="NumberofTissues",nclass=12,col="blue",freq=FALSE,ylim=c(0,0.4))
+
+post.means.brain.only=read.table("~/Dropbox/BrainOnly/brainonlyposterior.means.txt")[,-1]
+pm.brain.nbeta=post.means.brain.only*standard.error[,c(7:16)]
 ```
 
 Some additional quantities we may want to consider:
@@ -834,8 +844,24 @@ barplot(max.effect*v[,1],las=2,main=paste0("EigenVector1ofUk=",i),#main=ifelse(i
 }
 
 barplot(rep(1,44),main="Consistent Config, mash.lite")
+
+significantUK=order(colSums(pi.mat.mash),decreasing = T)[1:6]
+
+par(mfrow=c(2,3))
+par(mar=c(4,3,2,1))
+for(i in significantUK){
+  
+v=svd(covmat[[i]])$v
+  colnames(v)=rownames(v)=abr.names[,2]
+max.effect=sign(v[,1][which.max(abs(v[,1]))])
+barplot(max.effect*v[,1],las=2,main=paste0("EigenVector1ofUk=",i,",pihat=",round(colSums(pi.mat.mash)[i],2)),#main=ifelse(i!=5,paste0("EigenVector1ofUk=",i),""),ylab=ifelse(i==5,paste0("EigenVector1ofUk=",i),""),
+        col=i-1,axisnames=ifelse(i==2,TRUE,FALSE),cex.names=ifelse(i==2,0.4,NULL))
+#if(i==5) { mtext(paste0("EigenVector1ofUk=",i))}
+}
+
+#barplot(rep(1,44),main="Consistent Config, mash.lite")
 ```
-Plot sharing at an $LFSR$ of 0.05. We can also compare to the GTEX plots.
+Plot sharing at an $LFSR$ of 0.05 using brains and not. We can also compare to the GTEX plots.
 
 ```{r, echo=FALSE}
 thresh=0.05
@@ -868,7 +894,59 @@ heatmap.2(shared,symm=TRUE,dendrogram="none",density="none",trace="none",col=red
 mtext("Defined as QTL if LFSR<0.05")
 #legend("P(eQTL tissue i,j)/P(eQTL tissue i or j)")
 
+lfsr.nobrain=read.table("../../withoutbrain/nobrainlfsr.txt")[,-1]
+colnames(lfsr.nobrain)=colnames(maxz)[-c(7:16)]
 
+shared.nobrain=matrix(NA,nrow = ncol(lfsr.nobrain),ncol=ncol(lfsr.nobrain))
+for(i in 1:ncol(lfsr.nobrain)){
+  for(j in 1:ncol(lfsr.nobrain)){
+    sig.row=which(lfsr.nobrain[,i]<thresh)
+    sig.col=which(lfsr.nobrain[,j]<thresh)
+    shared.nobrain[i,j]=length(intersect(sig.row,sig.col))/length(union(sig.row,sig.col))
+  }
+
+}
+
+colnames(shared)=colnames(maxz)
+rownames(shared)=colnames(maxz)
+
+colnames(shared.nobrain)=colnames(lfsr.nobrain)
+rownames(shared.nobrain)=colnames(lfsr.nobrain)
+
+lfsr.brainonly=read.table("~/Dropbox/BrainOnly/brainonlylfsr.txt")[,-1]
+colnames(lfsr.brainonly)=colnames(maxz)[c(7:16)]
+
+shared.brainonly=matrix(NA,nrow = ncol(lfsr.brainonly),ncol=ncol(lfsr.brainonly))
+for(i in 1:ncol(lfsr.brainonly)){
+  for(j in 1:ncol(lfsr.brainonly)){
+    sig.row=which(lfsr.brainonly[,i]<thresh)
+    sig.col=which(lfsr.brainonly[,j]<thresh)
+    shared.brainonly[i,j]=length(intersect(sig.row,sig.col))/length(union(sig.row,sig.col))
+  }
+
+}
+
+colnames(shared)=colnames(maxz)
+rownames(shared)=colnames(maxz)
+
+colnames(shared.nobrain)=colnames(lfsr.nobrain)
+rownames(shared.nobrain)=colnames(lfsr.nobrain)
+
+colnames(shared.brainonly)=colnames(lfsr.brainonly)
+rownames(shared.brainonly)=colnames(lfsr.brainonly)
+par(mfrow=c(1,2))
+
+heatmap.2(shared,##Rowv=FALSE,Colv=FALSE,
+          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("Proportion of eQTL Shared,AllTissues"),cexRow=0.5,cexCol=0.5,cex.main=0.5)
+mtext("Defined as QTL if LFSR<0.05")
+
+heatmap.2(shared.nobrain,##Rowv=FALSE,Colv=FALSE,
+          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("eQTL Shared,excludingBrain"),cexRow=0.5,cexCol=0.5,cex.main=0.5)
+mtext("Defined as QTL if LFSR<0.05")
+
+heatmap.2(shared.brainonly,##Rowv=FALSE,Colv=FALSE,
+          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("eQTL Shared,Brain Only"),cexRow=0.5,cexCol=0.5,cex.main=0.5)
+mtext("Defined as QTL if LFSR<0.05")
 gtex.tissues=c("Adipose_Subcutaneous","Skin_Sun_Exposed_Lower_leg","Nerve_Tibial","Lung","Artery_Tibial","Thyroid","Heart_Left_Ventricle","Muscle_Skeletal","Whole_Blood")
 indice=match(gtex.tissues,colnames(maxz))
 
@@ -884,6 +962,13 @@ Plot by which tissues share homogeneity.
 rm(dist)
 a=het.norm(effectsize = pm.mash.beta.brain)##for each gene, normalize by max effect
 
+# png("lfsrheatmap.png")
+# x=t(apply(lfsr.mash,1,function(x){as.numeric(x<thresh)}))
+# colnames(x)=colnames(lfsr.mash)
+# #heatmap.2(x, scale = "none",col = cm.colors(2), main = "HeatMap Example",dendrogram="none",density="none",trace="none")
+# heatmap.2(as.matrix(lfsr),main="LFSRwithBMA",dendrogram="none",density="none",trace="none",col=redblue(256),cexRow=0.5,cexCol=0.5) 
+# 
+# dev.off()
 
 R=44
 thresh=0.05

@@ -1,0 +1,66 @@
+---
+title: "RespondingToMatthew'sIssues"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library('knitr')
+knitr::opts_chunk$set(cache=TRUE)
+#knitr::opts_chunk$set(eval=FALSE)
+opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/") 
+```
+
+Let's make a heatmap of lfsr and lfdr:
+
+```{r,eval=T,echo=FALSE}
+lfsr=read.table("~/Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
+lfsr[lfsr<0]=0
+lfdr=read.table("~/Dropbox/withzero/withzeroposterior.nulls.txt")[,-1]
+
+tissue.names=as.character(read.table("~/gtexresults_matrixash/Data/abbreviate.names.txt")[,2])
+colnames(lfsr)=colnames(lfdr)=tissue.names
+```
+
+First, we plot with no sort because we want to compare lfsr and lfdr to show the importance of considering the effect size:
+
+```{r, echo=FALSE}
+
+library('gplots')
+png("~/Dropbox/PaperEdits/Paper/Figures/lfsrnosort.png")
+heatmap.2((as.matrix(lfsr)),main="LFSR, Unsorted",dendrogram="none",density="none",Colv=FALSE,Rowv=FALSE,trace="none",col=greenred(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key = T)
+dev.off()
+
+library('gplots')
+png("~/Dropbox/PaperEdits/Paper/Figures/lfdnosort.png")
+heatmap.2((as.matrix(lfdr)),main="LFDR, Unsorted",dendrogram="none",density="none",Colv=FALSE,Rowv = FALSE,trace="none",col=greenred(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key = FALSE)
+dev.off()
+
+
+
+
+```
+
+![/users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/lfdnosort.png](/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/lfdnosort.png).
+![/users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/lfsrnosort.png](/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/lfsrnosort.png).
+
+Now, we plot the sorted lfsr to detect interesting patterns:
+
+```{r, echo=FALSE} 
+library('gplots')
+png("~/Dropbox/PaperEdits/Paper/Figures/lfsrsort.png")
+heatmap.2((as.matrix(lfsr)),main="LFSR,Sorted",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
+          trace="none",col=greenred(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=FALSE )
+dev.off()
+
+# library('gplots')
+# png("~/Dropbox/PaperEdits/Paper/Figures/lfdrsort.png")
+# heatmap.2((as.matrix(lfdr)),main="LFDR",dendrogram="none",density="none",Colv=FALSE,#Rowv = FALSE,
+#           trace="none",col=redblue(256),cexRow=0.5,cexCol=0.5,labRow = "")
+# dev.off()
+# problems with node overflow for similar values when attempting to sort
+
+
+```
+
+![/users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/lfsrsort.png](/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/lfsrsort.png).
+
