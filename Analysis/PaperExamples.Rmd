@@ -116,4 +116,123 @@ wholebloodtwo=(which(rownames(maxz)=="ENSG00000078114.14_10_21501314_T_C_b37"))
 newfunc(t = wholebloodtwo)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r exampleuk2,echo=FALSE}
+
+
+k=2
+x=covmat[[k]]/max(diag(covmat[[k]]))
+  colnames(x)=colnames(z.stat)
+  rownames(x)=colnames(z.stat)                  
+two.ex.2=which(rownames(z.stat)=="ENSG00000008838.13_17_38189055_A_G_b37")
+two.ex.1=which(rownames(z.stat)=="ENSG00000007341.14_1_113076756_T_C_b37")
+v=svd(x)$v
+rownames(v)=colnames(v)=as.matrix(abr.names)
+par(mar=c(8,4.1,4.1,2.1))
+barplot(v[,1]*sign(v[which.max(abs(v[,1])),1]),las=2,main=paste("Eigenvector 1 of Uk",k),cex.names = 0.5)
+newfunc(t=two.ex.1)
+```
+
+
+```{r exampleuk8,echo=FALSE}
+
+k=8
+x=covmat[[k]]/max(diag(covmat[[k]]))
+  colnames(x)=colnames(z.stat)
+  rownames(x)=colnames(z.stat)                  
+eight.ex.2=which(rownames(z.stat)=="ENSG00000169962.4_1_909238_G_C_b37")
+
+v=svd(x)$v
+rownames(v)=colnames(v)=as.matrix(abr.names)
+par(mar=c(8,4.1,4.1,2.1))
+barplot(v[,1]*sign(v[which.max(abs(v[,1])),1]),las=2,main=paste("Eigenvector 1 of Uk",k),cex.names = 0.5)
+newfunc(t=eight.ex.2)
+```
+
+
+
+
+```{r exampleuk4,echo=FALSE}
+
+k=4
+x=covmat[[k]]/max(diag(covmat[[k]]))
+  colnames(x)=colnames(z.stat)
+  rownames(x)=colnames(z.stat)                  
+four.ex.2=which(rownames(z.stat)=="ENSG00000151287.12_13_103277654_G_A_b37")
+
+
+v=svd(x)$v
+rownames(v)=colnames(v)=as.matrix(abr.names)
+par(mar=c(8,4.1,4.1,2.1))
+barplot(v[,1]*sign(v[which.max(abs(v[,1])),1]),las=2,main=paste("Eigenvector 1 of Uk",k),cex.names = 0.5)
+newfunc(t=four.ex.2)
+```
+
+
+```{r exampleconstant,echo=FALSE}
+
+k=54
+x=covmat[[k]]/max(diag(covmat[[k]]))
+  colnames(x)=colnames(z.stat)
+  rownames(x)=colnames(z.stat)                  
+t=which(rownames(z.stat)=="ENSG00000013573.12_12_31228738_G_A_b37")
+
+v=svd(x)$v
+rownames(v)=colnames(v)=as.matrix(abr.names)
+par(mar=c(8,4.1,4.1,2.1))
+barplot(v[,1]*sign(v[which.max(abs(v[,1])),1]),las=2,main=paste("Eigenvector 1 of Uk",k),cex.names = 0.5)
+
+par(mfrow=c(1,2))
+  name=strsplit(rownames(z.stat)[t], "[.]")[[1]][1]
+  x.max=min(as.numeric(z.stat[t,]),as.numeric(posterior.means[t,]))
+  x.min=max(as.numeric(z.stat[t,]),as.numeric(posterior.means[t,]))
+a=barplot(as.numeric(z.stat[t,]))#,las=2,cex.names=0.5,names=colnames(z.stat),
+
+title(main=paste0("Z Statistic"),font.main=1,col.main="blue")
+mtext(paste0(name),col="purple")
+b=barplot(as.numeric(posterior.means[t,]),col=col.func(t,lfsr=lfsr,posterior.means=posterior.means),#cex.names=0.5,las=2,
+          ylab="E(B|Data)/s.j")#,names=colnames(posterior.means))
+title(main=paste0("E(B|Data)/s.j"),font.main=1,col.main="blue")
+mtext(paste0(name),col="purple")
+
+```
+
+
+To plot the PC:
+
+```{r eigenvecs}
+pi.mash=readRDS("~/gtexresults_matrixash//Data/pisAug13withED.rds")$pihat
+abr.names=read.table("~/gtexresults_matrixash/Data/abbreviate.names.txt")
+#pi.mash=readRDS("~/Dropbox/withzero/piswithzero.rds")$pihat[-1189]
+pi.mat.mash=matrix(data = pi.mash,nrow = 22,ncol =54,byrow = TRUE)
+par(mfrow=c(3,3))
+par(mar=c(4,3,2,1))
+for(i in 2:9){
+  
+v=svd(covmat[[i]])$v
+  colnames(v)=rownames(v)=abr.names[,2]
+max.effect=sign(v[,1][which.max(abs(v[,1]))])
+barplot(max.effect*v[,1],las=2,main=paste0("EigenVector1ofUk=",i),#main=ifelse(i!=5,paste0("EigenVector1ofUk=",i),""),ylab=ifelse(i==5,paste0("EigenVector1ofUk=",i),""),
+        col=i-1,axisnames=ifelse(i==2,TRUE,FALSE),cex.names=ifelse(i==2,0.4,NULL))
+#if(i==5) { mtext(paste0("EigenVector1ofUk=",i))}
+}
+
+barplot(rep(1,44),main="Consistent Config, mash.lite")
+
+significantUK=order(colSums(pi.mat.mash),decreasing = T)[1:6]
+
+par(mfrow=c(1,1))
+#par(mfrow=c(2,3))
+#par(mar=c(4,3,2,1))
+for(i in significantUK){
+  
+v=svd(covmat[[i]])$v
+  colnames(v)=rownames(v)=abr.names[,2]
+max.effect=sign(v[,1][which.max(abs(v[,1]))])
+barplot(max.effect*v[,1],las=2,main=paste0("EigenVector1ofUk=",i,",pihat=",round(colSums(pi.mat.mash)[i],2)),#main=ifelse(i!=5,paste0("EigenVector1ofUk=",i),""),ylab=ifelse(i==5,paste0("EigenVector1ofUk=",i),""),
+        col=i-1,axisnames=ifelse(i==2,TRUE,FALSE),cex.names=ifelse(i==2,0.4,NULL))
+#if(i==5) { mtext(paste0("EigenVector1ofUk=",i))}
+}
+
+#barplot(rep(1,44),main="Consistent Config, mash.lite")
+

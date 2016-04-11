@@ -16,9 +16,12 @@ Let's make a heatmap of lfsr and lfdr:
 lfsr=read.table("~/Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
 lfsr[lfsr<0]=0
 lfdr=read.table("~/Dropbox/withzero/withzeroposterior.nulls.txt")[,-1]
-
+standardized.effects=read.table("~/Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1]
+pm.mash.beta=read.table("~/gtexresults_matrixash/Data/Aug13withEDposterior.betas.txt")
 tissue.names=as.character(read.table("~/gtexresults_matrixash/Data/abbreviate.names.txt")[,2])
-colnames(lfsr)=colnames(lfdr)=tissue.names
+
+colnames(lfsr)=colnames(lfdr)=colnames(standardized.effects)=colnames(pm.mash.beta)=tissue.names
+
 ```
 
 First, we plot with no sort because we want to compare lfsr and lfdr to show the importance of considering the effect size:
@@ -65,5 +68,22 @@ heatmap.2((as.matrix(lfsr[1:1000,])),main="LFSR,Sorted",dendrogram="none",densit
 
 ```
 
-![/users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/lfsrsort.png](/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/lfsrsort.png).
+ Let's try a heatmap of estimated effect size:
+ 
+```{r, echo=FALSE} 
+library('gplots')
+png("~/Dropbox/PaperEdits/Paper/Figures/postmeansheatmap.png")
+heatmap.2((as.matrix(standardized.effects)),main="Standardized Posterior Effects",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
+          trace="none",col=bluered(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=TRUE)
+dev.off()
 
+
+library('gplots')
+png("~/Dropbox/PaperEdits/Paper/Figures/postbetas.png")
+heatmap.2((as.matrix(pm.mash.beta)),main="Standardized Posterior Effects",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
+          trace="none",col=bluered(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=TRUE)
+dev.off()
+```
+ 
+ 
+ 
