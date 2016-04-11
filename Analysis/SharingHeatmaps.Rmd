@@ -27,12 +27,12 @@ First, we plot with no sort because we want to compare lfsr and lfdr to show the
 
 library('gplots')
 png("~/Dropbox/PaperEdits/Paper/Figures/lfsrnosort.png")
-heatmap.2((as.matrix(lfsr)),main="LFSR, Unsorted",dendrogram="none",density="none",Colv=FALSE,Rowv=FALSE,trace="none",col=greenred(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key = T)
+heatmap.2((as.matrix(lfsr)),main="LFSR, Unsorted",dendrogram="none",density="none",Colv=FALSE,Rowv=FALSE,trace="none",col=bluered(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key = T)
 dev.off()
 
 library('gplots')
 png("~/Dropbox/PaperEdits/Paper/Figures/lfdnosort.png")
-heatmap.2((as.matrix(lfdr)),main="LFDR, Unsorted",dendrogram="none",density="none",Colv=FALSE,Rowv = FALSE,trace="none",col=greenred(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key = FALSE)
+heatmap.2((as.matrix(lfdr)),main="LFDR, Unsorted",dendrogram="none",density="none",Colv=FALSE,Rowv = FALSE,trace="none",col=bluered(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key = FALSE)
 dev.off()
 
 
@@ -49,13 +49,16 @@ Now, we plot the sorted lfsr to detect interesting patterns:
 library('gplots')
 png("~/Dropbox/PaperEdits/Paper/Figures/lfsrsort.png")
 heatmap.2((as.matrix(lfsr)),main="LFSR,Sorted",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
-          trace="none",col=greenred(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=FALSE )
+          trace="none",col=bluered(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=FALSE )
 dev.off()
 
-# library('gplots')
+heatmap.2((as.matrix(lfsr[1:1000,])),main="LFSR,Sorted",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
+          trace="none",col=bluered(256),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=FALSE )
+
+# # library('gplots')
 # png("~/Dropbox/PaperEdits/Paper/Figures/lfdrsort.png")
 # heatmap.2((as.matrix(lfdr)),main="LFDR",dendrogram="none",density="none",Colv=FALSE,#Rowv = FALSE,
-#           trace="none",col=redblue(256),cexRow=0.5,cexCol=0.5,labRow = "")
+# trace="none",col=bluered(256),cexRow=0.5,cexCol=0.5,labRow = "")
 # dev.off()
 # problems with node overflow for similar values when attempting to sort
 
