@@ -6,7 +6,7 @@ output: html_document
 ```{r setup, include=FALSE}
 library('knitr')
 knitr::opts_chunk$set(cache=TRUE)
-#knitr::opts_chunk$set(eval=FALSE)
+knitr::opts_chunk$set(eval=FALSE)
 opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/") 
 ```
 
@@ -48,7 +48,7 @@ dev.off()
 
 Now, we plot the sorted lfsr to detect interesting patterns:
 
-```{r, echo=FALSE} 
+```{r, echo=FALSE,eval=FALSE} 
 library('gplots')
 png("~/Dropbox/PaperEdits/Paper/Figures/lfsrsort.png")
 heatmap.2((as.matrix(lfsr)),main="LFSR,Sorted",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
@@ -70,7 +70,7 @@ heatmap.2((as.matrix(lfsr[1:1000,])),main="LFSR,Sorted",dendrogram="none",densit
 
  Let's try a heatmap of estimated effect size:
  
-```{r, echo=FALSE} 
+```{r, echo=FALSE,eval=FALSE} 
 library('gplots')
 png("~/Dropbox/PaperEdits/Paper/Figures/postmeansheatmap.png")
 heatmap.2((as.matrix(standardized.effects)),main="Standardized Posterior Effects",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
@@ -80,10 +80,11 @@ dev.off()
 
 library('gplots')
 png("~/Dropbox/PaperEdits/Paper/Figures/postbetas.png")
-heatmap.2((as.matrix(pm.mash.beta)),main="Standardized Posterior Effects",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
+heatmap.2((as.matrix(pm.mash.beta)),main="E(Bj|data)",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
           trace="none",col=bluered(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=TRUE)
 dev.off()
 ```
  
- 
+![/users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/postbetas.png](/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/postbetas.png).
+![/users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/postmeansheatmap.png](/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/postmeansheatmap.png).
  
