@@ -121,6 +121,23 @@ mtext("BrainOnly")
 
 title("Number of Tissues >50% Max Effect", outer=TRUE)
 
+### now make with all tissue effects
+
+
+par(mar=c(4,4.5,2,1))
+par(oma=c(3,3,3,3) )
+par(mfrow=c(1,3))
+hist((het.func(het.norm(effectsize=pm.mash.beta),threshold=0.5)),main="",xlab="NumberofTissues",nclass=50,col="blue",freq=FALSE,ylim=c(0,0.6))
+mtext("All Tissues")
+
+hist((het.func(het.norm(effectsize=pm.mash.beta[,-c(7:16)]),threshold=0.5)),main="",xlab="NumberofTissues",nclass=40,col="blue",freq=FALSE,ylim=c(0,0.6))
+mtext("Excluding Brain")
+
+brain.norm=het.norm(effectsize=pm.mash.beta[,c(7:16)])
+hist(het.func(brain.norm,threshold=0.5),main="",xlab="NumberofTissues",nclass=12,col="blue",freq=FALSE,ylim=c(0,0.6))
+mtext("BrainOnly")
+
+title("Number of Tissues >50% Max Effect, using all", outer=TRUE)
 ```
 
 ```{r generate table}
@@ -280,6 +297,7 @@ for(i in 1:ncol(a)){
 heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=redblue(256),main="",cexRow=0.5,cexCol=0.5,symm = T)
 mtext("Excluding Brain")
 
+excludebrainorder=heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=redblue(256),main="",cexRow=0.5,cexCol=0.5,symm = T)$rowInd
 
 a=pm.mash.brain.only
 R=ncol(a)
@@ -299,4 +317,70 @@ for(i in 1:ncol(a)){
 
 heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=redblue(256),main="",cexRow=0.5,cexCol=0.5,symm = T)
 mtext("Brain Only")
+
+brain.only.order=heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=redblue(256),main="",cexRow=0.5,cexCol=0.5,symm = T)$rowInd
+```
+
+Now perform with subset of all tissue effects:
+
+```{r folddiffalltissues}
+a=pm.mash.beta
+
+thresh=0.05
+R=ncol(a)
+shared.het=matrix(NA,ncol=R,nrow=R)
+colnames(shared.het)=rownames(shared.het)=tissue.names
+for(i in 1:ncol(a)){
+  for(j in 1:ncol(a)){
+    quotient=abs(a[,i]/a[,j])##divide effect sizes
+    
+
+    shared.het[i,j]=mean(quotient>0.5&quotient<2)
+ }
+
+}
+
+heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=redblue(256),cexRow=0.5,cexCol=0.5,symm = T,main="Proportion QTLs within 2-fold for a Pair")
+#mtext("All Tissues")
+
+
+a=pm.mash.beta[,-c(7:16)]
+R=ncol(a)
+
+thresh=0.05
+shared.het=matrix(NA,ncol=R,nrow=R)
+colnames(shared.het)=rownames(shared.het)=colnames(a)
+for(i in 1:ncol(a)){
+  for(j in 1:ncol(a)){
+    quotient=abs(a[,i]/a[,j])##divide effect sizes
+    
+  
+    shared.het[i,j]=mean(quotient>0.5&quotient<2)
+ }
+
+}
+
+heatmap.2(shared.het[rev(excludebrainorder),(excludebrainorder)],density="none",trace="none",dendrogram = "none",col=redblue(256),main="",cexRow=0.5,cexCol=0.5,symm = T,Rowv = FALSE,Colv = FALSE)
+mtext("Excluding Brain")
+
+
+a=pm.mash.beta[,c(7:16)]
+R=ncol(a)
+
+thresh=0.05
+shared.het=matrix(NA,ncol=R,nrow=R)
+colnames(shared.het)=rownames(shared.het)=colnames(a)
+for(i in 1:ncol(a)){
+  for(j in 1:ncol(a)){
+    quotient=abs(a[,i]/a[,j])##divide effect sizes
+    
+  
+    shared.het[i,j]=mean(quotient>0.5&quotient<2)
+ }
+
+}
+
+heatmap.2(shared.het[rev(brain.only.order),brain.only.order],density="none",trace="none",dendrogram = "none",col=redblue(256),main="",cexRow=0.5,cexCol=0.5,symm = T,Rowv = FALSE,Colv = FALSE)
+mtext("Brain Only")
+```
 
