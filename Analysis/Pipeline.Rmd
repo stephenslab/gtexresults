@@ -1,0 +1,75 @@
+---
+title: "Untitled"
+output: html_document
+---
+First, we simulate data from the GTEx matrices and consider a heatmap of the top 400 (the maxes):
+```{r options, echo=FALSE}
+library('knitr')
+knitr::opts_chunk$set(cache=TRUE)
+opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/") 
+```
+
+```{r dataplot, echo=FALSE}
+library("mvtnorm")
+library("mash")
+
+##Simulated Data and Covariance Matrices
+data=readRDS("~/Dropbox/simdata_tspec.rds")
+t=data$tstat;bhat=data$betahat;sebetahat=data$sebetahat;beta=data$beta;s.j=matrix(rep(1,ncol(t)*nrow(t)),ncol=ncol(t),nrow=nrow(t));covmat=data$component.mats;pis=(table(data$component.id)/400)
+abr.names=read.table("~/gtexresults_matrixash/Data/abbreviate.names.txt")[,2]
+colnames(t)=abr.names
+
+c=apply(t,1,function(x){max(abs(x))})
+maxes=order(c,decreasing = TRUE)[1:400]##take top 100 gene snp pairs
+max.t=t[maxes,]
+##sfa -gen ./maxt.txt -g 400 -n 44 -o tri_sim_strongt i -k 5
+
+
+library('gplots')
+heatmap.2(((as.matrix(max.t))),main="Maxz",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
+          trace="none",col=bluered(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=TRUE)
+```
+
+Now, I'll plot the simulated covariance matrices. In practice, these would be inferred from the maxes:
+
+```{r covmatsim, echo=FALSE}
+
+abr.names=read.table("~/gtexresults_matrixash/Data/abbreviate.names.txt")
+
+par(mfrow=c(5,2))
+par(mar=c(1,1,1,1))
+#for(i in 2:9){
+  
+for(i in 1:8){
+v=svd(covmat[[i]])$v
+  colnames(v)=rownames(v)=abr.names[,2]
+max.effect=sign(v[,1][which.max(abs(v[,1]))])
+barplot(max.effect*v[,1],las=2,main=paste0("V_1ofUk=",i+1),#main=ifelse(i!=5,paste0("EigenVector1ofUk=",i),""),ylab=ifelse(i==5,paste0("EigenVector1ofUk=",i),""),
+        col=i-1,axisnames=ifelse(i==6,TRUE,FALSE),cex.names=ifelse(i==6,0.4,NULL))
+#if(i==5) { mtext(paste0("EigenVector1ofUk=",i))}
+}
+
+###Forced Configs
+
+barplot(rep(1,44),main="Consistent")
+
+barplot(c(rep(0,43),1),main="Tissue-Specific")
+
+```
+
+Then shows whole data set from which we obtain the grid values and the pis:
+
+```{r alldata,echo=FALSE}
+
+heatmap.2(((as.matrix(t[1:1000,]))),main="All Data",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
+          trace="none",col=bluered(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=TRUE)
+```
+
+Estimate Pis and Omegas:
+```{r pis}
+tspec=NULL
+for(i in 1:5){tspec[i]=(which(diag(data$component.mats[[i+8]])==1))}
+pi.mat=matrix(0,ncol=54,nrow=1)
+pi.mat[2:9]=(table(data$component.id)/400)[c(1:8)]
+pi.mat[tspec+9]=(table(data$component.id)/400)[c(9:13)]
+barplot(pi.mat,main="EBWeights",names=c("ID",rep(paste0("Uk",c(2:9))),as.character(abr.names[,2]),"Consistent"),las=2,cex.names=0.5)
