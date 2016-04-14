@@ -66,8 +66,8 @@ heatmap.2(((as.matrix(t[1:1000,]))),main="All Data",dendrogram="none",density="n
           trace="none",col=bluered(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=TRUE)
 ```
 
-Estimate Pis and Omegas:
-```{r pis}
+Estimate $\pi$ and 'autoselect' $\omega$:
+```{r pis,echo=FALSE}
 ##use the real t
 tspec=NULL
 for(i in 1:5){tspec[i]=(which(diag(data$component.mats[[i+8]])==1))}
