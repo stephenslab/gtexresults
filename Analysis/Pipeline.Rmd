@@ -1,8 +1,8 @@
 ---
-title: "Untitled"
+title: "Structure of Concept Plot"
 output: html_document
 ---
-First, we simulate data from the GTEx matrices and consider a heatmap of the top 400 (the maxes):
+First, we simulate data from the GTEx matrices and 35% tissue specific and consider a heatmap of the top 400 (the maxes):
 ```{r options, echo=FALSE}
 library('knitr')
 knitr::opts_chunk$set(cache=TRUE)
@@ -19,21 +19,21 @@ t=data$tstat;bhat=data$betahat;sebetahat=data$sebetahat;beta=data$beta;s.j=matri
 abr.names=read.table("~/gtexresults_matrixash/Data/abbreviate.names.txt")[,2]
 colnames(t)=abr.names
 
-c=apply(t,1,function(x){max(abs(x))})
-maxes=order(c,decreasing = TRUE)[1:400]##take top 100 gene snp pairs
-max.t=t[maxes,]
+#c=apply(t,1,function(x){max(abs(x))})
+#maxes=order(c,decreasing = TRUE)[1:400]##take top 100 gene snp pairs
+max.t=t[1:400,]
 ##sfa -gen ./maxt.txt -g 400 -n 44 -o tri_sim_strongt i -k 5
 
 
 library('gplots')
-heatmap.2(((as.matrix(max.t))),main="Maxz",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
-          trace="none",col=bluered(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=TRUE)
+h=heatmap.2((as.matrix(max.t)),main="Maxz",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
+          trace="none",col=bluered(1000),cexRow=0.5,cexCol=0.5,labRow="",ylab = "Gene",xlab="",key=TRUE)
 ```
 
 Now, I'll plot the simulated covariance matrices. In practice, these would be inferred from the maxes:
 
 ```{r covmatsim, echo=FALSE}
-
+##here we plot the simulated covariance matrices
 abr.names=read.table("~/gtexresults_matrixash/Data/abbreviate.names.txt")
 
 par(mfrow=c(5,2))
@@ -60,6 +60,7 @@ barplot(c(rep(0,43),1),main="Tissue-Specific")
 Then shows whole data set from which we obtain the grid values and the pis:
 
 ```{r alldata,echo=FALSE}
+##here we plot a heatmap of all data
 
 heatmap.2(((as.matrix(t[1:1000,]))),main="All Data",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
           trace="none",col=bluered(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=TRUE)
@@ -67,9 +68,60 @@ heatmap.2(((as.matrix(t[1:1000,]))),main="All Data",dendrogram="none",density="n
 
 Estimate Pis and Omegas:
 ```{r pis}
+##use the real t
 tspec=NULL
 for(i in 1:5){tspec[i]=(which(diag(data$component.mats[[i+8]])==1))}
 pi.mat=matrix(0,ncol=54,nrow=1)
 pi.mat[2:9]=(table(data$component.id)/400)[c(1:8)]
 pi.mat[tspec+9]=(table(data$component.id)/400)[c(9:13)]
 barplot(pi.mat,main="EBWeights",names=c("ID",rep(paste0("Uk",c(2:9))),as.character(abr.names[,2]),"Consistent"),las=2,cex.names=0.5)
+```
+
+Now we want to return the ordered list of matrices from which the truth were simulated. Let's try a smaller subset of maxes.
+
+
+```{r echo=FALSE}
+h=heatmap.2(((as.matrix(max.t[1:10,]))),main="Maxz",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
+          trace="none",col=bluered(1000),cexRow=0.5,cexCol=0.5,ylab = "Gene",xlab="",key=TRUE)
+```
+
+Plot the barplot of the t statistics of a few select rows. Then, plot the eigenvector from the Uk in which they were simulated:
+
+```{r echo=FALSE}
+t.names=rev(h$rowInd)
+barplot(t[t.names[1],],main=paste0("MaxT",t.names[1]),las=2,cex.names = 0.5)
+t.id=data$component.id[rev(h$rowInd)]
+i=t.id[1]
+v=svd(covmat[[i]])$v
+  colnames(v)=rownames(v)=abr.names[,2]
+max.effect=sign(v[,1][which.max(abs(v[,1]))])
+barplot(max.effect*v[,1],las=2,main=paste0("V_1ofUk=",i+1),cex.names=0.5)
+
+
+barplot(t[t.names[10],],main=paste0("MaxT",t.names[10]),las=2,cex.names = 0.5)
+i=t.id[10]
+v=svd(covmat[[i]])$v
+  colnames(v)=rownames(v)=abr.names[,2]
+max.effect=sign(v[,1][which.max(abs(v[,1]))])
+barplot(max.effect*v[,1],las=2,main=paste0("V_1ofUk=",i+1),cex.names=0.5)
+
+
+
+barplot(t[t.names[9],],main=paste0("MaxT",t.names[9]),las=2,cex.names = 0.5)
+i=t.id[9]
+v=svd(covmat[[i]])$v
+  colnames(v)=rownames(v)=abr.names[,2]
+max.effect=sign(v[,1][which.max(abs(v[,1]))])
+barplot(max.effect*v[,1],las=2,main=paste0("V_1ofUk=",i+1),cex.names=0.5)
+
+
+barplot(t[t.names[2],],main=paste0("MaxT",t.names[2]),las=2,cex.names = 0.5)
+i=t.id[2]
+v=svd(covmat[[i]])$v
+  colnames(v)=rownames(v)=abr.names[,2]
+max.effect=sign(v[,1][which.max(abs(v[,1]))])
+barplot(max.effect*v[,1],las=2,main=paste0("V_1ofUk=",i+1),cex.names=0.5)
+```
+
+
+
