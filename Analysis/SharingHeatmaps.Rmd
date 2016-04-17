@@ -13,8 +13,13 @@ opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/")
 Let's make a heatmap of lfsr and lfdr:
 
 ```{r,eval=T,echo=FALSE}
+source("~/gtexresults_matrixash/Analysis/normfuncs.R")
 lfsr=read.table("~/Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
+
 lfsr[lfsr<0]=0
+nsig=lfsr<0.05
+sig=rowSums(nsig)
+
 lfdr=read.table("~/Dropbox/withzero/withzeroposterior.nulls.txt")[,-1]
 standardized.effects=read.table("~/Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1]
 pm.mash.beta=read.table("~/gtexresults_matrixash/Data/Aug13withEDposterior.betas.txt")
@@ -51,8 +56,11 @@ Now, we plot the sorted lfsr to detect interesting patterns:
 ```{r, echo=FALSE,eval=FALSE} 
 library('gplots')
 png("~/Dropbox/PaperEdits/Paper/Figures/lfsrsort.png")
-heatmap.2((as.matrix(lfsr[rev(y$rowInd),])),main="LFSR,Sorted",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
+#y=heatmap.2(as.matrix(lfsr),main="LFSR,Sorted",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
           trace="none",col=bluered(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=FALSE )
+
+y=heatmap.2(as.matrix(lfsr[rev(y$rowInd),]),main="LFSR,Sorted",dendrogram="none",density="none",Colv=FALSE,Rowv=FALSE,
+          trace="none",col=bluered(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=FALSE)
 dev.off()
 
 png("~/Dropbox/PaperEdits/Paper/Figures/lfdrsort.png")
@@ -70,7 +78,7 @@ dev.off()
 
 ```
 
- Let's try a heatmap of estimated effect size:
+ Let's try a heatmap of estimated effect size, restricting our consideration to those that are significant in at least one tissue.
  
 ```{r, echo=FALSE,eval=FALSE} 
 library('gplots')
@@ -82,7 +90,10 @@ dev.off()
 
 library('gplots')
 png("~/Dropbox/PaperEdits/Paper/Figures/postbetas.png")
-heatmap.2((as.matrix(pm.mash.beta)),main="E(Bj|data)",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
+# heatmap.2(het.norm(pm.mash.beta)[rev(y$rowInd),],main="E(Bj|data)",dendrogram="none",density="none",Colv=FALSE,Rowv=FALSE,
+#           trace="none",col=bluered(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=TRUE)
+
+heatmap.2(het.norm(pm.mash.beta[sig>0,]),main="E(Bjnorm|data)",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
           trace="none",col=bluered(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=TRUE)
 dev.off()
 ```

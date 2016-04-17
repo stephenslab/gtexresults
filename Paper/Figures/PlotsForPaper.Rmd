@@ -950,41 +950,41 @@ mtext("Defined as QTL if LFSR<0.05")
 gtex.tissues=c("Adipose_Subcutaneous","Skin_Sun_Exposed_Lower_leg","Nerve_Tibial","Lung","Artery_Tibial","Thyroid","Heart_Left_Ventricle","Muscle_Skeletal","Whole_Blood")
 indice=match(gtex.tissues,colnames(maxz))
 
-heatmap.2(shared[indice,indice],Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col="heat.colors",main=paste0("SharedAtLFSR<0.05"),cexRow=0.5,cexCol=0.5)
-
-
-heatmap.2(conditional[indice,indice],Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col="heat.colors",main=paste0("SharedAtLFSR<0.05"),cexRow=0.5,cexCol=0.5)
+# heatmap.2(shared[indice,indice],Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col="heat.colors",main=paste0("SharedAtLFSR<0.05"),cexRow=0.5,cexCol=0.5)
+# 
+# 
+# heatmap.2(conditional[indice,indice],Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col="heat.colors",main=paste0("SharedAtLFSR<0.05"),cexRow=0.5,cexCol=0.5)
 
 ```
 
 Plot by which tissues share homogeneity.
 ```{r}
-rm(dist)
-a=het.norm(effectsize = pm.mash.beta.brain)##for each gene, normalize by max effect
-
-# png("lfsrheatmap.png")
-# x=t(apply(lfsr.mash,1,function(x){as.numeric(x<thresh)}))
-# colnames(x)=colnames(lfsr.mash)
-# #heatmap.2(x, scale = "none",col = cm.colors(2), main = "HeatMap Example",dendrogram="none",density="none",trace="none")
-# heatmap.2(as.matrix(lfsr),main="LFSRwithBMA",dendrogram="none",density="none",trace="none",col=redblue(256),cexRow=0.5,cexCol=0.5) 
+# rm(dist)
+# a=het.norm(effectsize = pm.mash.beta.brain)##for each gene, normalize by max effect
 # 
-# dev.off()
-
-R=44
-thresh=0.05
-shared.het=matrix(NA,ncol=R,nrow=R)
-colnames(shared.het)=rownames(shared.het)=colnames(maxz)
-for(i in 1:ncol(lfsr.mash)){
-  for(j in 1:ncol(lfsr.mash)){
-    sig.row=which(a[,i]>0.5)#&lfsr.mash[,i]<thresh)##one of the tissues close to max effect and satisfies lfsr threshold
-    sig.col=which(a[,j]>0.5)#&lfsr.mash[,j]<thresh)
-    shared.het[i,j]=length(intersect(sig.row,sig.col))/length(union(sig.row,sig.col))
- }
-
-}
-
-heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=redblue(256),main=paste0("Proportion Shared Homogeneity"),cexRow=0.5,cexCol=0.5,symm = T)
-mtext("Defined as het.index>0.5 in both tissues")
+# # png("lfsrheatmap.png")
+# # x=t(apply(lfsr.mash,1,function(x){as.numeric(x<thresh)}))
+# # colnames(x)=colnames(lfsr.mash)
+# # #heatmap.2(x, scale = "none",col = cm.colors(2), main = "HeatMap Example",dendrogram="none",density="none",trace="none")
+# # heatmap.2(as.matrix(lfsr),main="LFSRwithBMA",dendrogram="none",density="none",trace="none",col=redblue(256),cexRow=0.5,cexCol=0.5) 
+# # 
+# # dev.off()
+# 
+# R=44
+# thresh=0.05
+# shared.het=matrix(NA,ncol=R,nrow=R)
+# colnames(shared.het)=rownames(shared.het)=colnames(maxz)
+# for(i in 1:ncol(lfsr.mash)){
+#   for(j in 1:ncol(lfsr.mash)){
+#     sig.row=which(a[,i]>0.5)#&lfsr.mash[,i]<thresh)##one of the tissues close to max effect and satisfies lfsr threshold
+#     sig.col=which(a[,j]>0.5)#&lfsr.mash[,j]<thresh)
+#     shared.het[i,j]=length(intersect(sig.row,sig.col))/length(union(sig.row,sig.col))
+#  }
+# 
+# }
+# 
+# heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=redblue(256),main=paste0("Proportion Shared Homogeneity"),cexRow=0.5,cexCol=0.5,symm = T)
+# mtext("Defined as het.index>0.5 in both tissues")
 ```
 
 
@@ -1016,14 +1016,109 @@ For each gene snp pair J, let's Quantify the heterogeneity across tissues in eff
 Then $I_{j}^{2}$ is simply $$\frac{Q_{j}-43}{Q_{j}}$$
 
 ```{r}
-q.score=function(effect.vec){
-  effect.vec=as.numeric(effect.vec)
-  xbar=mean(effect.vec)
-  sum(1*(effect.vec-xbar)^2)}
+# q.score=function(effect.vec){
+#   effect.vec=as.numeric(effect.vec)
+#   xbar=mean(effect.vec)
+#   sum(1*(effect.vec-xbar)^2)}
+# 
+# qvec=apply(pm.mash.beta.brain,1,q.score)
+# I.2=(qvec-43)/qvec
+# 
+# hist(qvec,main="Distribution of Squared Distance from Mean Effect Across Tissues, Q",nclass=100,freq=FALSE)
+# hist(I.2,main="Distribution of I^2",nclass=100,freq=FALSE)
+```
 
-qvec=apply(pm.mash.beta.brain,1,q.score)
-I.2=(qvec-43)/qvec
+```{r, echo=FALSE}
+thresh=0.05
+shared=matrix(NA,nrow = ncol(lfsr.mash),ncol=ncol(lfsr.mash))
+for(i in 1:ncol(lfsr.mash)){
+  for(j in 1:ncol(lfsr.mash)){
+    sig.row=which(lfsr.mash[,i]<thresh)
+    sig.col=which(lfsr.mash[,j]<thresh)
+    shared[i,j]=length(intersect(sig.row,sig.col))/length(union(sig.row,sig.col))
+  }
 
-hist(qvec,main="Distribution of Squared Distance from Mean Effect Across Tissues, Q",nclass=100,freq=FALSE)
-hist(I.2,main="Distribution of I^2",nclass=100,freq=FALSE)
+}
+
+thresh=0.05
+conditional=matrix(NA,nrow = ncol(lfsr.mash),ncol=ncol(lfsr.mash))
+for(i in 1:ncol(lfsr.mash)){
+  for(j in 1:ncol(lfsr.mash)){
+    sig.row=which(lfsr.mash[,i]<thresh)
+    
+    conditional[i,j]=sum(lfsr.mash[sig.row,j]<thresh)/length(sig.row)
+  }
+
+}
+
+rm(dist)
+colnames(shared)=colnames(maxz)
+rownames(shared)=colnames(maxz)
+
+heatmap.2(shared,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("Proportion of eQTL Shared"),cexRow=0.5,cexCol=0.5)
+mtext("Defined as QTL if LFSR<0.05")
+#legend("P(eQTL tissue i,j)/P(eQTL tissue i or j)")
+
+#lfsr.nobrain=read.table("../../withoutbrain/nobrainlfsr.txt")[,-1]
+lfsr.nobrain==lfsr.mash[,-c(7:16)]
+colnames(lfsr.nobrain)=colnames(maxz)[-c(7:16)]
+
+shared.nobrain=matrix(NA,nrow = ncol(lfsr.nobrain),ncol=ncol(lfsr.nobrain))
+for(i in 1:ncol(lfsr.nobrain)){
+  for(j in 1:ncol(lfsr.nobrain)){
+    sig.row=which(lfsr.nobrain[,i]<thresh)
+    sig.col=which(lfsr.nobrain[,j]<thresh)
+    shared.nobrain[i,j]=length(intersect(sig.row,sig.col))/length(union(sig.row,sig.col))
+  }
+
+}
+
+colnames(shared)=colnames(maxz)
+rownames(shared)=colnames(maxz)
+
+colnames(shared.nobrain)=colnames(lfsr.nobrain)
+rownames(shared.nobrain)=colnames(lfsr.nobrain)
+
+#lfsr.brainonly=read.table("~/Dropbox/BrainOnly/brainonlylfsr.txt")[,-1]
+lfsr.brainonly=lfsr[,c(7:16)]
+colnames(lfsr.brainonly)=colnames(maxz)[c(7:16)]
+
+shared.brainonly=matrix(NA,nrow = ncol(lfsr.brainonly),ncol=ncol(lfsr.brainonly))
+for(i in 1:ncol(lfsr.brainonly)){
+  for(j in 1:ncol(lfsr.brainonly)){
+    sig.row=which(lfsr.brainonly[,i]<thresh)
+    sig.col=which(lfsr.brainonly[,j]<thresh)
+    shared.brainonly[i,j]=length(intersect(sig.row,sig.col))/length(union(sig.row,sig.col))
+  }
+
+}
+
+colnames(shared)=colnames(maxz)
+rownames(shared)=colnames(maxz)
+
+colnames(shared.nobrain)=colnames(lfsr.nobrain)
+rownames(shared.nobrain)=colnames(lfsr.nobrain)
+
+colnames(shared.brainonly)=colnames(lfsr.brainonly)
+rownames(shared.brainonly)=colnames(lfsr.brainonly)
+par(mfrow=c(1,2))
+
+heatmap.2(shared,##Rowv=FALSE,Colv=FALSE,
+          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("Proportion of eQTL Shared,AllTissues"),cexRow=0.5,cexCol=0.5,cex.main=0.5)
+mtext("Defined as QTL if LFSR<0.05")
+
+heatmap.2(shared.nobrain,##Rowv=FALSE,Colv=FALSE,
+          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("eQTL Shared,excludingBrainAT"),cexRow=0.5,cexCol=0.5,cex.main=0.5)
+mtext("Defined as QTL if LFSR<0.05")
+
+heatmap.2(shared.brainonly,##Rowv=FALSE,Colv=FALSE,
+          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("eQTL Shared,Brain OnlyAT"),cexRow=0.5,cexCol=0.5,cex.main=0.5)
+mtext("Defined as QTL if LFSR<0.05")
+# gtex.tissues=c("Adipose_Subcutaneous","Skin_Sun_Exposed_Lower_leg","Nerve_Tibial","Lung","Artery_Tibial","Thyroid","Heart_Left_Ventricle","Muscle_Skeletal","Whole_Blood")
+# indice=match(gtex.tissues,colnames(maxz))
+# 
+# heatmap.2(shared[indice,indice],Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col="heat.colors",main=paste0("SharedAtLFSR<0.05"),cexRow=0.5,cexCol=0.5)
+# 
+# 
+# heatmap.2(conditional[indice,indice],Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col="heat.colors",main=paste0("SharedAtLFSR<0.05"),cexRow=0.5,cexCol=0.5)
 ```

@@ -33,7 +33,8 @@ par(mfrow=c(1,1))
 sigmat=(lfsr<=thresh)
 nsig= rowSums(sigmat)
 #barplot(table(nsig[nsig>0]),xlab="Number of tissues",main="Number of Tissues Significant")
-hist(nsig[nsig>0],main="Number of Tissues Significant",xlab="NumberofTissues",nclass=45,col="grey",freq=FALSE)#,ylim=c(0,0.6))
+#hist(nsig[nsig>0],main="Number of Tissues Significant",xlab="NumberofTissues",nclass=45,col="grey",freq=FALSE)#,ylim=c(0,0.6))
+hist(nsig[nsig>0],main="Number of Tissues Significant",xlab="NumberofTissues",breaks=0.5:44.5,col="grey",freq=FALSE)#,ylim=c(0,0.6))
 mean(lfsr[nsig>0,]<0.05)
 #mtext("AllTissues")
 ```
@@ -48,7 +49,8 @@ thresh=0.05
 lfsr.nobrain.alltissues=lfsr[,-c(7:16)]
 sigmat=(lfsr.nobrain.alltissues<=thresh)
 nsig= rowSums(sigmat)
-hist(nsig[nsig>0],main="",xlab="NumberofTissues",nclass=45,col="grey",freq=FALSE)
+#hist(nsig[nsig>0],main="",xlab="NumberofTissues",nclass=35,col="grey",freq=FALSE)
+hist(nsig[nsig>0],main="",xlab="NumberofTissues",breaks=0.5:34.5,col="grey",freq=FALSE)
 #barplot(table(nsig[nsig>0]),xlab="Number of tissues",main="")
 mtext("Excluding Brains")
 mean(lfsr.nobrain.alltissues[nsig>0,]<0.05)
@@ -56,7 +58,7 @@ mean(lfsr.nobrain.alltissues[nsig>0,]<0.05)
 lfsr.brainonly.alltissues=lfsr[,c(7:16)]
 sigmat=(lfsr.brainonly.alltissues<=thresh)
 nsig= rowSums(sigmat)
-hist(nsig[nsig>0],main="",xlab="NumberofTissues",breaks=seq(0,10,by = 1),col="grey",freq=FALSE)
+hist(nsig[nsig>0],main="",xlab="NumberofTissues",breaks=0.5:10.5,col="grey",freq=FALSE)
 #barplot(table(nsig[nsig>0]),xlab="Number of tissues",main="")
 mean(lfsr.brainonly.alltissues[nsig>0,]<0.05)
 mtext("Brains Only")
@@ -69,14 +71,14 @@ par(mfrow=c(1,3))
 
 sigmat=(lfsr<=thresh)
 nsig= rowSums(sigmat)
-hist(nsig[nsig>0],main="",xlab="NumberofTissues",nclass=45,col="grey",freq=FALSE)
+hist(nsig[nsig>0],main="",xlab="NumberofTissues",breaks=0.5:44.5,col="grey",freq=FALSE)
 
 #barplot(table(nsig[nsig>0]),xlab="Number of tissues",main="")
 mtext("All Tissues")
 lfsr.nobrain.alltissues=lfsr[,-c(7:16)]
 sigmat=(lfsr.nobrain.alltissues<=thresh)
 nsig= rowSums(sigmat)
-hist(nsig[nsig>0],main="",xlab="NumberofTissues",nclass=35,col="grey",freq=FALSE)
+hist(nsig[nsig>0],main="",xlab="NumberofTissues",breaks=0.5:34.5,col="grey",freq=FALSE)
 
 #barplot(table(nsig[nsig>0]),xlab="Number of tissues",main="")
 mtext("Excluding Brains")
@@ -87,7 +89,7 @@ sigmat=(lfsr.brainonly.alltissues<=thresh)
 nsig= rowSums(sigmat)
 
 
-hist(nsig[nsig>0],main="",xlab="NumberofTissues",breaks=seq(0,10,by = 1),col="grey",freq=FALSE)
+hist(nsig[nsig>0],main="",xlab="NumberofTissues",breaks=0.5:10.5,col="grey",freq=FALSE)
 
 #barplot(table(nsig[nsig>0]),xlab="Number of tissues",main="")
 mtext("Brains Only")
@@ -100,19 +102,19 @@ par(mfrow=c(1,3))
 
 sigmat=(lfsr<=thresh)
 nsig= rowSums(sigmat)
-hist(nsig[nsig>0],main="",xlab="NumberofTissues",nclass=45,col="grey",freq=FALSE)
+hist(nsig[nsig>0],main="",xlab="NumberofTissues",breaks=0.5:44.5,col="grey",freq=FALSE)
 mtext("All Tissues")
 mean(lfsr[nsig>0,]<0.05)
 sigmat=(lfsr.nobrain<=thresh)
 nsig= rowSums(sigmat)
-hist(nsig[nsig>0],main="",xlab="NumberofTissues",nclass=35,col="grey",freq=FALSE)
+hist(nsig[nsig>0],main="",xlab="NumberofTissues",breaks=0.5:34.5,col="grey",freq=FALSE)
 mtext("Excluding Brain")
 
 mean(lfsr.nobrain[nsig>0,]<0.05)
 sigmat=(lfsr.brain.only<=thresh)
 nsig= rowSums(sigmat)
 
-hist(nsig[nsig>0],main="",xlab="NumberofTissues",breaks=seq(0,10,by = 1),col="grey",freq=FALSE)
+hist(nsig[nsig>0],main="",xlab="NumberofTissues",breaks=0.5:10.5,col="grey",freq=FALSE)
 mtext("Brain Only")
 title("Number of Tissues Significant, Separate", outer=TRUE)
 mean(lfsr.brain.only[nsig>0,]<0.05)
@@ -175,14 +177,14 @@ par(mfrow=c(1,1))
 sigmat=(lfsr<=thresh)
 nsig= rowSums(sigmat)
 
-hist((het.func(het.norm(effectsize=pm.mash.beta[nsig>0,]),threshold=0.5)),main="Number of Tissues >50% Max Effect",xlab="NumberofTissues",nclass=50,col="grey",freq=FALSE)#,ylim=c(0,0.6))
+hist((het.func(het.norm(effectsize=pm.mash.beta[nsig>0,]),threshold=0.5)),main="Number of Tissues >50% Max Effect",xlab="NumberofTissues",breaks=0.5:44.5,col="grey",freq=FALSE)#,ylim=c(0,0.6))
 #mtext("All Tissues")
 
 
 par(mar=c(4,4.5,2,1))
 par(oma=c(3,3,3,3) )
 par(mfrow=c(1,3))
-hist((het.func(het.norm(effectsize=pm.mash.beta[nsig>0,]),threshold=0.5)),main="",xlab="NumberofTissues",col="grey",freq=FALSE,nclass=50)#,ylim=c(0,0.6))
+hist((het.func(het.norm(effectsize=pm.mash.beta[nsig>0,]),threshold=0.5)),main="",xlab="NumberofTissues",col="grey",freq=FALSE,breaks=0.5:44.5)#,ylim=c(0,0.6))
 # 
 # barplot(table(het.func(het.norm(effectsize=pm.mash.beta[nsig>0,]),threshold=0.5)),main="",xlab="NumberofTissues")#,nclass=50,col="grey",freq=FALSE)#,ylim=c(0,0.6))
 mtext("All Tissues")
@@ -190,7 +192,7 @@ mtext("All Tissues")
 
 sigmat=(lfsr.nobrain<=thresh)
 nsig= rowSums(sigmat)
-hist((het.func(het.norm(effectsize=pm.mash.nobrain[nsig>0,]),threshold=0.5)),main="",xlab="NumberofTissues",nclass=35,col="grey",freq=FALSE)#,ylim=c(0,0.6))
+hist((het.func(het.norm(effectsize=pm.mash.nobrain[nsig>0,]),threshold=0.5)),main="",xlab="NumberofTissues",breaks=0.5:34.5,col="grey",freq=FALSE)#,ylim=c(0,0.6))
 #barplot(table(het.func(het.norm(effectsize=pm.mash.nobrain[nsig>0,]),threshold=0.5)),main="",xlab="NumberofTissues")#,nclass=40,col="grey",freq=FALSE)#,ylim=c(0,0.6))
 mtext("Excluding Brain")
 
@@ -199,7 +201,7 @@ mtext("Excluding Brain")
 sigmat=(lfsr.brain.only<=thresh)
 nsig= rowSums(sigmat)
 brain.norm=het.norm(effectsize=pm.mash.brain.only[nsig>0,])
-hist(het.func(brain.norm,threshold=0.5),main="",xlab="NumberofTissues",breaks=seq(0,10,by = 1),col="grey",freq=FALSE)#,ylim=c(0,0.6))
+hist(het.func(brain.norm,threshold=0.5),main="",xlab="NumberofTissues",breaks=0.5:10.5,col="grey",freq=FALSE)#,ylim=c(0,0.6))
 mtext("BrainOnly")
 
 title("Number of Tissues >50% Max Effect,Separate", outer=TRUE)
@@ -214,14 +216,14 @@ par(mfrow=c(1,3))
 sigmat=(lfsr<=thresh)
 nsig= rowSums(sigmat)
 
-hist((het.func(het.norm(effectsize=pm.mash.beta[nsig>0,]),threshold=0.5)),main="",xlab="NumberofTissues",nclass=50,col="grey",freq=FALSE)#,ylim=c(0,0.6))
+hist((het.func(het.norm(effectsize=pm.mash.beta[nsig>0,]),threshold=0.5)),main="",xlab="NumberofTissues",breaks=0.5:44.5,col="grey",freq=FALSE)#,ylim=c(0,0.6))
 mtext("All Tissues")
 
 
 sigmat=(lfsr[,-c(7:16)]<=thresh)
 nsig= rowSums(sigmat)
 
-hist((het.func(het.norm(effectsize=pm.mash.beta[nsig>0,-c(7:16)]),threshold=0.5)),main="",xlab="NumberofTissues",nclass=40,col="grey",freq=FALSE)#,ylim=c(0,0.6))
+hist((het.func(het.norm(effectsize=pm.mash.beta[nsig>0,-c(7:16)]),threshold=0.5)),main="",xlab="NumberofTissues",breaks=0.5:34.5,col="grey",freq=FALSE)#,ylim=c(0,0.6))
 mtext("Excluding Brain")
 
 sigmat=(lfsr[,c(7:16)]<=thresh)
@@ -229,7 +231,7 @@ nsig= rowSums(sigmat)
 
 
 brain.norm=het.norm(effectsize=pm.mash.beta[nsig>0,c(7:16)])
-hist(het.func(brain.norm,threshold=0.5),main="",xlab="NumberofTissues",breaks=seq(0,10,by = 1),col="grey",freq=FALSE)#,ylim=c(0,0.6))
+hist(het.func(brain.norm,threshold=0.5),main="",xlab="NumberofTissues",breaks=0.5:10.5,col="grey",freq=FALSE)#,ylim=c(0,0.6))
 mtext("BrainOnly")
 
 title("Number of Tissues >50% Max Effect, using all", outer=TRUE)
@@ -244,7 +246,7 @@ par(mfrow=c(1,2))
 sigmat=(lfsr[,-c(7:16)]<=thresh)
 nsig= rowSums(sigmat)
 
-hist((het.func(het.norm(effectsize=pm.mash.beta[nsig>0,-c(7:16)]),threshold=0.5)),main="",xlab="NumberofTissues",nclass=40,col="grey",freq=FALSE)#,ylim=c(0,0.6))
+hist((het.func(het.norm(effectsize=pm.mash.beta[nsig>0,-c(7:16)]),threshold=0.5)),main="",xlab="NumberofTissues",breaks=0.5:34.5,col="grey",freq=FALSE)#,ylim=c(0,0.6))
 
 sigmat=(lfsr[,c(7:16)]<=thresh)
 nsig= rowSums(sigmat)
@@ -253,7 +255,7 @@ nsig= rowSums(sigmat)
 brain.norm=het.norm(effectsize=pm.mash.beta[nsig>0,c(7:16)])
 #hist(het.func(brain.norm,threshold=0.5),main="",xlab="NumberofTissues",nclass=12,col="grey",freq=FALSE)#,ylim=c(0,0.6))
 #hist(het.func(brain.norm,threshold=0.5),main="",xlab="NumberofTissues",breaks=seq(0,10,by=1),col="grey",freq=FALSE)#,ylim=c(0,0.6))
-hist(het.func(brain.norm,threshold=0.5),main="",xlab="NumberofTissues",breaks=seq(0,10,by = 1),col="grey",freq=FALSE)#,ylim=c(0,0.6))
+hist(het.func(brain.norm,threshold=0.5),main="",xlab="NumberofTissues",breaks=0.5:10.5,col="grey",freq=FALSE)#,ylim=c(0,0.6))
 mtext("BrainOnly")
 
 title("Number of Tissues >50% Max Effect, using all", outer=TRUE)
@@ -407,9 +409,9 @@ Now we can look at effect sizes which are within 2 fold of each other:
 
 
 ```{r fold-diff-by-effect-size}
-
-a=pm.mash.beta
-
+sigmat=lfsr<0.05
+sigs=rowSums(sigmat)
+a=pm.mash.beta[sigs>0,]##subset to ones that are significant in at least one tissue
 thresh=0.05
 R=ncol(a)
 shared.het=matrix(NA,ncol=R,nrow=R)
@@ -427,6 +429,11 @@ for(i in 1:ncol(a)){
 heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=redblue(256),cexRow=0.5,cexCol=0.5,symm = T,main="Proportion QTLs within 2-fold for a Pair")
 #mtext("All Tissues")
 
+
+
+sigmat=lfsr.nobrain<0.05
+sigs=rowSums(sigmat)
+a=pm.mash.nobrain[sigs>0,]
 
 a=pm.mash.nobrain
 R=ncol(a)
@@ -444,12 +451,13 @@ for(i in 1:ncol(a)){
 
 }
 
-#heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=redblue(256),main="",cexRow=0.5,cexCol=0.5,symm = T)
-#mtext("Excluding Brain")
 
 excludebrainorder=heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=redblue(256),main="",cexRow=0.5,cexCol=0.5,symm = T)$rowInd
 
-a=pm.mash.brain.only
+
+sigmat=lfsr.brain.only<0.05
+sigs=rowSums(sigmat)
+a=pm.mash.brain.only[sigs>0,]
 R=ncol(a)
 
 thresh=0.05
@@ -465,16 +473,17 @@ for(i in 1:ncol(a)){
 
 }
 
-#heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=redblue(256),main="",cexRow=0.5,cexCol=0.5,symm = T)
-#mtext("Brain Only")
-
 brain.only.order=heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=redblue(256),main="",cexRow=0.5,cexCol=0.5,symm = T)$rowInd
 ```
 
 Now perform with subset of all tissue effects:
 
 ```{r folddiffalltissues}
-a=pm.mash.beta
+
+
+sigmat=lfsr<0.05
+sigs=rowSums(sigmat)
+a=pm.mash.beta[sigs>0,]
 
 thresh=0.05
 R=ncol(a)
@@ -494,7 +503,11 @@ heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=redblue
 #mtext("All Tissues")
 
 
-a=pm.mash.beta[,-c(7:16)]
+sigmat=lfsr[,-c(7:16)]<0.05
+sigs=rowSums(sigmat)##subset significant 
+a=pm.mash.beta[sigs>0,-c(7:16)]
+
+#a=pm.mash.beta[,-c(7:16)]
 R=ncol(a)
 
 thresh=0.05
@@ -514,7 +527,10 @@ heatmap.2(shared.het[rev(excludebrainorder),(excludebrainorder)],density="none",
 mtext("Excluding Brain")
 
 
-a=pm.mash.beta[,c(7:16)]
+sigmat=lfsr[,c(7:16)]<0.05
+sigs=rowSums(sigmat)
+a=pm.mash.beta[sigs>0,c(7:16)]
+#a=pm.mash.beta[,c(7:16)]
 R=ncol(a)
 
 thresh=0.05
@@ -534,7 +550,7 @@ heatmap.2(shared.het[rev(brain.only.order),brain.only.order],density="none",trac
 mtext("Brain Only")
 ```
 
-Let's also consider how our power changes when we perform the separate analyses:
+Let's also consider how our power changes when we perform the separate analyses and when you do it on a per gene basis:
 
 ```{r echo=FALSE}
 
@@ -544,3 +560,12 @@ sum(lfsr[,c(7:16)]<0.05)
 
 sum(lfsr.nobrain<0.05)
 sum(lfsr[,-c(7:16)]<0.05)
+
+
+sum(rowSums(lfsr.brain.only<0.05)>0)
+sum(rowSums(lfsr[,c(7:16)]<0.05)>0)
+
+sum(rowSums(lfsr.nobrain<0.05)>0)
+sum(rowSums(lfsr[,-c(7:16)]<0.05)>0)
+
+```

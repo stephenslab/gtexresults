@@ -1,0 +1,30 @@
+
+thresh_inconsistent=function(effectsize,thresh,sigs){
+  z= sapply(seq(1:nrow(effectsize)),function(x){
+    l=sigs[x,];p=effectsize[x,];plow=p[which(l<thresh)];##grab only those posterior means that are 'significant'
+    if(length(plow)==0){return("FALSE")}##for ones who show no significants, they can't be heterogenous
+    else{pos=sum(plow>0);neg=sum(plow<0);pos*neg!=0}
+  })
+  return(sum(z==TRUE))}
+
+
+het.norm=function(effectsize){
+  t(apply(effectsize,1,function(x){
+    x/x[which.max(abs(x))]
+  }))}
+
+
+sign.norm=function(effectsize){
+  t(apply(effectsize,1,function(x){
+    x/sign(x[which.max(abs(x))])
+  }))}
+
+sign.tissue.func=function(normdat){
+  apply(normdat,1,function(x){
+    sum(x<0)})}
+
+
+
+het.func=function(normdat,threshold){
+  apply(abs(normdat),1,function(x){sum(x>threshold)})}
+

@@ -1,0 +1,195 @@
+---
+title: "sharingsignificnaceheatmaps"
+output: html_document
+---
+
+Perform the analysis with separate analyses:
+```{r setup, include=FALSE}
+library('knitr')
+knitr::opts_chunk$set(cache=TRUE)
+opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/") 
+```
+
+```{r separate,echo=FALSE}
+library(gplots)
+library(ggplot2)
+
+lfsr.all=read.table("~/Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
+lfsr.mash=lfsr.all
+lfsr.nobrain=read.table("~/gtexresults_matrixash/withoutbrain//nobrainlfsr.txt")[,-1]
+lfsr.brainonly=read.table("~/Dropbox/BrainOnly/brainonlylfsr.txt")[,-1]
+maxz=read.table("~/Dropbox/jul3/maxz.txt")
+
+
+sigmat=lfsr.mash<0.05
+lfsr.mash=lfsr.mash[rowSums(sigmat)>0,]
+thresh=0.05
+shared=matrix(NA,nrow = ncol(lfsr.mash),ncol=ncol(lfsr.mash))
+for(i in 1:ncol(lfsr.mash)){
+  for(j in 1:ncol(lfsr.mash)){
+    sig.row=which(lfsr.mash[,i]<thresh)
+    sig.col=which(lfsr.mash[,j]<thresh)
+    shared[i,j]=length(intersect(sig.row,sig.col))/length(union(sig.row,sig.col))
+  }
+
+}
+
+
+
+
+colnames(shared)=colnames(maxz)
+rownames(shared)=colnames(maxz)
+
+########
+sigmat=lfsr.nobrain<0.05
+lfsr.nobrain=lfsr.nobrain[rowSums(sigmat)>0,]
+thresh=0.05
+
+colnames(lfsr.nobrain)=colnames(maxz)[-c(7:16)]
+
+shared.nobrain=matrix(NA,nrow = ncol(lfsr.nobrain),ncol=ncol(lfsr.nobrain))
+for(i in 1:ncol(lfsr.nobrain)){
+  for(j in 1:ncol(lfsr.nobrain)){
+    sig.row=which(lfsr.nobrain[,i]<thresh)
+    sig.col=which(lfsr.nobrain[,j]<thresh)
+    shared.nobrain[i,j]=length(intersect(sig.row,sig.col))/length(union(sig.row,sig.col))
+  }
+
+}
+
+colnames(shared)=colnames(maxz)
+rownames(shared)=colnames(maxz)
+
+colnames(shared.nobrain)=colnames(lfsr.nobrain)
+rownames(shared.nobrain)=colnames(lfsr.nobrain)
+####
+
+
+lfsr.brainonly=read.table("~/Dropbox/BrainOnly/brainonlylfsr.txt")[,-1]
+lfsr.brainonly=lfsr.brainonly[rowSums(lfsr.brainonly<0.05)>0,]
+
+colnames(lfsr.brainonly)=colnames(maxz)[c(7:16)]
+
+shared.brainonly=matrix(NA,nrow = ncol(lfsr.brainonly),ncol=ncol(lfsr.brainonly))
+for(i in 1:ncol(lfsr.brainonly)){
+  for(j in 1:ncol(lfsr.brainonly)){
+    sig.row=which(lfsr.brainonly[,i]<thresh)
+    sig.col=which(lfsr.brainonly[,j]<thresh)
+    shared.brainonly[i,j]=length(intersect(sig.row,sig.col))/length(union(sig.row,sig.col))
+  }
+
+}
+
+colnames(shared)=colnames(maxz)
+rownames(shared)=colnames(maxz)
+
+colnames(shared.nobrain)=colnames(lfsr.nobrain)
+rownames(shared.nobrain)=colnames(lfsr.nobrain)
+
+colnames(shared.brainonly)=colnames(lfsr.brainonly)
+rownames(shared.brainonly)=colnames(lfsr.brainonly)
+
+heatmap.2(shared,##Rowv=FALSE,Colv=FALSE,
+          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("Proportion of eQTL Shared,AllTissues"),cexRow=0.5,cexCol=0.5,cex.main=0.5)
+mtext("Defined as QTL if LFSR<0.05")
+
+
+excludebrainorder=heatmap.2(shared.nobrain,##Rowv=FALSE,Colv=FALSE,
+          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("eQTL Shared,excludingBrainSEP"),cexRow=0.5,cexCol=0.5,cex.main=0.5)$rowInd
+mtext("Defined as QTL if LFSR<0.05")
+
+brainorder=heatmap.2(shared.brainonly,##Rowv=FALSE,Colv=FALSE,
+        symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("eQTL Shared,Brain OnlySEP"),cexRow=0.5,cexCol=0.5,cex.main=0.5)$rowInd
+mtext("Defined as QTL if LFSR<0.05")
+
+```
+
+Repeat with all
+
+```{r alltissuesign, echo=FALSE}
+rm(lfsr.brainonly)
+rm(lfsr.nobrain)
+
+thresh=0.05
+shared=matrix(NA,nrow = ncol(lfsr.mash),ncol=ncol(lfsr.mash))
+for(i in 1:ncol(lfsr.mash)){
+  for(j in 1:ncol(lfsr.mash)){
+    sig.row=which(lfsr.mash[,i]<thresh)
+    sig.col=which(lfsr.mash[,j]<thresh)
+    shared[i,j]=length(intersect(sig.row,sig.col))/length(union(sig.row,sig.col))
+  }
+
+}
+
+
+
+
+colnames(shared)=colnames(maxz)
+rownames(shared)=colnames(maxz)
+
+lfsr.nobrain=lfsr.all[,-c(7:16)]
+
+sigmat=lfsr.nobrain<0.05
+lfsr.nobrain=lfsr.nobrain[rowSums(sigmat)>0,]
+thresh=0.05
+
+
+colnames(lfsr.nobrain)=colnames(maxz)[-c(7:16)]
+
+shared.nobrain=matrix(NA,nrow = ncol(lfsr.nobrain),ncol=ncol(lfsr.nobrain))
+for(i in 1:ncol(lfsr.nobrain)){
+  for(j in 1:ncol(lfsr.nobrain)){
+    sig.row=which(lfsr.nobrain[,i]<thresh)
+    sig.col=which(lfsr.nobrain[,j]<thresh)
+    shared.nobrain[i,j]=length(intersect(sig.row,sig.col))/length(union(sig.row,sig.col))
+  }
+
+}
+
+colnames(shared)=colnames(maxz)
+rownames(shared)=colnames(maxz)
+
+colnames(shared.nobrain)=colnames(lfsr.nobrain)
+rownames(shared.nobrain)=colnames(lfsr.nobrain)
+#######
+
+
+lfsr.brainonly=lfsr.all[,c(7:16)]
+colnames(lfsr.brainonly)=colnames(maxz)[c(7:16)]
+lfsr.brainonly=lfsr.brainonly[rowSums(lfsr.brainonly<0.05)>0,]
+
+
+shared.brainonly=matrix(NA,nrow = ncol(lfsr.brainonly),ncol=ncol(lfsr.brainonly))
+for(i in 1:ncol(lfsr.brainonly)){
+  for(j in 1:ncol(lfsr.brainonly)){
+    sig.row=which(lfsr.brainonly[,i]<thresh)
+    sig.col=which(lfsr.brainonly[,j]<thresh)
+    shared.brainonly[i,j]=length(intersect(sig.row,sig.col))/length(union(sig.row,sig.col))
+  }
+
+}
+
+colnames(shared)=colnames(maxz)
+rownames(shared)=colnames(maxz)
+
+colnames(shared.nobrain)=colnames(lfsr.nobrain)
+rownames(shared.nobrain)=colnames(lfsr.nobrain)
+
+colnames(shared.brainonly)=colnames(lfsr.brainonly)
+rownames(shared.brainonly)=colnames(lfsr.brainonly)
+par(mfrow=c(1,2))
+
+heatmap.2(shared,##Rowv=FALSE,Colv=FALSE,
+          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("Proportion of eQTL Shared,AllTissues"),cexRow=0.5,cexCol=0.5,cex.main=0.5)
+mtext("Defined as QTL if LFSR<0.05")
+
+heatmap.2(shared.nobrain[rev(excludebrainorder),excludebrainorder],Rowv=FALSE,Colv=FALSE,
+          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("eQTL Shared,excludingBrainAT"),cexRow=0.5,cexCol=0.5,cex.main=0.5)
+mtext("Defined as QTL if LFSR<0.05")
+
+heatmap.2(shared.brainonly[rev(brainorder),brainorder],Rowv=FALSE,Colv=FALSE,
+          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("eQTL Shared,Brain OnlyAT"),cexRow=0.5,cexCol=0.5,cex.main=0.5)
+mtext("Defined as QTL if LFSR<0.05")
+```
+
+
