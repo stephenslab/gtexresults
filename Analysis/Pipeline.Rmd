@@ -36,8 +36,8 @@ Now, I'll plot the simulated covariance matrices. In practice, these would be in
 ##here we plot the simulated covariance matrices
 abr.names=read.table("~/gtexresults_matrixash/Data/abbreviate.names.txt")
 
-par(mfrow=c(5,2))
-par(mar=c(1,1,1,1))
+#par(mfrow=c(8,1))
+#par(mar=c(2,1,1,1))
 #for(i in 2:9){
   
 for(i in 1:8){

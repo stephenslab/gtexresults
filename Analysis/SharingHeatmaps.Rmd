@@ -48,32 +48,31 @@ dev.off()
 
 ```
 
-![/users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/lfdnosort.png](/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/lfdnosort.png).
-![/users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/lfsrnosort.png](/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/lfsrnosort.png).
+![/users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/lfdrsort.png](/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/lfdrsort.png).
+![/users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/lfsrsort.png](/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/lfsrsort.png).
 
 Now, we plot the sorted lfsr to detect interesting patterns:
 
 ```{r, echo=FALSE,eval=FALSE} 
+
+lfsr.true=lfsr[sig>0,]
+lfdr.true=lfdr[sig>0,]
 library('gplots')
 png("~/Dropbox/PaperEdits/Paper/Figures/lfsrsort.png")
-#y=heatmap.2(as.matrix(lfsr),main="LFSR,Sorted",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
-          trace="none",col=bluered(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=FALSE )
-
-y=heatmap.2(as.matrix(lfsr[rev(y$rowInd),]),main="LFSR,Sorted",dendrogram="none",density="none",Colv=FALSE,Rowv=FALSE,
+##First get sorted indices
+y=heatmap.2(as.matrix(lfsr.true),main="LFSR,Sorted",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
           trace="none",col=bluered(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=FALSE)
+
+heatmap.2(as.matrix(lfsr.true[rev(y$rowInd),]),main="LFSR,Sorted",dendrogram="none",density="none",Colv=FALSE,Rowv=FALSE,
+          trace="none",col=greenred,cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",breaks=seq(0,1,by=0.01),key=TRUE)
 dev.off()
 
 png("~/Dropbox/PaperEdits/Paper/Figures/lfdrsort.png")
-heatmap.2((as.matrix(lfdr[rev(y$rowInd),])),main="LFDR,Sorted",dendrogram="none",density="none",Colv=FALSE,Rowv=FALSE,
-          trace="none",col=bluered(256),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=FALSE )
+heatmap.2((as.matrix(lfdr.true[rev(y$rowInd),])),main="LFDR,Sorted",dendrogram="none",density="none",Colv=FALSE,Rowv=FALSE,
+          trace="none",col=greenred,cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=FALSE)
 dev.off()
 
-# # library('gplots')
-# png("~/Dropbox/PaperEdits/Paper/Figures/lfdrsort.png")
-# heatmap.2((as.matrix(lfdr)),main="LFDR",dendrogram="none",density="none",Colv=FALSE,#Rowv = FALSE,
-# trace="none",col=bluered(256),cexRow=0.5,cexCol=0.5,labRow = "")
-# dev.off()
-# problems with node overflow for similar values when attempting to sort
+
 
 
 ```
@@ -81,12 +80,6 @@ dev.off()
  Let's try a heatmap of estimated effect size, restricting our consideration to those that are significant in at least one tissue.
  
 ```{r, echo=FALSE,eval=FALSE} 
-library('gplots')
-png("~/Dropbox/PaperEdits/Paper/Figures/postmeansheatmap.png")
-heatmap.2((as.matrix(standardized.effects)),main="Standardized Posterior Effects",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
-          trace="none",col=bluered(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=TRUE)
-dev.off()
-
 
 library('gplots')
 png("~/Dropbox/PaperEdits/Paper/Figures/postbetas.png")
@@ -94,10 +87,9 @@ png("~/Dropbox/PaperEdits/Paper/Figures/postbetas.png")
 #           trace="none",col=bluered(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=TRUE)
 
 heatmap.2(het.norm(pm.mash.beta[sig>0,]),main="E(Bjnorm|data)",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
-          trace="none",col=bluered(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=TRUE)
+          trace="none",col=redgreen,cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=TRUE)
 dev.off()
 ```
  
 ![/users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/postbetas.png](/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/postbetas.png).
-![/users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/postmeansheatmap.png](/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/postmeansheatmap.png).
- 
+
