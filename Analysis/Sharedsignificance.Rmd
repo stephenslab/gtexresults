@@ -90,16 +90,16 @@ colnames(shared.brainonly)=colnames(lfsr.brainonly)
 rownames(shared.brainonly)=colnames(lfsr.brainonly)
 
 heatmap.2(shared,##Rowv=FALSE,Colv=FALSE,
-          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("Proportion of eQTL Shared,AllTissues"),cexRow=0.5,cexCol=0.5,cex.main=0.5)
+          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue,main=paste0("Proportion of eQTL Shared,AllTissues"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))
 mtext("Defined as QTL if LFSR<0.05")
 
 
 excludebrainorder=heatmap.2(shared.nobrain,##Rowv=FALSE,Colv=FALSE,
-          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("eQTL Shared,excludingBrainSEP"),cexRow=0.5,cexCol=0.5,cex.main=0.5)$rowInd
+          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue,main=paste0("eQTL Shared,excludingBrainSEP"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))$rowInd
 mtext("Defined as QTL if LFSR<0.05")
 
 brainorder=heatmap.2(shared.brainonly,##Rowv=FALSE,Colv=FALSE,
-        symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("eQTL Shared,Brain OnlySEP"),cexRow=0.5,cexCol=0.5,cex.main=0.5)$rowInd
+        symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue,main=paste0("eQTL Shared,Brain OnlySEP"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))$rowInd
 mtext("Defined as QTL if LFSR<0.05")
 
 ```
@@ -180,15 +180,15 @@ rownames(shared.brainonly)=colnames(lfsr.brainonly)
 par(mfrow=c(1,2))
 
 heatmap.2(shared,##Rowv=FALSE,Colv=FALSE,
-          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("Proportion of eQTL Shared,AllTissues"),cexRow=0.5,cexCol=0.5,cex.main=0.5)
+          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue,main=paste0("Proportion of eQTL Shared,AllTissues"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))
 mtext("Defined as QTL if LFSR<0.05")
 
 heatmap.2(shared.nobrain[rev(excludebrainorder),excludebrainorder],Rowv=FALSE,Colv=FALSE,
-          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("eQTL Shared,excludingBrainAT"),cexRow=0.5,cexCol=0.5,cex.main=0.5)
+          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue,main=paste0("eQTL Shared,excludingBrainAT"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))
 mtext("Defined as QTL if LFSR<0.05")
 
 heatmap.2(shared.brainonly[rev(brainorder),brainorder],Rowv=FALSE,Colv=FALSE,
-          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("eQTL Shared,Brain OnlyAT"),cexRow=0.5,cexCol=0.5,cex.main=0.5)
+          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue,main=paste0("eQTL Shared,Brain OnlyAT"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))
 mtext("Defined as QTL if LFSR<0.05")
 ```
 
