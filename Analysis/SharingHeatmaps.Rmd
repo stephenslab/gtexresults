@@ -83,10 +83,10 @@ dev.off()
 
 library('gplots')
 png("~/Dropbox/PaperEdits/Paper/Figures/postbetas.png")
-# heatmap.2(het.norm(pm.mash.beta)[rev(y$rowInd),],main="E(Bj|data)",dendrogram="none",density="none",Colv=FALSE,Rowv=FALSE,
-#           trace="none",col=bluered(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=TRUE)
+#heatmap.2(het.norm(pm.mash.beta)[rev(y$rowInd),],main="E(Bj|data)",dendrogram="none",density="none",Colv=FALSE,Rowv=FALSE,
+        trace="none",col=redgreen,cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=TRUE)
 
-heatmap.2(het.norm(pm.mash.beta[sig>0,]),main="E(Bjnorm|data)",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
+heatmap.2(het.norm(pm.mash.beta[,]),main="E(Bjnorm|data)",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
           trace="none",col=redgreen,cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=TRUE)
 dev.off()
 ```
