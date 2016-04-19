@@ -90,10 +90,9 @@ colnames(shared.brainonly)=colnames(lfsr.brainonly)
 rownames(shared.brainonly)=colnames(lfsr.brainonly)
 
 heatmap.2(shared,##Rowv=FALSE,Colv=FALSE,
-          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue,#main=paste0("Proportion of eQTL Shared,AllTissues"),
+          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue,main=paste0("eQTL Shared,AllTissues"),
           cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))
 mtext("Defined as QTL if LFSR<0.05")
-
 
 excludebrainorder=heatmap.2(shared.nobrain,##Rowv=FALSE,Colv=FALSE,
           symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue,main=paste0("eQTL Shared,excludingBrainSEP"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))$rowInd
@@ -104,6 +103,31 @@ brainorder=heatmap.2(shared.brainonly,##Rowv=FALSE,Colv=FALSE,
 mtext("Defined as QTL if LFSR<0.05")
 
 ```
+
+We could also try this with the orders induced from sharing by effect size:
+
+```{r effectorder,echo=F}
+brain.only.order=read.table("~/Dropbox/brain.only.order.txt")[,1]
+exclude.brain.order=read.table("~/Dropbox/excludebrainorder.txt")[,1]
+all.tissue.order=read.table("~/Dropbox/alltissueorder.txt")[,1]
+
+
+
+heatmap.2(shared[rev(all.tissue.order),all.tissue.order],Rowv=FALSE,Colv=FALSE,
+          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue,main=paste0("eQTL Shared,AllTissues"),
+          cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))
+mtext("Defined as QTL if LFSR<0.05")
+
+heatmap.2(shared.nobrain[rev(exclude.brain.order),exclude.brain.order],Rowv=FALSE,Colv=FALSE,
+          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue,main=paste0("eQTL Shared,excludingBrainSEP"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))$rowInd
+mtext("Defined as QTL if LFSR<0.05")
+
+heatmap.2(shared.brainonly[rev(brain.only.order),brain.only.order],Rowv=FALSE,Colv=FALSE,
+        symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue,main=paste0("eQTL Shared,Brain OnlySEP"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))$rowInd
+mtext("Defined as QTL if LFSR<0.05")
+```
+
+
 
 Repeat with all
 
@@ -181,7 +205,7 @@ rownames(shared.brainonly)=colnames(lfsr.brainonly)
 par(mfrow=c(1,2))
 
 heatmap.2(shared,##Rowv=FALSE,Colv=FALSE,
-          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue,main=paste0("Proportion of eQTL Shared,AllTissues"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))
+          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue,main=paste0("eQTL Shared,AllTissues"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))
 mtext("Defined as QTL if LFSR<0.05")
 
 heatmap.2(shared.nobrain[rev(excludebrainorder),excludebrainorder],Rowv=FALSE,Colv=FALSE,
@@ -193,4 +217,27 @@ heatmap.2(shared.brainonly[rev(brainorder),brainorder],Rowv=FALSE,Colv=FALSE,
 mtext("Defined as QTL if LFSR<0.05")
 ```
 
+Again, with the all tissue analysis and fold changes:
+
+```{r alltissuefoldchangeorder,echo=FALSE}
+
+brain.only.order=read.table("~/Dropbox/brain.only.order.txt")[,1]
+exclude.brain.order=read.table("~/Dropbox/excludebrainorder.txt")[,1]
+all.tissue.order=read.table("~/Dropbox/alltissueorder.txt")[,1]
+
+
+
+heatmap.2(shared[rev(all.tissue.order),all.tissue.order],Rowv=FALSE,Colv=FALSE,
+          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue,main=paste0("eQTL Shared,AllTissues"),
+          cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))
+mtext("Defined as QTL if LFSR<0.05")
+
+heatmap.2(shared.nobrain[rev(exclude.brain.order),exclude.brain.order],Rowv=FALSE,Colv=FALSE,
+          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue,main=paste0("eQTL Shared,excludingBrainSEP"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))$rowInd
+mtext("Defined as QTL if LFSR<0.05")
+
+heatmap.2(shared.brainonly[rev(brain.only.order),brain.only.order],Rowv=FALSE,Colv=FALSE,
+        symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue,main=paste0("eQTL Shared,Brain OnlySEP"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))$rowInd
+mtext("Defined as QTL if LFSR<0.05")
+```
 

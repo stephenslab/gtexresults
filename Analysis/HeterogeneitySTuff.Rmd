@@ -395,8 +395,9 @@ for(i in 1:ncol(a)){
 
 }
 
-heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=redblue,cexRow=0.5,cexCol=0.5,symm = T,main="QTLs within 2-fold Shared by Tissues",breaks=seq(0.35,1,by=0.01))
+all.tissue.order=heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=redblue,cexRow=0.5,cexCol=0.5,symm = T,main="QTLs within 2-fold Shared by Tissues",breaks=seq(0.35,1,by=0.01))$rowInd
 
+write.table(all.tissue.order,"~/Dropbox/alltissueorder.txt",col.names = F,row.names = F)
 mtext("All Tissues")
 
 
@@ -425,6 +426,8 @@ for(i in 1:ncol(a)){
 excludebrainorder=heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=redblue,cexRow=0.5,cexCol=0.5,symm = T,main="QTLs within 2-fold Shared by Tissues",breaks=seq(0.35,1,by=0.01))$rowInd
 mtext("Excluding Brain, Sep Analysis")
 
+write.table(excludebrainorder,"~/Dropbox/excludebrainorder.txt",col.names = F,row.names = F)
+
 sigmat=lfsr.brain.only<0.05
 sigs=rowSums(sigmat)
 a=pm.mash.brain.only[sigs>0,]
@@ -446,7 +449,7 @@ for(i in 1:ncol(a)){
 brain.only.order=heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=redblue,cexRow=0.5,cexCol=0.5,symm = T,main="QTLs within 2-fold Shared by Tissues",breaks=seq(0.35,1,by=0.01))$rowInd
 mtext("Brain Only, Sep Analysis")
 
-
+write.table(brain.only.order,"~/Dropbox/brain.only.order.txt",col.names = F,row.names = F)
 ```
 
 Now perform with subset of all tissue effects:
