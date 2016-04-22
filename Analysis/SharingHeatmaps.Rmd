@@ -58,18 +58,26 @@ Now, we plot the sorted lfsr to detect interesting patterns:
 lfsr.true=lfsr[sig>0,]
 lfdr.true=lfdr[sig>0,]
 library('gplots')
-png("~/Dropbox/PaperEdits/Paper/Figures/lfsrsort.png")
-##First get sorted indices
+lfsr.cols <- colorRampPalette(c("darkgreen", "yellow", "red"))(256)
+#png("~/Dropbox/PaperEdits/Paper/Figures/lfsrsort.png")
+#First get sorted indices
 y=heatmap.2(as.matrix(lfsr.true),main="LFSR,Sorted",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
-          trace="none",col=bluered(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=FALSE)
+            #col=rich.colors(1000),
+            #col=greenred,
+            col=lfsr.cols,
+trace="none",
+#col=bluered(1000),
+ cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=TRUE)
 
-heatmap.2(as.matrix(lfsr.true[rev(y$rowInd),]),main="LFSR,Sorted",dendrogram="none",density="none",Colv=FALSE,Rowv=FALSE,
-          trace="none",col=greenred,cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",breaks=seq(0,1,by=0.01),key=TRUE)
+# heatmap.2(as.matrix(lfsr.true[rev(y$rowInd),]),main="LFSR,Sorted",dendrogram="none",density="none",Colv=FALSE,Rowv=FALSE,
+#           trace="none",col=greenred,cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",breaks=seq(0,1,by=0.01),key=TRUE)
 dev.off()
 
+lfdr.shuffle=as.matrix(lfdr.true[rev(y$rowInd),])
+
+
 png("~/Dropbox/PaperEdits/Paper/Figures/lfdrsort.png")
-heatmap.2((as.matrix(lfdr.true[rev(y$rowInd),])),main="LFDR,Sorted",dendrogram="none",density="none",Colv=FALSE,Rowv=FALSE,
-          trace="none",col=greenred,cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=FALSE)
+heatmap.2((lfdr.shuffle),main="LFDR,Sorted",dendrogram="none",density="none",Colv=FALSE,Rowv=FALSE,trace="none",col=lfsr.cols,cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",breaks=seq(0,1,by=1/256),key=TRUE)
 dev.off()
 
 
@@ -82,12 +90,30 @@ dev.off()
 ```{r, echo=FALSE,eval=FALSE} 
 
 library('gplots')
+library('colorRamps')
 png("~/Dropbox/PaperEdits/Paper/Figures/postbetas.png")
 #heatmap.2(het.norm(pm.mash.beta)[rev(y$rowInd),],main="E(Bj|data)",dendrogram="none",density="none",Colv=FALSE,Rowv=FALSE,
-        trace="none",col=redgreen,cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=TRUE)
+#trace="none",col=redgreen,cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=TRUE)
 
-heatmap.2(het.norm(pm.mash.beta[,]),main="E(Bjnorm|data)",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
-          trace="none",col=redgreen,cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=TRUE)
+
+# color.gradient <- function(x, colors=c("red","yellow","green"), colsteps=100) {
+#     return( colorRampPalette(colors) (colsteps) [ findInterval(x, seq(min(x),max(x), length.out=colsteps)) ] )
+# }
+
+cols <- colorRampPalette(c("magenta", "yellow", "darkgreen"))(256)
+# cols
+#plot(c(1:256), c(1:256), pch = 16, col = cols, cex = 3)
+
+heatmap.2(het.norm(pm.mash.beta[sig>0,]),main="E(Bjnorm|data)",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
+          trace="none",
+          #col=redgreen,
+            #col=bluered(256),
+            #col=rich.colors(1000),
+          #col=magenta2green,
+          col=cols,
+            #col=color.gradient(het.norm(pm.mash.beta)),
+            #col=brewer.pal(1000, "Spectral"),
+          cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=TRUE)
 dev.off()
 ```
  

@@ -25,9 +25,18 @@ max.t=t[1:400,]
 ##sfa -gen ./maxt.txt -g 400 -n 44 -o tri_sim_strongt i -k 5
 
 
+
 library('gplots')
-h=heatmap.2((as.matrix(max.t)),main="Maxz",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
-          trace="none",col=bluered(1000),cexRow=0.5,cexCol=0.5,labRow="",ylab = "Gene",xlab="",key=TRUE)
+pdf("~/Dropbox/PaperEdits/Paper/Figures/maxes.pdf")
+h=heatmap.2(as.matrix(max.t),main="MaxZ",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
+            trace="none",
+            col=bluered(256),
+            #col=rich.colors(1000),
+            #col=brewer.pal(1000, "Spectral"),
+            cexRow=0.5,cexCol=0.5,labRow="",ylab = "Gene",xlab="",
+            #lmat=rbind(c(0,3), c(2,1), c(0,4) ), 
+            lhei=c(2, 8))#, 0.25 ))
+dev.off()
 ```
 
 Now, I'll plot the simulated covariance matrices. In practice, these would be inferred from the maxes:
@@ -62,8 +71,17 @@ Then shows whole data set from which we obtain the grid values and the pis:
 ```{r alldata,echo=FALSE}
 ##here we plot a heatmap of all data
 
-heatmap.2(((as.matrix(t[1:1000,]))),main="All Data",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
-          trace="none",col=bluered(1000),cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=TRUE)
+library('gplots')
+pdf("~/Dropbox/PaperEdits/Paper/Figures/All.pdf")
+h=heatmap.2(as.matrix(t[1:1000,]),main="All",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
+            trace="none",
+            col=bluered(256),
+            #col=rich.colors(1000),
+            #col=brewer.pal(1000, "Spectral"),
+            cexRow=0.5,cexCol=0.5,labRow="",ylab = "Gene",xlab="",
+            #lmat=rbind(c(0,3), c(2,1), c(0,4) ), 
+            lhei=c(2, 8))#, 0.25 ))
+dev.off()
 ```
 
 Estimate $\pi$ and 'autoselect' $\omega$:
