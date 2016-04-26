@@ -233,11 +233,11 @@ heatmap.2(shared[rev(all.tissue.order),all.tissue.order],Rowv=FALSE,Colv=FALSE,
 mtext("Defined as QTL if LFSR<0.05")
 
 heatmap.2(shared.nobrain[rev(exclude.brain.order),exclude.brain.order],Rowv=FALSE,Colv=FALSE,
-          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue,main=paste0("eQTL Shared,excludingBrainSEP"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))$rowInd
+          symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue,main=paste0("eQTL Shared,excludingBrainGlobal"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))$rowInd
 mtext("Defined as QTL if LFSR<0.05")
 
 heatmap.2(shared.brainonly[rev(brain.only.order),brain.only.order],Rowv=FALSE,Colv=FALSE,
-        symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue,main=paste0("eQTL Shared,Brain OnlySEP"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))$rowInd
+        symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue,main=paste0("eQTL Shared,Brain OnlyGlobal"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))$rowInd
 mtext("Defined as QTL if LFSR<0.05")
 ```
 
