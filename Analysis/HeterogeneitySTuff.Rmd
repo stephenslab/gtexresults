@@ -161,7 +161,7 @@ mtext("All Tissues")
 
 sigmat=(lfsr.nobrain<=thresh)
 nsig= rowSums(sigmat)
-hist((het.func(het.norm(effectsize=pm.mash.nobrain[nsig>0,]),threshold=0.5)),main="",xlab="NumberofTissues",breaks=0.5:34.5,col="grey",freq=FALSE)#,ylim=c(0,0.6))
+hist((het.func(het.norm(effectsize=pm.mash.nobrain[nsig>0,]),threshold=0.5)),main="",xlab="NumberofTissues",breaks=0.5:34.5,col="grey",freq=FALSE,xlim=c(1,34))#,ylim=c(0,0.6))
 #barplot(table(het.func(het.norm(effectsize=pm.mash.nobrain[nsig>0,]),threshold=0.5)),main="",xlab="NumberofTissues")#,nclass=40,col="grey",freq=FALSE)#,ylim=c(0,0.6))
 mtext("Excluding Brain")
 
