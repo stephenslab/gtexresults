@@ -378,6 +378,7 @@ Now we can look at effect sizes which are within 2 fold of each other:
 
 
 ```{r fold-diff-by-effect-size}
+library('colorRamps')
 sigmat=lfsr<0.05
 sigs=rowSums(sigmat)
 a=pm.mash.beta[sigs>0,]##subset to ones that are significant in at least one tissue
@@ -395,7 +396,7 @@ for(i in 1:ncol(a)){
 
 }
 
-all.tissue.order=heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=redblue,cexRow=0.5,cexCol=0.5,symm = T,main="QTLs within 2-fold Shared by Tissues",breaks=seq(0.35,1,by=0.01))$rowInd
+all.tissue.order=heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=blue2green,cexRow=0.5,cexCol=0.5,symm = T,main="QTLs within 2-fold Shared by Tissues",breaks=seq(0.35,1,by=0.01))$rowInd
 
 write.table(all.tissue.order,"~/Dropbox/alltissueorder.txt",col.names = F,row.names = F)
 mtext("All Tissues")
@@ -423,7 +424,7 @@ for(i in 1:ncol(a)){
 
 
 
-excludebrainorder=heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=redblue,cexRow=0.5,cexCol=0.5,symm = T,main="QTLs within 2-fold Shared by Tissues",breaks=seq(0.35,1,by=0.01))$rowInd
+excludebrainorder=heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=blue2green,cexRow=0.5,cexCol=0.5,symm = T,main="QTLs within 2-fold Shared by Tissues",breaks=seq(0.35,1,by=0.01))$rowInd
 mtext("Excluding Brain, Sep Analysis")
 
 write.table(excludebrainorder,"~/Dropbox/excludebrainorder.txt",col.names = F,row.names = F)
@@ -446,7 +447,7 @@ for(i in 1:ncol(a)){
 
 }
 
-brain.only.order=heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=redblue,cexRow=0.5,cexCol=0.5,symm = T,main="QTLs within 2-fold Shared by Tissues",breaks=seq(0.35,1,by=0.01))$rowInd
+brain.only.order=heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=blue2green,cexRow=0.5,cexCol=0.5,symm = T,main="QTLs within 2-fold Shared by Tissues",breaks=seq(0.35,1,by=0.01))$rowInd
 mtext("Brain Only, Sep Analysis")
 
 write.table(brain.only.order,"~/Dropbox/brain.only.order.txt",col.names = F,row.names = F)
@@ -475,7 +476,7 @@ for(i in 1:ncol(a)){
 
 }
 
-heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=redblue,cexRow=0.5,cexCol=0.5,symm = T,main="QTLs within 2-fold Shared by Tissues",breaks=seq(0.35,1,by=0.01))
+heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=blue2green,cexRow=0.5,cexCol=0.5,symm = T,main="QTLs within 2-fold Shared by Tissues",breaks=seq(0.35,1,by=0.01))
 mtext("All Tissues")
 
 
@@ -499,7 +500,7 @@ for(i in 1:ncol(a)){
 
 }
 
-heatmap.2(shared.het[rev(excludebrainorder),(excludebrainorder)],density="none",trace="none",dendrogram = "none",col=redblue,main="",cexRow=0.5,cexCol=0.5,symm = T,Rowv = FALSE,Colv = FALSE,breaks=seq(0.35,1,by=0.01))
+heatmap.2(shared.het[rev(excludebrainorder),(excludebrainorder)],density="none",trace="none",dendrogram = "none",col=blue2green,main="",cexRow=0.5,cexCol=0.5,symm = T,Rowv = FALSE,Colv = FALSE,breaks=seq(0.35,1,by=0.01))
 mtext("Excluding Brain")
 
 
@@ -522,7 +523,8 @@ for(i in 1:ncol(a)){
 
 }
 
-heatmap.2(shared.het[rev(brain.only.order),brain.only.order],density="none",trace="none",dendrogram = "none",col=redblue,main="",cexRow=0.5,cexCol=0.5,symm = T,Rowv = FALSE,Colv = FALSE,breaks=seq(0.35,1,by=0.01))
+heatmap.2(shared.het[rev(brain.only.order),brain.only.order],density="none",trace="none",dendrogram = "none",#col=redblue,
+          col=blue2green,main="",cexRow=0.5,cexCol=0.5,symm = T,Rowv = FALSE,Colv = FALSE,breaks=seq(0.35,1,by=0.01))
 mtext("Brain Only")
 ```
 
