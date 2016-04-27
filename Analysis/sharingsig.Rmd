@@ -303,7 +303,7 @@ pm.mash.beta.norm=pm.mash.beta.norm[(nsig>0),]
 lfsr.mash=as.matrix(lfsr.mash[nsig>0,])
 colnames(lfsr.mash)=colnames(maxz)
 
-(par(mfrow=c(1,3)))
+
 thresh=0.05
 barplot(apply(lfsr.mash[which(rowSums(lfsr.mash<=thresh)==1),],2,function(x){sum(x<=thresh)}),las=2,cex.names=0.5,main=paste0("Number of eQTL with LFSR<",0.05," in Single Tissue"),ylim=c(0,500))
 
@@ -320,11 +320,13 @@ lfsr.fold=as.matrix(lfsr.mash[a,])
 pm=as.matrix(pm.mash.beta.norm[a,])
 tspec=NULL
 for(i in 1:ncol(pm)){
-  tspec[i]=sum(lfsr.fold[,i]<0.05&pm[,i]>0.5)}##check to see that the effect is significant and greater than 0.5 max effect in only that tissue
+  #tspec[i]=sum(lfsr.fold[,i]<0.05&pm[,i]>0.5)
+  tspec[i]=sum(pm[,i]>0.5)
+  }##check to see that the effect is significant and greater than 0.5 max effect in only that tissue
 
 tspec=as.matrix(tspec);rownames(tspec)=colnames(maxz)
 
-barplot(t(tspec),main=paste0("Number of eQTL with LFSR<",0.05," and Bjnorm>0.5 in one Tissue"),las=2,ylim=c(0,500))
+barplot(t(tspec),main=paste0("Number of eQTL with Bjnorm>0.5 in one Tissue"),las=2,ylim=c(0,500),cex.names=0.5)
 
 
 
