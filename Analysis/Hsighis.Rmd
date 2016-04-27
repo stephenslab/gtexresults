@@ -1,0 +1,117 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r echo=FALSE}
+library('knitr')
+knitr::opts_chunk$set(cache=TRUE)
+opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/") 
+library(gplots)
+library(ggplot2)
+
+lfsr.all=read.table("~/Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
+lfsr.mash=lfsr.all
+lfsr.nobrain=read.table("~/gtexresults_matrixash/withoutbrain//nobrainlfsr.txt")[,-1]
+
+maxz=read.table("~/Dropbox/jul3/maxz.txt")
+
+standard.error=read.table("~/gtexresults_matrixash/Data/standard.error.txt")
+
+pm.mash=as.matrix(read.table("~/Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1])
+
+pm.mash.beta=pm.mash*standard.error
+
+pm.mash.nobrain=as.matrix(read.table("~/gtexresults_matrixash/withoutbrain/nobrainposterior.means.txt")[,-1])*standard.error[,-c(7:16)]
+
+pm.mash.brain.only=as.matrix(read.table("~/Dropbox/BrainOnly//brainonlyposterior.means.txt")[,-1])*standard.error[,c(7:16)]
+lfsr.brainonly=read.table("~/Dropbox/BrainOnly/brainonlylfsr.txt")[,-1]
+
+nsig.all=rowSums(lfsr.mash<0.05)
+nsig.nonbrain=rowSums(lfsr.nobrain<0.05)
+nsig.brainonly=rowSums(lfsr.brainonly<0.05)
+
+source("~/gtexresults_matrixash/Analysis/normfuncs.R")
+
+h.all=hlindex(het.norm(pm.mash.beta[nsig.all>0,]),sigdat = lfsr.mash[nsig.all>0,],thresh1 = 0.5,thresh2 = 0.05)
+h.nobrain=hlindex(het.norm(pm.mash.nobrain[nsig.nonbrain>0,]),sigdat = lfsr.nobrain[nsig.nonbrain>0,],thresh1 = 0.5,thresh2 = 0.05)
+h.brain=hlindex(het.norm(pm.mash.brain.only[nsig.brainonly>0,]),sigdat = lfsr.brainonly[nsig.brainonly>0,],thresh1 = 0.5,thresh2 = 0.05)
+
+
+```
+
+You can also embed plots, for example:
+
+```{r hetandsig, echo=FALSE}
+hist(h.all,main="Number of Tissues >50% Max Effect and Signif",xlab="NumberofTissues",nclass=50,col="grey",freq=FALSE)#,ylim=c(0,0.6))
+
+```
+
+
+```{r hetandsigplot, echo=FALSE}
+
+par(mar=c(4,4.5,2,1))
+par(oma=c(3,3,3,3) )
+par(mfrow=c(1,3))
+
+
+hist(h.all,main="",xlab="NumberofTissues",nclass=50,col="grey",freq=FALSE)#,ylim=c(0,0.6))
+mtext("All Tissues")
+
+
+hist(h.nobrain,main="",xlab="NumberofTissues",nclass=40,col="grey",freq=FALSE)#,ylim=c(0,0.6))
+mtext("Excluding Brain")
+
+
+hist(h.brain,main="",xlab="NumberofTissues",nclass=12,col="grey",freq=FALSE)#,ylim=c(0,0.6))
+mtext("Excluding Brain")
+title("Number of Tissues >50% Max Effect and Significant, using all", outer=TRUE)
+```
+
+
+Do with all tissue:
+
+```{r alltissue,echo=FALSE}
+
+
+pm.mash.nobrain=pm.mash.beta[,-c(7:16)]
+
+pm.mash.brain.only=pm.mash.beta[,c(7:16)]
+lfsr.brainonly=lfsr.mash[,c(7:16)]
+lfsr.nobrain=lfsr.mash[,-c(7:16)]
+
+nsig.all=rowSums(lfsr.mash<0.05)
+nsig.nonbrain=rowSums(lfsr.nobrain<0.05)
+nsig.brainonly=rowSums(lfsr.brainonly<0.05)
+
+source("~/gtexresults_matrixash/Analysis/normfuncs.R")
+
+h.all=hlindex(het.norm(pm.mash.beta[nsig.all>0,]),sigdat = lfsr.mash[nsig.all>0,],thresh1 = 0.5,thresh2 = 0.05)
+h.nobrain=hlindex(het.norm(pm.mash.nobrain[nsig.nonbrain>0,]),sigdat = lfsr.nobrain[nsig.nonbrain>0,],thresh1 = 0.5,thresh2 = 0.05)
+h.brain=hlindex(het.norm(pm.mash.brain.only[nsig.brainonly>0,]),sigdat = lfsr.brainonly[nsig.brainonly>0,],thresh1 = 0.5,thresh2 = 0.05)
+```
+
+
+```{r hetandsigplotall, echo=FALSE}
+
+par(mar=c(4,4.5,2,1))
+par(oma=c(3,3,3,3) )
+par(mfrow=c(1,3))
+
+
+hist(h.all,main="",xlab="NumberofTissues",nclass=50,col="grey",freq=FALSE)#,ylim=c(0,0.6))
+mtext("All Tissues")
+
+
+hist(h.nobrain,main="",xlab="NumberofTissues",nclass=40,col="grey",freq=FALSE)#,ylim=c(0,0.6))
+mtext("Excluding Brain,GLOBAL")
+
+
+hist(h.brain,main="",xlab="NumberofTissues",nclass=12,col="grey",freq=FALSE)#,ylim=c(0,0.6))
+mtext("Excluding Brain,GLOBAL")
+title("Number of Tissues >50% Max Effect and Significant, using all", outer=TRUE)
+```
