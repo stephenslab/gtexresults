@@ -17,7 +17,7 @@ library(ggplot2)
 lfsr.all=read.table("~/Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
 lfsr.mash=lfsr.all
 lfsr.nobrain=read.table("~/gtexresults_matrixash/withoutbrain//nobrainlfsr.txt")[,-1]
-lfsr.brainonly=read.table("~/Dropbox/BrainOnly/brainonlylfsr.txt")[,-1]
+
 maxz=read.table("~/Dropbox/jul3/maxz.txt")
 
 standard.error=read.table("~/gtexresults_matrixash/Data/standard.error.txt")
@@ -29,6 +29,20 @@ pm.mash.beta=pm.mash*standard.error
 pm.mash.nobrain=as.matrix(read.table("~/gtexresults_matrixash/withoutbrain/nobrainposterior.means.txt")[,-1])*standard.error[,-c(7:16)]
 
 pm.mash.brain.only=as.matrix(read.table("~/Dropbox/BrainOnly//brainonlyposterior.means.txt")[,-1])*standard.error[,c(7:16)]
+lfsr.brainonly=read.table("~/Dropbox/BrainOnly/brainonlylfsr.txt")[,-1]
+
+
+
+pm.mash.nobrain=pm.mash.nobrain[rowSums(lfsr.nobrain<0.05)>0,]
+lfsr.nobrain=lfsr.nobrain[rowSums(lfsr.nobrain<0.05)>0,]
+
+
+
+pm.mash.brain.only=pm.mash.brain.only[rowSums(lfsr.brainonly<0.05)>0,]
+lfsr.brainonly=lfsr.brainonly[rowSums(lfsr.brainonly<0.05)>0,]
+
+pm.mash.beta=pm.mash.beta[rowSums(lfsr.mash<0.05)>0,]
+lfsr.mash=lfsr.mash[rowSums(lfsr.mash<0.05)>0,]
 
 brain.only.order=read.table("~/Dropbox/brain.only.order.txt")[,1]
 exclude.brain.order=read.table("~/Dropbox/excludebrainorder.txt")[,1]
@@ -39,8 +53,6 @@ all.tissue.order=read.table("~/Dropbox/alltissueorder.txt")[,1]
 ```{r sep.foldchange.sig,echo=FALSE}
 thresh=0.05
 
-pm.mash.beta=pm.mash.beta[rowSums(lfsr.mash<0.05)>0,]
-lfsr.mash=lfsr.mash[rowSums(lfsr.mash<0.05)>0,]
 
 shared.fold.size=matrix(NA,nrow = ncol(lfsr.mash),ncol=ncol(lfsr.mash))
 for(i in 1:ncol(lfsr.mash)){
@@ -61,9 +73,7 @@ rownames(shared.fold.size)=colnames(maxz)
 
 colnames(lfsr.nobrain)=colnames(maxz)[-c(7:16)]
 
-pm.mash.nobrain=pm.mash.nobrain[rowSums(lfsr.nobrain<0.05)>0,]
 
-lfsr.nobrain=lfsr.nobrain[rowSums(lfsr.nobrain<0.05)>0,]
 shared.fold.size.nobrain=matrix(NA,nrow = ncol(lfsr.nobrain),ncol=ncol(lfsr.nobrain))
 for(i in 1:ncol(lfsr.nobrain)){
   for(j in 1:ncol(lfsr.nobrain)){
@@ -80,10 +90,6 @@ rownames(shared.fold.size.nobrain)=colnames(lfsr.nobrain)
 ####
 
 
-
-pm.mash.brain.only=pm.mash.brain.only[rowSums(lfsr.brainonly<0.05)>0,]
-
-lfsr.nobrain=lfsr.brainonly[rowSums(lfsr.brainonly<0.05)>0,]
 
 colnames(lfsr.brainonly)=colnames(maxz)[c(7:16)]
 
@@ -138,7 +144,6 @@ heatmap.2(shared.fold.size[rev(all.tissue.order),all.tissue.order],Rowv=FALSE,Co
           cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))
           
 mtext("Defined as QTL if LFSR<0.05")
-
 heatmap.2(shared.fold.size.nobrain[rev(exclude.brain.order),exclude.brain.order],Rowv=FALSE,Colv=FALSE,
           symm=TRUE,dendrogram="none",density="none",trace="none",col=blue2green,main=paste0("eQTL in either tissues and within 2-fold,SUB"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))$rowInd
 mtext("Defined as QTL if LFSR<0.05")
@@ -283,7 +288,7 @@ mtext("Defined as QTL if LFSR<0.05")
 
 Tissuespecific by effect:
 
-```{r}
+```{r barplotspec,echo=FALSE}
 rm(pm.mash.beta)
 rm(lfsr.mash)
 source("~/gtexresults_matrixash/Analysis/normfuncs.R")
@@ -304,7 +309,7 @@ barplot(apply(lfsr.mash[which(rowSums(lfsr.mash<=thresh)==1),],2,function(x){sum
 
 
 ###Now plot the number of normalized effects greater than 0.5 for each tissue, given that those effects were significant in at least one tissue
-barplot(apply(pm.mash.beta.norm[which(rowSums(pm.mash.beta.norm>0.5)==1),],2,function(x){sum(x>0.5)}),las=2,cex.names=0.5,main=paste0("Number of eQTL with Bjnorm>0.5 in Single Tissue"),ylim=c(0,500))
+#barplot(apply(pm.mash.beta.norm[which(rowSums(pm.mash.beta.norm>0.5)==1),],2,function(x){sum(x>0.5)}),las=2,cex.names=0.5,main=paste0("Number of eQTL with Bjnorm>0.5 in Single Tissue"),ylim=c(0,500))
 
 
 
@@ -321,6 +326,20 @@ tspec=as.matrix(tspec);rownames(tspec)=colnames(maxz)
 
 barplot(t(tspec),main=paste0("Number of eQTL with LFSR<",0.05," and Bjnorm>0.5 in one Tissue"),las=2,ylim=c(0,500))
 
+
+
+###Now plot the number of normalized effects greater than 0.5 for each tissue, given that those effects were significant in only one tissue
+
+b=which(rowSums(lfsr.mash<0.05)==1&rowSums(pm.mash.beta.norm>0.5)==1)
+#lfsr.fold=as.matrix(lfsr.mash[b,])
+#pm=as.matrix(pm.mash.beta.norm[b,])
+tspec=NULL
+for(i in 1:ncol(pm)){
+  tspec[i]=sum(pm.mash.beta.norm[b,i]>0.5&lfsr.mash[b,]<0.05)}##check to see that the effect is significant and greater than 0.5 max effect in only that tissue
+
+tspec=as.matrix(tspec);rownames(tspec)=colnames(maxz)
+
+barplot(t(tspec),main=paste0("Number of eQTL with LFSR<0.05 in only one tissue and Bjnorm>0.5 in one Tissue"),las=2,ylim=c(0,500))
 ```
 
 
