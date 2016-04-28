@@ -389,6 +389,8 @@ Now we can look at effect sizes which are within 2 fold of each other:
 
 
 ```{r fold-diff-by-effect-size}
+library(gplots)
+library(ggplot2)
 library('colorRamps')
 sigmat=lfsr<0.05
 sigs=rowSums(sigmat)
