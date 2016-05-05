@@ -53,7 +53,7 @@ all.tissue.order=read.table("~/Dropbox/alltissueorder.txt")[,1]
 ```{r sep.foldchange.sig,echo=FALSE}
 thresh=0.05
 
-
+sign.mat=matrix(NA,nrow=44,ncol=44)
 shared.fold.size=matrix(NA,nrow = ncol(lfsr.mash),ncol=ncol(lfsr.mash))
 for(i in 1:ncol(lfsr.mash)){
   for(j in 1:ncol(lfsr.mash)){
@@ -61,8 +61,11 @@ for(i in 1:ncol(lfsr.mash)){
     sig.col=which(lfsr.mash[,j]<thresh)
     a=(union(sig.row,sig.col))
     #a=(intersect(sig.row,sig.col))
-    quotient=abs(pm.mash.beta[a,i]/pm.mash.beta[a,j])##divide effect sizes
-    shared.fold.size[i,j]=mean(quotient>0.5&quotient<2)
+    #quotient=abs(pm.mash.beta[a,i]/pm.mash.beta[a,j])
+    quotient=(pm.mash.beta[a,i]/pm.mash.beta[a,j])##divide effect sizes
+    ##divide effect sizes
+    #shared.fold.size[i,j]=mean(quotient>0.5&quotient<2)
+    sign.mat[i,j]=(mean(quotient<0))
   }}
 
 
@@ -80,7 +83,8 @@ for(i in 1:ncol(lfsr.nobrain)){
     sig.row=which(lfsr.nobrain[,i]<thresh)
     sig.col=which(lfsr.nobrain[,j]<thresh)
     a=(union(sig.row,sig.col))
-    quotient=abs(pm.mash.nobrain[a,i]/pm.mash.nobrain[a,j])##divide effect sizes
+    #quotient=abs(pm.mash.nobrain[a,i]/pm.mash.nobrain[a,j])
+    quotient=(pm.mash.nobrain[a,i]/pm.mash.nobrain[a,j])##divide effect sizes
     shared.fold.size.nobrain[i,j]=mean(quotient>0.5&quotient<2)
   }}
 
@@ -99,7 +103,8 @@ for(i in 1:ncol(lfsr.brainonly)){
     sig.row=which(lfsr.brainonly[,i]<thresh)
     sig.col=which(lfsr.brainonly[,j]<thresh)
     a=(union(sig.row,sig.col))
-    quotient=abs(pm.mash.brain.only[a,i]/pm.mash.brain.only[a,j])##divide effect sizes
+    #quotient=abs(pm.mash.brain.only[a,i]/pm.mash.brain.only[a,j])
+    quotient=(pm.mash.brain.only[a,i]/pm.mash.brain.only[a,j])##divide effect sizes
     shared.fold.size.brainonly[i,j]=mean(quotient>0.5&quotient<2)
   }
 
@@ -136,8 +141,6 @@ brain.only.order=read.table("~/Dropbox/brain.only.order.txt")[,1]
 exclude.brain.order=read.table("~/Dropbox/excludebrainorder.txt")[,1]
 all.tissue.order=read.table("~/Dropbox/alltissueorder.txt")[,1]
 
-
-
 heatmap.2(shared.fold.size[rev(all.tissue.order),all.tissue.order],Rowv=FALSE,Colv=FALSE,
           symm=TRUE,dendrogram="none",density="none",trace="none",#col=redblue,
           col=blue2green,main=paste0("eQTL in either tissues and within 2-fold,SUB"),
@@ -158,8 +161,6 @@ mtext("Defined as QTL if LFSR<0.05")
 Repeat with all
 
 ```{r alltissuesignif, echo=FALSE}
-
-
 lfsr.mash=read.table("~/Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
 pm.mash=as.matrix(read.table("~/Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1])
 pm.mash.beta=pm.mash*standard.error
@@ -196,7 +197,8 @@ for(i in 1:ncol(lfsr.mash)){
     sig.row=which(lfsr.mash[,i]<thresh)
     sig.col=which(lfsr.mash[,j]<thresh)
     a=(union(sig.row,sig.col))
-    quotient=abs(pm.mash.beta[a,i]/pm.mash.beta[a,j])##divide effect sizes
+    #quotient=abs(pm.mash.beta[a,i]/pm.mash.beta[a,j])
+    quotient=(pm.mash.beta[a,i]/pm.mash.beta[a,j])##divide effect sizes
     shared.fold.size[i,j]=mean(quotient>0.5&quotient<2)
   }}
 
@@ -215,7 +217,8 @@ for(i in 1:ncol(lfsr.nobrain)){
     sig.row=which(lfsr.nobrain[,i]<thresh)
     sig.col=which(lfsr.nobrain[,j]<thresh)
     a=(union(sig.row,sig.col))
-    quotient=abs(pm.mash.nobrain[a,i]/pm.mash.nobrain[a,j])##divide effect sizes
+    #quotient=abs(pm.mash.nobrain[a,i]/pm.mash.nobrain[a,j])##divide effect sizes
+    quotient=(pm.mash.nobrain[a,i]/pm.mash.nobrain[a,j])
     shared.fold.size.nobrain[i,j]=mean(quotient>0.5&quotient<2)
   }}
 
@@ -234,7 +237,8 @@ for(i in 1:ncol(lfsr.brainonly)){
     sig.row=which(lfsr.brainonly[,i]<thresh)
     sig.col=which(lfsr.brainonly[,j]<thresh)
     a=(union(sig.row,sig.col))
-    quotient=abs(pm.mash.brain.only[a,i]/pm.mash.brain.only[a,j])##divide effect sizes
+    #quotient=abs(pm.mash.brain.only[a,i]/pm.mash.brain.only[a,j])
+    quotient=(pm.mash.brain.only[a,i]/pm.mash.brain.only[a,j])##divide effect sizes
     shared.fold.size.brainonly[i,j]=mean(quotient>0.5&quotient<2)
   }
 
@@ -303,7 +307,7 @@ pm.mash.beta.norm=pm.mash.beta.norm[(nsig>0),]
 lfsr.mash=as.matrix(lfsr.mash[nsig>0,])
 colnames(lfsr.mash)=colnames(maxz)
 
-(par(mfrow=c(1,3)))
+
 thresh=0.05
 barplot(apply(lfsr.mash[which(rowSums(lfsr.mash<=thresh)==1),],2,function(x){sum(x<=thresh)}),las=2,cex.names=0.5,main=paste0("Number of eQTL with LFSR<",0.05," in Single Tissue"),ylim=c(0,500))
 
@@ -320,11 +324,13 @@ lfsr.fold=as.matrix(lfsr.mash[a,])
 pm=as.matrix(pm.mash.beta.norm[a,])
 tspec=NULL
 for(i in 1:ncol(pm)){
-  tspec[i]=sum(lfsr.fold[,i]<0.05&pm[,i]>0.5)}##check to see that the effect is significant and greater than 0.5 max effect in only that tissue
+  #tspec[i]=sum(lfsr.fold[,i]<0.05&pm[,i]>0.5)
+  tspec[i]=sum(pm[,i]>0.5)
+  }##check to see that the effect is significant and greater than 0.5 max effect in only that tissue
 
 tspec=as.matrix(tspec);rownames(tspec)=colnames(maxz)
 
-barplot(t(tspec),main=paste0("Number of eQTL with LFSR<",0.05," and Bjnorm>0.5 in one Tissue"),las=2,ylim=c(0,500))
+barplot(t(tspec),main=paste0("Number of eQTL with Bjnorm>0.5 in one Tissue"),las=2,ylim=c(0,500),cex.names=0.5)
 
 
 

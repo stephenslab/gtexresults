@@ -59,7 +59,8 @@ lfsr.true=lfsr[sig>0,]
 lfdr.true=lfdr[sig>0,]
 library('gplots')
 lfsr.cols <- colorRampPalette(c("darkgreen", "yellow", "red"))(256)
-#png("~/Dropbox/PaperEdits/Paper/Figures/lfsrsort.png")
+lfsr.cols <- colorRampPalette(c("yellow", "red"))(256)
+png("~/Dropbox/PaperEdits/Paper/Figures/lfsrsort.png")
 #First get sorted indices
 y=heatmap.2(as.matrix(lfsr.true),main="LFSR,Sorted",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
             #col=rich.colors(1000),
@@ -91,6 +92,7 @@ dev.off()
 
 library('gplots')
 library('colorRamps')
+
 png("~/Dropbox/PaperEdits/Paper/Figures/postbetas.png")
 #heatmap.2(het.norm(pm.mash.beta)[rev(y$rowInd),],main="E(Bj|data)",dendrogram="none",density="none",Colv=FALSE,Rowv=FALSE,
 #trace="none",col=redgreen,cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=TRUE)
@@ -107,10 +109,10 @@ cols <- colorRampPalette(c("magenta", "yellow", "darkgreen"))(256)
 heatmap.2(het.norm(pm.mash.beta[sig>0,]),main="E(Bjnorm|data)",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
           trace="none",
           #col=redgreen,
-            #col=bluered(256),
+            col=redblue(256),
             #col=rich.colors(1000),
           #col=magenta2green,
-          col=cols,
+          #col=cols,
             #col=color.gradient(het.norm(pm.mash.beta)),
             #col=brewer.pal(1000, "Spectral"),
           cexRow=0.5,cexCol=0.5,labRow = "",ylab = "Gene",xlab="",key=TRUE)

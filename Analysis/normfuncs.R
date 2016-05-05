@@ -25,8 +25,11 @@ sign.tissue.func=function(normdat){
 
 
 
+#het.func=function(normdat,threshold){
+#apply(abs(normdat),1,function(x){sum(x>threshold)})}
+
 het.func=function(normdat,threshold){
-  apply(abs(normdat),1,function(x){sum(x>threshold)})}
+    apply((normdat),1,function(x){sum(x>threshold)})}
 
 
 hlindex=function(normdat,sigdat,thresh1,thresh2){

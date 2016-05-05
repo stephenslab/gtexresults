@@ -6,6 +6,10 @@ output: html_document
 Check to see if the QTLs have expression values that are tissue-specific.
 
 ```{r, cache=TRUE,echo=FALSE}
+library('knitr')
+
+opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/") 
+
 library('qtlcharts')
 data=read.csv("~/Dropbox/AvgExpr.csv",header = T)
 rownames(data)=data[,1]
@@ -45,23 +49,25 @@ plot_tissuespecific = function(tissuename,lfsr,curvedata,title,thresh=0.05,subse
 bar_example=function(gene.name,expr.sort)
   {
   index=which(rownames(expr.sort)==gene.name)
-  barplot(as.matrix(expr.sort[index,]),las=2,main=gene.name)
+  barplot(as.matrix(expr.sort[index,]),las=2,main=gene.name,cex.names=0.5)
   }
 ```
 
 Check testis: 
 ```{r}
+library('qtlcharts')
 plot_tissuespecific("Testis",lfsr,log(exp.sort),"log(exp.sort)",thresh=0.05,subset=1:44)
 ```
 
 Show that they are eQTL:
 ```{r}
+library('qtlcharts')
 plot_tissuespecific("Testis",lfsr,pmash,"eQTLEffect",thresh=0.05,subset=1:44)
 ```
 
 Check Whole Blood
 ```{r}
-
+library('qtlcharts')
 plot_tissuespecific("Whole_Blood",lfsr,log(exp.sort),"log(exp.sort)",thresh=0.05,subset=1:44)
 ```
 
@@ -70,15 +76,58 @@ QTLplot
 ```{r}
 plot_tissuespecific("Whole_Blood",lfsr,pmash,"eQTLEffect",thresh=0.05,subset=1:44)
 ```
+
+Check Thyroid
+```{r}
+library('qtlcharts')
+plot_tissuespecific("Thyroid",lfsr,log(exp.sort),"log(exp.sort)",thresh=0.05,subset=1:44)
+```
+
+
+QTLplot
+```{r}
+plot_tissuespecific("Thyroid",lfsr,pmash,"eQTLEffect",thresh=0.05,subset=1:44)
+```
+
+
+Check Transformed Fibroblasts
+```{r}
+library('qtlcharts')
+plot_tissuespecific("Cells_Transformed_fibroblasts",lfsr,log(exp.sort),"log(exp.sort)",thresh=0.05,subset=1:44)
+```
+
+
+QTLplot
+```{r}
+plot_tissuespecific("Cells_Transformed_fibroblasts",lfsr,pmash,"eQTLEffect",thresh=0.05,subset=1:44)
+```
+
+Check Muscle_Skeletal
+```{r}
+library('qtlcharts')
+plot_tissuespecific("Muscle_Skeletal",lfsr,log(exp.sort),"log(exp.sort)",thresh=0.05,subset=1:44)
+```
+
+
+QTLplot
+```{r}
+plot_tissuespecific("Muscle_Skeletal",lfsr,pmash,"eQTLEffect",thresh=0.05,subset=1:44)
+```
+
 I am not seeing evidence of tissue specific expression.
 
 ##Check for our select examples:
 
+These examples were quantitatively specific in WB:
 ```{r, whole.blood,cache=T}
 
 gene.name="ENSG00000120029.8"
 bar_example(gene.name,expr.sort)
+```
 
+and Qualitatively specific in Whole Blood:
+
+```{r qualspecificwb, cache=T}
 gene.name="ENSG00000078114.14"
 bar_example(gene.name,expr.sort)
 ```
@@ -86,7 +135,7 @@ bar_example(gene.name,expr.sort)
 Testis qualitative:
 
 
-```{r, testis,cache=T}
+```{r testis,cache=T}
 
 gene.name="ENSG00000059588.5"
 bar_example(gene.name,expr.sort)
