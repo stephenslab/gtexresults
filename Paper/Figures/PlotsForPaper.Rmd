@@ -110,28 +110,24 @@ univariate.ash.pm=as.matrix(univariate.ash.pm)
 
 nulls=which(rowSums(data$beta)==0,)
 null.vals=intersect(1:nrow(post.means),nulls)
-tspec=which((data$component.id>8))
-tissues=apply(t.truth.test[tspec,],1,function(x){
-  which(x!=0)
-})
+
 
 post.b=as.matrix(post.means)*as.matrix(sebetahat[1:10000,])
 
-#png("scatterplot_fittedtspec.png")
+png("~/Dropbox/PaperEdits/Paper/Figures/scatterplotscatterplotsharedmash.png")
 plot(as.matrix(t[1:10000,]),as.matrix(post.means),col=adjustcolor("blue", alpha=0.5), pch=16,main="Significance_MASH vs Zmle",ylab="E(B|Data)/sebetahat",xlab="Zmle")
 points(t[null.vals,],post.means[null.vals,],col="red")
 #points(t[tspecific],post.means[tspecific],col="green")
 legend("right",legend=c("TrueActivity","TrueNulls"),pch=1,col=c("blue","red"))
-#dev.off()
+dev.off()
 
-png("scatterplot_fittedtspec_ash.png")
+png("scatterplotscatterplotsharedash.png")
 plot(as.matrix(t[1:10000,]),as.matrix(univariate.ash.pm),col=adjustcolor("blue", alpha=0.5), pch=16,main="Significance_ASH vs Zmle",ylab="E(B|Data)/sebetahat",xlab="Zmle")
 points(t[null.vals,],univariate.ash.pm[null.vals,],col="red")
 #points(t[tspecific],univariate.ash.pm[tspecific],col="green")
 legend("right",legend=c("TrueActivity","TrueNulls"),pch=1,col=c("blue","red"))
 dev.off()
 
-lfsr.mash=as.matrix(lfsr.mash)
 
 
 
@@ -139,23 +135,24 @@ lfsr.mash=as.matrix(lfsr.mash)
 #######
 
 
-
+png("scatterplotscatterplotsharedtruthmash.png")
 plot(as.matrix(beta[1:10000,]),as.matrix(post.means)*sebetahat[1:10000,],col=adjustcolor("blue", alpha=0.5), pch=16,main="E(B|Data_mash) vs B.true",ylab="E(B|Data)",xlab="B.truth",xlim=c(-1.5,1.5),ylim=c(-1.5,1.5))
 
 mtext(paste0("RMSE=",round(sqrt(mean((beta[1:10000,]-post.means*sebetahat[1:10000,])^2)),2)))
 points(beta[null.vals,],post.means[null.vals,]*sebetahat[null.vals,],col="red")
 #points(beta[tspecific],post.means[tspecific]*sebetahat[tspecific],col="green")
 legend("right",legend=c("Shared","TrueNulls"),pch=1,col=c("blue","red"))
+dev.off()
 
 
-
+png("scatterplotscatterplotsharedtruthmash.png")
 plot(as.matrix(beta[1:10000,]),as.matrix(univariate.ash.pm)*sebetahat[1:10000,],col=adjustcolor("blue", alpha=0.5), pch=16,main="E(B|Data.ash) vs B.true",ylab="E(B|Data)",xlab="B.True",xlim=c(-1.5,1.5),ylim=c(-1.5,1.5))
 mtext(paste0("RMSE=",round(sqrt(mean((beta[1:10000,]-univariate.ash.pm*sebetahat[1:10000,])^2)),2)))
 points(beta[null.vals,],univariate.ash.pm[null.vals,]*sebetahat[null.vals,],col="red")
 #points(beta[tspecific],univariate.ash.pm[tspecific]*sebetahat[tspecific],col="green")
 legend("right",legend=c("Shared","TrueNulls"),pch=1,col=c("blue","red"))
 
-
+dev.off()
 ```
 
 
