@@ -53,8 +53,9 @@ all.tissue.order=read.table("~/Dropbox/alltissueorder.txt")[,1]
 ```{r sep.foldchange.sig,echo=FALSE}
 thresh=0.05
 
-sign.mat=matrix(NA,nrow=44,ncol=44)
+
 shared.fold.size=matrix(NA,nrow = ncol(lfsr.mash),ncol=ncol(lfsr.mash))
+colnames(shared.fold.size)=rownames(shared.fold.size)=colnames(maxz)
 for(i in 1:ncol(lfsr.mash)){
   for(j in 1:ncol(lfsr.mash)){
     sig.row=which(lfsr.mash[,i]<thresh)
@@ -64,8 +65,8 @@ for(i in 1:ncol(lfsr.mash)){
     #quotient=abs(pm.mash.beta[a,i]/pm.mash.beta[a,j])
     quotient=(pm.mash.beta[a,i]/pm.mash.beta[a,j])##divide effect sizes
     ##divide effect sizes
-    #shared.fold.size[i,j]=mean(quotient>0.5&quotient<2)
-    sign.mat[i,j]=(mean(quotient<0))
+    shared.fold.size[i,j]=mean(quotient>0.5&quotient<2)
+   
   }}
 
 
@@ -189,7 +190,7 @@ pm.mash.beta=pm.mash.beta[rowSums(lfsr.mash<0.05)>0,]
 lfsr.mash=lfsr.mash[rowSums(lfsr.mash<0.05)>0,]
 
 
-thresh=0.05
+thresh=0.1
 
 shared.fold.size=matrix(NA,nrow = ncol(lfsr.mash),ncol=ncol(lfsr.mash))
 for(i in 1:ncol(lfsr.mash)){

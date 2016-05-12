@@ -142,6 +142,7 @@ rm(lfsr.brainonly)
 rm(lfsr.nobrain)
 
 thresh=0.05
+
 shared=matrix(NA,nrow = ncol(lfsr.mash),ncol=ncol(lfsr.mash))
 for(i in 1:ncol(lfsr.mash)){
   for(j in 1:ncol(lfsr.mash)){

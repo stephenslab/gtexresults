@@ -1,0 +1,199 @@
+---
+title: "Figuring Out Liver"
+output: html_document
+---
+
+The purpose of this document is to examine why liver appears to have more tissue specificity in terms of lfsr but not in terms of sharing of effects.
+First, let's reload those plots and make sure things are computed correctly:
+
+
+```{r setup, include=FALSE}
+library('knitr')
+knitr::opts_chunk$set(cache=TRUE)
+
+```
+
+
+```{r echo=FALSE}
+library(gplots)
+library(ggplot2)
+library('colorRamps')
+
+lfsr.all=read.table("~/Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
+lfsr.mash=lfsr.all
+
+maxz=read.table("~/Dropbox/jul3/maxz.txt")
+tissue.names=colnames(maxz)
+standard.error=read.table("~/gtexresults_matrixash/Data/standard.error.txt")
+
+pm.mash=as.matrix(read.table("~/Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1])
+
+pm.mash.beta=pm.mash*standard.error
+betamle=maxz*standard.error
+
+
+colnames(lfsr.mash)=colnames(pm.mash)=colnames(pm.mash.beta)=colnames(maxz)
+
+all.tissue.order=read.table("~/Dropbox/alltissueorder.txt")[,1]
+
+```
+
+
+
+```{r plotting shared significance, echo=FALSE}
+thresh=0.05
+
+shared=matrix(NA,nrow = ncol(lfsr.mash),ncol=ncol(lfsr.mash))
+colnames(shared)=rownames(shared)=colnames(maxz)
+
+for(i in 1:ncol(lfsr.mash)){
+  for(j in 1:ncol(lfsr.mash)){
+    sig.row=which(lfsr.mash[,i]<thresh)
+    sig.col=which(lfsr.mash[,j]<thresh)
+    shared[i,j]=length(intersect(sig.row,sig.col))/length(union(sig.row,sig.col))
+  }
+
+}
+
+
+
+heatmap.2(shared[rev(all.tissue.order),all.tissue.order],Rowv=FALSE,Colv=FALSE,
+          symm=TRUE,dendrogram="none",density="none",trace="none",#col=redblue,
+          col=blue2green,main=paste0("eQTL in Either that are Shared,Global"),
+          cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))
+
+
+
+
+mtext("Defined as QTL if LFSR<0.05")
+
+
+thresh=0.05
+
+
+shared.fold.size=matrix(NA,nrow = ncol(lfsr.mash),ncol=ncol(lfsr.mash))
+colnames(shared.fold.size)=rownames(shared.fold.size)=colnames(maxz)
+for(i in 1:ncol(lfsr.mash)){
+  for(j in 1:ncol(lfsr.mash)){
+    sig.row=which(lfsr.mash[,i]<thresh)
+    sig.col=which(lfsr.mash[,j]<thresh)
+    a=(union(sig.row,sig.col))
+    #a=(intersect(sig.row,sig.col))
+    #quotient=abs(pm.mash.beta[a,i]/pm.mash.beta[a,j])
+    quotient=(pm.mash.beta[a,i]/pm.mash.beta[a,j])##divide effect sizes
+    ##divide effect sizes
+    shared.fold.size[i,j]=mean(quotient>0.5&quotient<2)
+   
+  }}
+
+
+heatmap.2(shared.fold.size[rev(all.tissue.order),all.tissue.order],Rowv=FALSE,Colv=FALSE,
+          symm=TRUE,dendrogram="none",density="none",trace="none",#col=redblue,
+          col=blue2green,main=paste0("eQTL in either tissues and within 2-fold,SUB"),
+          cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))
+
+```
+
+But note that if we use the orders induced by signficiance, the 'clarity' of the effect size plot becomes more evident.
+
+
+
+```{r,echo=FALSE}
+
+
+h=heatmap.2(shared,##Rowv=FALSE,Colv=FALSE,
+          symm=TRUE,dendrogram="none",density="none",trace="none",#col=redblue,
+          col=blue2green,main=paste0("eQTL in Either that are Shared,Global"),
+          cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))
+
+
+heatmap.2(shared.fold.size[rev(h$rowInd),h$rowInd],Rowv=FALSE,Colv=FALSE,
+          symm=TRUE,dendrogram="none",density="none",trace="none",#col=redblue,
+          col=blue2green,main=paste0("eQTL in either tissues and within 2-fold,SUB"),
+          cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))
+
+```
+
+We can ask how often the sharing by significance is greater than sharing by effects, and we see that in general, sharing by significance is more common. However, liver sticks out as a having that be rare (i.e. 18% of the time the proportion of effects that are significant in both given significant in at least one are within 2 fold in both given that they are significant in at least 1).
+
+```{r,echo=FALSE}
+a=NULL
+for(i in 1:44){a[i]=(mean(shared[,i]>shared.fold.size[,i]))}
+a=t(data.frame(a))
+colnames(a)=colnames(maxz)
+barplot(a,las=2,cex.names=0.5,ylim=c(0,1),main="mean(shared.significance[,i]>shared.fold.size[,i]))")
+```
+
+This seems unusual, so let's look at the lfsrs and posterior effects from which this data is computed. For each tissue, we compute the mean absolute value of the effect across genes and we do a gut check with the initial input univariate beta hats to make sure they look 'similar'.
+
+
+```{r,echo=FALSE}
+par(mfrow=c(1,2))
+barplot(apply(abs(betamle),2,mean),las=2,cex.names=0.5,main="mean(abs(beta.hat)acrossgenes)",ylim=c(0,0.2))
+barplot(apply(abs(pm.mash.beta),2,mean),las=2,cex.names=0.5,main="mean(abs(post.effect)acrossgenes)",ylim=c(0,0.2))
+
+```
+
+So now, let's consider the lfsr:
+```{r,echo=FALSE}
+barplot(apply(abs(lfsr.mash),2,mean),las=2,cex.names=0.5,main="mean(lfsr)acrossgenes)")
+```
+
+We can see that while liver effect sizes are't 'unusually low' they are shrunk, more than other tissues of their same size. Also, their average lfsr seems to be higher. I think this is because the standard error of liver is on the high side.
+```{r,echo=FALSE}
+barplot(apply(abs(standard.error),2,mean),las=2,cex.names=0.5,main="mean(se.hat)acrossgenes)")
+
+rank.mle=which(tissue.names[order(apply(abs(betamle),2,mean),decreasing = T)]=="Liver")
+rank.mean=which(tissue.names[order(apply(abs(pm.mash.beta),2,mean),decreasing = T)]=="Liver")
+rank.lfsr=which(tissue.names[order(apply(abs(lfsr.mash),2,mean),decreasing = T)]=="Liver")
+```
+
+
+We can see that while the MLE of liver isn't particularly low (ranks in the middle among tissues) `r rank.mle` as computed as the average absolute beta.hat across genes for every tissue.
+
+
+The posterior means are towards the bottom as the rank among tissues ( `r rank.mean` ) as computed as the average absolute beta.hat across genes for every tissue.
+
+
+And accordingly, it has one of the higher mean lfsrs across tissues (ranks `r rank.lfsr`) as computed as the mean lfsr across genes for every tissue .
+
+Let's look at a few examples where the effects are close but the significance differs. Liver is tissue 27. I compare to some examples with "AdiposeSubcutaneous", "BrainCerebellum"  and Colon. I find examples where the effect sizes are close but the effects are significant in one tissue and not the other, and display the effect size estimate, lfsr and standard error in both tissues.
+
+```{r}
+i=27
+j=1
+
+sig.tissuei=which(lfsr.mash[,i]<thresh)
+sig.tissuej=which(lfsr.mash[,j]<thresh)
+a=(union(sig.tissuei,sig.tissuej))
+
+
+
+lfsr.tissuei=lfsr.mash[a,i]
+lfsr.tissuej=lfsr.mash[a,j]
+quotient=(pm.mash.beta[a,i]/pm.mash.beta[a,j])
+weirdos=a[which(quotient>0.5&quotient<2&lfsr.tissuei>0.05&lfsr.tissuej<0.05)]
+
+head(data.frame(lfsr.liver=lfsr.mash[weirdos,i],lfsr.j=lfsr.mash[weirdos,j],mash.beta.liver=pm.mash.beta[weirdos,i],mash.beta.j=pm.mash.beta[weirdos,j],standard.error.liver=standard.error[weirdos,i],standard.error.j=standard.error[weirdos,j]))
+```
+
+
+```{r}
+i=27
+j=20
+
+sig.tissuei=which(lfsr.mash[,i]<thresh)
+sig.tissuej=which(lfsr.mash[,j]<thresh)
+a=(union(sig.tissuei,sig.tissuej))
+
+lfsr.tissuei=lfsr.mash[a,i]
+lfsr.tissuej=lfsr.mash[a,j]
+quotient=(pm.mash.beta[a,i]/pm.mash.beta[a,j])
+weirdos=a[which(quotient>0.5&quotient<2&lfsr.tissuei>0.05&lfsr.tissuej<0.05)]
+
+head(data.frame(lfsr.liver=lfsr.mash[weirdos,i],lfsr.j=lfsr.mash[weirdos,j],mash.beta.liver=pm.mash.beta[weirdos,i],mash.beta.j=pm.mash.beta[weirdos,j],standard.error.liver=standard.error[weirdos,i],standard.error.j=standard.error[weirdos,j]))
+```
+
+Though the standard error is high, it doesn't stand out relative to uterus, vagina, ovary and the brains, but recall that those are tissues in which our prior captures frequent sharing, meaning that they will tend to share both effects and significance, and significant effects in one of their shared tissues will tend to induce significance and larger effects in both.
+
+
