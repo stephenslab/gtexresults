@@ -122,14 +122,14 @@ These examples were quantitatively specific in WB:
 ```{r, whole.blood,cache=T}
 
 gene.name="ENSG00000120029.8"
-bar_example(gene.name,expr.sort)
+bar_example(gene.name,log(expr.sort))
 ```
 
 and Qualitatively specific in Whole Blood:
 
 ```{r qualspecificwb, cache=T}
 gene.name="ENSG00000078114.14"
-bar_example(gene.name,expr.sort)
+bar_example(gene.name,log(expr.sort))
 ```
 
 Testis qualitative:
@@ -138,7 +138,7 @@ Testis qualitative:
 ```{r testis,cache=T}
 
 gene.name="ENSG00000059588.5"
-bar_example(gene.name,expr.sort)
+bar_example(gene.name,log(expr.sort))
 ```
 
 So tissue-specificitiy in expression is the exception not the rule, and our examples are good.
