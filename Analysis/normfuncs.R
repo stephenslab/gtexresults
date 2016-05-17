@@ -38,3 +38,15 @@ hlindex=function(normdat,sigdat,thresh1,thresh2){
         hl[j]=sum(normdat[j,]>thresh1&sigdat[j,]<thresh2)}
     return(hl)}
 
+het.index.two=function(data,thresh){
+    t(apply(data,1,function(x){
+        maxx=x[which.max(abs(x))]
+        if(maxx==0){h=0}
+        else{
+            normx=x/x[which.max(abs(x))]
+            
+            h=sum(normx>thresh)}
+        
+        return(h)
+        
+    }))}

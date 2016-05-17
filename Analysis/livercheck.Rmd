@@ -21,13 +21,15 @@ library('colorRamps')
 
 lfsr.all=read.table("~/Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
 lfsr.mash=lfsr.all
+lfsr.mash=read.table("~/Dropbox/withEElfsr.txt")[,-1]
 
 maxz=read.table("~/Dropbox/jul3/maxz.txt")
+maxbeta=read.table("~/gtexresults_matrixash/Data/maxbetahats.txt")
 tissue.names=colnames(maxz)
 standard.error=read.table("~/gtexresults_matrixash/Data/standard.error.txt")
-
+standard.error=maxbeta/maxz #doesn't change
 pm.mash=as.matrix(read.table("~/Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1])
-
+pm.mash.ee=as.matrix(read.table("~/Dropbox/withEEposterior.means.txt")[,-1])
 pm.mash.beta=pm.mash*standard.error
 betamle=maxz*standard.error
 
@@ -80,8 +82,9 @@ for(i in 1:ncol(lfsr.mash)){
     a=(union(sig.row,sig.col))
     #a=(intersect(sig.row,sig.col))
     #quotient=abs(pm.mash.beta[a,i]/pm.mash.beta[a,j])
-    quotient=(pm.mash.beta[a,i]/pm.mash.beta[a,j])##divide effect sizes
+    #quotient=(pm.mash.beta[a,i]/pm.mash.beta[a,j])##divide effect sizes
     ##divide effect sizes
+    quotient=(pm.mash.ee[a,i]/pm.mash.ee[a,j])
     shared.fold.size[i,j]=mean(quotient>0.5&quotient<2)
    
   }}

@@ -7,19 +7,19 @@ output: html_document
 library('knitr')
 knitr::opts_chunk$set(cache=TRUE)
 opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/") 
-source("~/gtexresults_matrixash/Analysis/normfuncs.R")
+source("normfuncs.R")
 ```
 
 ##Heterogeneity Analysis
 
 First, we asked in how many tissues is a QTL signficiant. 
 ```{r,echo=F}
-lfsr=read.table("~/Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
+lfsr=read.table("../../Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
 lfsr[lfsr<0]=0
-lfsr.nobrain=read.table("~/gtexresults_matrixash/withoutbrain/nobrainlfsr.txt")[,-1]
-lfsr.brain.only=read.table("~/Dropbox/BrainOnly/brainonlylfsr.txt")[,-1]
+lfsr.nobrain=read.table("../withoutbrain/nobrainlfsr.txt")[,-1]
+lfsr.brain.only=read.table("../../Dropbox/BrainOnly/brainonlylfsr.txt")[,-1]
 
-tissue.names=as.character(read.table("~/gtexresults_matrixash/Data/abbreviate.names.txt")[,2])
+tissue.names=as.character(read.table("../Data/abbreviate.names.txt")[,2])
 colnames(lfsr)==tissue.names
 colnames(lfsr.nobrain)=tissue.names[-c(7:16)]
 colnames(lfsr.brain.only)=tissue.names[c(7:16)]
@@ -131,15 +131,17 @@ mean(lfsr.brain.only[nsig>0,]<0.05)
 ```
 
 ```{r}
-standard.error=read.table("~/gtexresults_matrixash/Data/standard.error.txt")
 
-pm.mash=as.matrix(read.table("~/Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1])
+maxbeta=read.table("../Data/maxbetahats.txt")
+maxz=read.table("../Data/maxz.txt")
+standard.error=maxbeta/maxz
+pm.mash=as.matrix(read.table("../../Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1])
 
 pm.mash.beta=pm.mash*standard.error
 
-pm.mash.nobrain=as.matrix(read.table("~/gtexresults_matrixash/withoutbrain/nobrainposterior.means.txt")[,-1])*standard.error[,-c(7:16)]
+pm.mash.nobrain=as.matrix(read.table("../withoutbrain/nobrainposterior.means.txt")[,-1])*standard.error[,-c(7:16)]
 
-pm.mash.brain.only=as.matrix(read.table("~/Dropbox/BrainOnly//brainonlyposterior.means.txt")[,-1])*standard.error[,c(7:16)]
+pm.mash.brain.only=as.matrix(read.table("../..//Dropbox/BrainOnly//brainonlyposterior.means.txt")[,-1])*standard.error[,c(7:16)]
 
 ```
 
@@ -433,7 +435,7 @@ for(i in 1:ncol(a)){
 
 all.tissue.order=heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=blue2green,cexRow=0.5,cexCol=0.5,symm = T,main="QTLs within 2-fold Shared by Tissues",breaks=seq(0.35,1,by=0.01))$rowInd
 
-write.table(all.tissue.order,"~/Dropbox/alltissueorder.txt",col.names = F,row.names = F)
+#write.table(all.tissue.order,"~/Dropbox/alltissueorder.txt",col.names = F,row.names = F)
 mtext("All Tissues")
 
 
@@ -462,7 +464,7 @@ for(i in 1:ncol(a)){
 excludebrainorder=heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=blue2green,cexRow=0.5,cexCol=0.5,symm = T,main="QTLs within 2-fold Shared by Tissues",breaks=seq(0.35,1,by=0.01))$rowInd
 mtext("Excluding Brain, Sep Analysis")
 
-write.table(excludebrainorder,"~/Dropbox/excludebrainorder.txt",col.names = F,row.names = F)
+#write.table(excludebrainorder,"~/Dropbox/excludebrainorder.txt",col.names = F,row.names = F)
 
 sigmat=lfsr.brain.only<0.05
 sigs=rowSums(sigmat)
@@ -485,7 +487,7 @@ for(i in 1:ncol(a)){
 brain.only.order=heatmap.2(shared.het,density="none",trace="none",dendrogram = "none",col=blue2green,cexRow=0.5,cexCol=0.5,symm = T,main="QTLs within 2-fold Shared by Tissues",breaks=seq(0.35,1,by=0.01))$rowInd
 mtext("Brain Only, Sep Analysis")
 
-write.table(brain.only.order,"~/Dropbox/brain.only.order.txt",col.names = F,row.names = F)
+#write.table(brain.only.order,"~/Dropbox/brain.only.order.txt",col.names = F,row.names = F)
 ```
 
 Now perform with subset of all tissue effects:

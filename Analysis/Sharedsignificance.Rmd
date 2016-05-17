@@ -14,11 +14,11 @@ opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/")
 library(gplots)
 library(ggplot2)
 
-lfsr.all=read.table("~/Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
+lfsr.all=read.table("../Data/Aug13withEDlfsr.txt")[,-1]
 lfsr.mash=lfsr.all
-lfsr.nobrain=read.table("~/gtexresults_matrixash/withoutbrain//nobrainlfsr.txt")[,-1]
-lfsr.brainonly=read.table("~/Dropbox/BrainOnly/brainonlylfsr.txt")[,-1]
-maxz=read.table("~/Dropbox/jul3/maxz.txt")
+lfsr.nobrain=read.table("../withoutbrain//nobrainlfsr.txt")[,-1]
+lfsr.brainonly=read.table("../../Dropbox/BrainOnly/brainonlylfsr.txt")[,-1]
+maxz=read.table("../../Dropbox/jul3/maxz.txt")
 library('colorRamps')
 
 sigmat=lfsr.mash<0.05
@@ -66,7 +66,7 @@ rownames(shared.nobrain)=colnames(lfsr.nobrain)
 ####
 
 
-lfsr.brainonly=read.table("~/Dropbox/BrainOnly/brainonlylfsr.txt")[,-1]
+lfsr.brainonly=read.table("../../Dropbox/BrainOnly/brainonlylfsr.txt")[,-1]
 lfsr.brainonly=lfsr.brainonly[rowSums(lfsr.brainonly<0.05)>0,]
 
 colnames(lfsr.brainonly)=colnames(maxz)[c(7:16)]
@@ -89,29 +89,33 @@ rownames(shared.nobrain)=colnames(lfsr.nobrain)
 
 colnames(shared.brainonly)=colnames(lfsr.brainonly)
 rownames(shared.brainonly)=colnames(lfsr.brainonly)
-# 
-# heatmap.2(shared,##Rowv=FALSE,Colv=FALSE,
-#           symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue,main=paste0("eQTL Shared,AllTissues"),
-#           cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01)
-#           )
-# mtext("Defined as QTL if LFSR<0.05")
-# 
-# excludebrainorder=heatmap.2(shared.nobrain,##Rowv=FALSE,Colv=FALSE,
-#           symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue,main=paste0("eQTL Shared,excludingBrainSEP"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))$rowInd
-# mtext("Defined as QTL if LFSR<0.05")
-# 
-# brainorder=heatmap.2(shared.brainonly,##Rowv=FALSE,Colv=FALSE,
-#         symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue,main=paste0("eQTL Shared,Brain OnlySEP"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))$rowInd
-# mtext("Defined as QTL if LFSR<0.05")
 
+all.tissue.order=heatmap.2(shared,##Rowv=FALSE,Colv=FALSE,
+          symm=TRUE,dendrogram="none",density="none",trace="none",col=blue2green,main=paste0("eQTL Shared,AllTissues"),
+          cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))$rowInd
+
+mtext("Defined as QTL if LFSR<0.05")
+write.table(all.tissue.order,"../../Dropbox/alltissueorder.txt",col.names = F,row.names = F)
+
+excludebrainorder=heatmap.2(shared.nobrain,##Rowv=FALSE,Colv=FALSE,
+          symm=TRUE,dendrogram="none",density="none",trace="none",col=blue2green,main=paste0("eQTL Shared,excludingBrainSEP"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))$rowInd
+mtext("Defined as QTL if LFSR<0.05")
+write.table(excludebrainorder,"../../Dropbox/excludebrainorder.txt",col.names = F,row.names = F)
+
+brainorder=heatmap.2(shared.brainonly,##Rowv=FALSE,Colv=FALSE,
+         symm=TRUE,dendrogram="none",density="none",trace="none",col=blue2green,main=paste0("eQTL Shared,Brain OnlySEP"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))$rowInd
+mtext("Defined as QTL if LFSR<0.05")
+
+write.table(brainorder,"../../Dropbox/brain.only.order.txt",col.names = F,row.names = F)
 ```
 
 We could also try this with the orders induced from sharing by effect size:
 
 ```{r effectorder,echo=F}
-brain.only.order=read.table("~/Dropbox/brain.only.order.txt")[,1]
-exclude.brain.order=read.table("~/Dropbox/excludebrainorder.txt")[,1]
-all.tissue.order=read.table("~/Dropbox/alltissueorder.txt")[,1]
+
+brain.only.order=read.table("../../Dropbox/brain.only.order.txt")[,1]
+exclude.brain.order=read.table("../../Dropbox/excludebrainorder.txt")[,1]
+all.tissue.order=read.table("../../Dropbox/alltissueorder.txt")[,1]
 
 
 
@@ -138,6 +142,8 @@ mtext("Defined as QTL if LFSR<0.05")
 Repeat with all
 
 ```{r alltissuesign, echo=FALSE}
+
+
 rm(lfsr.brainonly)
 rm(lfsr.nobrain)
 
@@ -227,10 +233,9 @@ par(mfrow=c(1,2))
 Again, with the all tissue analysis and fold changes:
 
 ```{r alltissuefoldchangeorder,echo=FALSE}
-
-brain.only.order=read.table("~/Dropbox/brain.only.order.txt")[,1]
-exclude.brain.order=read.table("~/Dropbox/excludebrainorder.txt")[,1]
-all.tissue.order=read.table("~/Dropbox/alltissueorder.txt")[,1]
+brain.only.order=read.table("../../Dropbox/brain.only.order.txt")[,1]
+exclude.brain.order=read.table("../../Dropbox/excludebrainorder.txt")[,1]
+all.tissue.order=read.table("../../Dropbox/alltissueorder.txt")[,1]
 
 
 
@@ -249,5 +254,6 @@ heatmap.2(shared.brainonly[rev(brain.only.order),brain.only.order],Rowv=FALSE,Co
         symm=TRUE,dendrogram="none",density="none",trace="none",#col=redblue,
         col=blue2green,main=paste0("eQTL in Either that are Shared,BrainOnlyGlobal"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))$rowInd
 mtext("Defined as QTL if LFSR<0.05")
+
 ```
 

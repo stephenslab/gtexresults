@@ -14,22 +14,22 @@ opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/")
 library(gplots)
 library(ggplot2)
 
-lfsr.all=read.table("~/Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
+lfsr.all=read.table("../../Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
 lfsr.mash=lfsr.all
-lfsr.nobrain=read.table("~/gtexresults_matrixash/withoutbrain//nobrainlfsr.txt")[,-1]
+lfsr.nobrain=read.table("../withoutbrain//nobrainlfsr.txt")[,-1]
+maxb=read.table("../Data/maxbetahats.txt")
+maxz=read.table("../../Dropbox/jul3/maxz.txt")
 
-maxz=read.table("~/Dropbox/jul3/maxz.txt")
-
-standard.error=read.table("~/gtexresults_matrixash/Data/standard.error.txt")
-
-pm.mash=as.matrix(read.table("~/Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1])
+#standard.error=read.table("../Data/standard.error.txt")
+standard.error=maxb/maxz
+pm.mash=as.matrix(read.table("../../Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1])
 
 pm.mash.beta=pm.mash*standard.error
 
-pm.mash.nobrain=as.matrix(read.table("~/gtexresults_matrixash/withoutbrain/nobrainposterior.means.txt")[,-1])*standard.error[,-c(7:16)]
+pm.mash.nobrain=as.matrix(read.table("../withoutbrain/nobrainposterior.means.txt")[,-1])*standard.error[,-c(7:16)]
 
-pm.mash.brain.only=as.matrix(read.table("~/Dropbox/BrainOnly//brainonlyposterior.means.txt")[,-1])*standard.error[,c(7:16)]
-lfsr.brainonly=read.table("~/Dropbox/BrainOnly/brainonlylfsr.txt")[,-1]
+pm.mash.brain.only=as.matrix(read.table("../../Dropbox/BrainOnly//brainonlyposterior.means.txt")[,-1])*standard.error[,c(7:16)]
+lfsr.brainonly=read.table("../../Dropbox/BrainOnly/brainonlylfsr.txt")[,-1]
 
 
 
@@ -44,9 +44,9 @@ lfsr.brainonly=lfsr.brainonly[rowSums(lfsr.brainonly<0.05)>0,]
 pm.mash.beta=pm.mash.beta[rowSums(lfsr.mash<0.05)>0,]
 lfsr.mash=lfsr.mash[rowSums(lfsr.mash<0.05)>0,]
 
-brain.only.order=read.table("~/Dropbox/brain.only.order.txt")[,1]
-exclude.brain.order=read.table("~/Dropbox/excludebrainorder.txt")[,1]
-all.tissue.order=read.table("~/Dropbox/alltissueorder.txt")[,1]
+brain.only.order=read.table("../../Dropbox/brain.only.order.txt")[,1]
+exclude.brain.order=read.table("../../Dropbox/excludebrainorder.txt")[,1]
+all.tissue.order=read.table("../../Dropbox/alltissueorder.txt")[,1]
 ```
 
 
@@ -138,9 +138,9 @@ We could also try this with the orders induced from sharing by effect size:
 ```{r effectorderfoldsig,echo=F}
 library('colorRamps')
 
-brain.only.order=read.table("~/Dropbox/brain.only.order.txt")[,1]
-exclude.brain.order=read.table("~/Dropbox/excludebrainorder.txt")[,1]
-all.tissue.order=read.table("~/Dropbox/alltissueorder.txt")[,1]
+brain.only.order=read.table("../../Dropbox/brain.only.order.txt")[,1]
+exclude.brain.order=read.table("../../Dropbox/excludebrainorder.txt")[,1]
+all.tissue.order=read.table("../../Dropbox/alltissueorder.txt")[,1]
 
 heatmap.2(shared.fold.size[rev(all.tissue.order),all.tissue.order],Rowv=FALSE,Colv=FALSE,
           symm=TRUE,dendrogram="none",density="none",trace="none",#col=redblue,
@@ -162,8 +162,8 @@ mtext("Defined as QTL if LFSR<0.05")
 Repeat with all
 
 ```{r alltissuesignif, echo=FALSE}
-lfsr.mash=read.table("~/Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
-pm.mash=as.matrix(read.table("~/Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1])
+lfsr.mash=read.table("../../Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
+pm.mash=as.matrix(read.table("../../Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1])
 pm.mash.beta=pm.mash*standard.error
 rm(lfsr.brainonly)
 rm(lfsr.nobrain)
@@ -271,9 +271,9 @@ We could also try this with the orders induced from sharing by effect size:
 
 ```{r effectorderfoldsigalltissue,echo=F}
 library('colorRamps')
-brain.only.order=read.table("~/Dropbox/brain.only.order.txt")[,1]
-exclude.brain.order=read.table("~/Dropbox/excludebrainorder.txt")[,1]
-all.tissue.order=read.table("~/Dropbox/alltissueorder.txt")[,1]
+brain.only.order=read.table("../../Dropbox/brain.only.order.txt")[,1]
+exclude.brain.order=read.table("../../Dropbox/excludebrainorder.txt")[,1]
+all.tissue.order=read.table("../../Dropbox/alltissueorder.txt")[,1]
 
 heatmap.2(shared.fold.size[rev(all.tissue.order),all.tissue.order],Rowv=FALSE,Colv=FALSE,
           symm=TRUE,dendrogram="none",density="none",trace="none",col=blue2green,main=paste0("eQTL in either tissues and within 2-fold,GLOBAL"),
@@ -296,10 +296,12 @@ Tissuespecific by effect:
 ```{r barplotspec,echo=FALSE}
 rm(pm.mash.beta)
 rm(lfsr.mash)
-source("~/gtexresults_matrixash/Analysis/normfuncs.R")
 
-lfsr.mash=read.table("~/Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
-pm.mash=as.matrix(read.table("~/Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1])
+source("normfuncs.R")
+
+lfsr.mash=read.table("../../Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
+pm.mash=as.matrix(read.table("../../Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1])
+standard.error=read.table("../Data/standard.error.txt")
 pm.mash.beta=pm.mash*standard.error
 
 nsig=rowSums(lfsr.mash<thresh)
@@ -331,7 +333,7 @@ for(i in 1:ncol(pm)){
 
 tspec=as.matrix(tspec);rownames(tspec)=colnames(maxz)
 
-barplot(t(tspec),main=paste0("Number of eQTL with Bjnorm>0.5 in one Tissue"),las=2,ylim=c(0,500),cex.names=0.5)
+barplot(t(tspec),main=paste0("Number of eQTL with Bjnorm>0.5 in one Tissue"),las=2,cex.names=0.5)
 
 
 
