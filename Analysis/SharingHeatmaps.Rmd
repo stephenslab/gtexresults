@@ -13,17 +13,17 @@ opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/")
 Let's make a heatmap of lfsr and lfdr:
 
 ```{r,eval=T,echo=FALSE}
-source("~/gtexresults_matrixash/Analysis/normfuncs.R")
-lfsr=read.table("~/Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
+source("./normfuncs.R")
+lfsr=read.table("../../Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
 
 lfsr[lfsr<0]=0
 nsig=lfsr<0.05
 sig=rowSums(nsig)
 
-lfdr=read.table("~/Dropbox/withzero/withzeroposterior.nulls.txt")[,-1]
-standardized.effects=read.table("~/Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1]
-pm.mash.beta=read.table("~/gtexresults_matrixash/Data/Aug13withEDposterior.betas.txt")
-tissue.names=as.character(read.table("~/gtexresults_matrixash/Data/abbreviate.names.txt")[,2])
+lfdr=read.table("../../Dropbox//withzero/withzeroposterior.nulls.txt")[,-1]
+standardized.effects=read.table("../../Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1]
+pm.mash.beta=read.table("../Data/Aug13withEDposterior.betas.txt")
+tissue.names=as.character(read.table("../Data/abbreviate.names.txt")[,2])
 
 colnames(lfsr)=colnames(lfdr)=colnames(standardized.effects)=colnames(pm.mash.beta)=tissue.names
 
@@ -109,7 +109,7 @@ cols <- colorRampPalette(c("magenta", "yellow", "darkgreen"))(256)
 heatmap.2(het.norm(pm.mash.beta[sig>0,]),main="E(Bjnorm|data)",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
           trace="none",
           #col=redgreen,
-            col=redblue(256),
+            col=bluered(256),
             #col=rich.colors(1000),
           #col=magenta2green,
           #col=cols,
