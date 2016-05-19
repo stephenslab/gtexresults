@@ -134,7 +134,8 @@ mean(lfsr.brain.only[nsig>0,]<0.05)
 
 maxbeta=read.table("../Data/maxbetahats.txt")
 maxz=read.table("../Data/maxz.txt")
-standard.error=maxbeta/maxz
+#standard.error=maxbeta/maxz
+standard.error=read.table("../Data/standard.error.txt")
 pm.mash=as.matrix(read.table("../../Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1])
 
 pm.mash.beta=pm.mash*standard.error

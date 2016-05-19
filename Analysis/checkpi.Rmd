@@ -1,0 +1,44 @@
+---
+title: "Proving Likelihood Superiority"
+output: html_document
+---
+This document justifies using the narrower (desner) grid:
+
+```{r}
+omega2=round(readRDS("omegarank3EDnewlikomega2.rds")$omega,4)
+omega=round(sqrt(omega2),4)
+pisquare=readRDS("pisrank3EDnewlikomega2.rds")$pihat
+pimat=(matrix(pisquare[-1189],ncol=54,byrow=T))
+pisold=readRDS("pisrank3EDnewlikzero.rds")$pihat
+pimat.old=(matrix(pisold[-1189],ncol=54,byrow=T))
+
+par(mfrow=(c(1,2)))
+barplot(c(pisold[1189],rowSums(pimat.old)),names=c(0,omega),las=2,cex.names=0.5)
+title("Omega=Autoselect.sd")
+mtext("total.lik(EZ.narrow)=806172.6")
+
+barplot(c(pisquare[1189],rowSums(pimat)),names=c(0,omega2),las=2,cex.names=0.5)
+title("Using Omega=Autoselect.sd^2")
+mtext("total.lik(EZ.wide.undense)=806154.6")
+
+```
+
+##Grid Selection in Both Models##
+
+If we summarise the likelihood for EZ according to grid weights with EE models using the best set of covariance matrices (i.e., deconvolution, initialized with Z'Z, SVD rank3, rank 5 SFA and 5 single factors as well as canonical, identity, and zero).Recall the 'narrow dense' uses the output of autoselect.sd (the 'accidental discovery discussed on slack Oct 2,2015') and the wider undense is autoselect.sd which has a slightly worse likelihood due to weight at unhelpful componenets (see above). The new code allows for the choice (omega=omega^power, with power as an option), becuase int the EE sd^2 is slightly preferable but sd is better in EZ. But the overwhelming improvement of EZ is apparent.
+
+```{r}
+
+se.conversion=2074162.55
+(EZ.lik.withnarrowdense=-1267990+se.conversion)
+(EZ.lik.withwideundense=-1268007.94+se.conversion)
+(EE.with.narrowomega=797811)
+(EE.with.wideomega=797858.3)
+
+likcomp=data.frame(EE.with.wideomega,EE.with.narrowomega,EZ.lik.withwideundense,EZ.lik.withnarrowdense)
+barplot(as.matrix(likcomp[,c(1,2)]),ylim=c(797800,797870),
+        main="LikComparison,EE")
+barplot(as.matrix(likcomp[,c(3,4)]),ylim=c(806150,806180),
+        main="LikComparison,EZ")
+```
+
