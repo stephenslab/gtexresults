@@ -50,3 +50,10 @@ het.index.two=function(data,thresh){
         return(h)
         
     }))}
+
+
+
+#rmse function to compute rmse
+rmse=function(truth,estimate){
+    sqrt( mean( (truth-estimate)^2) )
+}
