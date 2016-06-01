@@ -170,8 +170,9 @@ se.test=b.test/b.test
 library('mvtnorm')
 source("~/matrix_ash/R/main.R")
 source("~/matrix_ash/R/mixEm.R")
-j=10
-k=3
+j=14608  
+r=38
+k=1073
 cov=readRDS("../Data/covmatAug13withED.rds")
 pis=readRDS("../Data/pisAug13withED.rds")$pihat
 
@@ -192,7 +193,8 @@ U.gp1kl <- (post.b.gpkl.cov(V.gp.hat.inv, cov[[k]]))
 mu.gp1kl <- as.array(post.b.gpkl.mean(b.mle, V.gp.hat.inv, U.gp1kl))
 
 plot(all.arrays$post.covs[k,],diag(U.gp1kl))
-
+##make sure individual posterior covariances are not greater than likliehood variance
+sum(all.arrays$post.covs>1)
 ```
 
 $Var(Y_{r})=E(Y_{r}^2)-E(Y_{r})^2$
@@ -209,16 +211,42 @@ Let's check our calculations for a given tissue:
 
 ```{r marvarcheck, echo=TRUE}
 marginal.var=read.table("../../Dropbox/Aug12/Aug13withEDmarginal.var.txt")[,-1]
-r=sample(seq(1:44),1)
+#r=sample(seq(1:44),1)
+r=38
 pi.kl=post.weights
+
+
+sum.test.part.one=post.weights*(all.arrays$post.covs[,r]+all.arrays$post.means[,r]^2)
+
+##the majority (53% of wiehgt at componenet 1073)
+####show example
+diag(U.gp1kl)[r] ##less than 1
+mu.gp1kl[r]^2
+
+part.one.at.k=post.weights[k]*(all.arrays$post.covs[k,r]+all.arrays$post.means[k,r]^2)
+
+mu.2.atk=(post.weights[k]*all.arrays$post.means[k,r])^2
+
+
+sum.test.e.y.2.r=(post.weights*all.arrays$post.means[,r])
+
+sum(sum.test.part.one)-sum(sum.test.e.y.2.r)^2
+
+
 part.one.r=post.weights%*%(all.arrays$post.covs[,r]+all.arrays$post.means[,r]^2)
 e.y.2.r=(post.weights%*%(all.arrays$post.means[,r]))^2
 part.one.r-e.y.2.r
+
+
 marginal.var[j,r]
+
+##test for individula component
+k=which.max(post.weights)
 
 
 ###show function correct for the first part acorss all tissues
 part.one=post.weights%*%(all.arrays$post.covs+all.arrays$post.means^2)
+
 
 plot(part.one,total.covs.partone.persnp(post.means = all.arrays$post.means,post.covs = all.arrays$post.covs,post.weights = post.weights))
 
@@ -228,6 +256,49 @@ e.y.2=(post.weights%*%(all.arrays$post.means))^2
 plot(part.one-e.y.2,as.matrix(marginal.var[j,]))
 
 
+part.one.tim=function(post.weights,post.covs){
+  post.weights%*%post.covs
+}
+
+part.two.tim=function(post.weights,post.means,tissue){
+  r=tissue
+  grand.mean=post.weights%*%post.means
+  post.weights%*%((post.means[,r]-grand.mean[r])^2)
+}
+
+
+b.test=read.table("../Data/maxz.txt")
+se.test=b.test/b.test
+
+j=14608  
+r=38
+k=1073
+
+j=100
+r=10
+
+cov=readRDS("../Data/covmatAug13withED.rds")
+pis=readRDS("../Data/pisAug13withED.rds")$pihat
+
+all.arrays=post.array.per.snp(j=j,covmat = cov,b.gp.hat = b.test,se.gp.hat = se.test)
+
+b.mle=as.vector(t(b.test[j,]))##turn i into a R x 1 vector
+V.gp.hat=diag(se.test[j,])^2
+V.gp.hat.inv <- solve(V.gp.hat)
+
+log.lik.snp=log.lik.func(b.mle,V.gp.hat,cov)
+log.lik.minus.max=log.lik.snp-max(log.lik.snp)
+#log.pi=log(pis)
+#s=log.lik.minus.max+log.pi
+exp.vec=exp(log.lik.minus.max)
+post.weights=t(exp.vec*pis/sum(exp.vec*pis))
+
+part.one.tim(post.weights = post.weights,post.covs = all.arrays$post.covs)[r]
+part.two.tim(post.weights = post.weights,post.means = all.arrays$post.means,tissue = r)
+
+part.one.tim(post.weights = post.weights,post.covs = all.arrays$post.covs)[r]+part.two.tim(post.weights = post.weights,post.means = all.arrays$post.means,tissue = r)
+
+total.covs.partone.persnp(all.arrays$post.means,all.arrays$post.covs,post.weights)[r]-((post.weights%*%all.arrays$post.means)^2)[r]
 
 ```
 
@@ -236,4 +307,28 @@ Now we look at the median poserior variances:
 ```{r effectivesamplesizemarvar}
 median.mar.var=apply(marginal.var,2,median)
 barplot(sort(1/median.mar.var,decreasing=F),cex.names=0.5,main="Effective Sample Size: 1/MedianMarginalVariance",names=colnames(maxz)[order(1/median.mar.var,decreasing=F)],las=2)
+```
+
+Now let's plot effective sample size. Recall:
+
+$$n_{jeff}=\frac{s_{j}^2}{\tilde{s_{j}^2}}$$
+
+```{r effectivesample}
+#original.var=as.matrix(standard.error.from.z)^2
+original.var=standard.error.from.z/standard.error.from.z
+size=as.matrix(exp.sort)
+post.var=as.matrix(marginal.var)#*standard.error.from.z^2
+njeffective=size*original.var/post.var
+
+
+##ask why some of the origianl variancres are smaller than posterior variances, even though calculations are right (e.g. 16012, 44)
+###15093  44
+increase=njeffective/size
+
+
+barplot(sort(apply(increase,2,median),decreasing=F),las=2,cex.names=0.4)
+title("Median(Nj_effective/Nj_original)")
+
+barplot(sort(apply(njeffective,2,median),decreasing=F),cex.names=0.4,las=2)
+title("MedianNj_effective")
 ```
