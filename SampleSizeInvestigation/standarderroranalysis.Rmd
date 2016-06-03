@@ -332,3 +332,29 @@ title("Median(Nj_effective/Nj_original)")
 barplot(sort(apply(njeffective,2,median),decreasing=F),cex.names=0.4,las=2)
 title("MedianNj_effective")
 ```
+
+
+Show that my results $$$V(B|D)=E(E(B^2|D,K))-E(E((B|D,k)$$
+are the same as $$V(B|D)=E(V(B|D,K))+V(E(B|D,k))$$
+
+```{r}
+
+j=10000
+b.mle=as.vector(t(b.test[j,]))##turn i into a R x 1 vector
+se.test=b.test/b.test
+
+V.gp.hat=diag(se.test[j,])^2
+V.gp.hat.inv <- solve(V.gp.hat)
+all.arrays=post.array.per.snp(j=j,covmat = cov,b.gp.hat = b.test,se.gp.hat = se.test)
+
+log.lik.snp=log.lik.func(b.mle,V.gp.hat,cov)
+log.lik.minus.max=log.lik.snp-max(log.lik.snp)
+#log.pi=log(pis)
+#s=log.lik.minus.max+log.pi
+exp.vec=exp(log.lik.minus.max)
+post.weights=t(exp.vec*pis/sum(exp.vec*pis))
+
+
+v1=post.weights%*%all.arrays$post.covs+post.weights%*%(t(apply((all.arrays$post.means),1,'-',(post.weights%*%all.arrays$post.means)))^2)
+
+v2=post.weights%*%(all.arrays$post.covs+all.arrays$post.means^2)-(post.weights%*%all.arrays$post.means)^2
