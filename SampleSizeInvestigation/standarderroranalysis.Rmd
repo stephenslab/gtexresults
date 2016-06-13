@@ -205,7 +205,7 @@ $E(Y_{r}^2)=E(E(Y_{r}^2|Z)$
 
 $=\sum_{k}$ $\tilde\pi_{k}[U_{kr}+\mu_{kr}^2]$
 
-So $Var(Y_{r})$ = $\sum_{k}$ $\tilde\pi_{k}[U_{kr}+\mu_{kr}^2]$ - $\sum_k \tilde\pi_{k} \mu_{kr}^2$
+So $Var(Y_{r})$ = $\sum_{k}$ $\tilde\pi_{k}[U_{kr}+\mu_{kr}^2]$ - $(\sum_k \tilde\pi_{k} \mu_{kr})^2$
 
 Let's check our calculations for a given tissue:
 
