@@ -4,6 +4,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
+
 library('knitr')
 knitr::opts_chunk$set(cache=TRUE)
 knitr::opts_chunk$set(eval=FALSE)
@@ -106,7 +107,9 @@ cols <- colorRampPalette(c("magenta", "yellow", "darkgreen"))(256)
 # cols
 #plot(c(1:256), c(1:256), pch = 16, col = cols, cex = 3)
 
-heatmap.2(het.norm(pm.mash.beta[sig>0,]),main="E(Bjnorm|data)",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
+
+pdf("~/Dropbox/PaperEdits/Paper/Figures/postbetas.pdf")
+heatmap.2(het.norm(pm.mash.beta[sig>0,]),main="E(Bjnorm|data)",dendrogram="none",density="none",#Colv=FALSE,Rowv=FALSE,
           trace="none",
           #col=redgreen,
             col=bluered(256),
