@@ -1,0 +1,27 @@
+---
+title: "diff"
+output: html_document
+---
+
+Here I plot the top 10 examples as quantified by difference in mean brain raw z statistic and mean 'other' raw z statistic.
+
+```{r echo=FALSE}
+maxz=read.table("../Data/maxz.txt")
+brainmean=apply(maxz,1,function(x){mean(x[7:16])})
+othermean=apply(maxz,1,function(x){mean(x[-c(7:16)])})
+diff=abs(brainmean-othermean)
+table=cbind(brainmean,othermean,diff)
+head(table[order(table[,"diff"],decreasing=T),])
+
+index=order(table[,"diff"],decreasing=T)
+goodexamples=index[1:10]
+```
+
+
+```{r, echo=FALSE}
+for(i in goodexamples){
+  barplot(as.matrix(maxz[i,]),las=2,cex.names=0.5,main=rownames(maxz)[i])
+}
+```
+
+
