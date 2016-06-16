@@ -5,22 +5,46 @@ output: html_document
 
 Here I plot the top 10 examples as quantified by difference in mean brain raw z statistic and mean 'other' raw z statistic.
 
-```{r echo=FALSE}
+```{r echo=FALSE,cache=T}
 maxz=read.table("../Data/maxz.txt")
-brainmean=apply(maxz,1,function(x){mean(x[7:16])})
-othermean=apply(maxz,1,function(x){mean(x[-c(7:16)])})
-diff=abs(brainmean-othermean)
-table=cbind(brainmean,othermean,diff)
-head(table[order(table[,"diff"],decreasing=T),])
+z.stat=maxz
+posterior.means=read.table("../Data/Aug13withEDposterior.means.txt")[,-1]
+lfsr=read.table("~/Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
 
-index=order(table[,"diff"],decreasing=T)
-goodexamples=index[1:10]
+colnames(posterior.means)=colnames(maxz)
+brainmean=apply(maxz,1,function(x){mean(x[7:16])})
+
+othermean=apply(maxz,1,function(x){mean(x[-c(7:16)])})
+a=which(brainmean*othermean<0)
+diff=abs(brainmean-othermean)
+t=which(brainmean*othermean<0&diff>7)
+
 ```
 
+```{r echo=FALSE}
+col.func=function(lfsr,posterior.means,j){
+  R=ncol(posterior.means)
+  lfsr.mat=as.matrix(lfsr)
+  col.mat=NULL
+  for(r in 1:R){
+ if (lfsr.mat[j,r]<=0.05) {
+      col.mat[r]="green"
+    } else if (lfsr.mat[j,r]<0.5) {
+      col.mat[r]="orange"
+    } else if (lfsr.mat[j,r]>=0.50) {
+      col.mat[r]="red"
+    } 
+  }
+  return(col.mat)
+}
+
+```
 
 ```{r, echo=FALSE}
-for(i in goodexamples){
-  barplot(as.matrix(maxz[i,]),las=2,cex.names=0.5,main=rownames(maxz)[i])
+for(i in t){
+  par(mfrow=c(1,2))
+  barplot(as.numeric(maxz[i,]),las=2,cex.names=0.5,main=paste0("MaxZ",rownames(maxz)[i]))
+  barplot(as.numeric(posterior.means[i,]),las=2,cex.names=0.5,main=paste0("Posteriors",rownames(maxz)[i]),col=col.func(lfsr=lfsr,posterior.means=posterior.means,j = i))
 }
 ```
 
