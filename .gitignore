@@ -1,0 +1,12 @@
+.DS_Store
+*cache
+*files
+.R*
+Data/*
+*.bbl
+*.blg
+*.dvi
+*.out
+*.aux
+*.log
+*.synctex.gz
