@@ -3,7 +3,9 @@ title: "diff"
 output: html_document
 ---
 
-Here I plot the top 10 examples as quantified by difference in mean brain raw z statistic and mean 'other' raw z statistic.
+Here I, selected examples in which :
+1) the mean effect across brains was in a different direction as the mean effect in other tissues
+2) The absolute difference in mean brain raw z statistic and mean 'other' raw z statistic was greater than a threshold (here 6 left me with a reasonable number of examples, 12).
 
 ```{r echo=FALSE,cache=T}
 maxz=read.table("../Data/maxz.txt")
@@ -43,8 +45,8 @@ col.func=function(lfsr,posterior.means,j){
 ```{r, echo=FALSE}
 for(i in t){
   par(mfrow=c(1,2))
-  barplot(as.numeric(maxz[i,]),las=2,cex.names=0.5,main=paste0("MaxZ",rownames(maxz)[i]))
-  barplot(as.numeric(posterior.means[i,]),las=2,cex.names=0.5,main=paste0("Posteriors",rownames(maxz)[i]),col=col.func(lfsr=lfsr,posterior.means=posterior.means,j = i))
+  barplot(as.numeric(maxz[i,]),las=2,cex.names=0.5,main=paste0("ZMLE:",strsplit(rownames(z.stat)[i], "[.]")[[1]][1]))
+  barplot(as.numeric(posterior.means[i,]),las=2,cex.names=0.5,main=paste0("E(Z|D):",strsplit(rownames(z.stat)[i], "[.]")[[1]][1]),col=col.func(lfsr=lfsr,posterior.means=posterior.means,j = i))
 }
 ```
 
