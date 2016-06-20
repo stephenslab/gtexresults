@@ -111,7 +111,12 @@ colnames(eqtlbma.confg)=as.matrix(abr.names)
 par(mar=c(8,4.1,4.1,2.1))
 barplot(eqtlbma.confg,main="SingletonConfig",las=2,cex.names=0.5)
 wholebloodtwo=(which(rownames(maxz)=="ENSG00000078114.14_10_21501314_T_C_b37"))
+wholebloodthree=(which(rownames(maxz)=="ENSG00000029364.7_14_69831447_C_A_b37"))
+#wholebloodfour=(which(rownames(maxz)=="ENSG00000156110.9_10_75928933_T_C_b37"))
+wholebloodfour=(which(rownames(maxz)=="ENSG00000017797.7_18_9488704_C_T_b37"))
 newfunc(t = wholebloodtwo)
+newfunc(t = wholebloodthree)
+newfunc(t=wholebloodfour)
 ```
 
 
