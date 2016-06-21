@@ -11,43 +11,22 @@ opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/")
 
 
 ```{r exampleuk3,echo=F}
+source("normfuncs.R")
+
 z.stat=read.table("~/Dropbox/jul3/maxz.txt")
+standard.error=read.table("../Data/standard.error.txt")
+b.stat=z.stat*standard.error
 posterior.means=read.table("~/Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1]
+posterior.betas=standard.error*posterior.means
+pm.beta.norm=het.norm(posterior.betas)
 #posterior.means=read.table("~/Dropbox/withzero/withzeroposterior.means.txt")[,-1]
 lfsr=read.table("~/Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
 #lfsr.zero=read.table("~/Dropbox/withzero/withzerolfsr.txt")[,-1]
 covmat=readRDS("~/Dropbox/Aug12/covmatAug13withED.rds")
 abr.names=as.character(read.table("~/gtexresults_matrixash/Data/abbreviate.names.txt")[,2])
-newfunc=function(t){
-  #par(mfrow=c(1,2))
-  name=strsplit(rownames(z.stat)[t], "[.]")[[1]][1]
-  x.min=min(as.numeric(z.stat[t,]),as.numeric(posterior.means[t,]))
-  x.max=max(as.numeric(z.stat[t,]),as.numeric(posterior.means[t,]))
-a=barplot(as.numeric(z.stat[t,]),xlab="Tissue",#,las=2,cex.names=0.5,names=colnames(z.stat),
-ylim=c(x.min,x.max))
-title(main=paste0("Z Statistic"),font.main=1,col.main="blue")
-mtext(paste0(name),col="purple")
-b=barplot(as.numeric(posterior.means[t,]),col=col.func(t,lfsr=lfsr,posterior.means=posterior.means),xlab="Tissue",#cex.names=0.5,las=2,
-          ylab="E(B|Data)/s.j",ylim=c(x.min,x.max))#,names=colnames(posterior.means))
-title(main=paste0("E(B|Data)/s.j"),font.main=1,col.main="blue")
-mtext(paste0(name),col="purple")
-}
+source("~/Dropbox/col.func.R")
+source("~/Dropbox/newfunc.R")
 
-col.func=function(lfsr,posterior.means,j){
-  R=ncol(posterior.means)
-  lfsr.mat=as.matrix(lfsr)
-  col.mat=NULL
-  for(r in 1:R){
- if (lfsr.mat[j,r]<=0.05) {
-      col.mat[r]="green"
-    } else if (lfsr.mat[j,r]<0.5) {
-      col.mat[r]="orange"
-    } else if (lfsr.mat[j,r]>=0.50) {
-      col.mat[r]="red"
-    } 
-  }
-  return(col.mat)
-}
 
 
 library(gplots)
@@ -73,10 +52,36 @@ par(mar=c(8,4.1,4.1,2.1))
 barplot(v[,1]*sign(v[which.max(abs(v[,1])),1]),las=2,main=paste("Eigenvector 1 of Uk",k),cex.names = 0.5)
 #newfunc(three.ex.2)
 newfunc(three.ex.3)
+
+missing.tissues=c(7,8,19,20,24,25,31,34,37)
+
+
+newfunc.2=function(j){
+gtex.colors=read.table('../Data/GTExColors.txt', sep = '\t', comment.char = '')[-missing.tissues,2]
+
+title=strsplit(rownames(pm.beta.norm)[j], "[.]")[[1]][1]
+xmins=min(as.numeric(b.stat[j,]),as.numeric(posterior.betas[j,]))
+xmax=max(as.numeric(b.stat[j,]),as.numeric(posterior.betas[j,]))
+barplot(as.numeric(b.stat[j,]),col = as.character(gtex.colors),las=2,main=paste0("Bhat",title),ylim= c(xmins-0.1, xmax + 0.1))
+x=as.numeric(posterior.betas[j,])
+bp <- barplot(x, ylim = c(xmins-0.1, xmax + 0.1),col = as.character(gtex.colors),las=2,main=paste0("E(B|Data)",title),names=abr.names,cex.names=0.5)
+text(bp, x, 
+  labels = symnum(as.numeric(lfsr[j,]), cutpoints = c(0, 0.05, 1),   symbols = c(".", "")), pos = 3)
+}
+
+newfunc.2(three.ex.3)
+
+whole.blood.spec=which(rowSums(pm.beta.norm[,-44]<0.5)==43&(rowSums(lfsr[,1:44]<0.05)>=40))
+#newfunc.2(whole.blood.spec[1])
+#newfunc.2(whole.blood.spec[2])
 ```
 
-You can also embed plots, for example:
+```{r testisspec}
+testes.spec=which(rowSums(pm.beta.norm[,-40]<0.5)==43&(rowSums(lfsr[,1:44]<0.05)>=40))[1:10]
+newfunc.2(1040)
+```
 
+Here are examples of uk5
 
 
 ```{r exampleuk5,echo=FALSE}
@@ -105,7 +110,7 @@ newfunc(t=five.ex)
 
 
 ```{r examplebma,echo=FALSE}
-
+maxz=z.stat
 eqtlbma.confg=t(as.matrix(c(rep(0,43),1)))
 colnames(eqtlbma.confg)=as.matrix(abr.names)
 par(mar=c(8,4.1,4.1,2.1))
@@ -117,6 +122,13 @@ wholebloodfour=(which(rownames(maxz)=="ENSG00000017797.7_18_9488704_C_T_b37"))
 newfunc(t = wholebloodtwo)
 newfunc(t = wholebloodthree)
 newfunc(t=wholebloodfour)
+
+```
+
+Good example for whole bllood with decent rpkm across the board:
+```{r wholebloodquant}
+newfunc.2(wholebloodfour)
+
 ```
 
 

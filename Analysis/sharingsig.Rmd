@@ -135,9 +135,10 @@ rownames(shared.fold.size.brainonly)=colnames(lfsr.brainonly)
 
 We could also try this with the orders induced from sharing by effect size:
 
-```{r effectorderfoldsig,echo=F}
+```{r effectorderfoldsig,echo=F,fig.height=5,fig.width=5}
 library('colorRamps')
-
+library(gplots)
+library(ggplot2)
 brain.only.order=read.table("../../Dropbox/brain.only.order.txt")[,1]
 exclude.brain.order=read.table("../../Dropbox/excludebrainorder.txt")[,1]
 all.tissue.order=read.table("../../Dropbox/alltissueorder.txt")[,1]
@@ -269,7 +270,7 @@ rownames(shared.fold.size.brainonly)=colnames(lfsr.brainonly)
 
 We could also try this with the orders induced from sharing by effect size:
 
-```{r effectorderfoldsigalltissue,echo=F}
+```{r effectorderfoldsigalltissue,echo=F,fig.height=5,fig.width=5}
 library('colorRamps')
 brain.only.order=read.table("../../Dropbox/brain.only.order.txt")[,1]
 exclude.brain.order=read.table("../../Dropbox/excludebrainorder.txt")[,1]

@@ -1,14 +1,10 @@
 ---
-title: "ShowTissueSpecificPatterns"
+title: "expranalysisold"
 output: html_document
 ---
 
-Check to see if the QTLs have expression values that are tissue-specific. Here, I show densitys of the normalized effects for susbets of genes, where the normalized effects are defined as:
 
-$$normspec=log.rpkm[tspecgenes,tissueofinterest]/log.rpkm[tspecgenes,othertissues]$$
-$$normother=log.rpkm[nontspecgenes,tissueofinterest]/log.rpkm[nontspecgenes,othertissues]$$
-
-You can see that though the extreme values differ, if we plot the density excluding the top and bottom 1% of data, we get very reasonable overlap of distributions.
+Check to see if the QTLs have expression values that are tissue-specific.
 
 ```{r, cache=TRUE,echo=FALSE}
 library('knitr')
@@ -35,13 +31,14 @@ a=match(qtl.names,rownames(expr.sort))###in order to make sure the gene names ar
 
 expr.sort=expr.sort[a,]
 
-
+head(rownames(expr.sort))[1:5]
+head(rownames(lfsr))[1:5]
 missing.tissues=c(7,8,19,20,24,25,31,34,37)
 exp.sort=expr.sort[,-missing.tissues]
 colnames(exp.sort)=colnames(maxz)
 ```
 
-```{r definefunc,echo=FALSE}
+```{r definefunc}
 plot_tissuespecific = function(tissuename,lfsr,curvedata,title,thresh=0.05,subset=1:44){
   index_tissue=which(colnames(lfsr) %in% tissuename);
   ybar=title
@@ -75,9 +72,7 @@ plot_tissuespecifictwo = function(tissuename,lfsr,curvedata,title,thresh=0.05,su
   xmax=max(upper.quant,upper.quant.other)
 plot(density(as.numeric(norm.other[norm.other<upper.quant.other&norm.other>=lower.quant.other])),
      ,#,nclass=1000,freq=F,
-     #main=paste0("Non",tissuename,"SpecificGenes"),
-     main=tissuename,
-     xlim=c(xmin,xmax))
+     main=paste0("Non",tissuename,"SpecificGenes"),xlim=c(xmin,xmax))
 lines(density(as.numeric(norm.spec[norm.spec<upper.quant&norm.spec>=lower.quant])),col="red",main=paste0(tissuename,"SpecificGenes"))
  
 #   hist(as.numeric(norm.other[norm.other<upper.quant.other&norm.other>=lower.quant.other]),nclass=1000,freq=F,xlim=c(xmin,xmax))
@@ -131,5 +126,103 @@ compare.distribution(tissuename = "Muscle_Skeletal",lfsr = lfsr,curvedata = log(
 plot_tissuespecifictwo(tissuename = "Muscle_Skeletal",lfsr = lfsr,curvedata = log(exp.sort),title = "Test",thresh = 0.05 )
 ```
 
+```{r}
+
+bar_example=function(gene.name,expr.sort)
+  {
+  index=which(rownames(expr.sort)==gene.name)
+  barplot(as.matrix(expr.sort[index,]),las=2,main=gene.name,cex.names=0.5)
+  }
+```
+
+Check testis: 
+```{r}
+library('qtlcharts')
+plot_tissuespecific("Testis",lfsr,log(exp.sort),"log(exp.sort)",thresh=0.05,subset=1:44)
+```
+
+Show that they are eQTL:
+```{r}
+library('qtlcharts')
+plot_tissuespecific("Testis",lfsr,pmash,"eQTLEffect",thresh=0.05,subset=1:44)
+```
+
+Check Whole Blood
+```{r}
+library('qtlcharts')
+plot_tissuespecific("Whole_Blood",lfsr,log(exp.sort),"log(exp.sort)",thresh=0.05,subset=1:44)
+```
+
+
+QTLplot
+```{r}
+plot_tissuespecific("Whole_Blood",lfsr,pmash,"eQTLEffect",thresh=0.05,subset=1:44)
+```
+
+Check Thyroid
+```{r}
+library('qtlcharts')
+plot_tissuespecific("Thyroid",lfsr,log(exp.sort),"log(exp.sort)",thresh=0.05,subset=1:44)
+```
+
+
+QTLplot
+```{r}
+plot_tissuespecific("Thyroid",lfsr,pmash,"eQTLEffect",thresh=0.05,subset=1:44)
+```
+
+
+Check Transformed Fibroblasts
+```{r}
+library('qtlcharts')
+plot_tissuespecific("Cells_Transformed_fibroblasts",lfsr,log(exp.sort),"log(exp.sort)",thresh=0.05,subset=1:44)
+```
+
+
+QTLplot
+```{r}
+plot_tissuespecific("Cells_Transformed_fibroblasts",lfsr,pmash,"eQTLEffect",thresh=0.05,subset=1:44)
+```
+
+Check Muscle_Skeletal
+```{r}
+library('qtlcharts')
+plot_tissuespecific("Muscle_Skeletal",lfsr,log(exp.sort),"log(exp.sort)",thresh=0.05,subset=1:44)
+```
+
+
+QTLplot
+```{r}
+plot_tissuespecific("Muscle_Skeletal",lfsr,pmash,"eQTLEffect",thresh=0.05,subset=1:44)
+```
+
+I am not seeing evidence of tissue specific expression.
+
+##Check for our select examples:
+
+These examples were quantitatively specific in WB:
+```{r, whole.blood,cache=T}
+
+gene.name="ENSG00000120029.8"
+bar_example(gene.name,log(expr.sort))
+```
+
+and Qualitatively specific in Whole Blood:
+
+```{r qualspecificwb, cache=T}
+gene.name="ENSG00000078114.14"
+bar_example(gene.name,log(expr.sort))
+```
+
+Testis qualitative:
+
+
+```{r testis,cache=T}
+
+gene.name="ENSG00000059588.5"
+bar_example(gene.name,log(expr.sort))
+```
+
+So tissue-specificitiy in expression is the exception not the rule, and our examples are good.
 
 

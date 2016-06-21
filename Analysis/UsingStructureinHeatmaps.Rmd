@@ -31,6 +31,9 @@ We can see that just 5 matrices appear to receive the majority of the prior weig
 ```
 
 ```{r message=FALSE, warning=FALSE, echo=FALSE}
+
+hclust.2=function (d, method = "average", members = NULL) {hclust(d, method, members)}
+
 library(gplots)
 library(ggplot2)
 #install.packages("fields")
@@ -40,7 +43,7 @@ for(k in 2:9){
   colnames(x)=colnames(z.stat)
   rownames(x)=colnames(z.stat)
 
-heatmap.2(x/max(diag(covmat[[k]])),symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
+heatmap.2(x/max(diag(covmat[[k]])),symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T,hclustfun=hclust.2)
 
 }
  
@@ -48,6 +51,7 @@ heatmap.2(x/max(diag(covmat[[k]])),symm=TRUE,dendrogram="none",density="none",tr
 We can see that the first and most important matrix shows highly correlated genetic effects in brain and that the largest effects are correspondingly also seen in brain:
 
 ```{r order of importance}
+colors=read.table("../Data/gtexcolors.txt")
 k=3
 colnames(z.stat)[order(diag(covmat[[k]]),decreasing = TRUE)][1:10]
 barplot(sort(diag(covmat[[k]])/max(diag(covmat[[k]])),decreasing=TRUE),names=colnames(z.stat)[order(diag(covmat[[k]]),decreasing=TRUE)],las=2,col=c(rep("green",11),rep("orange",11),rep("magenta",11),rep("red",11)),main=paste0("PriorEffectSizeUk",k),cex.names = 0.5)
@@ -82,7 +86,8 @@ for(k in important){
   x=cov2cor(covmat[[k]])
   colnames(x)=colnames(z.stat)
   rownames(x)=colnames(z.stat)
-heatmap.2(x,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofCov2CorU_k",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
+heatmap.2(x,symm=TRUE,dendrogram="none",density="none",trace="none",col=blue2green(256),main=paste0("HeatMapofCov2CorU_k",k),cexRow=0.5,cexCol=0.5)
+symkey=T,symbreaks=T)
 }
  
 ```
