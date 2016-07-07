@@ -315,9 +315,9 @@ $$n_{jeff}=\frac{s_{j}^2}{\tilde{s_{j}^2}}$$
 
 ```{r effectivesample}
 #original.var=as.matrix(standard.error.from.z)^2
-original.var=standard.error.from.z/standard.error.from.z
+original.var=(standard.error.from.z/standard.error.from.z)^2
 size=as.matrix(exp.sort)
-post.var=as.matrix(marginal.var)#*standard.error.from.z^2
+post.var=as.matrix(marginal.var)*standard.error.from.z^2
 njeffective=size*original.var/post.var
 
 

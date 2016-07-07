@@ -60,10 +60,13 @@ newfunc.2=function(j){
 gtex.colors=read.table('../Data/GTExColors.txt', sep = '\t', comment.char = '')[-missing.tissues,2]
 
 title=strsplit(rownames(pm.beta.norm)[j], "[.]")[[1]][1]
-xmins=min(as.numeric(b.stat[j,]),as.numeric(posterior.betas[j,]))
-xmax=max(as.numeric(b.stat[j,]),as.numeric(posterior.betas[j,]))
-barplot(as.numeric(b.stat[j,]),col = as.character(gtex.colors),las=2,main=paste0("Bhat",title),ylim= c(xmins-0.1, xmax + 0.1))
+#xmins=min(as.numeric(b.stat[j,]),as.numeric(posterior.betas[j,]))
+#xmax=max(as.numeric(b.stat[j,]),as.numeric(posterior.betas[j,]))
+#barplot(as.numeric(b.stat[j,]),col = as.character(gtex.colors),las=2,main=paste0("Bhat",title),ylim= c(xmins-0.1, xmax + 0.1))
+barplot(as.numeric(z.stat[j,]),col = as.character(gtex.colors),las=2,main=paste0("Z.mle",title))#,ylim= c(xmins-0.1, xmax + 0.1))
 x=as.numeric(posterior.betas[j,])
+xmins=min(x)
+xmax=max(x)
 bp <- barplot(x, ylim = c(xmins-0.1, xmax + 0.1),col = as.character(gtex.colors),las=2,main=paste0("E(B|Data)",title),names=abr.names,cex.names=0.5)
 text(bp, x, 
   labels = symnum(as.numeric(lfsr[j,]), cutpoints = c(0, 0.05, 1),   symbols = c(".", "")), pos = 3)
@@ -106,6 +109,12 @@ barplot(v[,1]*sign(v[which.max(abs(v[,1])),1]),las=2,main=paste("Eigenvector 1 o
 newfunc(t=five.ex)
 ```
 
+Old example:
+```{r oldex5}
+testes.spec=which(rowSums(pm.beta.norm[,-40]<0.5)==43&(rowSums(lfsr[,1:44]<0.05)>=40))[1:10]
+
+newfunc.2(five.ex)
+```
  Lastly, the inclusion of the eQTLBMA lite configurations (in which the SNP has a non-zero effect in only one tissue) coupled with the learned patterns of tissue specificity evident in matrices Uk : 5 − 9 serve to allow the preservation of qualitatively specific effects. Here, we show a gene-snp pair demonstrating strong posterior probability from arising from one of the eQTL-bma lite configs. Accordingly we reject the significance of the effect size estimates in all tissues but testes, a pattern consistent with the presence of tissue-specificity described below. Together, these results cement the resolution afforded by methods which can distinguish among tissues in which a QTL is called active, beyond reducing genetic effects to binary ‘on’ or ‘off’ conclusions.
 
 

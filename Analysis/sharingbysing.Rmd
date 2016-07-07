@@ -1,23 +1,17 @@
 ---
-title: "sharedsigeffects"
+title: "sharedsign"
 output: html_document
 ---
+
 
 Perform the analysis with separate analyses:
 ```{r setup, include=FALSE}
 library('knitr')
 knitr::opts_chunk$set(cache=TRUE)
 opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/") 
-
-# 
-# my_png = function(file, width, height) {
-#   png(file, width = width, height = height, units = 'cm', res = 300)
-# }
-# 
-# knitr::opts_chunk$set(dev = 'my_png', fig.ext = 'png')
 ```
 
-```{r separate,echo=FALSE}
+```{r dataloadsharingbysignseparate,echo=FALSE}
 library(gplots)
 library(ggplot2)
 
@@ -57,7 +51,7 @@ all.tissue.order=read.table("../../Dropbox/alltissueorder.txt")[,1]
 ```
 
 
-```{r sep.foldchange.sig,echo=FALSE}
+```{r sharingbysigngenerate,echo=FALSE,}
 thresh=0.05
 
 
@@ -72,7 +66,7 @@ for(i in 1:ncol(lfsr.mash)){
     #quotient=abs(pm.mash.beta[a,i]/pm.mash.beta[a,j])
     quotient=(pm.mash.beta[a,i]/pm.mash.beta[a,j])##divide effect sizes
     ##divide effect sizes
-    shared.fold.size[i,j]=mean(quotient>0.5&quotient<2)
+    shared.fold.size[i,j]=mean(quotient>0)
    
   }}
 
@@ -93,7 +87,7 @@ for(i in 1:ncol(lfsr.nobrain)){
     a=(union(sig.row,sig.col))
     #quotient=abs(pm.mash.nobrain[a,i]/pm.mash.nobrain[a,j])
     quotient=(pm.mash.nobrain[a,i]/pm.mash.nobrain[a,j])##divide effect sizes
-    shared.fold.size.nobrain[i,j]=mean(quotient>0.5&quotient<2)
+    shared.fold.size.nobrain[i,j]=mean(quotient>0)
   }}
 
 
@@ -113,7 +107,7 @@ for(i in 1:ncol(lfsr.brainonly)){
     a=(union(sig.row,sig.col))
     #quotient=abs(pm.mash.brain.only[a,i]/pm.mash.brain.only[a,j])
     quotient=(pm.mash.brain.only[a,i]/pm.mash.brain.only[a,j])##divide effect sizes
-    shared.fold.size.brainonly[i,j]=mean(quotient>0.5&quotient<2)
+    shared.fold.size.brainonly[i,j]=mean(quotient>0)
   }
 
 }
@@ -142,7 +136,7 @@ rownames(shared.fold.size.brainonly)=colnames(lfsr.brainonly)
 
 We could also try this with the orders induced from sharing by effect size:
 
-```{r effectorderfoldsig,echo=F,fig.height=5,fig.width=5}
+```{r sharingbysignseparate,echo=F}
 library('colorRamps')
 library(gplots)
 library(ggplot2)
@@ -151,48 +145,43 @@ exclude.brain.order=read.table("../../Dropbox/excludebrainorder.txt")[,1]
 all.tissue.order=read.table("../../Dropbox/alltissueorder.txt")[,1]
 
 
-heatmap.2(shared.fold.size[(all.tissue.order),all.tissue.order],Rowv=FALSE,Colv=FALSE,
-          symm=TRUE,dendrogram="none",density="none",trace="none",#col=redblue,
-          col=blue2green,main=paste0("eQTL in either tissues and within 2-fold,SUB"),
-          cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))
-          
-mtext("Defined as QTL if LFSR<0.05")
-heatmap.2(shared.fold.size.nobrain[(exclude.brain.order),exclude.brain.order],Rowv=FALSE,Colv=FALSE,
-          symm=TRUE,dendrogram="none",density="none",trace="none",col=blue2green,main=paste0("eQTL in either tissues and within 2-fold,SUB"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))$rowInd
-mtext("Defined as QTL if LFSR<0.05")
-
-heatmap.2(shared.fold.size.brainonly[(brain.only.order),brain.only.order],Rowv=FALSE,Colv=FALSE,
-        symm=TRUE,dendrogram="none",density="none",trace="none",col=blue2green,main=paste0("eQTL in either tissues and within 2-fold,SUB"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))$rowInd
-mtext("Defined as QTL if LFSR<0.05")
-
-##try with upper triangular
-
 smat=shared.fold.size[(all.tissue.order),(all.tissue.order)]
 smat[lower.tri(smat)] <- NA
 
+
+# smat=shared.fold.size[(h$rowInd),(h$rowInd)]
+# smat[lower.tri(smat)] <- NA
+
 heatmap.2(smat,Rowv=FALSE,Colv=FALSE,
           symm=TRUE,dendrogram="none",density="none",trace="none",#col=redblue,
-          col=blue2green,main=paste0("eQTL in either tissues and within 2-fold,SUB"),
-          cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))
-
+          col=blue2green,main=paste0("Pairwise Sharing by Sign"),
+          cexRow=0.5,cexCol=1,cex.main=0.5,breaks=seq(0.35,1,0.01),labCol=NA)
 
 all.tissue.order=read.table("uk3rowindices.txt")[,1]
 smat=shared.fold.size[(all.tissue.order),(all.tissue.order)]
 smat[lower.tri(smat)] <- NA
+heatmap.2(smat,Rowv=FALSE,Colv=FALSE,
+          symm=TRUE,dendrogram="none",density="none",trace="none",#col=redblue,
+          col=blue2green,main=paste0("Pairwise Sharing by Sign"),
+          cexRow=0.5,cexCol=1,cex.main=0.5,breaks=seq(0.35,1,0.01),labCol=NA)
 
-heatmap.2(smat,#symm=TRUE,
-          Rowv=FALSE,Colv=FALSE,
-          dendrogram="none",density="none",trace="none",#col=redblue,
-          col=blue2green(256),
-          main=paste0("Cov2CortUk3"),
-          cexRow=0.5,cexCol=0.5,cex.main=0.5)
+
+
+
+heatmap.2(shared.fold.size.nobrain[rev(exclude.brain.order),exclude.brain.order],Rowv=FALSE,Colv=FALSE,
+          symm=TRUE,dendrogram="none",density="none",trace="none",col=blue2green,main=paste0("eQTL in either tissues and Same Sign,SUB"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))$rowInd
+mtext("Defined as QTL if LFSR<0.05")
+
+heatmap.2(shared.fold.size.brainonly[rev(brain.only.order),brain.only.order],Rowv=FALSE,Colv=FALSE,
+        symm=TRUE,dendrogram="none",density="none",trace="none",col=blue2green,main=paste0("eQTL in either tissues and Same Sign,SUB"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))$rowInd
+mtext("Defined as QTL if LFSR<0.05")
 ```
 
 
 
 Repeat with all
 
-```{r alltissuesignif, echo=FALSE}
+```{r alltissuebysignglobal, echo=FALSE}
 lfsr.mash=read.table("../../Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
 pm.mash=as.matrix(read.table("../../Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1])
 pm.mash.beta=pm.mash*standard.error
@@ -231,7 +220,7 @@ for(i in 1:ncol(lfsr.mash)){
     a=(union(sig.row,sig.col))
     #quotient=abs(pm.mash.beta[a,i]/pm.mash.beta[a,j])
     quotient=(pm.mash.beta[a,i]/pm.mash.beta[a,j])##divide effect sizes
-    shared.fold.size[i,j]=mean(quotient>0.5&quotient<2)
+    shared.fold.size[i,j]=mean(quotient>0)
   }}
 
 
@@ -251,7 +240,7 @@ for(i in 1:ncol(lfsr.nobrain)){
     a=(union(sig.row,sig.col))
     #quotient=abs(pm.mash.nobrain[a,i]/pm.mash.nobrain[a,j])##divide effect sizes
     quotient=(pm.mash.nobrain[a,i]/pm.mash.nobrain[a,j])
-    shared.fold.size.nobrain[i,j]=mean(quotient>0.5&quotient<2)
+    shared.fold.size.nobrain[i,j]=mean(quotient>0)
   }}
 
 
@@ -271,7 +260,7 @@ for(i in 1:ncol(lfsr.brainonly)){
     a=(union(sig.row,sig.col))
     #quotient=abs(pm.mash.brain.only[a,i]/pm.mash.brain.only[a,j])
     quotient=(pm.mash.brain.only[a,i]/pm.mash.brain.only[a,j])##divide effect sizes
-    shared.fold.size.brainonly[i,j]=mean(quotient>0.5&quotient<2)
+    shared.fold.size.brainonly[i,j]=mean(quotient>0)
   }
 
 }
@@ -300,57 +289,31 @@ rownames(shared.fold.size.brainonly)=colnames(lfsr.brainonly)
 
 We could also try this with the orders induced from sharing by effect size:
 
-```{r effectorderfoldsigalltissue,echo=F}
-
+```{r sharingbysignglobalheatmap,echo=F,fig.height=5,fig.width=5}
 library('colorRamps')
 brain.only.order=read.table("../../Dropbox/brain.only.order.txt")[,1]
-
 exclude.brain.order=read.table("../../Dropbox/excludebrainorder.txt")[,1]
 all.tissue.order=read.table("../../Dropbox/alltissueorder.txt")[,1]
 
-heatmap.2(shared.fold.size[(all.tissue.order),all.tissue.order],Rowv=FALSE,Colv=FALSE,
+heatmap.2(shared.fold.size[rev(all.tissue.order),all.tissue.order],Rowv=FALSE,Colv=FALSE,
           symm=TRUE,dendrogram="none",density="none",trace="none",col=blue2green,main=paste0("eQTL in either tissues and within 2-fold,GLOBAL"),
           cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))
 
 mtext("Defined as QTL if LFSR<0.05")
 
-heatmap.2(shared.fold.size.nobrain[(exclude.brain.order),exclude.brain.order],Rowv=FALSE,Colv=FALSE,
+heatmap.2(shared.fold.size.nobrain[rev(exclude.brain.order),exclude.brain.order],Rowv=FALSE,Colv=FALSE,
           symm=TRUE,dendrogram="none",density="none",trace="none",col=blue2green,main=paste0("eQTL in either tissues and within 2-fold,GLOBAL"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))$rowInd
 mtext("Defined as QTL if LFSR<0.05")
 
-heatmap.2(shared.fold.size.brainonly[(brain.only.order),brain.only.order],Rowv=FALSE,Colv=FALSE,
+heatmap.2(shared.fold.size.brainonly[rev(brain.only.order),brain.only.order],Rowv=FALSE,Colv=FALSE,
         symm=TRUE,dendrogram="none",density="none",trace="none",col=blue2green,main=paste0("eQTL in either tissues and within 2-fold,GLOBAL"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))$rowInd
 mtext("Defined as QTL if LFSR<0.05")
-
-smat=shared.fold.size[(all.tissue.order),(all.tissue.order)]
-smat[lower.tri(smat)] <- NA
-
-heatmap.2(smat,Rowv=FALSE,Colv=FALSE,
-          symm=TRUE,dendrogram="none",density="none",trace="none",#col=redblue,
-          col=blue2green,main=paste0("Pairwise Sharing by Magnitude"),
-          cexRow=0.5,cexCol=1,cex.main=0.5,breaks=seq(0.35,1,0.01),labCol=NA)
-
-
-all.tissue.order=read.table("uk3rowindices.txt")[,1]
-smat=shared.fold.size[(all.tissue.order),(all.tissue.order)]
-smat[lower.tri(smat)] <- NA
-
-heatmap.2(smat,Rowv=FALSE,Colv=FALSE,
-          symm=TRUE,dendrogram="none",density="none",trace="none",#col=redblue,
-          col=blue2green,main=paste0("Pairwise Sharing by Magnitude"),
-          cexRow=0.5,cexCol=1,cex.main=0.5,breaks=seq(0.35,1,0.01),labCol=NA)
-
-
-heatmap.2(shared.fold.size[(all.tissue.order),all.tissue.order],Rowv=FALSE,Colv=FALSE,
-          symm=TRUE,dendrogram="none",density="none",trace="none",col=blue2green,main=paste0("eQTL in either tissues and within 2-fold,GLOBAL"),
-          cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))
-
 ```
 
 
 Tissuespecific by effect:
 
-```{r barplotspec,echo=FALSE}
+```{r barplotspecwithsign,echo=FALSE}
 rm(pm.mash.beta)
 rm(lfsr.mash)
 
@@ -392,20 +355,30 @@ tspec=as.matrix(tspec);rownames(tspec)=colnames(maxz)
 
 barplot(t(tspec),main=paste0("Number of eQTL with Bjnorm>0.5 in one Tissue"),las=2,cex.names=0.5)
 
+###Now plot the number of normalized effects greater than 0 for each tissue
 
-
-###Now plot the number of normalized effects greater than 0.5 for each tissue, given that those effects were significant in only one tissue
-
-b=which(rowSums(lfsr.mash<0.05)==1&rowSums(pm.mash.beta.norm>0.5)==1)
-#lfsr.fold=as.matrix(lfsr.mash[b,])
-#pm=as.matrix(pm.mash.beta.norm[b,])
-tspec=NULL
+a=which(rowSums(pm.mash.beta.norm>0)==1)
+lfsr.fold=as.matrix(lfsr.mash[a,])
+pm=as.matrix(pm.mash.beta.norm[a,])
+tspecsign=NULL
 for(i in 1:ncol(pm)){
-  tspec[i]=sum(pm.mash.beta.norm[b,i]>0.5&lfsr.mash[b,]<0.05)}##check to see that the effect is significant and greater than 0.5 max effect in only that tissue
+  #tspec[i]=sum(lfsr.fold[,i]<0.05&pm[,i]>0.5)
+  tspecsign[i]=sum(pm[,i]>0)
+  }##check to see that the effect is significant and greater than 0.5 max effect in only that tissue
 
-tspec=as.matrix(tspec);rownames(tspec)=colnames(maxz)
+tspecsign=as.matrix(tspecsign);rownames(tspecsign)=colnames(maxz)
 
-barplot(t(tspec),main=paste0("Number of eQTL with LFSR<0.05 in only one tissue and Bjnorm>0.5 in one Tissue"),las=2,ylim=c(0,500))
+barplot(t(tspecsign),main=paste0("Number of eQTL with Bjnorm>0 in one Tissue"),las=2,cex.names=0.5,ylim=c(0,500))
+
+
+
 ```
 
+
+Also, plot the number of tissues in which a gene has the same sign:
+
+```{r}
+samesign=apply(pm.mash.beta.norm,1,function(x){sum(x>0)})
+hist(samesign,main="",xlab="NumberofTissues",breaks=0.5:44.5,col="grey",freq=FALSE,xaxt="n")
+axis(1, at=seq(1, 44, by=1), labels=c(1:44))
 

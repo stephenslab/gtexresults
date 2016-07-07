@@ -3,7 +3,7 @@ title: "ShowTissueSpecificPatterns"
 output: html_document
 ---
 
-Check to see if the QTLs have expression values that are tissue-specific. Here, I show densitys of the normalized effects for susbets of genes, where the normalized effects are defined as:
+Check to see if the QTLs have expression values that are tissue-specific. Here, I show densities of the normalized effects for susbets of genes, where the normalized effects are defined as:
 
 $$normspec=log.rpkm[tspecgenes,tissueofinterest]/log.rpkm[tspecgenes,othertissues]$$
 $$normother=log.rpkm[nontspecgenes,tissueofinterest]/log.rpkm[nontspecgenes,othertissues]$$
@@ -63,8 +63,8 @@ plot_tissuespecifictwo = function(tissuename,lfsr,curvedata,title,thresh=0.05,su
   #iplotCurves(curvedata[sigs,subset],chartOpts=list(curves_xlab="Tissue",curves_ylab=ybar))
   #norm=curvedata[sigs,]/curvedata[sigs,index_tissue]
   #boxplot(norm,las=2)
-  norm.spec=t(apply(curvedata[sigs,],1,function(x){x[index_tissue]/x}))
-  norm.other=t(apply(curvedata[-sigs,],1,function(x){x[index_tissue]/x}))
+  norm.spec=t(apply(curvedata[sigs,],1,function(x){x[index_tissue]/(x)}))
+  norm.other=t(apply(curvedata[-sigs,],1,function(x){x[index_tissue]/(x)}))
   summary(unlist(as.numeric(norm.spec)))
   summary(unlist(as.numeric(norm.other)))
   norm.other=unlist(as.numeric(norm.other))
@@ -87,8 +87,8 @@ compare.distribution=function(tissuename,curvedata,lfsr,thresh=0.05){
     index_tissue=which(colnames(lfsr) %in% tissuename);
     sigmat = lfsr <= thresh;
   sigs=which(rowSums(sigmat[,index_tissue,drop=FALSE])==length(tissuename) & rowSums(sigmat[,-index_tissue,drop=FALSE])==0)
-  norm.spec=t(apply(curvedata[sigs,],1,function(x){x[index_tissue]/x}))##divide special tissue by other tissue effects for numsigxR matrix
-  norm.other=t(apply(curvedata[-sigs,],1,function(x){x[index_tissue]/x}))
+  norm.spec=t(apply(curvedata[sigs,],1,function(x){x[index_tissue]/(x)}))##divide special tissue by other tissue effects for numsigxR matrix
+  norm.other=t(apply(curvedata[-sigs,],1,function(x){x[index_tissue]/(x)}))
 
   norm.other=unlist(as.numeric(norm.other))
   norm.spec=unlist(as.numeric(norm.spec))

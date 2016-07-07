@@ -1,0 +1,48 @@
+---
+title: "eigencol"
+output: html_document
+---
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+library('knitr')
+
+knitr::opts_chunk$set(cache=TRUE)
+opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/") 
+```
+
+```{r eveccolored}
+pis=readRDS("../Data/pisAug13withED.rds")$pihat
+pi.mat.mash=matrix(pis,ncol=54,byrow = T)
+abr.names=read.table("../Data/abbreviate.names.txt")[,-1]
+covmat=readRDS("../Data/covmatAug13withED.rds")
+missing.tissues=c(7,8,19,20,24,25,31,34,37)
+color.gtex=read.table("../Data/GTExColors.txt",sep = '\t', comment.char = '')[-missing.tissues,2]
+
+significantUK=order(colSums(pi.mat.mash),decreasing = T)[1:6]
+
+par(mfrow=c(2,3))
+par(mar=c(4,3,2,1))
+for(i in significantUK){
+  
+v=svd(covmat[[i]])$v
+  colnames(v)=rownames(v)=abr.names
+max.effect=sign(v[,1][which.max(abs(v[,1]))])
+barplot(max.effect*v[,1],las=2,main=paste0("EigenVector1ofUk=",i,",pihat=",round(colSums(pi.mat.mash)[i],2)),#main=ifelse(i!=5,paste0("EigenVector1ofUk=",i),""),ylab=ifelse(i==5,paste0("EigenVector1ofUk=",i),""),
+        col=as.character(color.gtex),axisnames=ifelse(i==2,TRUE,FALSE),cex.names=ifelse(i==2,0.4,NULL))
+#if(i==5) { mtext(paste0("EigenVector1ofUk=",i))}
+}
+
+
+```
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

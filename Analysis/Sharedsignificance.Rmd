@@ -95,18 +95,18 @@ all.tissue.order=heatmap.2(shared,##Rowv=FALSE,Colv=FALSE,
           cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))$rowInd
 
 mtext("Defined as QTL if LFSR<0.05")
-write.table(all.tissue.order,"../../Dropbox/alltissueorder.txt",col.names = F,row.names = F)
+#write.table(all.tissue.order,"../../Dropbox/alltissueorder.txt",col.names = F,row.names = F)
 
 excludebrainorder=heatmap.2(shared.nobrain,##Rowv=FALSE,Colv=FALSE,
           symm=TRUE,dendrogram="none",density="none",trace="none",col=blue2green,main=paste0("eQTL Shared,excludingBrainSEP"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))$rowInd
 mtext("Defined as QTL if LFSR<0.05")
-write.table(excludebrainorder,"../../Dropbox/excludebrainorder.txt",col.names = F,row.names = F)
+#write.table(excludebrainorder,"../../Dropbox/excludebrainorder.txt",col.names = F,row.names = F)
 
 brainorder=heatmap.2(shared.brainonly,##Rowv=FALSE,Colv=FALSE,
          symm=TRUE,dendrogram="none",density="none",trace="none",col=blue2green,main=paste0("eQTL Shared,Brain OnlySEP"),cexRow=0.5,cexCol=0.5,cex.main=0.5,breaks=seq(0.35,1,0.01))$rowInd
 mtext("Defined as QTL if LFSR<0.05")
 
-write.table(brainorder,"../../Dropbox/brain.only.order.txt",col.names = F,row.names = F)
+#write.table(brainorder,"../../Dropbox/brain.only.order.txt",col.names = F,row.names = F)
 ```
 
 We could also try this with the orders induced from sharing by effect size:
@@ -143,18 +143,23 @@ Repeat with all
 
 ```{r alltissuesign, echo=FALSE}
 
-
+sigmat=lfsr.all<0.05
 rm(lfsr.brainonly)
 rm(lfsr.nobrain)
 
+##now restrict to same sign and significant
 thresh=0.05
-
+post.means=read.table("../Data/Aug13withEDposterior.means.txt")[,-1]
+post.means=post.means[rowSums(sigmat)>0,]
 shared=matrix(NA,nrow = ncol(lfsr.mash),ncol=ncol(lfsr.mash))
 for(i in 1:ncol(lfsr.mash)){
   for(j in 1:ncol(lfsr.mash)){
     sig.row=which(lfsr.mash[,i]<thresh)
     sig.col=which(lfsr.mash[,j]<thresh)
-    shared[i,j]=length(intersect(sig.row,sig.col))/length(union(sig.row,sig.col))
+    intersect.indices=intersect(sig.row,sig.col)###gives you the shared genes
+    sign.int=sign(post.means[intersect.indices,i]*post.means[intersect.indices,j])
+    shared[i,j]=length(which(sign.int>0))/length(union(sig.row,sig.col))
+    #shared[i,j]=length(intersect(sig.row,sig.col))/length(union(sig.row,sig.col))
   }
 
 }
@@ -239,8 +244,9 @@ library(ggplot2)
 brain.only.order=read.table("../../Dropbox/brain.only.order.txt")[,1]
 exclude.brain.order=read.table("../../Dropbox/excludebrainorder.txt")[,1]
 all.tissue.order=read.table("../../Dropbox/alltissueorder.txt")[,1]
+##make sure ordering right
 
-
+##now restrict to the same sign and intersect
 
 heatmap.2(shared[rev(all.tissue.order),all.tissue.order],Rowv=FALSE,Colv=FALSE,
           symm=TRUE,dendrogram="none",density="none",trace="none",#col=redblue,

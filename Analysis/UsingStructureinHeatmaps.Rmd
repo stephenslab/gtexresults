@@ -43,7 +43,8 @@ for(k in 2:9){
   colnames(x)=colnames(z.stat)
   rownames(x)=colnames(z.stat)
 
-heatmap.2(x/max(diag(covmat[[k]])),symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T,hclustfun=hclust.2)
+heatmap.2(x/max(diag(covmat[[k]])),symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
+,hclustfun=hclust.2)
 
 }
  
