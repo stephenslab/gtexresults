@@ -1,6 +1,6 @@
 ---
 title: "StandardError"
-output: html_document
+output: pdf_document
 ---
 
 The aim of this document is to investigate the correlation of standard error and sample size, and to show how the presence of small sample sizes and large standard errors in biologically 'unique' tissues drives incompatibilities between the fold-size sharing heatmap and significance sharing heatmap.
@@ -314,12 +314,14 @@ Now let's plot effective sample size. Recall:
 $$n_{jeff}=\frac{s_{j}^2}{\tilde{s_{j}^2}}$$
 
 ```{r effectivesample}
-#original.var=as.matrix(standard.error.from.z)^2
-original.var=(standard.error.from.z/standard.error.from.z)^2
+original.var=as.matrix(standard.error.from.z)^2
+#original.var=(standard.error.from.z/standard.error.from.z)^2
 size=as.matrix(exp.sort)
 post.var=as.matrix(marginal.var)*standard.error.from.z^2
 njeffective=size*original.var/post.var
 
+gtex.colors=read.table('../Data/GTExColors.txt', sep = '\t', comment.char = '')[-missing.tissues,2]
+missing.tissues=c(7,8,19,20,24,25,31,34,37)
 
 ##ask why some of the origianl variancres are smaller than posterior variances, even though calculations are right (e.g. 16012, 44)
 ###15093  44
@@ -329,13 +331,62 @@ increase=njeffective/size
 barplot(sort(apply(increase,2,median),decreasing=F),las=2,cex.names=0.4)
 title("Median(Nj_effective/Nj_original)")
 
+
+
 barplot(sort(apply(njeffective,2,median),decreasing=F),cex.names=0.4,las=2)
+title("MedianNj_effective")
+
+barplot(sort(apply(increase,2,median),decreasing=F),las=2,col=as.character(gtex.colors[order(apply(increase,2,median),decreasing=F)]))
+title("Median(Nj_effective/Nj_original)")
+
+barplot(sort(apply(njeffective,2,median),decreasing=F),cex.names=0.4,las=2,col=as.character(gtex.colors[order(apply(njeffective,2,median),decreasing=F)]))
+title("MedianNj_effective")
+
+```
+
+
+Let's plot again with order by original sample size:
+```{r reorderedbyoriginal}
+
+par(mfrow=c(1,2))
+samplesize=apply(size,2,function(x){unique(x)})
+sampleorder=order(samplesize,decreasing = T)
+median.nj.effective=apply(njeffective,2,median)
+median.nj.increase=apply(increase,2,median)
+
+par(mar=c(5.1,8,4.1,0.1))
+barplot(median.nj.effective[sampleorder],cex.names=0.4,las=2,col=as.character(gtex.colors[sampleorder]),horiz = T)
+title("MedianNj_effective",cex.main=0.8)
+par(mar=c(5.1,2,4.1,6))
+barplot(median.nj.increase[sampleorder],cex.names=0.4,las=2,col=as.character(gtex.colors[sampleorder]),horiz = T,names="",xlim=c(16,0))
+title("Median(Nj_effective/Nj_original)",cex.main=0.8)
+
+```
+
+Now, let's plot with shuffled indices:
+
+```{r,shuffleindices}
+##now reorder by tissue colors##
+
+uk3labels=read.table("../Analysis/uk3rowindices.txt")[,1]
+gtex.colors.shuffle=gtex.colors[uk3labels]
+
+
+##shuffleincrease
+
+increaseshuffle=increase[,uk3labels]
+barplot(apply(increaseshuffle,2,median),las=2,cex.names=0.4,col=as.character(gtex.colors.shuffle))
+title("Median(Nj_effective/Nj_original)")
+
+njeffectiveshuffle=njeffective[,uk3labels]
+
+barplot(apply(njeffectiveshuffle,2,median),cex.names=0.4,las=2,col=as.character(gtex.colors.shuffle))
 title("MedianNj_effective")
 ```
 
 
-Show that my results $$$V(B|D)=E(E(B^2|D,K))-E(E((B|D,k)$$
-are the same as $$V(B|D)=E(V(B|D,K))+V(E(B|D,k))$$
+Show that my results V(B|D)=E(E(B^2|D,K))-E(E((B|D,k)
+are the same as V(B|D)=E(V(B|D,K))+V(E(B|D,k))
 
 ```{r}
 

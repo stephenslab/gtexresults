@@ -1,6 +1,6 @@
 ---
 title: "sharedsign"
-output: html_document
+output: pdf_document
 ---
 
 
@@ -51,7 +51,7 @@ all.tissue.order=read.table("../../Dropbox/alltissueorder.txt")[,1]
 ```
 
 
-```{r sharingbysigngenerate,echo=FALSE,}
+```{r sharingbysigngenerate,echo=FALSE}
 thresh=0.05
 
 
@@ -136,7 +136,7 @@ rownames(shared.fold.size.brainonly)=colnames(lfsr.brainonly)
 
 We could also try this with the orders induced from sharing by effect size:
 
-```{r sharingbysignseparate,echo=F}
+```{r sharingbysignseparate,echo=F,fig.height=10,fig.width=10}
 library('colorRamps')
 library(gplots)
 library(ggplot2)
@@ -164,6 +164,16 @@ heatmap.2(smat,Rowv=FALSE,Colv=FALSE,
           symm=TRUE,dendrogram="none",density="none",trace="none",#col=redblue,
           col=blue2green,main=paste0("Pairwise Sharing by Sign"),
           cexRow=0.5,cexCol=1,cex.main=0.5,breaks=seq(0.35,1,0.01),labCol=NA)
+
+
+library('corrplot')
+missing.tissues=c(7,8,19,20,24,25,31,34,37)
+color.gtex=read.table("../Data/GTExColors.txt",sep = '\t', comment.char = '')[-missing.tissues,]
+col = as.character(color.gtex[,2])
+
+
+colnames(shared.fold.size)=NULL
+corrplot(shared.fold.size[(all.tissue.order),all.tissue.order],method="number",type="upper",cl.lim=c(0,1),tl.col=col[all.tissue.order],tl.cex=0.8,col=c(blue2green(256),blue2green(256)),main="")
 
 
 

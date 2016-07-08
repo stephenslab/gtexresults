@@ -1,6 +1,6 @@
 ---
 title: "heterogeneitywithandwithoutbrainformatthew"
-output: html_document
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
@@ -195,7 +195,7 @@ title("Number of Tissues >50% Max Effect,Subgroup", outer=TRUE)
 ### now make with all tissue effects
 
 
-par(mar=c(4,4.5,2,1))
+par(mar=c(4,4,2,1))
 par(oma=c(5,4,0,0) + 0.1)
 par(mfrow=c(1,3))
 
@@ -203,7 +203,7 @@ par(mfrow=c(1,3))
 sigmat=(lfsr<=thresh)
 nsig= rowSums(sigmat)
 
-hist((het.func(het.norm(effectsize=pm.mash.beta[nsig>0,]),threshold=0.5)),main="",xlab="",breaks=0.5:44.5,col="grey",freq=FALSE,ylim=c(0,0.6),xaxt="n")
+hist((het.func(het.norm(effectsize=pm.mash.beta[nsig>0,]),threshold=0.5)),main="",xlab="",breaks=0.5:44.5,col="grey",freq=FALSE,ylim=c(0,0.5),xaxt="n")
 axis(1, at=seq(1, 44, by=1), labels=c(1:44))#,ylim=c(0,0.6))#,ylim=c(0,0.6))
 mtext("All Tissues")
 
@@ -211,7 +211,7 @@ mtext("All Tissues")
 sigmat=(lfsr[,-c(7:16)]<=thresh)
 nsig= rowSums(sigmat)
 
-hist((het.func(het.norm(effectsize=pm.mash.beta[nsig>0,-c(7:16)]),threshold=0.5)),main="",xlab="",breaks=0.5:34.5,col="grey",freq=FALSE,ylim=c(0,0.60),xaxt="n")
+hist((het.func(het.norm(effectsize=pm.mash.beta[nsig>0,-c(7:16)]),threshold=0.5)),main="",xlab="",breaks=0.5:34.5,col="grey",freq=FALSE,ylim=c(0,0.65),xaxt="n")
 axis(1, at=seq(1, 34, by=1), labels=c(1:34))#,ylim=c(0,0.6))
 mtext("Non-Brain Tissues")
 
@@ -241,7 +241,7 @@ sigmat=(lfsr<=thresh)
 nsig= rowSums(sigmat)
 
 hist(sign.func(het.norm(effectsize=pm.mash.beta[nsig>0,])),main="",xlab="",breaks=0.5:44.5,col="grey",freq=FALSE,#ylim=c(0,0.4),
-     xaxt="n",ylim=c(0,0.6))
+     xaxt="n",ylim=c(0,0.5))
 axis(1, at=seq(1, 44, by=1), labels=c(1:44))#,ylim=c(0,0.6))
 mtext("All Tissues")
 
@@ -249,7 +249,7 @@ mtext("All Tissues")
 sigmat=(lfsr[,-c(7:16)]<=thresh)
 nsig= rowSums(sigmat)
 
-hist((sign.func(het.norm(effectsize=pm.mash.beta[nsig>0,-c(7:16)]))),main="",xlab="",breaks=0.5:34.5,col="grey",freq=FALSE,ylim=c(0,0.6),#ylim=c(0,0.14),
+hist((sign.func(het.norm(effectsize=pm.mash.beta[nsig>0,-c(7:16)]))),main="",xlab="",breaks=0.5:34.5,col="grey",freq=FALSE,ylim=c(0,0.65),#ylim=c(0,0.14),
      xaxt="n")
 axis(1, at=seq(1, 34, by=1), labels=c(1:34))#,ylim=c(0,0.6))
 mtext("Non-Brain Tissues")

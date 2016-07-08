@@ -38,7 +38,7 @@ exp.sort=expr.sort[,-missing.tissues]
 colnames(exp.sort)=colnames(maxz)
 ```
 
-```{r definefunc}
+```{r definefunc,echo=F}
 plot_tissuespecific = function(tissuename,lfsr,curvedata,title,thresh=0.05,subset=1:44){
   index_tissue=which(colnames(lfsr) %in% tissuename);
   ybar=title
