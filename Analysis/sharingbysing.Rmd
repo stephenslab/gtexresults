@@ -1,6 +1,6 @@
 ---
 title: "sharedsign"
-output: pdf_document
+output: html_document
 ---
 
 
@@ -136,7 +136,7 @@ rownames(shared.fold.size.brainonly)=colnames(lfsr.brainonly)
 
 We could also try this with the orders induced from sharing by effect size:
 
-```{r sharingbysignseparate,echo=F,fig.height=10,fig.width=10}
+```{r sharingbysignseparate,echo=F}
 library('colorRamps')
 library(gplots)
 library(ggplot2)

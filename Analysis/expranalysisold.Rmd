@@ -31,8 +31,8 @@ a=match(qtl.names,rownames(expr.sort))###in order to make sure the gene names ar
 
 expr.sort=expr.sort[a,]
 
-head(rownames(expr.sort))[1:5]
-head(rownames(lfsr))[1:5]
+#head(rownames(expr.sort))[1:5]
+#head(rownames(lfsr))[1:5]
 missing.tissues=c(7,8,19,20,24,25,31,34,37)
 exp.sort=expr.sort[,-missing.tissues]
 colnames(exp.sort)=colnames(maxz)
@@ -94,39 +94,43 @@ compare.distribution=function(tissuename,curvedata,lfsr,thresh=0.05){
 
 Here we compare quantiles and plot data:
 
-Thyroid:
-```{r}
+
+
+```{r,eval=FALSE,echo=F}
+#Thyroid:
 compare.distribution(tissuename = "Thyroid",lfsr = lfsr,curvedata = log(exp.sort),thresh = 0.05 )
   
 plot_tissuespecifictwo(tissuename = "Thyroid",lfsr = lfsr,curvedata = log(exp.sort),title = "Test",thresh = 0.05 )
 ```
 
-Testis:
 
 
 
-```{r}
+```{r,eval=FALSE,echo=F}
+#Testis:
 compare.distribution(tissuename = "Testis",lfsr = lfsr,curvedata = log(exp.sort),thresh = 0.05)
 
 plot_tissuespecifictwo(tissuename = "Testis",lfsr = lfsr,curvedata = log(exp.sort),title = "Test",thresh = 0.05 )
 ```
 
-Whole Blood
 
-```{r}
+
+```{r,eval=FALSE,echo=F}
+#Whole Blood
 compare.distribution(tissuename = "Whole_Blood",lfsr = lfsr,curvedata = log(exp.sort),thresh = 0.05 )
 
 plot_tissuespecifictwo(tissuename = "Whole_Blood",lfsr = lfsr,curvedata = log(exp.sort),title = "Test",thresh = 0.05)
 ```
 
+
+```{r,eval=FALSE,echo=F}
 Muscle_Skeletal
-```{r}
 compare.distribution(tissuename = "Muscle_Skeletal",lfsr = lfsr,curvedata = log(exp.sort),thresh = 0.05 )
 
 plot_tissuespecifictwo(tissuename = "Muscle_Skeletal",lfsr = lfsr,curvedata = log(exp.sort),title = "Test",thresh = 0.05 )
 ```
 
-```{r}
+```{r,echo=F}
 
 bar_example=function(gene.name,expr.sort)
   {
@@ -198,29 +202,31 @@ plot_tissuespecific("Muscle_Skeletal",lfsr,pmash,"eQTLEffect",thresh=0.05,subset
 
 I am not seeing evidence of tissue specific expression.
 
-##Check for our select examples:
+##Check for our select example of tissue specificity in Whole Blood:
 
 These examples were quantitatively specific in WB:
 ```{r, whole.blood,cache=T}
 
-gene.name="ENSG00000120029.8"
+gene.name="ENSG00000017797.7"
 bar_example(gene.name,log(expr.sort))
 ```
 
-and Qualitatively specific in Whole Blood:
 
-```{r qualspecificwb, cache=T}
+
+```{r qualspecificwb, cache=T,eval=F}
+#and Qualitatively specific in Whole Blood:
 gene.name="ENSG00000078114.14"
 bar_example(gene.name,log(expr.sort))
 ```
 
+
+
+```{r testis,cache=T,eval=F}
 Testis qualitative:
 
-
-```{r testis,cache=T}
-
-gene.name="ENSG00000059588.5"
-bar_example(gene.name,log(expr.sort))
+# 
+# gene.name="ENSG00000059588.5"
+# bar_example(gene.name,log(exp.sort))
 ```
 
 So tissue-specificitiy in expression is the exception not the rule, and our examples are good.
