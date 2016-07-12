@@ -14,10 +14,14 @@ opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/")
 source("../Analysis/normfuncs.R")
 maxbeta=read.table("../Data/maxbetahats.txt")
 maxz=read.table("../Data/maxz.txt")
-#standard.error=maxbeta/maxz
-standard.error=read.table("../Data/standard.error.txt")
-pm.mash=as.matrix(read.table("../../Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1])
-lfsr=as.matrix(read.table("../Data/Aug13withEDlfsr.txt")[,-1])
+standard.error=maxbeta/maxz
+#standard.error=read.table("../Data/standard.error.txt")
+#pm.mash=as.matrix(read.table("../../Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1])
+#lfsr=as.matrix(read.table("../Data/Aug13withEDlfsr.txt")[,-1])
+lfsr=read.table("../../Dropbox/withzero/withzerolfsr.txt")[,-1]
+pm.mash=as.matrix(read.table("../../Dropbox/withzero/withzeroposterior.means.txt")[,-1])
+
+
 pm.mash.beta=pm.mash*standard.error
 
 pm.mash.nobrain=as.matrix(read.table("../withoutbrain/nobrainposterior.means.txt")[,-1])*standard.error[,-c(7:16)]

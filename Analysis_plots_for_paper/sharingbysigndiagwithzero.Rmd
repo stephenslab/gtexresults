@@ -1,0 +1,111 @@
+---
+title: "SharingBySign"
+output: pdf_document
+---
+
+Perform the analysis with global:
+```{r setup, include=FALSE}
+library('knitr')
+knitr::opts_chunk$set(cache=TRUE)
+opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/") 
+```
+
+```{r loaddata,echo=F}
+library(gplots)
+library(ggplot2)
+
+
+
+pm.mash=as.matrix(read.table("../../Dropbox/withzero/withzeroposterior.means.txt")[,-1])
+lfsr.all=read.table("../../Dropbox/withzero/withzerolfsr.txt")[,-1]
+#lfsr.all=read.table("../../Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
+
+maxb=read.table("../Data/maxbetahats.txt")
+maxz=read.table("../../Dropbox/jul3/maxz.txt")
+
+standard.error=maxb/maxz
+#pm.mash=as.matrix(read.table("../../Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1])
+
+pm.mash.beta=pm.mash*standard.error
+
+```
+
+```{r generate matrix,echo=F}
+thresh=0.05
+
+pm.mash.beta=pm.mash.beta[rowSums(lfsr.all<0.05)>0,]
+lfsr.mash=lfsr.all[rowSums(lfsr.all<0.05)>0,]
+
+shared.fold.size=matrix(NA,nrow = ncol(lfsr.mash),ncol=ncol(lfsr.mash))
+colnames(shared.fold.size)=rownames(shared.fold.size)=colnames(maxz)
+for(i in 1:ncol(lfsr.mash)){
+  for(j in 1:ncol(lfsr.mash)){
+    sig.row=which(lfsr.mash[,i]<thresh)
+    sig.col=which(lfsr.mash[,j]<thresh)
+    a=(union(sig.row,sig.col))
+    #a=(intersect(sig.row,sig.col))
+    #quotient=abs(pm.mash.beta[a,i]/pm.mash.beta[a,j])
+    quotient=(pm.mash.beta[a,i]/pm.mash.beta[a,j])##divide effect sizes
+    ##divide effect sizes
+    shared.fold.size[i,j]=mean(quotient>0)
+   
+  }}
+
+````
+
+Generate Plot with corrplot:
+
+```{r sharingbysigndiagonalcorrplot,echo=F}
+library('colorRamps')
+library('corrplot')
+missing.tissues=c(7,8,19,20,24,25,31,34,37)
+color.gtex=read.table("../Data/GTExColors.txt",sep = '\t', comment.char = '')[-missing.tissues,]
+col = as.character(color.gtex[,2])
+
+
+
+
+```
+
+Now do with heatmap.2:
+
+```{r heatmap2sharingsign,echo=F,fig.height=10,fig.width=10}
+all.tissue.order=read.table("../../Dropbox/alltissueorder.txt")[,1]
+
+smat=shared.fold.size[(all.tissue.order),(all.tissue.order)]
+smat[lower.tri(smat)] <- NA
+
+
+heatmap.2(smat,Rowv=FALSE,Colv=FALSE,
+          symm=TRUE,dendrogram="none",density="none",trace="none",#col=redblue,
+          col=blue2green,main=paste0("Pairwise Sharing by Sign"),
+          cexRow=0.6,cexCol=2,cex.main=0.5,breaks=seq(0.35,1,0.01),labCol=NA)
+
+```
+
+Do as square:
+
+```{r heatmap2signsquare,fig.height=10,fig.width=10}
+
+smat=shared.fold.size[(all.tissue.order),(all.tissue.order)]
+
+heatmap.2(smat,Rowv=FALSE,Colv=FALSE,
+          symm=TRUE,dendrogram="none",density="none",trace="none",#col=redblue,
+          col=blue2green,main=paste0("Pairwise Sharing by Sign"),
+          cexRow=0.6,cexCol=0.6,cex.main=0.5,breaks=seq(0.35,1,0.01))
+
+```
+
+Now do with corrplot:
+
+```{r corrplotsign,fig.height=10,fig.width=10}
+colnames(shared.fold.size)=NULL
+
+corrplot(shared.fold.size[(all.tissue.order),all.tissue.order],method="color",type="upper",cl.lim=c(0,1),tl.col=col[all.tissue.order],tl.cex=0.6,col=c(blue2green(256),blue2green(256)),main="")
+
+
+rownames(shared.fold.size)=rep(".",44)
+corrplot(shared.fold.size[(all.tissue.order),all.tissue.order],method="color",type="upper",cl.lim=c(0,1),tl.col=col[all.tissue.order],tl.cex=8,col=c(blue2green(256),blue2green(256)),main="")
+```
+
+

@@ -1,0 +1,52 @@
+---
+title: "tspec"
+output: pdf_document
+---
+
+Tissuespecific by effect:
+```{r setup, include=FALSE}
+library('knitr')
+knitr::opts_chunk$set(cache=TRUE)
+opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/") 
+```
+
+```{r barplotspec,echo=FALSE}
+source("../Analysis/normfuncs.R")
+thresh=0.05
+
+lfsr.mash=read.table("../../Dropbox/withzero/withzerolfsr.txt")[,-1]
+pm.mash=as.matrix(read.table("../../Dropbox/withzero/withzeroposterior.means.txt")[,-1])
+standard.error=read.table("../Data/standard.error.txt")
+pm.mash.beta=pm.mash*standard.error
+maxz=read.table("../Data/maxz.txt")
+maxb=read.table("../Data/maxbetahats.txt")
+
+nsig=rowSums(lfsr.mash<thresh)
+pm.mash.beta.norm=het.norm(effectsize = pm.mash.beta)
+pm.mash.beta.norm=pm.mash.beta.norm[(nsig>0),]
+lfsr.mash=as.matrix(lfsr.mash[nsig>0,])
+colnames(lfsr.mash)=colnames(maxz)
+
+thresh=0.05
+barplot(apply(lfsr.mash[which(rowSums(lfsr.mash<=thresh)==1),],2,function(x){sum(x<=thresh)}),las=2,cex.names=0.5,main=paste0("Number of eQTL with LFSR<",0.05," in Single Tissue"),ylim=c(0,500))
+
+
+###Now plot the number of normalized effects greater than 0.5 for each tissue, given that those effects were significant in at least one tissue
+#barplot(apply(pm.mash.beta.norm[which(rowSums(pm.mash.beta.norm>0.5)==1),],2,function(x){sum(x>0.5)}),las=2,cex.names=0.5,main=paste0("Number of eQTL with Bjnorm>0.5 in Single Tissue"),ylim=c(0,500))
+
+
+
+###Now plot the number of normalized effects greater than 0.5 for each tissue, given that those effects were significant in that tissue
+
+a=which(rowSums(pm.mash.beta.norm>0.5)==1)
+lfsr.fold=as.matrix(lfsr.mash[a,])
+pm=as.matrix(pm.mash.beta.norm[a,])
+tspec=NULL
+for(i in 1:ncol(pm)){
+  #tspec[i]=sum(lfsr.fold[,i]<0.05&pm[,i]>0.5)
+  tspec[i]=sum(pm[,i]>0.5)
+  }##check to see that the effect is significant and greater than 0.5 max effect in only that tissue
+
+tspec=as.matrix(tspec);rownames(tspec)=colnames(maxz)
+
+barplot(t(tspec),main=paste0("Number of eQTL with Bjnorm>0.5 in one Tissue"),las=2,cex.names=0.5)

@@ -1,6 +1,6 @@
 ---
 title: "ExampleFinals"
-output: html_document
+output: pdf_document
 ---
 
 ```{r}
@@ -10,18 +10,24 @@ opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/")
 ```
 
 
-```{r exampleuk3aug3,echo=F}
+```{r exampleuk3,echo=F}
 source("normfuncs.R")
 
 z.stat=read.table("~/Dropbox/jul3/maxz.txt")
-b.stat=read.table("../Data/maxbetahats.txt")
-standard.error=b.stat/z.stat
-posterior.means=read.table("~/Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1]
+standard.error=read.table("../Data/standard.error.txt")
+b.stat=z.stat*standard.error
+#posterior.means=read.table("~/Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1]
+
+
+
+posterior.means=read.table("~/Dropbox/withzero/withzeroposterior.means.txt")[,-1]
+
+
 posterior.betas=standard.error*posterior.means
 pm.beta.norm=het.norm(posterior.betas)
-#posterior.means=read.table("~/Dropbox/withzero/withzeroposterior.means.txt")[,-1]
-lfsr=read.table("~/Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
-#lfsr.zero=read.table("~/Dropbox/withzero/withzerolfsr.txt")[,-1]
+
+#lfsr=read.table("~/Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
+lfsr=read.table("~/Dropbox/withzero/withzerolfsr.txt")[,-1]
 covmat=readRDS("~/Dropbox/Aug12/covmatAug13withED.rds")
 abr.names=as.character(read.table("~/gtexresults_matrixash/Data/abbreviate.names.txt")[,2])
 source("~/Dropbox/col.func.R")
@@ -79,7 +85,7 @@ text(bp, x,
 }
 ````
 
-```{r example3aug3,fig.height=5,fig.width=5}
+```{r example3,fig.height=5,fig.width=5}
 three.ex.3=which(rownames(z.stat)=="ENSG00000249898.3_8_6521432_T_C_b37")
 newfunc.2(three.ex.3)
 
@@ -88,7 +94,7 @@ whole.blood.spec=which(rowSums(pm.beta.norm[,-44]<0.5)==43&(rowSums(lfsr[,1:44]<
 #newfunc.2(whole.blood.spec[2])
 ```
 
-```{r testisspecaug3}
+```{r testisspec}
 # testes.spec=which(rowSums(pm.beta.norm[,-40]<0.5)==43&(rowSums(lfsr[,1:44]<0.05)>=40))[1:10]
 # newfunc.2(1040)
 ```
@@ -96,7 +102,7 @@ whole.blood.spec=which(rowSums(pm.beta.norm[,-44]<0.5)==43&(rowSums(lfsr[,1:44]<
 Here are examples of uk5
 
 
-```{r exampleuk5aug3,echo=FALSE}
+```{r exampleuk5,echo=FALSE}
 # 
 # k=5
 # x=covmat[[k]]/max(diag(covmat[[k]]))
@@ -119,7 +125,7 @@ Here are examples of uk5
 ```
 
 Old example:
-```{r oldex5aug3,fig.width=5,fig.height=5}
+```{r oldex5,fig.width=5,fig.height=5}
 five.ex=which(rownames(z.stat)=="ENSG00000120029.8_10_103924251_G_A_b37")
 testes.spec=which(rowSums(pm.beta.norm[,-40]<0.5)==43&(rowSums(lfsr[,1:44]<0.05)>=40))[1:10]
 
@@ -145,7 +151,7 @@ newfunc.2(five.ex)
 ```
 
 Good example for whole bllood with decent rpkm across the board:
-```{r wholebloodquantaug3,fig.width=5,fig.height=5}
+```{r wholebloodquant,fig.width=5,fig.height=5}
 wholebloodfour=(which(rownames(z.stat)=="ENSG00000017797.7_18_9488704_C_T_b37"))
 newfunc.2(wholebloodfour)
 

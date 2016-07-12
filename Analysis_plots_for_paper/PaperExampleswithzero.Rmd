@@ -1,6 +1,6 @@
 ---
 title: "ExampleFinals"
-output: html_document
+output: pdf_document
 ---
 
 ```{r}
@@ -10,19 +10,22 @@ opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/")
 ```
 
 
-```{r exampleuk3aug3,echo=F}
-source("normfuncs.R")
+```{r exampleuk3,echo=F}
+source("../Analysis/normfuncs.R")
 
 z.stat=read.table("~/Dropbox/jul3/maxz.txt")
 b.stat=read.table("../Data/maxbetahats.txt")
 standard.error=b.stat/z.stat
-posterior.means=read.table("~/Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1]
+
+
+posterior.means=read.table("~/Dropbox/withzero/withzeroposterior.means.txt")[,-1]
+
+
 posterior.betas=standard.error*posterior.means
 pm.beta.norm=het.norm(posterior.betas)
-#posterior.means=read.table("~/Dropbox/withzero/withzeroposterior.means.txt")[,-1]
-lfsr=read.table("~/Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
-#lfsr.zero=read.table("~/Dropbox/withzero/withzerolfsr.txt")[,-1]
-covmat=readRDS("~/Dropbox/Aug12/covmatAug13withED.rds")
+
+lfsr=read.table("~/Dropbox/withzero/withzerolfsr.txt")[,-1]
+covmat=readRDS("~/Dropbox/withzero/covmatwithzero.rds")
 abr.names=as.character(read.table("~/gtexresults_matrixash/Data/abbreviate.names.txt")[,2])
 source("~/Dropbox/col.func.R")
 source("~/Dropbox/newfunc.R")
@@ -31,30 +34,10 @@ source("~/Dropbox/newfunc.R")
 
 library(gplots)
 library(ggplot2)
-# 
-# #three.ex.1=which(rownames(z.stat)=="ENSG00000205771.2_15_44721087_T_A_b37")
-# three.ex.2=which(rownames(z.stat)=="ENSG00000253520.1_5_179052185_C_G_b37")
-# 
-# #three.ex.4=which(rownames(z.stat)=="ENSG00000058404.15_7_44259706_G_A_b37")
 
-    
-#weightplot(genename = three.ex.1,max.weight = 3,covmat = covmat)
-
-# k=3
-# x=covmat[[k]]/max(diag(covmat[[k]]))
-# colnames(x)=colnames(z.stat)
-#   rownames(x)=colnames(z.stat)                  
-# # heatmap.2(x,Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
-# v=svd(x)$v
-# 
-# rownames(v)=colnames(v)=as.matrix(abr.names)
-# par(mar=c(8,4.1,4.1,2.1))
-# barplot(v[,1]*sign(v[which.max(abs(v[,1])),1]),las=2,main=paste("Eigenvector 1 of Uk",k),cex.names = 0.5)
-# #newfunc(three.ex.2)
-# newfunc(three.ex.3)
 
 missing.tissues=c(7,8,19,20,24,25,31,34,37)
-uk3labels=read.table("uk3rowindices.txt")[,1]
+uk3labels=read.table("../Analysis/uk3rowindices.txt")[,1]
 
 newfunc.2=function(j){
 gtex.colors=read.table('../Data/GTExColors.txt', sep = '\t', comment.char = '')[-missing.tissues,2]
@@ -65,9 +48,7 @@ posterior.betas=posterior.betas[,uk3labels]
 lfsr=lfsr[,uk3labels]
 title=strsplit(rownames(pm.beta.norm)[j], "[.]")[[1]][1]
 
-#xmins=min(as.numeric(b.stat[j,]),as.numeric(posterior.betas[j,]))
-#xmax=max(as.numeric(b.stat[j,]),as.numeric(posterior.betas[j,]))
-#barplot(as.numeric(b.stat[j,]),col = as.character(gtex.colors),las=2,main=paste0("Bhat",title),ylim= c(xmins-0.1, xmax + 0.1))
+
 barplot(as.numeric(z.stat[j,]),col = as.character(gtex.colors),las=2,main=paste0("Z.mle",title),ylim= c(-2,11),names="")
 x=as.numeric(posterior.betas[j,])
 #xmins=min(x)
@@ -79,47 +60,24 @@ text(bp, x,
 }
 ````
 
-```{r example3aug3,fig.height=5,fig.width=5}
+```{r example3,fig.height=5,fig.width=5}
 three.ex.3=which(rownames(z.stat)=="ENSG00000249898.3_8_6521432_T_C_b37")
 newfunc.2(three.ex.3)
 
 whole.blood.spec=which(rowSums(pm.beta.norm[,-44]<0.5)==43&(rowSums(lfsr[,1:44]<0.05)>=40))
-#newfunc.2(whole.blood.spec[1])
-#newfunc.2(whole.blood.spec[2])
+
 ```
 
-```{r testisspecaug3}
-# testes.spec=which(rowSums(pm.beta.norm[,-40]<0.5)==43&(rowSums(lfsr[,1:44]<0.05)>=40))[1:10]
-# newfunc.2(1040)
+```{r testisspec}
+
 ```
 
 Here are examples of uk5
 
 
-```{r exampleuk5aug3,echo=FALSE}
-# 
-# k=5
-# x=covmat[[k]]/max(diag(covmat[[k]]))
-#   colnames(x)=colnames(z.stat)
-#   rownames(x)=colnames(z.stat)                  
-# # heatmap.2(x,Rowv=FALSE,Colv=FALSE,symm=TRUE,dendrogram="none",density="none",trace="none",col=redblue(256),main=paste0("HeatMapofNormalizedUk",k),cexRow=0.5,cexCol=0.5,symkey=T,symbreaks=T)
-# 
-# nine.ex.2=which(rownames(z.stat)=="ENSG00000059588.5_1_234612995_T_C_b37")
-# nine.ex.3=which(rownames(z.stat)=="ENSG00000009830.7_14_77776501_T_A_b37")
-# spec.ex=which(rownames(z.stat)=="ENSG00000131848.5_19_56741808_G_A_b37")
-# #barplot(diag(x),las=2,main=paste("Prior Variance of Effect Size for Uk",k),cex.names = 0.5)
-# 
-# #newfunc(t=nine.ex.3)
-# 
-# v=svd(x)$v
-# rownames(v)=colnames(v)=as.matrix(abr.names)
-# par(mar=c(8,4.1,4.1,2.1))
-# barplot(v[,1]*sign(v[which.max(abs(v[,1])),1]),las=2,main=paste("Eigenvector 1 of Uk",k),cex.names = 0.5)
-# newfunc(t=five.ex)
-```
 
 Old example:
-```{r oldex5aug3,fig.width=5,fig.height=5}
+```{r oldex5,fig.width=5,fig.height=5}
 five.ex=which(rownames(z.stat)=="ENSG00000120029.8_10_103924251_G_A_b37")
 testes.spec=which(rowSums(pm.beta.norm[,-40]<0.5)==43&(rowSums(lfsr[,1:44]<0.05)>=40))[1:10]
 
@@ -145,7 +103,7 @@ newfunc.2(five.ex)
 ```
 
 Good example for whole bllood with decent rpkm across the board:
-```{r wholebloodquantaug3,fig.width=5,fig.height=5}
+```{r wholebloodquant,fig.width=5,fig.height=5}
 wholebloodfour=(which(rownames(z.stat)=="ENSG00000017797.7_18_9488704_C_T_b37"))
 newfunc.2(wholebloodfour)
 
