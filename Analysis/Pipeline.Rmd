@@ -28,7 +28,7 @@ max.t=t[1:400,]
 
 library('gplots')
 pdf("~/Dropbox/PaperEdits/Paper/Figures/maxes.pdf")
-h=heatmap.2(as.matrix(max.t),main="MaxZ",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
+h=heatmap.2(as.matrix(max.t),main="MaxZ",dendrogram="none",density="none",Colv=FALSE,Rowv=FALSE,
             trace="none",
             col=bluered(256),
             #col=rich.colors(1000),
@@ -73,7 +73,10 @@ Then shows whole data set from which we obtain the grid values and the pis:
 
 library('gplots')
 pdf("~/Dropbox/PaperEdits/Paper/Figures/All.pdf")
-h=heatmap.2(as.matrix(t[1:2000,]),main="All",dendrogram="none",density="none",Colv=FALSE,#Rowv=FALSE,
+
+#badt=read.table("~/Desktop/trainz.txt")
+ind=sample(seq(1,2000),replace = F)
+h=heatmap.2(as.matrix(t[ind,]),main="All",dendrogram="none",density="none",Colv=FALSE,Rowv=FALSE,
             trace="none",
             col=bluered(256),
             #col=rich.colors(1000),

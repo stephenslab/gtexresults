@@ -122,14 +122,34 @@ median.nj.effective=apply(njeffective,2,median)
 median.nj.increase=apply(increase,2,median)
 
 
-par(mar=c(5.1,8,4.1,0.1))
-barplot(samplesize[sampleorder],cex.names=0.4,las=2,col=as.character(gtex.colors[sampleorder]),horiz = T)
-title("Nj",cex.main=0.8)
+par(mar=c(5.1,8,1.1,0.1))
+barplot(samplesize[sampleorder],cex.names=0.4,las=2,col=as.character(gtex.colors[sampleorder]),horiz = T,xlim=c(0,2000))
+title("Sample Size",cex.main=0.8)
 
-par(mar=c(5.1,2,4.1,6))
-barplot(median.nj.effective[sampleorder],cex.names=0.4,las=2,col=as.character(gtex.colors[sampleorder]),horiz = T,names="",xlim=c(2000,0))
+par(mar=c(5.1,2,1.1,6))
+barplot(median.nj.effective[sampleorder],cex.names=0.4,las=2,col=as.character(gtex.colors[sampleorder]),horiz = T,names="",xlim=c(0,2000))
 
-title("Median(Nj_effective)",cex.main=0.8)
+title("Effective Sample Size",cex.main=0.8)
+```
+WE could also do back to back
+
+
+```{r backtobacksamplesize}
+par(mfrow=c(1,2))
+samplesize=apply(size,2,function(x){unique(x)})
+sampleorder=order(samplesize,decreasing = T)
+median.nj.effective=apply(njeffective,2,median)
+median.nj.increase=apply(increase,2,median)
+
+
+par(mar=c(5.1,8,1.1,0.1))
+barplot(samplesize[sampleorder],cex.names=0.4,las=2,col=as.character(gtex.colors[sampleorder]),horiz = T,xlim=c(2000,0))
+title("Sample Size",cex.main=0.8)
+
+par(mar=c(5.1,2,1.1,6))
+barplot(median.nj.effective[sampleorder],cex.names=0.4,las=2,col=as.character(gtex.colors[sampleorder]),horiz = T,names="",xlim=c(0,2000))
+
+title("Effective Sample Size",cex.main=0.8)
 
 
 ```

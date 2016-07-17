@@ -5,6 +5,8 @@ output: pdf_document
 
 ```{r}
 library('knitr')
+
+library('rmeta')
 knitr::opts_chunk$set(cache=TRUE)
 opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/") 
 ```
@@ -27,6 +29,8 @@ pm.beta.norm=het.norm(posterior.betas)
 lfsr=read.table("~/Dropbox/withzero/withzerolfsr.txt")[,-1]
 covmat=readRDS("~/Dropbox/withzero/covmatwithzero.rds")
 abr.names=as.character(read.table("~/gtexresults_matrixash/Data/abbreviate.names.txt")[,2])
+mar.var=read.table("~/Dropbox/withzero/withzeromarginal.var.txt")[,-1]
+colnames(lfsr)=colnames(mar.var)=colnames(posterior.means)=colnames(z.stat)
 source("~/Dropbox/col.func.R")
 source("~/Dropbox/newfunc.R")
 
@@ -34,6 +38,11 @@ source("~/Dropbox/newfunc.R")
 
 library(gplots)
 library(ggplot2)
+error.bar <- function(x, y, upper, lower=upper, length=0.1,...){
+   if(length(x) != length(y) | length(y) !=length(lower) | length(lower) != length(upper))
+   stop("vectors must be same length")
+   arrows(x,y+upper, x, y-lower, angle=90, code=3, length=length, ...)
+}
 
 
 missing.tissues=c(7,8,19,20,24,25,31,34,37)
@@ -43,24 +52,37 @@ newfunc.2=function(j){
 gtex.colors=read.table('../Data/GTExColors.txt', sep = '\t', comment.char = '')[-missing.tissues,2]
 gtex.colors=gtex.colors[uk3labels]
 pm.beta.norm=pm.beta.norm[,uk3labels]##shufflecolumns
-z.stat=z.stat[,uk3labels]
-posterior.betas=posterior.betas[,uk3labels]
+z.shuffle=z.stat[,uk3labels]
+b.shuffle=b.stat[,uk3labels]
+post.var=mar.var[uk3labels]
+post.bshuffle=posterior.betas[,uk3labels]
+sem.shuffle=standard.error[,uk3labels]
 lfsr=lfsr[,uk3labels]
-title=strsplit(rownames(pm.beta.norm)[j], "[.]")[[1]][1]
+title=strsplit(rownames(z.stat)[j], "[.]")[[1]][1]
 
 
-barplot(as.numeric(z.stat[j,]),col = as.character(gtex.colors),las=2,main=paste0("Z.mle",title),ylim= c(-2,11),names="")
-x=as.numeric(posterior.betas[j,])
-#xmins=min(x)
-#xmax=max(x)
-#xmin=
-bp <- barplot(x, ylim = c(-0.6, 0.6), col = as.character(gtex.colors),las=2,main=paste0("E(B|Data)",title),names="")
+
+barplot(as.numeric(z.shuffle[j,]),col = as.character(gtex.colors),las=2,main=title,ylim= c(-2,11),names="")
+
+x=as.numeric(post.bshuffle[j,])
+bp <- barplot(x, ylim = c(-0.6, 0.6), col = as.character(gtex.colors),las=2,main=title,names="")
 text(bp, x, 
   labels = symnum(as.numeric(lfsr[j,]), cutpoints = c(0, 0.05, 1),   symbols = c(".", "")), pos = 3)
+
+par(mfrow=c(1,1))
+metaplot(as.numeric(b.shuffle[j,]),as.numeric(sem.shuffle[j,]),xlab = "",ylab="",colors=meta.colors(box=as.character(gtex.colors)),xlim=c(-1,1))
+title(title)
+
+par(mfrow=c(1,1))
+sd=as.numeric(sem.shuffle[j,])*sqrt(as.numeric(post.var[j,]))##to transform to posterior sd of beta
+metaplot(x,sd,xlab = "",ylab="",colors=meta.colors(box=as.character(gtex.colors)),xlim=c(-1,1))
+title(title)
 }
 ````
 
 ```{r example3,fig.height=5,fig.width=5}
+
+###
 three.ex.3=which(rownames(z.stat)=="ENSG00000249898.3_8_6521432_T_C_b37")
 newfunc.2(three.ex.3)
 
@@ -69,7 +91,7 @@ whole.blood.spec=which(rowSums(pm.beta.norm[,-44]<0.5)==43&(rowSums(lfsr[,1:44]<
 ```
 
 ```{r testisspec}
-
+##
 ```
 
 Here are examples of uk5
@@ -78,6 +100,7 @@ Here are examples of uk5
 
 Old example:
 ```{r oldex5,fig.width=5,fig.height=5}
+###
 five.ex=which(rownames(z.stat)=="ENSG00000120029.8_10_103924251_G_A_b37")
 testes.spec=which(rowSums(pm.beta.norm[,-40]<0.5)==43&(rowSums(lfsr[,1:44]<0.05)>=40))[1:10]
 
@@ -104,6 +127,7 @@ newfunc.2(five.ex)
 
 Good example for whole bllood with decent rpkm across the board:
 ```{r wholebloodquant,fig.width=5,fig.height=5}
+###
 wholebloodfour=(which(rownames(z.stat)=="ENSG00000017797.7_18_9488704_C_T_b37"))
 newfunc.2(wholebloodfour)
 

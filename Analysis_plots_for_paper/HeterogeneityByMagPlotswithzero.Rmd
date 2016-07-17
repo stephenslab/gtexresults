@@ -67,7 +67,7 @@ hist(het.func(brain.norm,threshold=0.5),main="",xlab="",breaks=0.5:10.5,col="gre
 axis(1, at=seq(1, 10, by=1), labels=c(1:10))
 mtext("Brain Tissues")
 
-title(xlab="Number of Tissues Shared (by magnitude)", outer=TRUE,line=3,cex.lab=3)
+#title(xlab="Number of Tissues Shared (by magnitude)", outer=TRUE,line=3,cex.lab=3)
 ````
 
 
@@ -109,7 +109,7 @@ hist(sign.func(brain.norm),main="",xlab="",breaks=0.5:10.5,col="grey",freq=FALSE
 axis(1, at=seq(1, 10, by=1), labels=c(1:10))
 mtext("Brain Tissues")
 
-title(xlab="Number of Tissues Shared (by sign)", outer=TRUE,line=3,cex.lab=3)
+#title(xlab="Number of Tissues Shared (by sign)", outer=TRUE,line=3,cex.lab=3)
 ```
 ```
 
