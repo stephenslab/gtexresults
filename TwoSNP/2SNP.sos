@@ -1,0 +1,29 @@
+#!/usr/bin/env sos-runner
+#vim: set filetype=python: set expandtab : ts=4:
+#fileformat=SOS1.0
+
+parameter: tissues_brain = []
+parameter: tissues_other = []
+parameter: genes = []
+
+
+[1]
+# Identify SNPs
+# Input: one gene name
+# Output: 2 SNPs
+
+[2]
+# Extract data
+# Input: one gene name and 2 SNPs
+# Output: one data-set for every tissue
+
+[3]
+# Run analysis
+# Input: tissue specific data-set
+# Output: an R object of 2 SNP model analysis
+
+[4]
+# Make mega-plots
+# Input: All analysis objects
+# Output: one figure of gene by tissue panels
+#  in each panel there are univarate and joint anlaysis

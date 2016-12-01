@@ -1,4 +1,17 @@
-## Two SNP regression analysis
+# Two SNP regression analysis
+## Problem
+We are interested in evaluating change in effect size estimate from
+1 SNP vs 2 SNP model. Specifically for given gene we want to take 2 SNPs:
+one with largest z score in brain tissues and the other with largest z score in non-brain tissues. 
+Then for each tissue in GTEx we perform the following regression analyses:
+
+* Expression level vs. (SNP A + SNP B)
+* Expression level vs. SNP A
+* Expression level vs. SNP B
+
+We will plot the estimated effect sizes and standard error to
+show how effect estimates may change.
+
 @surbut has selected from GTEx analysis a list of 27 genes 
 whose eQTL across brain tissues are in different directions
 compared to their effects in other tissues. These genes are:
@@ -33,14 +46,5 @@ compared to their effects in other tissues. These genes are:
 ```
 FIXME: link to `diffplot.html`
 
-Here for each gene we want to take its eQTL in 
-Brain Cerebellum (chosen for relatively large sample size)
-(Trait B, SNP B) and every other non-brain tissues (Trait A, SNP A), 
-and perform the following regression analyses:
-
-* Trait A vs. (SNP A + SNP B)
-* Trait A vs. SNP A
-* Trait A vs. SNP B
-* Trait B vs. (SNP A + SNP B)
-* Trait B vs. SNP A
-* Trait B vs. SNP B
+## Procedures
+Analysis is coded in pipeline `2SNP.sos`.
