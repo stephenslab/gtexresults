@@ -153,6 +153,7 @@ R:
 # Output: an R object of 2 SNP model analysis
 input: for_each = ["tissues", "genes"]
 output: expand_pattern("{_tissues}_{_genes}.rds")
+task: concurrent = True
 R:
   covar = t(read.table(paste(${work_dir!r}, paste0(${_tissues!r}, '_Covariates.txt'), sep = '/'), header = T)[,-1])
   genotype = t(read.table(paste(${work_dir!r}, paste0(${_tissues!r}, '_', ${_genes!r}, '_SNP.txt'), sep = '/'), header = T)[, -1])
