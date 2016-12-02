@@ -140,7 +140,7 @@ R:
   Covfile = paste(${work_dir!r}, paste0(Tissue, '_Covariates.txt'), sep = '/')
   GetCovar()
   for (i in 1:nrow(dat)) {
-      print(Tissue, dat[i, 1])
+      print(c(Tissue, dat[i, 1]))
       GEfile = paste(${work_dir!r}, paste0(Tissue, '_', dat[i, 1], '_GE.txt'), sep = '/')
       SNPfile = paste(${work_dir!r}, paste0(Tissue, '_', dat[i, 1], '_SNP.txt'), sep = '/')
       GetGE(dat[i, 1])
