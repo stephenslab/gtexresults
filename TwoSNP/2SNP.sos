@@ -75,7 +75,9 @@ parameter: genes = ["ENSG00000025772.7",
            "ENSG00000272030.1"]
 parameter: eqtl_db = "/project/mstephens/data/internal_supp/gtex-v6-sumstat-hdf5/MatrixEQTLSumStats.h5"
 parameter: data_prefix = "/project/mstephens/data/external_private_supp/gtex-v6/eqtl_data/GTEx_Analysis_2015-01-12_eQTLInputFiles"
+parameter: work_dir = "."
 parameter: lib_src = ["/project/mstephens/gtex/scripts/SumstatQuery.R"]
+tissues = tissues_brain + tissues_other
 
 [1]
 # Identify SNPs
@@ -86,35 +88,39 @@ R:
   for (i in c(${lib_src!r,})) {
       source(i)
   }
-  output = data.frame()
-  for (i in c(${genes!r,})) {
-     dat = GetSS(i, ${eqtl_db})$"t-stat" 
-     brain.col = which(colnames(dat) %in% c(${tissues_brain!r,}))
-     snp.brain = rownames(matxMat(abs(dat[, brain.col])))[1]
-     non.brain.col = which(colnames(dat) %in% c(${tissues_other!r,}))
-     snp.non.brain = rownames(matxMat(abs(dat[, non.brain.col])))[1]
-     output = rbind(output, c(i, snp.brain, snp.non.brain))
-  }
+  genes = c(${genes!r,})
+  output = data.frame(matrix(NA, length(genes), 3))
   colnames(output) = c("gene", "SNP_Brain", "SNP_Other")
+  j = 1
+  for (i in genes) {
+     dat = -log10(GetSS(i, ${eqtl_db!r})$"p-value") 
+     brain.col = which(colnames(dat) %in% c(${tissues_brain!r,}))
+     snp.brain = rownames(dat)[matxMax(dat[, brain.col])[1]]
+     non.brain.col = which(colnames(dat) %in% c(${tissues_other!r,}))
+     snp.non.brain = rownames(dat)[matxMax(dat[, non.brain.col])[1]]
+     output[j,] = c(i, snp.brain, snp.non.brain)
+     j = j + 1
+  }
   write.csv(output, ${output!r})
 
 [2]
 # Extract data
 # Input: one gene name and 2 SNPs
 # Output: one data-set for every tissue
+input: for_each = ["tissues"]
+task: concurrent = True
 R:
   GetCovar <- function() {
       cmd <- paste("gzip -dc", paste(${data_prefix!r}, "_covariates/", paste0(Tissue, "_Analysis.covariates.txt.gz"), sep = ''), '>', Covfile)
-      ## cat(cmd, "\n")
+      ##print(cmd)
       system(cmd)
   }
-  # Extract expression data
   GetGE <- function(gene) {
       GESource <- paste(${data_prefix!r}, "_geneLevelNormalizedExpressionMatrices/", paste0(Tissue, "_Analysis.expr.txt.gz"), sep = '')
       cmd1 <- paste("zcat ", GESource, " | head -1 >", GEfile)
       cmd2 <- paste("zcat ", GESource, " | awk '$1 == var {print; exit}' var=\"", gene, "\" >> ", GEfile, sep = '')
-      ## cat(cmd1, "\n")
-      ## cat(cmd2, "\n")
+      ##print(cmd1)
+      ##print(cmd2)
       system(cmd1)
       system(cmd2)
   }
@@ -123,30 +129,39 @@ R:
       SNPPattern <- paste('"', '^(', paste(snps, collapse = "|"), ")\\b", '"', sep = '')
       cmd1 <- paste("zcat ", SNPSource, " | head -1 >", SNPfile)
       cmd2 <- paste("zcat ", SNPSource, " | grep -E ", SNPPattern, " >> ", SNPfile, sep = '')
-      ## cat(cmd1, "\n")
-      ## cat(cmd2, "\n")
+      ##print(cmd1)
+      ##print(cmd2)
       system(cmd1)
       system(cmd2)
   }
-
-  # Get target data from input list of rs ID
-  GetInputData <- function(input_list, output_list, db) {
-    out <- vector()
-    source("/project/mstephens/gtex/scripts/SumstatQuery.R")
-    con  <- file(input_list, open = "r")
-    while (length(oneLine <- readLines(con, n = 1, warn = FALSE)) > 0) {
-      line <- unlist(strsplit(oneLine, ","))
-      snps <- sapply(line[-1], ShowSNP, db = db)
-      out <- append(out, paste(append(line[1], snps), collapse = ','))
-    }
-    write(paste(out, collapse = '\n'), file = output_list)
+  
+  dat = read.csv(${input!r}, stringsAsFactors = F)[,-1]
+  Tissue = ${_tissues!r}
+  Covfile = paste(${work_dir!r}, paste0(Tissue, '_Covariates.txt'), sep = '/')
+  GetCovar()
+  for (i in 1:nrow(dat)) {
+      print(Tissue, dat[i, 1])
+      GEfile = paste(${work_dir!r}, paste0(Tissue, '_', dat[i, 1], '_GE.txt'), sep = '/')
+      SNPfile = paste(${work_dir!r}, paste0(Tissue, '_', dat[i, 1], '_SNP.txt'), sep = '/')
+      GetGE(dat[i, 1])
+      GetSNP(dat[i, c(2,3)])
   }
-
 
 [3]
 # Run analysis
 # Input: tissue specific data-set
 # Output: an R object of 2 SNP model analysis
+input: for_each = ["tissues", "genes"]
+output: expand_pattern("{_tissues}_{_genes}.rds")
+R:
+  covar = t(read.table(paste(${work_dir!r}, paste0(${_tissues!r}, '_Covariates.txt'), sep = '/'), header = T)[,-1])
+  genotype = t(read.table(paste(${work_dir!r}, paste0(${_tissues!r}, '_', ${_genes!r}, '_SNP.txt'), sep = '/'), header = T)[, -1])
+  colnames(genotype) = c("SNP1", "SNP2")
+  phenotype = t(read.table(paste(${work_dir!r}, paste0(${_tissues!r}, '_', ${_genes!r}, '_GE.txt'), sep = '/'), header = T)[,-1])
+  model.full = summary(lm(phenotype ~ genotype + covar))$coef[c(2,3),]
+  model.1 = summary(lm(phenotype ~ genotype[,1] + covar))$coef[2,]
+  model.2 = summary(lm(phenotype ~ genotype[,2] + covar))$coef[2,]
+  saveRDS(list(joint = model.full, single = rbind(model.1, model.2)), ${_output!r})
 
 [4]
 # Make mega-plots

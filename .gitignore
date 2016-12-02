@@ -11,3 +11,4 @@ Data/*
 *.log
 *.synctex.gz
 gh-pages
+**/.sos
