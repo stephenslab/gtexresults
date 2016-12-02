@@ -16,6 +16,46 @@ parameter: genes = []
 # Extract data
 # Input: one gene name and 2 SNPs
 # Output: one data-set for every tissue
+R:
+GetCovar <- function() {
+      cmd <- paste("gzip -dc", paste(DataPrefix, "_covariates/", paste0(Tissue, "_Analysis.covariates.txt.gz"), sep = ''), '>', Covfile)
+      ## cat(cmd, "\n")
+      system(cmd)
+  }
+  # Extract expression data
+  GetGE <- function(gene) {
+      GESource <- paste(DataPrefix, "_geneLevelNormalizedExpressionMatrices/", paste0(Tissue, "_Analysis.expr.txt.gz"), sep = '')
+      cmd1 <- paste("zcat ", GESource, " | head -1 >", GEfile)
+      cmd2 <- paste("zcat ", GESource, " | awk '$1 == var {print; exit}' var=\"", gene, "\" >> ", GEfile, sep = '')
+      ## cat(cmd1, "\n")
+      ## cat(cmd2, "\n")
+      system(cmd1)
+      system(cmd2)
+  }
+  GetSNP <- function(snps) {
+      SNPSource <- paste(DataPrefix, "_snpMatrices/", paste0(Tissue, "_Analysis.snps.txt.gz"), sep = '')
+      SNPPattern <- paste('"', '^(', paste(snps, collapse = "|"), ")\\b", '"', sep = '')
+      cmd1 <- paste("zcat ", SNPSource, " | head -1 >", SNPfile)
+      cmd2 <- paste("zcat ", SNPSource, " | grep -E ", SNPPattern, " >> ", SNPfile, sep = '')
+      ## cat(cmd1, "\n")
+      ## cat(cmd2, "\n")
+      system(cmd1)
+      system(cmd2)
+  }
+
+  # Get target data from input list of rs ID
+  GetInputData <- function(input_list, output_list, db) {
+    out <- vector()
+    source("/project/mstephens/gtex/scripts/SumstatQuery.R")
+    con  <- file(input_list, open = "r")
+    while (length(oneLine <- readLines(con, n = 1, warn = FALSE)) > 0) {
+      line <- unlist(strsplit(oneLine, ","))
+      snps <- sapply(line[-1], ShowSNP, db = db)
+      out <- append(out, paste(append(line[1], snps), collapse = ','))
+    }
+    write(paste(out, collapse = '\n'), file = output_list)
+  }
+
 
 [3]
 # Run analysis
