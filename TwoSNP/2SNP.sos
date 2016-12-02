@@ -74,6 +74,7 @@ parameter: genes = ["ENSG00000025772.7",
            "ENSG00000267508.1",
            "ENSG00000272030.1"]
 parameter: eqtl_db = "/project/mstephens/data/internal_supp/gtex-v6-sumstat-hdf5/MatrixEQTLSumStats.h5"
+parameter: data_prefix = "/project/mstephens/data/external_private_supp/gtex-v6/eqtl_data/GTEx_Analysis_2015-01-12_eQTLInputFiles"
 parameter: lib_src = ["/project/mstephens/gtex/scripts/SumstatQuery.R"]
 
 [1]
@@ -103,13 +104,13 @@ R:
 # Output: one data-set for every tissue
 R:
   GetCovar <- function() {
-      cmd <- paste("gzip -dc", paste(DataPrefix, "_covariates/", paste0(Tissue, "_Analysis.covariates.txt.gz"), sep = ''), '>', Covfile)
+      cmd <- paste("gzip -dc", paste(${data_prefix!r}, "_covariates/", paste0(Tissue, "_Analysis.covariates.txt.gz"), sep = ''), '>', Covfile)
       ## cat(cmd, "\n")
       system(cmd)
   }
   # Extract expression data
   GetGE <- function(gene) {
-      GESource <- paste(DataPrefix, "_geneLevelNormalizedExpressionMatrices/", paste0(Tissue, "_Analysis.expr.txt.gz"), sep = '')
+      GESource <- paste(${data_prefix!r}, "_geneLevelNormalizedExpressionMatrices/", paste0(Tissue, "_Analysis.expr.txt.gz"), sep = '')
       cmd1 <- paste("zcat ", GESource, " | head -1 >", GEfile)
       cmd2 <- paste("zcat ", GESource, " | awk '$1 == var {print; exit}' var=\"", gene, "\" >> ", GEfile, sep = '')
       ## cat(cmd1, "\n")
@@ -118,7 +119,7 @@ R:
       system(cmd2)
   }
   GetSNP <- function(snps) {
-      SNPSource <- paste(DataPrefix, "_snpMatrices/", paste0(Tissue, "_Analysis.snps.txt.gz"), sep = '')
+      SNPSource <- paste(${data_prefix!r}, "_snpMatrices/", paste0(Tissue, "_Analysis.snps.txt.gz"), sep = '')
       SNPPattern <- paste('"', '^(', paste(snps, collapse = "|"), ")\\b", '"', sep = '')
       cmd1 <- paste("zcat ", SNPSource, " | head -1 >", SNPfile)
       cmd2 <- paste("zcat ", SNPSource, " | grep -E ", SNPPattern, " >> ", SNPfile, sep = '')
