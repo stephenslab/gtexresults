@@ -2,22 +2,107 @@
 #vim: set filetype=python: set expandtab : ts=4:
 #fileformat=SOS1.0
 
-parameter: tissues_brain = []
-parameter: tissues_other = []
-parameter: genes = []
-
+parameter: tissues_brain = ["Brain_Anterior_cingulate_cortex_BA24",
+           "Brain_Caudate_basal_ganglia",
+           "Brain_Cerebellar_Hemisphere",
+           "Brain_Cerebellum",
+           "Brain_Cortex",
+           "Brain_Frontal_Cortex_BA9",
+           "Brain_Hippocampus",
+           "Brain_Hypothalamus",
+           "Brain_Nucleus_accumbens_basal_ganglia",
+           "Brain_Putamen_basal_ganglia"]
+parameter: tissues_other = ["Adipose_Subcutaneous",
+           "Adipose_Visceral_Omentum",
+           "Adrenal_Gland",
+           "Artery_Aorta",
+           "Artery_Coronary",
+           "Artery_Tibial",
+           "Breast_Mammary_Tissue",
+           "Cells_EBV-transformed_lymphocytes",
+           "Cells_Transformed_fibroblasts",
+           "Colon_Sigmoid",
+           "Colon_Transverse",
+           "Esophagus_Gastroesophageal_Junction",
+           "Esophagus_Mucosa",
+           "Esophagus_Muscularis",
+           "Heart_Atrial_Appendage",
+           "Heart_Left_Ventricle",
+           "Liver",
+           "Lung",
+           "Muscle_Skeletal",
+           "Nerve_Tibial",
+           "Ovary",
+           "Pancreas",
+           "Pituitary",
+           "Prostate",
+           "Skin_Not_Sun_Exposed_Suprapubic",
+           "Skin_Sun_Exposed_Lower_leg",
+           "Small_Intestine_Terminal_Ileum",
+           "Spleen",
+           "Stomach",
+           "Testis",
+           "Thyroid",
+           "Uterus",
+           "Vagina",
+           "Whole_Blood"]
+parameter: genes = ["ENSG00000025772.7",
+           "ENSG00000056661.9",
+           "ENSG00000064012.17",
+           "ENSG00000089486.12",
+           "ENSG00000104472.5",
+           "ENSG00000108384.10",
+           "ENSG00000112977.11",
+           "ENSG00000120088.10",
+           "ENSG00000135744.7",
+           "ENSG00000136059.10",
+           "ENSG00000140265.8",
+           "ENSG00000145214.9",
+           "ENSG00000149054.10",
+           "ENSG00000160766.10",
+           "ENSG00000164124.6",
+           "ENSG00000177084.12",
+           "ENSG00000181240.9",
+           "ENSG00000187824.4",
+           "ENSG00000188732.6",
+           "ENSG00000189171.9",
+           "ENSG00000189316.3",
+           "ENSG00000198794.7",
+           "ENSG00000225439.2",
+           "ENSG00000249846.2",
+           "ENSG00000264247.1",
+           "ENSG00000267508.1",
+           "ENSG00000272030.1"]
+parameter: eqtl_db = "/project/mstephens/data/internal_supp/gtex-v6-sumstat-hdf5/MatrixEQTLSumStats.h5"
+parameter: lib_src = ["/project/mstephens/gtex/scripts/SumstatQuery.R"]
 
 [1]
 # Identify SNPs
 # Input: one gene name
-# Output: 2 SNPs
+# Output: text file of 3 columns: gene, SNP A and SNP B
+output: "TwoSNPs.dat" 
+R:
+  for (i in c(${lib_src!r,})) {
+      source(i)
+  }
+  output = data.frame()
+  for (i in c(${genes!r,})) {
+     dat = GetSS(i, ${eqtl_db})$"t-stat" 
+     brain.col = which(colnames(dat) %in% c(${tissues_brain!r,}))
+     snp.brain = rownames(matxMat(abs(dat[, brain.col])))[1]
+     non.brain.col = which(colnames(dat) %in% c(${tissues_other!r,}))
+     snp.non.brain = rownames(matxMat(abs(dat[, non.brain.col])))[1]
+     output = rbind(output, c(i, snp.brain, snp.non.brain))
+  }
+  colnames(output) = c("gene", "SNP_Brain", "SNP_Other")
+  write.csv(output, ${output!r})
 
 [2]
 # Extract data
 # Input: one gene name and 2 SNPs
 # Output: one data-set for every tissue
 R:
-GetCovar <- function() {
+  GetCovar <- function() {
       cmd <- paste("gzip -dc", paste(DataPrefix, "_covariates/", paste0(Tissue, "_Analysis.covariates.txt.gz"), sep = ''), '>', Covfile)
       ## cat(cmd, "\n")
       system(cmd)
