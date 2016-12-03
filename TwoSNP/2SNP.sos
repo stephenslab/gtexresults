@@ -79,7 +79,7 @@ parameter: work_dir = "."
 parameter: lib_src = ["/project/mstephens/gtex/scripts/SumstatQuery.R"]
 tissues = tissues_brain + tissues_other
 
-[analyze_1]
+[extract_1]
 # Identify SNPs
 # Input: one gene name
 # Output: text file of 3 columns: gene, SNP A and SNP B
@@ -103,7 +103,7 @@ R:
   }
   write.csv(output, ${output!r})
 
-[analyze_2]
+[extract_2]
 # Extract data
 # Input: one gene name and 2 SNPs
 # Output: one data-set for every tissue
@@ -147,7 +147,7 @@ R:
       GetSNP(dat[i, c(2,3)])
   }
 
-[analyze_3]
+[analyze_1]
 # Run analysis
 # Input: tissue specific data-set
 # Output: an R object of 2 SNP model analysis
@@ -157,14 +157,18 @@ task: concurrent = True
 R:
   covar = t(read.table(paste(${work_dir!r}, paste0(${_tissues!r}, '_Covariates.txt'), sep = '/'), header = T)[,-1])
   genotype = t(read.table(paste(${work_dir!r}, paste0(${_tissues!r}, '_', ${_genes!r}, '_SNP.txt'), sep = '/'), header = T)[, -1])
-  colnames(genotype) = c("SNP1", "SNP2")
-  phenotype = t(read.table(paste(${work_dir!r}, paste0(${_tissues!r}, '_', ${_genes!r}, '_GE.txt'), sep = '/'), header = T)[,-1])
-  model.full = summary(lm(phenotype ~ genotype + covar))$coef[c(2,3),]
-  model.1 = summary(lm(phenotype ~ genotype[,1] + covar))$coef[2,]
-  model.2 = summary(lm(phenotype ~ genotype[,2] + covar))$coef[2,]
-  saveRDS(list(joint = model.full, single = rbind(model.1, model.2)), ${_output!r})
-
-[viz_1]
+  if (ncol(genotype) == 1) {
+     saveRDS(list(joint = NA, single = NA), ${_output!r})
+  } else {
+    colnames(genotype) = c("SNP1", "SNP2")
+    phenotype = t(read.table(paste(${work_dir!r}, paste0(${_tissues!r}, '_', ${_genes!r}, '_GE.txt'), sep = '/'), header = T)[,-1])
+    model.full = summary(lm(phenotype ~ genotype + covar))$coef[c(2,3),]
+    model.1 = summary(lm(phenotype ~ genotype[,1] + covar))$coef[2,]
+    model.2 = summary(lm(phenotype ~ genotype[,2] + covar))$coef[2,]
+    saveRDS(list(joint = model.full, single = rbind(model.1, model.2)), ${_output!r})
+  }
+  
+[analysis_2]
 # Make table summary 
 # Input: All analysis results
 # Output: A table of size gene by tissue
@@ -184,19 +188,19 @@ python:
 
   # load results
   from dsc.utils import load_rds
-  res = {'genes': [${genes!r}]}
-  for i in [${tissues!r}]:
+  res = {'genes': [${genes!r,}]}
+  for i in [${tissues!r,}]:
       res[i] = []
-      for ii in [${genes!r}]:
+      for ii in [${genes!r,}]:
           dat = load_rds('{}_{}.rds'.format(i, ii))
           joint = '{0:.2E}{1},{2:.2E}{3}'.format(dat['joint'][0, 1], get_star(dat['joint'][0, 3]),
-                dat['joint'][1, 1], get_star(dat['joint'][1, 3]))
+                dat['joint'][1, 1], get_star(dat['joint'][1, 3])) if len(dat['joint'] != 1) else 'NA'
           single = '{0:.2E}{1},{2:.2E}{3}'.format(dat['single'][0, 1], get_star(dat['single'][0, 3]),
-                dat['single'][1, 1], get_star(dat['single'][1, 3]))
+                dat['single'][1, 1], get_star(dat['single'][1, 3])) if len(dat['single'] != 1) else 'NA'
           res[i].append('{}; {}'.format(joint, single))
 
   # make table
-  keys = ['genes'] + [${tissues!r}]
+  keys = ['genes'] + [${tissues!r,}]
   length = len(res[keys[0]])
   table = ['<table style="width:300px">', '<tr>']
   for k in keys:
@@ -206,6 +210,8 @@ python:
   for i in range(length):
     table.append('<tr>')
     for k in keys:
-        table.append('<td>%s</td>' % d[k][i])
+        table.append('<td>%s</td>' % res[k][i])
     table.append('</tr>')
   table.append('</table>')
+  with open(${output!r}, 'w') as f:
+       f.write('\n'.join(table))
