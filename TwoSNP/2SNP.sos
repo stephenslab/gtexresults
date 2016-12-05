@@ -103,7 +103,15 @@ R:
   }
   write.csv(output, ${output!r})
 
-[extract_2]
+[extract_casp8_1]
+# Run specifically hand-picked SNPs from CASP8
+output: "TwoSNPsCASP8.dat"
+R:
+  output = data.frame(c("ENSG00000064012.17", "2_202176024_T_C_b37", "2_202163483_G_A_b37"))
+  colnames(output) = c("gene", "SNP_Brain", "SNP_Other")
+  write.csv(output, ${output!r})
+
+[extract_2, extract_casp8_2]
 # Extract data
 # Input: one gene name and 2 SNPs
 # Output: one data-set for every tissue
