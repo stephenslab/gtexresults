@@ -48,3 +48,13 @@ FIXME: link to `diffplot.html`
 
 ## Procedures
 Analysis is coded in pipeline `2SNP.sos`.
+
+## Results
+Result is organized in [this table](http://surbut.github.io/gtexresults_matrixash/TwoSNP) 
+with rows being genes and columns tissues.
+Each cell entry has two sub-columns and each column has two numbers. The two
+numbers on the left column are effect size estimates from single SNP analysis for each SNP. 
+The numbers on the right column are estimates from joint analysis. Significance levels are
+marked by asterisks in R style. These numbers are marked red when estimates have opposite signs 
+from single SNP analysis yet same sign from joint analysis, and blue vise versa.
+column  the first column
