@@ -107,7 +107,7 @@ R:
 # Run specifically hand-picked SNPs from CASP8
 output: "TwoSNPsCASP8.dat"
 R:
-  output = data.frame(c("ENSG00000064012.17", "2_202176024_T_C_b37", "2_202163483_G_A_b37"))
+  output = t(data.frame(c("ENSG00000064012.17", "2_202176024_T_C_b37", "2_202163483_G_A_b37")))
   colnames(output) = c("gene", "SNP_Brain", "SNP_Other")
   write.csv(output, ${output!r})
 
@@ -176,7 +176,7 @@ R:
     saveRDS(list(joint = model.full, single = rbind(model.1, model.2)), ${_output!r})
   }
   
-[analysis_2]
+[analyze_2]
 # Make table summary 
 # Input: All analysis results
 # Output: A table of size gene by tissue
