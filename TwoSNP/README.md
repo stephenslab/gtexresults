@@ -2,14 +2,14 @@
 ## Problem
 We are interested in evaluating change in effect size estimate from
 1 SNP vs 2 SNP model. Specifically for given gene we want to take 2 SNPs:
-one with largest z score in brain tissues and the other with largest z score in non-brain tissues. 
-Then for each tissue in GTEx we perform the following regression analyses:
+one with smallest p-value in brain tissues and the other with smallest p-value in non-brain tissues. 
+Then for each tissue in GTEx we perform the following regression analyses (with covariates adjusted for):
 
 * Expression level vs. (SNP A + SNP B)
 * Expression level vs. SNP A
 * Expression level vs. SNP B
 
-We will plot the estimated effect sizes and standard error to
+We plan to plot for selected analysis the estimated effect sizes and standard error to
 show how effect estimates may change.
 
 @surbut has selected from GTEx analysis a list of 27 genes 
@@ -57,6 +57,5 @@ with rows being genes and columns tissues.
 Each cell entry has two sub-columns and each column has two numbers. The two
 numbers on the left column are effect size estimates from single SNP analysis for each SNP. 
 The numbers on the right column are estimates from joint analysis. Significance levels are
-marked by asterisks in R style. These numbers are marked red when estimates have opposite signs 
+marked by asterisks in R style. These numbers are colored red when estimates have opposite signs 
 from single SNP analysis yet same sign from joint analysis, and blue vise versa.
-column  the first column
