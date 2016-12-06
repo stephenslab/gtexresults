@@ -53,23 +53,20 @@ parameter: colors_other = [
            "#33dd33",
            "#ff5555",
            "#ffaa99",
+           "#ff0000",
            "#33cccc",
            "#cc66ff",
            "#aaeeff",
-           "#ffcccc",
-           "#ccaadd",
            "#eebb77",
            "#cc9955",
            "#8b7355",
            "#552200",
            "#bb9988",
-           "#ffcccc",
            "#9900ff",
            "#660099",
            "#22ffdd",
            "#aabb66",
            "#99ff00",
-           "#99bb88",
            "#aaaaff",
            "#ffd700",
            "#ffaaff",
@@ -114,11 +111,13 @@ parameter: genes = ["ENSG00000025772.7",
            "ENSG00000264247.1",
            "ENSG00000267508.1",
            "ENSG00000272030.1"]
+parameter: metaplot_genes = ["ENSG00000264247.1", "ENSG00000267508.1", "ENSG00000145214.9"]
 parameter: eqtl_db = "/project/mstephens/data/internal_supp/gtex-v6-sumstat-hdf5/MatrixEQTLSumStats.h5"
 parameter: data_prefix = "/project/mstephens/data/external_private_supp/gtex-v6/eqtl_data/GTEx_Analysis_2015-01-12_eQTLInputFiles"
 parameter: work_dir = "."
 parameter: lib_src = ["/project/mstephens/gtex/scripts/SumstatQuery.R"]
 tissues = tissues_brain + tissues_other
+gtex_colors = colors_brain + colors_other
 
 [extract_1]
 # Identify SNPs
@@ -280,35 +279,36 @@ depends: R_library('rmeta')
 output: 'TwoSNPsMeta.pdf'
 R:
   library(rmeta)
-  pdf(${input!r})
-  genes = c(${genes!r,})
+  pdf(${output!r})
+  genes = c(${metaplot_genes!r,})
   tissues = c(${tissues!r,})
+  gtex.colors = as.character(c(${gtex_colors!r,}))
   for (i in genes) {
       # beta
-      sep_1b = vector()
-      sep_2b = vector()
-      join_1b = vector()
-      join_2b = vector()
+      single_1b = vector()
+      single_2b = vector()
+      joint_1b = vector()
+      joint_2b = vector()
       # SE
-      sep_1e = vector()
-      sep_2e = vector()
-      join_1e = vector()
-      join_2e = vector()
+      single_1e = vector()
+      single_2e = vector()
+      joint_1e = vector()
+      joint_2e = vector()
       for (j in 1:length(tissues)) {
           dat = readRDS(paste0(tissues[j], '_', i, '.rds'))
-          sep_1b[j] = dat$single[1,1]
-          sep_2b[j] = dat$single[2,1]
-          join_1b[j] = dat$joint[1,1]
-          join_2b[j] = dat$joint[2,1]
-          sep_1e[j] = dat$single[1,2]
-          sep_2e[j] = dat$single[2,2]
-          join_1e[j] = dat$joint[1,2]
-          join_2e[j] = dat$joint[2,2]
+          single_1b[j] = ifelse(!is.na(dat$single), dat$single[1,1], dat$single)
+          single_2b[j] = ifelse(!is.na(dat$single), dat$single[2,1], dat$single)
+          joint_1b[j] = ifelse(!is.na(dat$joint), dat$joint[1,1], dat$joint)
+          joint_2b[j] = ifelse(!is.na(dat$joint), dat$joint[2,1], dat$joint)
+          single_1e[j] = ifelse(!is.na(dat$single), dat$single[1,2], dat$single)
+          single_2e[j] = ifelse(!is.na(dat$single), dat$single[2,2], dat$single)
+          joint_1e[j] = ifelse(!is.na(dat$joint), dat$joint[1,2], dat$joint)
+          joint_2e[j] = ifelse(!is.na(dat$joint), dat$joint[2,2], dat$joint)
       }
       par(mfrow=c(2,2)) 
-      metaplot(as.numeric(sep_1b),as.numeric(sep_1e),xlab = "",ylab="",colors=meta.colors(box=as.character(gtex.colors)),xlim=c(-1,1))﻿⁠⁠⁠⁠
-      metaplot(as.numeric(sep_2b),as.numeric(sep_2e),xlab = "",ylab="",colors=meta.colors(box=as.character(gtex.colors)),xlim=c(-1,1))﻿⁠⁠⁠⁠
-      metaplot(as.numeric(join_1b),as.numeric(join_1e),xlab = "",ylab="",colors=meta.colors(box=as.character(gtex.colors)),xlim=c(-1,1))﻿⁠⁠⁠⁠
-      metaplot(as.numeric(join_2b),as.numeric(join_2e),xlab = "",ylab="",colors=meta.colors(box=as.character(gtex.colors)),xlim=c(-1,1))﻿⁠⁠⁠⁠
+      metaplot(as.numeric(single_1b),as.numeric(single_1e),xlab = "",ylab="",colors=meta.colors(box=gtex.colors), xlim=c(-1.5,1.5), main = paste0(i, "\nSNP 1 only"))
+      metaplot(as.numeric(single_2b),as.numeric(single_2e),xlab = "",ylab="",colors=meta.colors(box=gtex.colors), xlim=c(-1.5,1.5), main = paste0(i, "\nSNP 2 only"))
+      metaplot(as.numeric(joint_1b),as.numeric(joint_1e),xlab = "",ylab="",colors=meta.colors(box=gtex.colors), xlim=c(-1.5,1.5), main = paste0(i, "\nSNP 1 in joint analysis"))
+      metaplot(as.numeric(joint_2b),as.numeric(joint_2e),xlab = "",ylab="",colors=meta.colors(box=gtex.colors), xlim=c(-1.5,1.5), main = paste0(i, "\nSNP 2 in joint analysis"))
   }
   dev.off()
