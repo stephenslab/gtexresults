@@ -46,6 +46,47 @@ parameter: tissues_other = ["Adipose_Subcutaneous",
            "Uterus",
            "Vagina",
            "Whole_Blood"]
+parameter: colors_brain = ['#eeee00'] * 10
+parameter: colors_other = [
+           "#ff6600",
+           "#ffaa00",
+           "#33dd33",
+           "#ff5555",
+           "#ffaa99",
+           "#33cccc",
+           "#cc66ff",
+           "#aaeeff",
+           "#ffcccc",
+           "#ccaadd",
+           "#eebb77",
+           "#cc9955",
+           "#8b7355",
+           "#552200",
+           "#bb9988",
+           "#ffcccc",
+           "#9900ff",
+           "#660099",
+           "#22ffdd",
+           "#aabb66",
+           "#99ff00",
+           "#99bb88",
+           "#aaaaff",
+           "#ffd700",
+           "#ffaaff",
+           "#995522",
+           "#aaff99",
+           "#dddddd",
+           "#0000ff",
+           "#7777ff",
+           "#555522",
+           "#778855",
+           "#ffdd99",
+           "#aaaaaa",
+           "#006600",
+           "#ff66ff",
+           "#ff5599",
+           "#ff00bb"
+]
 parameter: genes = ["ENSG00000025772.7",
            "ENSG00000056661.9",
            "ENSG00000064012.17",
@@ -176,7 +217,7 @@ R:
     saveRDS(list(joint = model.full, single = rbind(model.1, model.2)), ${_output!r})
   }
   
-[analyze_2]
+[tabulate_1]
 # Make table summary 
 # Input: All analysis results
 # Output: A table of size gene by tissue
@@ -233,3 +274,41 @@ python:
   with open(${output!r}, 'w') as f:
     f.write('<!DOCTYPE html><html><head><style>\ntable {\n    border-collapse: collapse;\n    width: 100%;\n}\nth, td {\n    text-align: center;\n    padding: 8px;\nfont-family: Sans-serif;\n}\ntr:nth-child(even){background-color: #f2f2f2}\n</style></head><body><h2>Left in cell: single SNP analysis; right in cell: joint analysis</h2>')
     f.write('\n'.join(table) + '</body></html>')
+
+[metaplot_1]
+depends: R_library('rmeta')
+output: 'TwoSNPsMeta.pdf'
+R:
+  library(rmeta)
+  pdf(${input!r})
+  genes = c(${genes!r,})
+  tissues = c(${tissues!r,})
+  for (i in genes) {
+      # beta
+      sep_1b = vector()
+      sep_2b = vector()
+      join_1b = vector()
+      join_2b = vector()
+      # SE
+      sep_1e = vector()
+      sep_2e = vector()
+      join_1e = vector()
+      join_2e = vector()
+      for (j in 1:length(tissues)) {
+          dat = readRDS(paste0(tissues[j], '_', i, '.rds'))
+          sep_1b[j] = dat$single[1,1]
+          sep_2b[j] = dat$single[2,1]
+          join_1b[j] = dat$joint[1,1]
+          join_2b[j] = dat$joint[2,1]
+          sep_1e[j] = dat$single[1,2]
+          sep_2e[j] = dat$single[2,2]
+          join_1e[j] = dat$joint[1,2]
+          join_2e[j] = dat$joint[2,2]
+      }
+      par(mfrow=c(2,2)) 
+      metaplot(as.numeric(sep_1b),as.numeric(sep_1e),xlab = "",ylab="",colors=meta.colors(box=as.character(gtex.colors)),xlim=c(-1,1))﻿⁠⁠⁠⁠
+      metaplot(as.numeric(sep_2b),as.numeric(sep_2e),xlab = "",ylab="",colors=meta.colors(box=as.character(gtex.colors)),xlim=c(-1,1))﻿⁠⁠⁠⁠
+      metaplot(as.numeric(join_1b),as.numeric(join_1e),xlab = "",ylab="",colors=meta.colors(box=as.character(gtex.colors)),xlim=c(-1,1))﻿⁠⁠⁠⁠
+      metaplot(as.numeric(join_2b),as.numeric(join_2e),xlab = "",ylab="",colors=meta.colors(box=as.character(gtex.colors)),xlim=c(-1,1))﻿⁠⁠⁠⁠
+  }
+  dev.off()
