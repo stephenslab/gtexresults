@@ -1,0 +1,122 @@
+---
+title: "plotsforUk5"
+output: pdf_document
+---
+
+Here we plot the correlation matrix and the first 3 eigenvectors of Uk5.
+
+```{r,fig.show='hide'}
+library('knitr')
+
+knitr::opts_chunk$set(cache=TRUE)
+opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/") 
+covmat=readRDS("../Data/covmatAug13withED.rds")
+
+z.stat=read.table("../Data/maxz.txt")
+names=colnames(z.stat)
+pis=readRDS("../../Dropbox/withzero/piswithzero.rds")$pihat[-1189]
+pi.mat=matrix(pis,ncol=54,nrow=22,byrow = T)
+
+```
+
+```{r corplotuk3,fig.height=10,fig.width=10}
+library(gplots)
+library(ggplot2)
+library('colorRamps')
+#install.packages("fields")
+library(fields)
+k=5
+colSums(pi.mat)[k]
+hclust.2=function (d, method = "average", members = NULL) {hclust(d, method, members)}
+  x=cov2cor(covmat[[k]])
+#x[x<0]=0
+  colnames(x)=names
+  rownames(x)=names
+
+
+##generate indices
+h=heatmap.2(x,#symm=TRUE,
+          #Rowv=FALSE,Colv=FALSE,
+          dendrogram="none",density="none",trace="none",#col=redblue,
+          col=blue2green(256),
+          main=paste0("Cov2CorUk",k),
+          cexRow=0.5,cexCol=0.5,cex.main=0.5,labCol="")
+
+###transpose map
+
+heatmap.2(x[h$rowInd,h$rowInd],#symm=TRUE,
+          Rowv=FALSE,Colv=FALSE,
+          dendrogram="none",density="none",trace="none",#col=redblue,
+          col=blue2green(256),
+          main=paste0("Cov2CorUk",k),
+          cexRow=0.5,cexCol=0.5,cex.main=0.5,labCol="")
+
+write.table(h$rowInd,file = paste0("uk",k,"rowIndices.txt"))
+h=read.table(paste0("uk",k,"rowIndices.txt"))[,1]
+```
+
+heatmap:
+
+```{r heatmapuk5final,fig.height=10,fig.width=10}
+
+smat=(x[h,h])
+smat[lower.tri(smat)] <- NA
+
+
+heatmap.2(smat,#symm=TRUE,
+          Rowv=FALSE,Colv=FALSE,
+          dendrogram="none",density="none",trace="none",#col=redblue,
+          col=blue2green(256),
+          main=paste0("Cov2CorUk",k),
+          cexRow=0.5,cexCol=0.5,cex.main=0.5,labCol="")
+
+
+```
+
+As square:
+
+```{r heatmapuk5square,fig.height=10,fig.width=10}
+
+#smat=(x[h,h])
+
+
+# heatmap.2(smat,#symm=TRUE,
+#           Rowv=FALSE,Colv=FALSE,
+#           dendrogram="none",density="none",trace="none",#col=redblue,
+#           col=blue2green(256),
+#           main=paste0("Cov2CorUk3"),
+#           cexRow=0.5,cexCol=0.5,cex.main=0.5,labCol="")
+```
+
+```{r cormapuk5,fig.height=10,fig.width=10}
+
+missing.tissues=c(7,8,19,20,24,25,31,34,37)
+color.gtex=read.table("../Data/GTExColors.txt",sep = '\t', comment.char = '')[-missing.tissues,]
+col = as.character(color.gtex[,2])
+
+library('corrplot')
+
+
+corrplot((x[h,h]),type="upper",#cl.lim=c(-1,1),
+         tl.col=col[h],tl.cex=0.8,method="color",col=rep(blue2green(256),2))
+
+colnames(x)=NULL
+rownames(x)=rep(".",44)
+corrplot((x[h,h]),type="upper",#cl.lim=c(-1,1),
+         tl.col=col[h],tl.cex=8,method="color",col=rep(blue2green(256),2))
+
+```
+
+
+And the SVD Plots:
+
+```{r eigenplotsuk5}
+
+k=5
+h=read.table(paste0("uk",k,"rowIndices.txt"))[,1]
+for(g in 1:3){
+v=svd(covmat[[k]])$v[h,]
+rownames(v)=colnames(v)=names(h)
+par(mar=c(8,4.1,4.1,2.1))
+barplot(v[,g]/v[which.max(abs(v[,g])),g],las=2,main=paste("Eigenvector",g,"of Uk",k),cex.names = 0.5,col=col[h],names=names[h])}
+````

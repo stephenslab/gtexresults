@@ -1,6 +1,6 @@
 ---
 title: "uk3"
-output: pdf_document
+output: html_document
 ---
 Here we plot the correlation matrix and the first 3 eigenvectors of Uk3.
 

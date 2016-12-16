@@ -154,3 +154,8 @@ title("Effective Sample Size",cex.main=0.8)
 
 ```
 
+To figure out average increase across tissues:
+
+```{r}
+mean(apply(increase,2,median))
+```

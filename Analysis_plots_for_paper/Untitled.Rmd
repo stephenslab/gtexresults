@@ -1,0 +1,63 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+library("mash")
+
+maxz=read.table("")
+absmat=abs(t(L%*%t(c$t)))
+
+
+##w should represent transformed betahats using all R subgroups and j genes
+wfull=t(L%*%t(b))
+sjmat=convertstandarderrors(s.j = se,L=L)##make this be the standard errors of all, it is the sqrt of the diagonal of LVL' for each j. Recall here L is still RxR so we can have the full set of deviations and thier standard errors to choose grid
+dim(wfull)
+dim(sjmat)
+
+mash.means=as.matrix(read.table("sparseLminusminposterior.means.txt")[,-1])
+edcov=readRDS("covmatsparseLwithED.rds")
+index=unlist(as.vector(t(matrix(seq(1:(length(edcov)-1)),byrow = T,ncol=18)[,2:9])))
+cov=edcov
+for(i in index){
+  cov[[i]]=edcov[[i]]-rep(1,R)%*%t(rep(1,R))*min(edcov[[i]])
+}
+
+w=data.frame(wfull)[,-1]
+j=10
+arrays=post.array.per.snp.no.baseline(j = 10,covmat = cov,b.gp.hat = w,se.gp.hat = se,L = L[-1,])
+k=5
+
+
+V.gp.hat=diag(se[j,])^2
+
+b.mle = as.vector(w[j,])
+
+LSigL=L[-1,]%*%edcov[[k]]%*%t(L[-1,])
+LVL=L[-1,]%*%V.gp.hat%*%t(L[-1,])
+LSigL_list=lapply(edcov,function(x){L[-1,]%*%x%*%t(L[-1,])})
+identical(LSigL_list[[k]],LSigL)
+identical(as.numeric(arrays$post.means[k,]),as.numeric(post.mean.with.proj(b.mle = t(b.mle),tinv = solve(LVL+L[-1,]%*%cov[[k]]%*%t(L[-1,])),U.k = cov[[k]],L = L[-1,])))
+identical(as.numeric(arrays$post.covs[k,]),as.numeric(diag(post.cov.with.proj(tinv = solve(LVL+L[-1,]%*%edcov[[k]]%*%t(L[-1,])),U.k = cov[[k]],L = L[-1,]))))
+
+log.lik.snp=log.lik.func(b.mle,LVL,LSigL_list)
+log.lik.minus.max=log.lik.snp-max(log.lik.snp)
+pis=readRDS("pissparseLminusmin.rds")$pihat
+exp.vec=exp(log.lik.minus.max)
+post.weights=t(exp.vec*pis/sum(exp.vec*pis))
+
+all.equal(as.numeric(post.weights%*%arrays$post.means),as.numeric(mash.means[j,]))
+```
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
