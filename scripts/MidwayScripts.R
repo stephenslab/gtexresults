@@ -1,6 +1,8 @@
-library('mash')
-library('ExtremeDeconvolution')
+## Data files required to reproduce this analysis can be downloaded at
+## https://github.com/surbut/gtexresults_matrixash/wiki/mash_gtex_analysis.zip
 
+library('ExtremeDeconvolution')
+library('mashr')
 t.stat=read.table("~/jul3/maxz.txt")
 v.j=matrix(rep(1,ncol(t.stat)*nrow(t.stat)),ncol=ncol(t.stat),nrow=nrow(t.stat))
 mean.mat=matrix(rep(0,ncol(t.stat)*nrow(t.stat)),ncol=ncol(t.stat),nrow=nrow(t.stat))
