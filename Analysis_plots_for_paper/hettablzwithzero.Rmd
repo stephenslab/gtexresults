@@ -15,7 +15,7 @@ source("../Analysis/normfuncs.R")
 First, we asked in how many tissues is a QTL signficiant. 
 ```{r,echo=F}
 #lfsr=read.table("../../Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
-lfsr=read.table("../../Dropbox/withzero/withzerolfsr.txt")[,-1]
+lfsr=read.table("../Results_Data/withzerolfsr.txt")[,-1]
 lfsr[lfsr<0]=0
 lfsr.nobrain=read.table("../withoutbrain/nobrainlfsr.txt")[,-1]
 lfsr.brain.only=read.table("../../Dropbox/BrainOnly/brainonlylfsr.txt")[,-1]

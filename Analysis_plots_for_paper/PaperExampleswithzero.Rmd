@@ -20,16 +20,16 @@ b.stat=read.table("../Data/maxbetahats.txt")
 standard.error=b.stat/z.stat
 
 
-posterior.means=read.table("~/Dropbox/withzero/withzeroposterior.means.txt")[,-1]
+posterior.means=read.table("../Results_Data/withzeroposterior.means.txt")[,-1]
 
 
 posterior.betas=standard.error*posterior.means
 pm.beta.norm=het.norm(posterior.betas)
 
-lfsr=read.table("~/Dropbox/withzero/withzerolfsr.txt")[,-1]
-covmat=readRDS("~/Dropbox/withzero/covmatwithzero.rds")
-abr.names=as.character(read.table("~/gtexresults_matrixash/Data/abbreviate.names.txt")[,2])
-mar.var=read.table("~/Dropbox/withzero/withzeromarginal.var.txt")[,-1]
+lfsr=read.table("../Results_Data/withzerolfsr.txt")[,-1]
+covmat=readRDS("../Results_Data/covmatwithzero.rds")
+abr.names=as.character(read.table("../Data/abbreviate.names.txt")[,2])
+mar.var=read.table("../Results_Data/withzeromarginal.var.txt")[,-1]
 colnames(lfsr)=colnames(mar.var)=colnames(posterior.means)=colnames(z.stat)
 source("~/Dropbox/col.func.R")
 source("~/Dropbox/newfunc.R")

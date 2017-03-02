@@ -7,11 +7,11 @@ library('ExtremeDeconvolution') ##to denoise according to Bovy
 
 library('mashr')
 
-t.stat=read.table(“../inputdata/maxz.txt")
+t.stat=read.table("../Inputs/maxz.txt")
 v.j=matrix(rep(1,ncol(t.stat)*nrow(t.stat)),ncol=ncol(t.stat),nrow=nrow(t.stat))
 mean.mat=matrix(rep(0,ncol(t.stat)*nrow(t.stat)),ncol=ncol(t.stat),nrow=nrow(t.stat))
-lambda.mat=as.matrix(read.table(“../inputdata/zsfa_lambda.out"))
-factor.mat=as.matrix(read.table(“../inputdata/zsfa_F.out"))
+lambda.mat=as.matrix(read.table("../Inputs/zsfa_lambda.out"))
+factor.mat=as.matrix(read.table("../Inputs/zsfa_F.out"))
 
 ms=deconvolution.em.with.bovy(t.stat,factor.mat,v.j,lambda.mat,K=3,P=3)
 #saveRDS(ms,"msnovemberwithfunccopy.rds")
@@ -20,8 +20,8 @@ ms=deconvolution.em.with.bovy(t.stat,factor.mat,v.j,lambda.mat,K=3,P=3)
 ###After denoising, then run:
 
 
-max.step=readRDS(“../inputdata/max.step3.rds")
-z.stat=read.table(“../inputdata/maxz.txt")
+max.step=readRDS(“../Inputs/max.step3.rds")
+z.stat=read.table("../Inputs/maxz.txt")
 rownames(z.stat)=NULL
 colnames(z.stat)=NULL
 library('mash')

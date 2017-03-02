@@ -18,8 +18,8 @@ maxz=read.table("../Data/maxz.txt")
 qtl.names=sapply(1:length(rownames(maxz)),function(x){unlist(strsplit(rownames(maxz)[x], "[_]"))[[1]]})
 expr.sort=expr.data[rownames(expr.data)%in%qtl.names,]
 
-lfsr=read.table("../Data/Aug13withEDlfsr.txt")[,-1]
-pmash=read.table("../Data/Aug13withEDposterior.means.txt")[,-1]
+lfsr=read.table("../Results_Data/withzerolfsr.txt")[,-1]
+pmash=read.table("../Results_Data/withzeroposterior.means.txt")[,-1]
 
 
 colnames(lfsr)=colnames(pmash)=colnames(maxz)

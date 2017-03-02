@@ -15,7 +15,7 @@ covmat=readRDS("../Data/covmatAug13withED.rds")
 
 z.stat=read.table("../Data/maxz.txt")
 names=colnames(z.stat)
-pis=readRDS("../../Dropbox/withzero/piswithzero.rds")$pihat[-1189]
+pis=readRDS("../Results_Data//piswithzero.rds")$pihat[-1189]
 pi.mat=matrix(pis,ncol=54,nrow=22,byrow = T)
 
 ```

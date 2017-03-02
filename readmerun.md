@@ -1,6 +1,6 @@
-In this directory, you will find the script to reproduce the results found in Urbut et al.
+In this directory, under the file 'scripts' you will find the script to reproduce the results found in Urbut et al.
 
-1) First, download the input data at https://github.com/surbut/gtexresults_matrixash/wiki/mash_gtex_analysis.zip.
+1) You'll note that the input data necessary to run this analysis is all available under inputs. This may take some time to run, and so we recommend using a cluster or submittable file system. We have conveniently provided the user with the outputs of running mash in *Results_Data*.
 
 2) The script, *MidwayScripts.R* here will help you to produce several sets of files
 	

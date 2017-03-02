@@ -15,8 +15,8 @@ library(gplots)
 library(ggplot2)
 
 
-pm.mash=as.matrix(read.table("../../Dropbox/withzero/withzeroposterior.means.txt")[,-1])
-lfsr.all=read.table("../../Dropbox/withzero/withzerolfsr.txt")[,-1]
+pm.mash=as.matrix(read.table("../Results_Data/withzeroposterior.means.txt")[,-1])
+lfsr.all=read.table("../Results_Data/withzerolfsr.txt")[,-1]
 
 #lfsr.all=read.table("../../Dropbox/Aug12/Aug13withEDlfsr.txt")[,-1]
 

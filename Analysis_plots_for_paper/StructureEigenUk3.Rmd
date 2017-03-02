@@ -9,11 +9,11 @@ library('knitr')
 
 knitr::opts_chunk$set(cache=TRUE)
 opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/") 
-covmat=readRDS("../Data/covmatAug13withED.rds")
+covmat=readRDS("../Results_Data/covmatwithzero.rds")
 
 z.stat=read.table("../Data/maxz.txt")
 names=colnames(z.stat)
-pis=readRDS("../Data/pisAug13withED.rds")$pihat
+pis=readRDS("../Results_Data//piswithzero..rds")$pihat
 pi.mat=matrix(pis,ncol=54,nrow=22,byrow = T)
 ```
 
