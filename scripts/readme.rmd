@@ -2,7 +2,7 @@ In this directory, you will find the script to reproduce the results found in Ur
 
 1) First, download the input data at https://github.com/surbut/gtexresults_matrixash/wiki/mash_gtex_analysis.zip.
 
-2) The script here will help you to produce several sets of files
+2) The script, *MidwayScripts.R* here will help you to produce several sets of files
 	
 	1)`ms=deconvolution.em.with.bovy(t.stat,factor.mat,v.j,lambda.mat,K=3,P=3)`
 
