@@ -1,19 +1,27 @@
 ## Data files required to reproduce this analysis can be downloaded at
 ## https://github.com/surbut/gtexresults_matrixash/wiki/mash_gtex_analysis.zip
 
-library('ExtremeDeconvolution')
+##We assume you put these files in a directory inputdata
+
+library('ExtremeDeconvolution') ##to denoise according to Bovy
+
 library('mashr')
-t.stat=read.table("~/jul3/maxz.txt")
+
+t.stat=read.table(“../inputdata/maxz.txt")
 v.j=matrix(rep(1,ncol(t.stat)*nrow(t.stat)),ncol=ncol(t.stat),nrow=nrow(t.stat))
 mean.mat=matrix(rep(0,ncol(t.stat)*nrow(t.stat)),ncol=ncol(t.stat),nrow=nrow(t.stat))
-lambda.mat=as.matrix(read.table("~//jul3/zsfa_lambda.out"))
-factor.mat=as.matrix(read.table("~//jul3/zsfa_F.out"))
+lambda.mat=as.matrix(read.table(“../inputdata/zsfa_lambda.out"))
+factor.mat=as.matrix(read.table(“../inputdata/zsfa_F.out"))
 
 ms=deconvolution.em.with.bovy(t.stat,factor.mat,v.j,lambda.mat,K=3,P=3)
 #saveRDS(ms,"msnovemberwithfunccopy.rds")
 
-max.step=readRDS("../aug3rank3/max.step3.rds")
-z.stat=read.table("../maxz.txt")
+
+###After denoising, then run:
+
+
+max.step=readRDS(“../inputdata/max.step3.rds")
+z.stat=read.table(“../inputdata/maxz.txt")
 rownames(z.stat)=NULL
 colnames(z.stat)=NULL
 library('mash')
@@ -26,7 +34,7 @@ factor.mat=as.matrix(read.table("../zsfa_F.out"))
 
 A="withzero"
 
-covmat=compute.hm.covmat.all.max.step(b.hat=z.stat,se.hat=v.j,z.stat,v.j,Q=5,lambda.mat,A=A,factor.mat,max.step=max.step,zero=TRUE)
+covmat=compute.hm.covmat.all.max.step(b.hat=z.stat,se.hat=v.j,z.stat,v.j,Q=5,lambda.mat,A=A,factor.mat,max.step=max.step,zero=TRUE)$covmat
 
 source("/project/mstephens/gtex/scripts/SumstatQuery.R")
 
