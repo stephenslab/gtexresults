@@ -7,7 +7,7 @@ output: pdf_document
 library('knitr')
 
 library('rmeta')
-knitr::opts_chunk$set(cache=TRUE)
+#knitr::opts_chunk$set(cache=TRUE)
 opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/") 
 ```
 

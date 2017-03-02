@@ -70,6 +70,21 @@ heatmap.2(smat,#symm=TRUE,
           main=paste0("Cov2CorUk",k),
           cexRow=0.5,cexCol=0.5,cex.main=0.5,labCol="")
 
+library(lattice)
+
+#print(levelplot(smat,col.regions = jet.colors,xlab = "",ylab = "",colorkey = TRUE))
+
+
+
+#clrs <- colorRampPalette(rev(c("purple","#FC8D59","#FEE090","#FFFFBF","#E0F3F8","#91BFDB","#4575B4")))(64)
+
+clrs <- colorRampPalette(rev(c("#D73027","#FC8D59","#FEE090","#FFFFBF",
+                               "#E0F3F8","#91BFDB","#4575B4")))(64)
+#clrs[63:64] <- "darkviolet"
+lat=x[rev(h),rev(h)]
+lat[lower.tri(lat)] <- NA
+print(levelplot(lat,col.regions = clrs,xlab = "",ylab = "",colorkey = TRUE))
+
 
 ```
 
