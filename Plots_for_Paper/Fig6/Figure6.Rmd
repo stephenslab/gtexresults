@@ -1,0 +1,72 @@
+---
+title: "Figure6"
+output: html_document
+---
+
+Perform the analysis with global:
+```{r setup, include=FALSE}
+library('knitr')
+knitr::opts_chunk$set(cache=TRUE)
+#opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/") 
+```
+
+```{r loaddata,echo=F}
+library(gplots)
+library(ggplot2)
+
+
+pm.mash=as.matrix(read.table("../../Results_Data/withzeroposterior.means.txt")[,-1])
+lfsr.all=read.table("../../Results_Data/withzerolfsr.txt")[,-1]
+
+
+maxb=read.table("../../Data/maxbetahats.txt")
+maxz=read.table("../../Data/maxz.txt")
+
+standard.error=maxb/maxz
+
+pm.mash.beta=pm.mash*standard.error
+
+```
+
+```{r generate matrix,echo=F}
+thresh=0.05
+
+pm.mash.beta=pm.mash.beta[rowSums(lfsr.all<0.05)>0,]
+lfsr.mash=lfsr.all[rowSums(lfsr.all<0.05)>0,]
+
+shared.fold.size=matrix(NA,nrow = ncol(lfsr.mash),ncol=ncol(lfsr.mash))
+colnames(shared.fold.size)=rownames(shared.fold.size)=colnames(maxz)
+for(i in 1:ncol(lfsr.mash)){
+  for(j in 1:ncol(lfsr.mash)){
+    sig.row=which(lfsr.mash[,i]<thresh)
+    sig.col=which(lfsr.mash[,j]<thresh)
+    a=(union(sig.row,sig.col))
+    #a=(intersect(sig.row,sig.col))
+    #quotient=abs(pm.mash.beta[a,i]/pm.mash.beta[a,j])
+    quotient=(pm.mash.beta[a,i]/pm.mash.beta[a,j])##divide effect sizes
+    ##divide effect sizes
+    shared.fold.size[i,j]=mean(quotient>0.5&quotient<2)
+   
+  }}
+
+````
+
+
+
+
+
+```{r heatmap2sharingmagnitude,echo=F,fig.height=10,fig.width=10}
+all.tissue.order=read.table("../../Data/alltissueorder.txt")[,1]
+
+
+library(lattice)
+
+
+clrs <- colorRampPalette(rev(c("#D73027","#FC8D59","#FEE090","#FFFFBF",
+                               "#E0F3F8","#91BFDB","#4575B4")))(64)
+
+lat=shared.fold.size[rev(all.tissue.order),rev(all.tissue.order)]
+lat[lower.tri(lat)] <- NA
+print(levelplot(lat,col.regions = clrs,xlab = "",ylab = "",colorkey = TRUE))
+
+```

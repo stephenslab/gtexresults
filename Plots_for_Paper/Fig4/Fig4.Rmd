@@ -1,0 +1,107 @@
+---
+title: "Figure4"
+output: html_document
+---
+
+
+```{r}
+library('knitr')
+
+library('rmeta')
+#knitr::opts_chunk$set(cache=TRUE)
+opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/") 
+```
+
+In this file, we make the metaplots demonstrating the original effects and the posterior estimates.
+
+```{r exampleuk3,echo=F}
+source("../../Analysis/normfuncs.R")
+
+z.stat=read.table("../../Data/maxz.txt")
+b.stat=read.table("../../Data/maxbetahats.txt")
+standard.error=b.stat/z.stat
+
+
+posterior.means=read.table("../../Results_Data/withzeroposterior.means.txt")[,-1]
+
+
+posterior.betas=standard.error*posterior.means
+pm.beta.norm=het.norm(posterior.betas)
+
+lfsr=read.table("../../Results_Data/withzerolfsr.txt")[,-1]
+covmat=readRDS("../../Results_Data/covmatwithzero.rds")
+mar.var=read.table("../../Results_Data/withzeromarginal.var.txt")[,-1]
+colnames(lfsr)=colnames(mar.var)=colnames(posterior.means)=colnames(z.stat)
+
+
+
+missing.tissues=c(7,8,19,20,24,25,31,34,37)
+uk3labels=read.table("../../Analysis/uk3rowindices.txt")[,1]
+
+newfunc.2=function(j){
+gtex.colors=read.table('../../Data/GTExColors.txt', sep = '\t', comment.char = '')[-missing.tissues,2]
+gtex.colors=gtex.colors[uk3labels]
+
+
+
+
+pm.beta.norm=pm.beta.norm[,uk3labels]##shufflecolumns
+z.shuffle=z.stat[,uk3labels]
+b.shuffle=b.stat[,uk3labels]
+post.var=mar.var[uk3labels]
+post.bshuffle=posterior.betas[,uk3labels]
+sem.shuffle=standard.error[,uk3labels]
+lfsr=lfsr[,uk3labels]
+title=strsplit(rownames(z.stat)[j], "[.]")[[1]][1]
+
+
+
+
+x=as.numeric(post.bshuffle[j,])
+
+par(mfrow=c(1,1))
+metaplot(as.numeric(b.shuffle[j,]),as.numeric(sem.shuffle[j,]),xlab = "",ylab="",colors=meta.colors(box=as.character(gtex.colors)),xlim=c(-1,1))
+title(title)
+
+par(mfrow=c(1,1))
+sd=as.numeric(sem.shuffle[j,])*sqrt(as.numeric(post.var[j,]))##to transform to posterior sd of beta
+metaplot(x,sd,xlab = "",ylab="",colors=meta.colors(box=as.character(gtex.colors)),xlim=c(-1,1))
+title(title)
+}
+````
+
+
+Our firsr example is MCPH1: original estimates and then posteriors:
+
+```{r example3,fig.height=5,fig.width=5}
+
+###
+three.ex.3=which(rownames(z.stat)=="ENSG00000249898.3_8_6521432_T_C_b37")
+newfunc.2(three.ex.3)
+
+whole.blood.spec=which(rowSums(pm.beta.norm[,-44]<0.5)==43&(rowSums(lfsr[,1:44]<0.05)>=40))
+
+```
+
+
+FLJ13114 
+```{r oldex5,fig.width=5,fig.height=5}
+###
+five.ex=which(rownames(z.stat)=="ENSG00000120029.8_10_103924251_G_A_b37")
+testes.spec=which(rowSums(pm.beta.norm[,-40]<0.5)==43&(rowSums(lfsr[,1:44]<0.05)>=40))[1:10]
+
+newfunc.2(five.ex)
+```
+ 
+RALBP1
+
+```{r wholebloodquant,fig.width=5,fig.height=5}
+###
+wholebloodfour=(which(rownames(z.stat)=="ENSG00000017797.7_18_9488704_C_T_b37"))
+newfunc.2(wholebloodfour)
+
+```
+
+
+
+
