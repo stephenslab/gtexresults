@@ -1,0 +1,74 @@
+## Data files required to reproduce this analysis can be downloaded at
+## https://github.com/surbut/gtexresults_matrixash/wiki/mash_gtex_analysis.zip. They are also avialble in the directory Inputs. Conveninetly, the output of these files have been provided in Data_Results.
+
+We assume you put these files in Input:
+
+```{r}
+library('mashr')
+library('ExtremeDeconvolution')
+
+t.stat=read.table("../Inputs/maxz.txt")
+v.j=matrix(rep(1,ncol(t.stat)*nrow(t.stat)),ncol=ncol(t.stat),nrow=nrow(t.stat))
+mean.mat=matrix(rep(0,ncol(t.stat)*nrow(t.stat)),ncol=ncol(t.stat),nrow=nrow(t.stat))
+lambda.mat=as.matrix(read.table("../Inputs/zsfa_lambda.out"))
+factor.mat=as.matrix(read.table("../Inputs/zsfa_F.out"))
+```
+
+This step may take some time, so we suggest to run on a cluster. We deconvolve the estimates from Bovy:
+  
+```{r, extremedeconvolution}
+ms=deconvolution.em.with.bovy(t.stat,factor.mat,v.j,lambda.mat,K=3,P=3)
+#saveRDS(ms,"max.step3.rds")
+```
+
+After denoising, then we run MASH:
+
+```{r}
+max.step=readRDS("../Inputs/max.step3.rds")
+z.stat=read.table("../Inputs/maxz.txt")
+rownames(z.stat)=NULL
+colnames(z.stat)=NULL
+v.j=matrix(rep(1,ncol(z.stat)*nrow(z.stat)),ncol=ncol(z.stat),nrow=nrow(z.stat))
+
+lambda.mat=as.matrix(read.table("../zsfa_lambda.out"))
+factor.mat=as.matrix(read.table("../zsfa_F.out"))
+
+A="withzero"
+
+covmat=compute.hm.covmat.all.max.step(b.hat=z.stat,se.hat=v.j,t.stat=z.stat,Q=5,lambda.mat=lambda.mat,A=A,factor.mat=factor.mat,max.step=max.step,zero=TRUE)$covmat
+
+train.z=read.table("../Inputs/trainz.txt.gz")
+rownames(train.z)=NULL
+colnames(train.z)=NULL
+
+train.v=matrix(rep(1,ncol(train.z)*nrow(train.z)),ncol=ncol(train.z),nrow=nrow(train.z))
+```
+
+Now, we will compute the hierarchical mixture proportions using the training data:
+
+```{r}
+tim=proc.time()
+compute.hm.train.log.lik(train.b = train.z,se.train = train.v,covmat = covmat,A,pen=TRUE) 
+proc.time()-tim
+```
+
+This produces a matric of likelihoods, and a list of pis (pis.rds$pihat) as well as a corresponding pdf display. WE can use these to compute the posteriors.
+
+```{r}
+pis=readRDS(paste0("pis",A,".rds"))$pihat
+z.stat=read.table("../maxz.txt")
+
+tim=proc.time()
+weightedquants=lapply(seq(1:nrow(z.stat)),function(j){total.quant.per.snp(j,covmat,b.gp.hat=z.stat,se.gp.hat = v.j,pis,A,checkpoint = FALSE)})
+```
+
+The step above will produce 6 files corresponding to point quantities of the posterior distribution.
+
+posterior.means
+posterior.ups
+posterior.lower
+posterior.null
+posterior.weights
+lfsr
+
+
