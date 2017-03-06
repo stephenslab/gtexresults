@@ -50,6 +50,15 @@ selected the following SNPs for these genes:
 "26","ENSG00000267508.1","19_44901056_TAA_T_b37","19_44902190_G_A_b37"
 "27","ENSG00000272030.1","1_153021592_C_A_b37","1_153605909_G_A_b37"
 ```
+To run the pipeline:
+
+```
+sos run 2SNP.sos
+```
+If you do not have `sos` command you need to install it via:
+```
+pip3 install sos
+```
 
 ## Results
 Result is organized in [this table](http://surbut.github.io/gtexresults_matrixash/TwoSNP) 
