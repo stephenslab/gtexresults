@@ -3,15 +3,14 @@ title: "Figure4"
 output: pdf_document
 ---
 
-
-##This is the OLD
+##This is using the matrix of correlated residuals
 
 ```{r}
 library('knitr')
 
 library('rmeta')
 #knitr::opts_chunk$set(cache=TRUE)
-opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/") 
+#opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/") 
 ```
 
 In this file, we make the metaplots demonstrating the original effects and the posterior estimates.
@@ -30,9 +29,10 @@ posterior.means=read.table("../../Results_Data/withzeroposterior.means.txt")[,-1
 posterior.betas=standard.error*posterior.means
 pm.beta.norm=het.norm(posterior.betas)
 
-lfsr=read.table("../../Results_Data/withzerolfsr.txt")[,-1]
-covmat=readRDS("../../Results_Data/covmatwithzero.rds")
-mar.var=read.table("../../Results_Data/withzeromarginal.var.txt")[,-1]
+covmat=readRDS("../../Data_vhat/covmatwithvhat.rds")
+post.means=read.table("../../Data_vhat/withvhatposterior.means.txt")[,-1]
+lfsr=read.table("../../Data_vhat/withvhatlfsr.txt")[,-1]
+mar.var=read.table("../../Data_vhat/withvhatmarginal.var.txt")[,-1]
 colnames(lfsr)=colnames(mar.var)=colnames(posterior.means)=colnames(z.stat)
 
 

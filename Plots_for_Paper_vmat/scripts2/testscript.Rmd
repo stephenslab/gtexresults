@@ -1,0 +1,62 @@
+---
+title: "TestingCode"
+output: html_document
+---
+
+We want to test the output of the vmat code:
+
+
+```{r}
+max.step=readRDS("../../Data_vhat/max.steps3033.rds")
+z.stat=read.table("../../Data/maxz.txt")
+rownames(z.stat)=NULL
+colnames(z.stat)=NULL
+v.mat=readRDS("../../Data_vhat/vhat.RDS")
+
+
+v.j=matrix(rep(1,ncol(z.stat)*nrow(z.stat)),ncol=ncol(z.stat),nrow=nrow(z.stat))
+library("mashr")
+pis=readRDS("../../Data_vhat/piswithvhat.rds")$pihat
+covmat=readRDS("../../Data_vhat/covmatwithvhat.rds")
+post.means=read.table("../../Data_vhat/withvhatposterior.means.txt")[,-1]
+lfsr=read.table("../../Data_vhat/withvhatlfsr.txt")[,-1]
+```
+
+
+Prove that the computations are correct at each component, and that the v.mat is correctly incorporated into the matrix of correlated residuals:
+
+```{r}
+j=sample(1:nrow(z.stat),1)
+print(j)
+b.test=z.stat
+
+b.mle=as.vector(t(b.test[j,]))##turn i into a R x 1 vector
+V.gp.hat=v.mat
+V.gp.hat.inv <- solve(V.gp.hat)
+all.arrays=post.array.per.snp.with.vmat(j=j,covmat = covmat,b.gp.hat = b.test,se.gp.hat = v.j,cormat = v.mat)
+
+k=3
+U.gp1kl <- (post.b.gpkl.cov(V.gp.hat.inv, covmat[[k]]))
+mu.gp1kl <- as.array(post.b.gpkl.mean(b.mle, V.gp.hat.inv, U.gp1kl))
+#(all.arrays$post.means[k,])
+all.equal(as.numeric(all.arrays$post.means[k,]),as.numeric(mu.gp1kl))
+all.equal(as.numeric(all.arrays$post.covs[k,]),as.numeric(diag(U.gp1kl)))
+##Now, check to make sure weighting is correct
+
+
+log.lik.snp=log.lik.func(b.mle,V.gp.hat,covmat)
+log.lik.minus.max=log.lik.snp-max(log.lik.snp)
+#log.pi=log(pis)
+#s=log.lik.minus.max+log.pi
+exp.vec=exp(log.lik.minus.max)
+post.weights=t(exp.vec*pis/sum(exp.vec*pis))
+all.equal(as.numeric(post.means[j,]),as.numeric(post.weights%*%all.arrays$post.means))
+
+sehat=diag(v.j[j,]);cormat=v.mat
+V.gp.hat=sehat%*%cormat%*%sehat
+all.equal(as.numeric(V.gp.hat),as.numeric(cormat))
+```
+
+
+
+

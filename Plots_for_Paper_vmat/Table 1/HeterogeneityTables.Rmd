@@ -16,7 +16,9 @@ source("../../Analysis/normfuncs.R")
 First, we asked in how many tissues is a QTL signficiant. 
 ```{r loaddata,echo=T}
 
-lfsr=read.table("../../Results_Data/withzerolfsr.txt")[,-1]
+
+
+lfsr=read.table("../../Data_vhat/withvhatlfsr.txt")[,-1]
 lfsr[lfsr<0]=0
 lfsr.nobrain=read.table("../../withoutbrain/nobrainlfsr.txt")[,-1]
 lfsr.brain.only=read.table("../../BrainOnly/brainonlylfsr.txt")[,-1]
@@ -30,7 +32,8 @@ colnames(lfsr.brain.only)=tissue.names[c(7:16)]
 maxbeta=read.table("../../Data/maxbetahats.txt")
 maxz=read.table("../../Data/maxz.txt")
 standard.error=read.table("../../Data/standard.error.txt")
-pm.mash=as.matrix(read.table("../../Results_Data/withzeroposterior.means.txt")[,-1])
+pm.mash=read.table("../../Data_vhat/withvhatposterior.means.txt")[,-1]
+
 pm.mash.beta=pm.mash*standard.error
 
 pm.mash.nobrain=as.matrix(read.table("../../withoutbrain/nobrainposterior.means.txt")[,-1])*standard.error[,-c(7:16)]

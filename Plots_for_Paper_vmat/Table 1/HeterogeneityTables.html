@@ -123,7 +123,7 @@ $(document).ready(function () {
 <div id="heterogeneity-analysis" class="section level2">
 <h2>Heterogeneity Analysis</h2>
 <p>First, we asked in how many tissues is a QTL signficiant.</p>
-<pre class="r"><code>lfsr=read.table(&quot;../../Results_Data/withzerolfsr.txt&quot;)[,-1]
+<pre class="r"><code>lfsr=read.table(&quot;../../Data_vhat/withvhatlfsr.txt&quot;)[,-1]
 lfsr[lfsr&lt;0]=0
 lfsr.nobrain=read.table(&quot;../../withoutbrain/nobrainlfsr.txt&quot;)[,-1]
 lfsr.brain.only=read.table(&quot;../../BrainOnly/brainonlylfsr.txt&quot;)[,-1]
@@ -137,7 +137,8 @@ colnames(lfsr.brain.only)=tissue.names[c(7:16)]
 maxbeta=read.table(&quot;../../Data/maxbetahats.txt&quot;)
 maxz=read.table(&quot;../../Data/maxz.txt&quot;)
 standard.error=read.table(&quot;../../Data/standard.error.txt&quot;)
-pm.mash=as.matrix(read.table(&quot;../../Results_Data/withzeroposterior.means.txt&quot;)[,-1])
+pm.mash=read.table(&quot;../../Data_vhat/withvhatposterior.means.txt&quot;)[,-1]
+
 pm.mash.beta=pm.mash*standard.error
 
 pm.mash.nobrain=as.matrix(read.table(&quot;../../withoutbrain/nobrainposterior.means.txt&quot;)[,-1])*standard.error[,-c(7:16)]
@@ -149,16 +150,16 @@ thresh=0.05</code></pre>
 <pre class="r"><code>sigmat=(lfsr&lt;=thresh)
 nsig= rowSums(sigmat)
 (signall=mean(het.norm(pm.mash.beta[nsig&gt;0,])&gt;0))</code></pre>
-<pre><code>## [1] 0.8494795</code></pre>
+<pre><code>## [1] 0.8512519</code></pre>
 <pre class="r"><code>##show that results are robust in global analysis###
 sigmat=(lfsr[,-c(7:16)]&lt;=thresh)
 nsig= rowSums(sigmat)
 (signall.nobrain=mean(het.norm(pm.mash.beta[,-c(7:16)])&gt;0))</code></pre>
-<pre><code>## [1] 0.8621679</code></pre>
+<pre><code>## [1] 0.8493317</code></pre>
 <pre class="r"><code>sigmat=(lfsr[,c(7:16)]&lt;=thresh)
 nsig= rowSums(sigmat)
 (signall.brainonly=mean(het.norm(pm.mash.beta[nsig&gt;0,c(7:16)])&gt;0))</code></pre>
-<pre><code>## [1] 0.9592103</code></pre>
+<pre><code>## [1] 0.9602292</code></pre>
 <pre class="r"><code>####SHow that results are robust in specific analysis
 
 sigmat=(lfsr.nobrain&lt;=thresh)
@@ -173,16 +174,16 @@ nsig= rowSums(sigmat)
 <pre class="r"><code>sigmat=(lfsr&lt;=thresh)
 nsig= rowSums(sigmat)
 (magall=mean(het.norm(pm.mash.beta[nsig&gt;0,])&gt;0.5))</code></pre>
-<pre><code>## [1] 0.3669264</code></pre>
+<pre><code>## [1] 0.3591297</code></pre>
 <pre class="r"><code>##show that results are robust###
 sigmat=(lfsr[,-c(7:16)]&lt;=thresh)
 nsig= rowSums(sigmat)
 (magall.excludingbrain=mean(het.norm(pm.mash.beta[nsig&gt;0,-c(7:16)])&gt;0.5))</code></pre>
-<pre><code>## [1] 0.4150936</code></pre>
+<pre><code>## [1] 0.3976238</code></pre>
 <pre class="r"><code>sigmat=(lfsr[,c(7:16)]&lt;=thresh)
 nsig= rowSums(sigmat)
 (magall.brainonly=mean(het.norm(pm.mash.beta[nsig&gt;0,c(7:16)])&gt;0.5))</code></pre>
-<pre><code>## [1] 0.7755301</code></pre>
+<pre><code>## [1] 0.7638909</code></pre>
 <pre class="r"><code>##show that results are robust###
 sigmat=(lfsr.nobrain&lt;=thresh)
 nsig= rowSums(sigmat)

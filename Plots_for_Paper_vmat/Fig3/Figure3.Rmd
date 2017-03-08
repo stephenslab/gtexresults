@@ -4,17 +4,30 @@ output: pdf_document
 ---
 Here we plot the correlation matrix and the first 3 eigenvectors of Uk3.
 
-```{r,fig.show='hide'}
+```{r,echo=T}
 library('knitr')
 
 knitr::opts_chunk$set(cache=TRUE)
-opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/ForNatureTechnicalReports/Figures/") 
-covmat=readRDS("../..//Results_Data/covmatwithzero.rds")
+#opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/ForNatureTechnicalReports/Figures/") 
+covmat=readRDS("../../Data_vhat/covmatwithvhat.rds")
 
 z.stat=read.table("../../Data/maxz.txt")
 names=colnames(z.stat)
-pis=readRDS("../../Results_Data/piswithzero.rds")$pihat
+pis=readRDS("../../Data_vhat/piswithvhat.rds")$pihat
 pi.mat=matrix(pis[-length(pis)],ncol=54,nrow=22,byrow = T)
+
+names=colnames(z.stat)
+colnames(pi.mat)=c("ID","X'X","SVD","F1","F2","F3","F4","F5","SFA_Rank5",c(names,"ALL"))
+
+barplot(colSums(pi.mat),main='WithVmat',las=2,cex.names=0.5)
+
+oldpis=readRDS("../../Results_Data//piswithzero.rds")$pihat
+
+pi.matold=matrix(oldpis[-length(oldpis)],ncol=54,nrow=22,byrow = T)
+colnames(pi.matold)=c("ID","X'X","SVD","F1","F2","F3","F4","F5","SFA_Rank5",c(names,"ALL"))
+
+barplot(colSums(pi.matold),main='OLD',las=2,cex.names=0.5)
+
 ```
 
 ```{r corplotuk3,fig.height=10,fig.width=10}
