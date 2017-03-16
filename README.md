@@ -31,3 +31,7 @@ produces 6 .txt files containing the posterior means, upper and lower tail proba
 ###Producing Figures
 
 If you wish to produce all the results from the paper without running mashr first, the directory **Plots_for_Paper_vmat** has a .Rmd to neatly produce the results for each figure neatly. Because we have provided the results from running Mash on the gtex data in **Results_Data** you need not run mashr on the gtex data, and can instead use this output to produce the figures.
+
+
+
+[Here is the link to the index](http://surbut.github.io/gtexresults_matrixash/Plots_for_Paper_vmat/IndexofPlots.html) discussing the reproduction of all of the plots.
