@@ -9,7 +9,7 @@ In this document, we generate plots for Heterogeneity Distributions
 library('knitr')
 
 knitr::opts_chunk$set(cache=TRUE)
-#opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/") 
+opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/NGrevision/Figureswithres/") 
 
 source("../../Analysis/normfuncs.R")
 maxbeta=read.table("../../Data/maxbetahats.txt")

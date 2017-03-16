@@ -1,0 +1,36 @@
+---
+title: "Index"
+output: html_document
+---
+
+In this directory, we provide all the instructions for reproducing the GTEx results from: "Flexible statistical methods for estimating and testing effects in genomic studies with multiple conditions" (Urbut et al 2017).
+
+
+Figure 3:[Summary of primary patterns identified by mash in GTEx data](Fig3/Figure3.pdf)
+
+Figure 4:[Examples illustrating of how mash uses patterns of sharing to inform effect estimates in the GTEx data.](Fig4/Fig4.pdf)
+
+Figure 5:[Histogram of Sharing](Fig5/Figure5.pdf)
+
+Figure 6:[Pairwise sharing by magnitude of eQTL among tissues](Fig6/Figure6.pdf)
+
+Supplementary Figure 1:[Sample sizes and effective sample sizes from mash analysis across tissues](SuppFig1/SampleSize.pdf)
+
+Supplementary Figure 2:There are 4 figures here:
+
+[Summary of covariance matrices Uk with largest estimated weight (> 1%) in GTEx data:Uk2](SuppFig2/Uk2.pdf)
+
+[Summary of covariance matrices Uk with largest estimated weight (> 1%) in GTEx data:Uk4](SuppFig2/uk4.pdf)
+
+[Summary of covariance matrices Uk with largest estimated weight (> 1%) in GTEx data:Uk5](SuppFig2/uk5.pdf)
+
+[Summary of covariance matrices Uk with largest estimated weight (> 1%) in GTEx data:Uk8](SuppFig2/uk8.pdf)
+
+
+Supplementary Figure 3:[ Illustration of how Linkage Disequilibrium can impact effect estimate](../TwoSNP/2SNP.sos)
+
+Supplementary Figure 4:[Pairwise Sharing By Sign](SuppFig4/SharingbySign.pdf)
+
+Supplementary Figure 5:[Number of “tissue-specific eQTLs” in each tissues.](SuppFig5/Tspecific.pdf)
+
+Supplementary Figure 6:[Expression levels in genes with “tissue-specific eQTLs” are similar to those in other genes](SuppFig6/ExpressionAnalysis.pdf)

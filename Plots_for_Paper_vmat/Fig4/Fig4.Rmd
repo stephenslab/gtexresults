@@ -10,7 +10,8 @@ library('knitr')
 
 library('rmeta')
 #knitr::opts_chunk$set(cache=TRUE)
-#opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/") 
+
+opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figureswithres/") 
 ```
 
 In this file, we make the metaplots demonstrating the original effects and the posterior estimates.

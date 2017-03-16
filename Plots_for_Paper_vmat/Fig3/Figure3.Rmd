@@ -8,7 +8,7 @@ Here we plot the correlation matrix and the first 3 eigenvectors of Uk3.
 library('knitr')
 
 knitr::opts_chunk$set(cache=TRUE)
-#opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/ForNatureTechnicalReports/Figures/") 
+opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/NGRevision/Figureswithres/") 
 covmat=readRDS("../../Data_vhat/covmatwithvhat.rds")
 
 z.stat=read.table("../../Data/maxz.txt")
@@ -64,10 +64,13 @@ library(lattice)
 
 clrs <- colorRampPalette(rev(c("#D73027","#FC8D59","#FEE090","#FFFFBF",
                                "#E0F3F8","#91BFDB","#4575B4")))(64)
-#clrs[63:64] <- "darkviolet"
 lat=x[rev(h),rev(h)]
+#lat=x[h,h]
 lat[lower.tri(lat)] <- NA
-print(levelplot(lat,col.regions = clrs,xlab = "",ylab = "",colorkey = TRUE))
+n=nrow(lat)
+print(levelplot(lat[n:1,],col.regions = clrs,xlab = "",ylab = "",colorkey = TRUE,at=seq(0,1,length.out=64)))
+
+#print(levelplot(lat,col.regions = clrs,xlab = "",ylab = "",colorkey = TRUE))
 ```
 
 Now let's do the eigenplots:

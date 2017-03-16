@@ -1,0 +1,53 @@
+---
+title: "Tspec"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+
+library('knitr')
+knitr::opts_chunk$set(cache=TRUE)
+opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/NGrevision/Figureswithres/") 
+```
+
+```{r barplotspec,echo=FALSE}
+source("../../Analysis/normfuncs.R")
+thresh=0.05
+
+
+pm.mash=as.matrix(read.table("../../Data_vhat/withvhatposterior.means.txt")[,-1])
+lfsr.mash=read.table("../../Data_vhat/withvhatlfsr.txt")[,-1]
+
+standard.error=read.table("../../Data/standard.error.txt")
+pm.mash.beta=pm.mash*standard.error
+maxz=read.table("../../Data/maxz.txt")
+maxb=read.table("../../Data/maxbetahats.txt")
+
+nsig=rowSums(lfsr.mash<thresh)
+pm.mash.beta.norm=het.norm(effectsize = pm.mash.beta)
+pm.mash.beta.norm=pm.mash.beta.norm[(nsig>0),]
+lfsr.mash=as.matrix(lfsr.mash[nsig>0,])
+colnames(lfsr.mash)=colnames(maxz)
+
+thresh=0.05
+missing.tissues=c(7,8,19,20,24,25,31,34,37)
+color.gtex=read.table("../../Data/GTExColors.txt",sep = '\t', comment.char = '')[-missing.tissues,]
+col = as.character(color.gtex[,2])
+
+
+
+
+a=which(rowSums(pm.mash.beta.norm>0.5)==1)
+lfsr.fold=as.matrix(lfsr.mash[a,])
+pm=as.matrix(pm.mash.beta.norm[a,])
+tspec=NULL
+for(i in 1:ncol(pm)){
+  tspec[i]=sum(pm[,i]>0.5)
+  }##check to see that the effect is significant and greater than 0.5 max effect in only that tissue
+
+tspec=as.matrix(tspec);rownames(tspec)=colnames(maxz)
+
+barplot(as.numeric(t(tspec)),#main=paste0("Number of eQTL with Bjnorm>0.5 in one Tissue"),
+        las=2,cex.names=0.3,col=col,names=colnames(lfsr.fold))
+```
+

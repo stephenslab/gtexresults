@@ -1,0 +1,81 @@
+---
+title: "Uk5"
+output: pdf_document
+---
+
+
+Here we plot the correlation matrix and the first 3 eigenvectors of Uk2.
+
+```{r,fig.show='hide'}
+library('knitr')
+
+knitr::opts_chunk$set(cache=TRUE)
+opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/NGRevision/Figureswithres/") 
+covmat=readRDS("../../Results_Data/covmatwithzero.rds")
+
+covmat=readRDS("../../Data_vhat/covmatwithvhat.rds")
+
+z.stat=read.table("../../Data/maxz.txt")
+names=colnames(z.stat)
+pis=readRDS("../../Data_vhat/piswithvhat.rds")$pihat
+pi.mat=matrix(pis[-length(pis)],ncol=54,nrow=22,byrow = T)
+
+
+```
+
+```{r corplotuk2,fig.height=10,fig.width=10}
+library(gplots)
+library(ggplot2)
+library('colorRamps')
+#install.packages("fields")
+library(fields)
+k=5
+colSums(pi.mat)[k]
+hclust.2=function (d, method = "average", members = NULL) {hclust(d, method, members)}
+  x=cov2cor(covmat[[k]])
+x[x<0]=0
+  colnames(x)=names
+  rownames(x)=names
+
+h=read.table(paste0("../../Data/uk",k,"rowIndices.txt"))[,1]
+```
+
+Lattice
+
+```{r heatmapuk5final,fig.height=10,fig.width=10}
+
+
+
+library(lattice)
+
+
+clrs <- colorRampPalette(rev(c("#D73027","#FC8D59","#FEE090","#FFFFBF",
+                               "#E0F3F8","#91BFDB","#4575B4")))(64)
+#clrs[63:64] <- "darkviolet"
+lat=x[rev(h),rev(h)]
+#lat=x[h,h]
+lat[lower.tri(lat)] <- NA
+n=nrow(lat)
+print(levelplot(lat[n:1,],col.regions = clrs,xlab = "",ylab = "",colorkey = TRUE))
+
+```
+
+
+
+And the SVD Plots:
+
+```{r eigenplots2}
+missing.tissues=c(7,8,19,20,24,25,31,34,37)
+color.gtex=read.table("../../Data/GTExColors.txt",sep = '\t', comment.char = '')[-missing.tissues,]
+col = as.character(color.gtex[,2])
+
+
+k=5
+h=read.table(paste0("../../Data/uk",k,"rowIndices.txt"))[,1]
+
+g=1
+v=svd(covmat[[k]])$v[h,]
+rownames(v)=colnames(v)=names[h]
+par(mar=c(8,4.1,4.1,2.1))
+barplot(v[,g]/v[which.max(abs(v[,g])),g],las=2,main=paste("Eigenvector",g,"of Uk",k),cex.names = 0.5,col=col[h],names=names[h])
+````

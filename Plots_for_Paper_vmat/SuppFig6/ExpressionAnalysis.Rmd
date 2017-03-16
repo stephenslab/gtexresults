@@ -1,0 +1,146 @@
+---
+title: "expressionconfirm"
+output: pdf_document
+---
+
+
+
+Here, we simply plot the density of the average expression for all genes
+
+```{r, cache=TRUE,echo=FALSE}
+
+library('knitr')
+opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/NGrevision/Figureswithres/") 
+library('qtlcharts')
+data=read.csv("../../Data/AvgExpr.csv.gz",header = T)
+rownames(data)=data[,1]
+expr.data=data[,-1]
+maxz=read.table("../../Data/maxz.txt")
+qtl.names=sapply(1:length(rownames(maxz)),function(x){unlist(strsplit(rownames(maxz)[x], "[_]"))[[1]]})
+expr.sort=expr.data[rownames(expr.data)%in%qtl.names,]
+
+
+pmash=as.matrix(read.table("../../Data_vhat/withvhatposterior.means.txt")[,-1])
+lfsr=read.table("../../Data_vhat/withvhatlfsr.txt")[,-1]
+
+
+colnames(lfsr)=colnames(pmash)=colnames(maxz)
+rownames(lfsr)=rownames(pmash)=rownames(maxz)
+
+a=match(qtl.names,rownames(expr.sort))###in order to make sure the gene names are the same in both
+
+
+expr.sort=expr.sort[a,]
+
+
+missing.tissues=c(7,8,19,20,24,25,31,34,37)
+exp.sort=expr.sort[,-missing.tissues]
+colnames(exp.sort)=colnames(maxz)
+```
+
+```{r definefunc,echo=FALSE}
+plot_tissuespecific = function(tissuename,lfsr,curvedata,title,thresh=0.05,subset=1:44){
+  index_tissue=which(colnames(lfsr) %in% tissuename);
+  ybar=title
+  ##create a matrix showing whether or not lfsr satisfies threshold
+  sigmat = lfsr <= thresh;
+  sigs=which(rowSums(sigmat[,index_tissue,drop=FALSE])==length(tissuename) & rowSums(sigmat[,-index_tissue,drop=FALSE])==0)
+  sigs.it=which(lfsr[sigs,index_tissue]<thresh)
+  iplotCurves(curvedata[sigs,subset],chartOpts=list(curves_xlab="Tissue",curves_ylab=ybar))
+}  
+
+
+plot_tissuespecifictwo = function(tissuename,lfsr,ymax,curvedata,title,thresh=0.05,subset=1:44,exclude=0.01){
+  index_tissue=which(colnames(lfsr) %in% tissuename);
+  ybar=title
+  ##create a matrix showing whether or not lfsr satisfies threshold
+  sigmat = lfsr <= thresh;
+  sigs=which(rowSums(sigmat[,index_tissue,drop=FALSE])==length(tissuename) & rowSums(sigmat[,-index_tissue,drop=FALSE])==0)##determine which are significant in only testis
+  norm.spec=density(curvedata[sigs,index_tissue])
+  norm.other=density(curvedata[-sigs,index_tissue])
+  xmin=min(norm.spec$x,norm.other$x)-1
+  ymin=min(norm.spec$y,norm.other$y)
+  xmax=max(norm.spec$x,norm.other$x)+1
+  #ymax=max(norm.spec$y,norm.other$y)+0.4
+
+  plot(norm.other,xlim = c(xmin,xmax),ylim=c(0,ymax),
+       col="black",main=tissuename,xlab="log(RPKM)")
+  
+    lines(norm.spec,col="red")
+  legend("right",legend = c("All Genes","Tissue Specific"),col=c("black","red"),pch=c(1,1))
+  
+  } 
+
+
+
+
+plot_tissuespecificthree= function(tissuename,lfsr,ymax,curvedata,title,thresh=0.05,subset=1:44,exclude=0.01){
+  index_tissue=which(colnames(lfsr) %in% tissuename);
+  ybar=title
+  ##create a matrix showing whether or not lfsr satisfies threshold
+  sigmat = lfsr <= thresh;
+  sigs=which(rowSums(sigmat[,index_tissue,drop=FALSE])==length(tissuename) & rowSums(sigmat[,-index_tissue,drop=FALSE])==0)##determine which are significant in only testis
+  norm.spec=ecdf(curvedata[sigs,index_tissue])
+  norm.other=ecdf(curvedata[-sigs,index_tissue])
+  #xmin=min(norm.spec,norm.other)-1
+  #ymin=min(norm.spec$y,norm.other$y)
+  #xmax=max(norm.spec,norm.other)+1
+  #ymax=max(norm.spec$y,norm.other$y)+0.4
+
+  plot(norm.other,#xlim = c(xmin,xmax),
+       ylim=c(0,ymax),
+       col="black",main=tissuename,xlab="log(RPKM)")
+  
+    lines(norm.spec,col="red",cex=0.1)
+  legend("right",legend = c("All Genes","Tissue Specific"),col=c("black","red"),pch=c(1,1))
+  
+  } 
+
+
+```
+
+Here we compare quantiles and plot data:
+
+Thyroid:
+```{r thyroid}
+#compare.distribution(tissuename = "Thyroid",lfsr = lfsr,curvedata = log(exp.sort),thresh = 0.05 )
+  
+plot_tissuespecifictwo(tissuename = "Thyroid",lfsr = lfsr,curvedata = log(exp.sort),title = "Test",thresh = 0.05,ymax=0.5 )
+
+plot_tissuespecificthree(tissuename = "Thyroid",lfsr = lfsr,curvedata = log(exp.sort),title = "Test",thresh = 0.05,ymax=1 )
+
+```
+
+Testis:
+
+
+
+```{r testis}
+#compare.distribution(tissuename = "Testis",lfsr = lfsr,curvedata = log(exp.sort),thresh = 0.05)
+
+plot_tissuespecifictwo(tissuename = "Testis",lfsr = lfsr,curvedata = log(exp.sort),title = "Test",thresh = 0.05 ,ymax=0.5)
+
+plot_tissuespecificthree(tissuename = "Testis",lfsr = lfsr,curvedata = log(exp.sort),title = "Test",thresh = 0.05 ,ymax=1)
+```
+
+Whole Blood
+
+```{r wholeblood}
+#compare.distribution(tissuename = "Whole_Blood",lfsr = lfsr,curvedata = log(exp.sort),thresh = 0.05 )
+
+plot_tissuespecifictwo(tissuename = "Whole_Blood",lfsr = lfsr,curvedata = log(exp.sort),title = "Test",thresh = 0.05,ymax=0.5)
+
+plot_tissuespecificthree(tissuename = "Whole_Blood",lfsr = lfsr,curvedata = log(exp.sort),title = "Test",thresh = 0.05 ,ymax=1)
+```
+
+Muscle_Skeletal
+```{r ctf}
+plot_tissuespecifictwo(tissuename = "Cells_Transformed_fibroblasts",lfsr = lfsr,curvedata = log(exp.sort),title = "Test",thresh = 0.05,ymax=0.5)
+
+plot_tissuespecificthree(tissuename = "Cells_Transformed_fibroblasts",lfsr = lfsr,curvedata = log(exp.sort),title = "Test",thresh = 0.05 ,ymax=1)
+```
+
+
+
+
+
