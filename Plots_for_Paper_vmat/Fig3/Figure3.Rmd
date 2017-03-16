@@ -20,14 +20,6 @@ names=colnames(z.stat)
 colnames(pi.mat)=c("ID","X'X","SVD","F1","F2","F3","F4","F5","SFA_Rank5",c(names,"ALL"))
 
 barplot(colSums(pi.mat),main='WithVmat',las=2,cex.names=0.5)
-
-oldpis=readRDS("../../Results_Data//piswithzero.rds")$pihat
-
-pi.matold=matrix(oldpis[-length(oldpis)],ncol=54,nrow=22,byrow = T)
-colnames(pi.matold)=c("ID","X'X","SVD","F1","F2","F3","F4","F5","SFA_Rank5",c(names,"ALL"))
-
-barplot(colSums(pi.matold),main='OLD',las=2,cex.names=0.5)
-
 ```
 
 ```{r corplotuk3,fig.height=10,fig.width=10}
