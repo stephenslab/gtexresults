@@ -1,0 +1,19 @@
+source("/project/mstephens/gtex/scripts/SumstatQuery.R")
+
+mdat <- GetSS("max", "/project/mstephens/gtex/analysis/april2015/query/MatrixEQTLSumStats.h5")
+
+t.stat=mdat$"t-stat"
+
+beta.hat=mdat$"beta"
+
+standard.error=beta.hat/t.stat
+
+posterior.means=as.matrix(read.table("Aug13withEDposterior.means.txt")[,-1])
+
+post.betas=posterior.means*standard.error
+
+write.table(post.betas,col.names=colnames(t.stat),row.names=rownames(t.stat),file="Aug13withEDposterior.betas.txt")
+
+write.table(beta.hat,col.names=colnames(t.stat),row.names=rownames(t.stat),file="maxbetahats.txt")
+
+write.table(standard.error,col.names=colnames(t.stat),row.names=rownames(t.stat),file="standard.error.txt")
