@@ -3,6 +3,8 @@ title: "Tspec"
 output: pdf_document
 ---
 
+Here we plot the number of eQTL that are tissue specific by magnitude in only one tissue.
+
 ```{r setup, include=FALSE}
 
 library('knitr')

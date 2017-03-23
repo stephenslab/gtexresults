@@ -5,7 +5,7 @@ output: pdf_document
 
 
 
-Here, we simply plot the density of the average expression for all genes
+Here, we simply plot the density of the average expression for all genes to compare to the density of expression for 'tissue specific'genes.
 
 ```{r, cache=TRUE,echo=FALSE}
 

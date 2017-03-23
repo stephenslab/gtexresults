@@ -4,7 +4,7 @@ output: pdf_document
 ---
 
 
-Here we plot the correlation matrix and the first 3 eigenvectors of Uk2.
+Here we plot the correlation matrix and the first 3 eigenvectors of Uk4.
 
 ```{r,fig.show='hide'}
 library('knitr')
@@ -20,7 +20,7 @@ pi.mat=matrix(pis[-length(pis)],ncol=54,nrow=22,byrow = T)
 
 ```
 
-```{r corplotuk2,fig.height=10,fig.width=10}
+```{r corplotuk2,fig.height=10,fig.width=10,echo=F}
 library(gplots)
 library(ggplot2)
 library('colorRamps')

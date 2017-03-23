@@ -3,12 +3,9 @@ title: "SharingbySign"
 output: pdf_document
 ---
 
----
-title: "SharingBySign"
-output: pdf_document
----
 
-Perform the analysis with global:
+Perform the analysis with global, showing the proportion of signficiatn eQTL that have the same sign.
+
 ```{r setup, include=FALSE}
 library('knitr')
 knitr::opts_chunk$set(cache=TRUE)
@@ -56,7 +53,7 @@ for(i in 1:ncol(lfsr.mash)){
 
 ````
 
-Generate Plot with corrplot:
+
 
 ```{r sharingbysigndiagonalcorrplot,echo=F}
 library('colorRamps')
@@ -70,7 +67,7 @@ col = as.character(color.gtex[,2])
 
 ```
 
-Now do with heatmap.2:
+Generate plott with lattice:
 
 ```{r heatmap2sharingsign,echo=F,fig.height=10,fig.width=10}
 all.tissue.order=read.table("../../Data/alltissueorder.txt")[,1]

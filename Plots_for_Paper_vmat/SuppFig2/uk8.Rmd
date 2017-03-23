@@ -4,7 +4,7 @@ output: pdf_document
 ---
 
 
-Here we plot the correlation matrix and the first 3 eigenvectors of Uk2.
+Here we plot the correlation matrix and the first 3 eigenvectors of Uk8.
 
 ```{r,fig.show='hide'}
 library('knitr')
@@ -21,14 +21,14 @@ pi.mat=matrix(pis[-length(pis)],ncol=54,nrow=22,byrow = T)
 
 ```
 
-```{r corplotuk2,fig.height=10,fig.width=10}
+```{r corplotuk2,fig.height=10,fig.width=10,echo=F}
 library(gplots)
 library(ggplot2)
 library('colorRamps')
 #install.packages("fields")
 library(fields)
 k=8
-colSums(pi.mat)[k]
+#colSums(pi.mat)[k]
 hclust.2=function (d, method = "average", members = NULL) {hclust(d, method, members)}
   x=cov2cor(covmat[[k]])
 x[x<0]=0

@@ -3,11 +3,13 @@ title: "Uk3"
 output: pdf_document
 ---
 Here we plot the correlation matrix and the first 3 eigenvectors of Uk3.
+Uk3 is the covariance matrix corresponding to the output of the ExtremeDeconvolution algorithm that was initialized with the rank3 SVD approximation of X'X. It is the pattern of sharing with the most loading. We demonstrate which patterns have the most loading the pi barplot.
 
 ```{r,echo=T}
 library('knitr')
-
-knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(cache = TRUE,collapse = TRUE,comment = "#",
+                      fig.path = "figures/Figure3.Rmd",fig.align = "center",
+                      fig.width = 8,fig.height = 6) 
 opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/NGRevision/Figureswithres/") 
 covmat=readRDS("../../Data_vhat/covmatwithvhat.rds")
 
@@ -22,6 +24,8 @@ colnames(pi.mat)=c("ID","X'X","SVD","F1","F2","F3","F4","F5","SFA_Rank5",c(names
 barplot(colSums(pi.mat),main='WithVmat',las=2,cex.names=0.5)
 ```
 
+Here, we install necessary pacakges and load the indices and tissue names:
+
 ```{r corplotuk3,fig.height=10,fig.width=10}
 library(gplots)
 library(ggplot2)
@@ -29,14 +33,14 @@ library('colorRamps')
 #install.packages("fields")
 library(fields)
 k=3
-hclust.2=function (d, method = "average", members = NULL) {hclust(d, method, members)}
-  x=cov2cor(covmat[[k]])
+
+x=cov2cor(covmat[[k]])
 x[x<0]=0
-  colnames(x)=names
-  rownames(x)=names
+colnames(x)=names
+rownames(x)=names
 
 
-h=read.table("../../Analysis/uk3rowindices.txt")[,1]
+h=read.table("../../Data/uk3rowindices.txt")[,1]
 ```
 
 Now we orduce the heatmap. Note that this is flipped in the paper:
@@ -48,21 +52,14 @@ smat[lower.tri(smat)] <- NA
 
 library(lattice)
 
-#print(levelplot(smat,col.regions = jet.colors,xlab = "",ylab = "",colorkey = TRUE))
-
-
-
-#clrs <- colorRampPalette(rev(c("purple","#FC8D59","#FEE090","#FFFFBF","#E0F3F8","#91BFDB","#4575B4")))(64)
-
 clrs <- colorRampPalette(rev(c("#D73027","#FC8D59","#FEE090","#FFFFBF",
                                "#E0F3F8","#91BFDB","#4575B4")))(64)
 lat=x[rev(h),rev(h)]
-#lat=x[h,h]
+
 lat[lower.tri(lat)] <- NA
 n=nrow(lat)
 print(levelplot(lat[n:1,],col.regions = clrs,xlab = "",ylab = "",colorkey = TRUE,at=seq(0,1,length.out=64)))
 
-#print(levelplot(lat,col.regions = clrs,xlab = "",ylab = "",colorkey = TRUE))
 ```
 
 Now let's do the eigenplots:

@@ -11,7 +11,7 @@ library('knitr')
 knitr::opts_chunk$set(cache=TRUE)
 opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/NGrevision/Figureswithres/") 
 
-source("../../Analysis/normfuncs.R")
+source("../../Scripts/normfuncs.R")
 maxbeta=read.table("../../Data/maxbetahats.txt")
 maxz=read.table("../../Data/maxz.txt")
 standard.error=maxbeta/maxz
@@ -105,7 +105,7 @@ hist(sign.func(brain.norm),main="",xlab="",breaks=0.5:10.5,col="grey",freq=FALSE
 axis(1, at=seq(1, 10, by=1), labels=c(1:10))
 mtext("Brain Tissues")
 
-#title(xlab="Number of Tissues Shared (by sign)", outer=TRUE,line=3,cex.lab=3)
+
 ```
-```
+
 

@@ -3,7 +3,6 @@ title: "Figure6"
 output: pdf_document
 ---
 
-Perform the analysis with global:
 ```{r setup, include=FALSE}
 library('knitr')
 knitr::opts_chunk$set(cache=TRUE)
@@ -27,6 +26,9 @@ standard.error=maxb/maxz
 pm.mash.beta=pm.mash*standard.error
 
 ```
+
+
+Here we generate sharing by magnitude. For every pair of tissues, we count the proportion of effects significant in eiterh that are within 2 fold of the magnitude of one another.
 
 ```{r generate matrix,echo=F}
 thresh=0.05
