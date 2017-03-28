@@ -8,7 +8,6 @@ output: pdf_document
 ```{r setup, include=FALSE}
 library('knitr')
 knitr::opts_chunk$set(cache=TRUE)
-opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/") 
 source("../../Scripts/normfuncs.R")
 ```
 
@@ -32,7 +31,7 @@ lfsr.ash=read.table("../../../Dropbox/formatthew/shared/univariate.ash.lfsr.txt"
 
 
 
-standard.error=data$sebetahat
+standard.error=data$sebetahat[1:20000,]
 
 pm.mash.beta=mash.means*standard.error
 pm.bma.beta=bma.means*standard.error
@@ -106,7 +105,7 @@ lfsr.ash=read.table("../../../Dropbox/formatthew/independentsim_all/univariate.a
 
 
 
-standard.error=data$sebetahat
+standard.error=data$sebetahat[1:20000,]
 
 pm.mash.beta=mash.means*standard.error
 pm.bma.beta=bma.means*standard.error
@@ -177,7 +176,7 @@ lfsr.ash=read.table("../../../Dropbox/formatthew/shared/univariate.ash.lfsr.txt"
 
 
 
-standard.error=data$sebetahat
+standard.error=data$sebetahat[1:20000,]
 
 pm.mash.beta=mash.means*standard.error
 pm.bma.beta=bma.means*standard.error
@@ -249,9 +248,7 @@ lfsr.bma=read.table("../../../Dropbox/formatthew/independentsim_all/noashindepen
 lfsr.ash=read.table("../../../Dropbox/formatthew/independentsim_all/univariate.ashind.lfsr.txt")
 
 
-
-
-standard.error=data$sebetahat
+standard.error=data$sebetahat[1:20000,]
 
 pm.mash.beta=mash.means*standard.error
 pm.bma.beta=bma.means*standard.error

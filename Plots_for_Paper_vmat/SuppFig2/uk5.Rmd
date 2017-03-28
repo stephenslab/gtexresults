@@ -63,7 +63,7 @@ print(levelplot(lat[n:1,],col.regions = clrs,xlab = "",ylab = "",colorkey = TRUE
 
 And the SVD Plots:
 
-```{r eigenplots2}
+```{r eigenplots5}
 missing.tissues=c(7,8,19,20,24,25,31,34,37)
 color.gtex=read.table("../../Data/GTExColors.txt",sep = '\t', comment.char = '')[-missing.tissues,]
 col = as.character(color.gtex[,2])

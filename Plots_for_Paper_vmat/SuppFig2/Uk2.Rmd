@@ -76,8 +76,10 @@ col = as.character(color.gtex[,2])
 k=2
 h=read.table(paste0("../../Data/uk",k,"rowIndices.txt"))[,1]
 for(g in 1:3){
-v=svd(covmat[[k]])$v[h,]
-rownames(v)=colnames(v)=names[h]
+v=svd(covmat[[k]])$v[h,];d=svd(covmat[[k]])$d
+#rownames(v)=colnames(v)=names[h]
 par(mar=c(8,4.1,4.1,2.1))
 barplot(v[,g]/v[which.max(abs(v[,g])),g],las=2,main=paste("Eigenvector",g,"of Uk",k),cex.names = 0.5,col=col[h],names=names[h])}
+
+(d^2/sum(d^2))[1:3]
 ````
