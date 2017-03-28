@@ -1,0 +1,301 @@
+---
+title: "heterogeneitytablesimulation"
+output: pdf_document
+---
+
+
+
+```{r setup, include=FALSE}
+library('knitr')
+knitr::opts_chunk$set(cache=TRUE)
+opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figures/") 
+source("../../Scripts/normfuncs.R")
+```
+
+##Heterogeneity Analysis: Shared Structured, Sharing by sign
+
+```{r ,echo=T}
+
+data=readRDS("../../../Dropbox/formatthew/simdata.rds")
+t=data$tstat;bhat=data$betahat;sebetahat=data$sebetahat;beta=data$beta;v.j=matrix(rep(1,ncol(t)*nrow(t)),ncol=ncol(t),nrow=nrow(t))
+
+mash.means=read.table("../../../Dropbox/formatthew/shared/sharedashcutoffomega2jun15posterior.means.txt")[,-1]
+
+bma.means=read.table("../../../Dropbox/formatthew/shared/noashsharedwithzerobmaallposterior.means.txt")[,-1]
+
+ash.means=read.table("../../../Dropbox/formatthew/shared/univariate.ash.pm.txt")
+
+
+lfsr.mash=read.table("../../../Dropbox/formatthew/shared/sharedashcutoffomega2jun15lfsr.txt")[,-1]
+lfsr.bma=read.table("../../../Dropbox/formatthew/shared/noashsharedwithzerobmaalllfsr.txt")[,-1]
+lfsr.ash=read.table("../../../Dropbox/formatthew/shared/univariate.ash.lfsr.txt")
+
+
+
+standard.error=data$sebetahat
+
+pm.mash.beta=mash.means*standard.error
+pm.bma.beta=bma.means*standard.error
+pm.ash.beta=ash.means*standard.error
+
+thresh=0.05
+```
+
+Here, we show the Proportion of Sharing by Sign:
+
+```{r tables}
+
+sigmat=(lfsr.mash<=thresh)
+nsig= rowSums(sigmat)
+#(signall=mean(het.norm(pm.mash.beta[nsig>0,])>0))
+(signall.mash=mean(het.norm(pm.mash.beta[1:400,])>0))
+
+##BMA
+sigmat=(lfsr.bma<=thresh)
+nsig= rowSums(sigmat)
+#(signall=mean(het.norm(pm.bma.beta[nsig>0,])>0))
+(signall.bma=mean(het.norm(pm.bma.beta[1:400,])>0))
+
+
+##ASH
+sigmat=(lfsr.ash<thresh)
+nsig= rowSums(sigmat)
+#(signall=mean(het.norm(pm.ash.beta[nsig>0,])>0))
+(signall.ash=mean(het.norm(pm.ash.beta[1:400,])>0))
+####SHow that results are robust in specific analysis
+
+(truth=(mean(het.norm(data$beta[1:400,])>0)))
+(standard=mean(het.norm(data$betahat[1:400,])>0))
+
+
+
+(RMLE=sqrt(mean((standard-truth)^2)))
+#RMLE=1
+(RRMSE.mash=sqrt(mean((signall.mash-truth)^2))/RMLE)
+(RRMSE.bma=sqrt(mean((signall.bma-truth)^2))/RMLE)
+(RRMSE.ash=sqrt(mean((signall.ash-truth)^2))/RMLE)
+
+rmse.all.table=cbind(mash=RRMSE.mash,bmalite=RRMSE.bma,ash=RRMSE.ash)
+barplot(as.numeric(rmse.all.table),main="Shared, Structured Effects: Sign heterogeneity",
+        ylab="relative error (RRMSE)",xlab="Method",col=c("green","blue","red"),names=colnames(rmse.all.table),ylim=c(0,1.5),cex.main=1.5,cex.lab=1,cex.names=1,las=1)
+
+
+
+```
+
+
+##Heterogeneity Analysis: Independent SSimulation by Sign
+
+```{r ,echo=T}
+
+data=readRDS("../../../Dropbox/formatthew/independentsim.rds")
+t=data$tstat;bhat=data$betahat;sebetahat=data$sebetahat;beta=data$beta;v.j=matrix(rep(1,ncol(t)*nrow(t)),ncol=ncol(t),nrow=nrow(t))
+
+
+mash.means=read.table("../../../Dropbox/formatthew/independentsim_all/independentsimashcutoffomega2jun15posterior.means.txt")[,-1]
+ash.means=read.table("../../../Dropbox/formatthew/independentsim_all/univariate.ash.pmind.txt")
+
+bma.means=read.table("../../../Dropbox/formatthew/independentsim_all/noashindependentwithzerobmaallposterior.means.txt")[,-1]
+
+
+
+lfsr.mash=read.table("../../../Dropbox/formatthew/independentsim_all/independentsimashcutoffomega2jun15lfsr.txt")[,-1]
+lfsr.bma=read.table("../../../Dropbox/formatthew/independentsim_all/noashindependentwithzerobmaalllfsr.txt")[,-1]
+lfsr.ash=read.table("../../../Dropbox/formatthew/independentsim_all/univariate.ashind.lfsr.txt")
+
+
+
+
+standard.error=data$sebetahat
+
+pm.mash.beta=mash.means*standard.error
+pm.bma.beta=bma.means*standard.error
+pm.ash.beta=ash.means*standard.error
+
+thresh=0.05
+```
+
+Here, we show the Proportion of Sharing by Sign:
+
+```{r tables2}
+
+sigmat=(lfsr.mash<=thresh)
+nsig= rowSums(sigmat)
+#(signall=mean(het.norm(pm.mash.beta[nsig>0,])>0))
+(signall.mash=mean(het.norm(pm.mash.beta[1:400,])>0))
+
+##BMA
+sigmat=(lfsr.bma<=thresh)
+nsig= rowSums(sigmat)
+#(signall=mean(het.norm(pm.bma.beta[nsig>0,])>0))
+(signall.bma=mean(het.norm(pm.bma.beta[1:400,])>0))
+
+
+##ASH
+sigmat=(lfsr.ash<thresh)
+nsig= rowSums(sigmat)
+#(signall=mean(het.norm(pm.ash.beta[nsig>0,])>0))
+(signall.ash=mean(het.norm(pm.ash.beta[1:400,])>0))
+
+
+(truth=(mean(het.norm(data$beta[1:400,])>0)))
+(standard=mean(het.norm(data$betahat[1:400,])>0))
+
+
+(RMLE=sqrt(mean((standard-truth)^2)))
+(RRMSE.mash=sqrt(mean((signall.mash-truth)^2))/RMLE)
+
+(RRMSE.bma=sqrt(mean((signall.bma-truth)^2))/RMLE)
+(RRMSE.ash=sqrt(mean((signall.ash-truth)^2))/RMLE)
+
+
+
+rmse.all.table=cbind(mash=RRMSE.mash,bmalite=RRMSE.bma,ash=RRMSE.ash)
+barplot(as.numeric(rmse.all.table),main="Shared, Unstructured Effects: Sign heterogeneity",
+        ylab="relative error (RRMSE)",xlab="Method",col=c("green","blue","red"),names=colnames(rmse.all.table),ylim=c(0,1.5),cex.main=1.5,cex.lab=1,cex.names=1,las=1)
+
+
+```
+
+##Heterogeneity Analysis: Shared,Structured by magnitude
+
+
+```{r ld2,echo=T}
+
+data=readRDS("../../../Dropbox/formatthew/simdata.rds")
+t=data$tstat;bhat=data$betahat;sebetahat=data$sebetahat;beta=data$beta;v.j=matrix(rep(1,ncol(t)*nrow(t)),ncol=ncol(t),nrow=nrow(t))
+
+mash.means=read.table("../../../Dropbox/formatthew/shared/sharedashcutoffomega2jun15posterior.means.txt")[,-1]
+ash.means=read.table("../../../Dropbox/formatthew/shared/univariate.ash.pm.txt")
+bma.means=read.table("../../../Dropbox/formatthew/shared/noashsharedwithzerobmaallposterior.means.txt")[,-1]
+
+
+
+lfsr.mash=read.table("../../../Dropbox/formatthew/shared/sharedashcutoffomega2jun15lfsr.txt")[,-1]
+lfsr.bma=read.table("../../../Dropbox/formatthew/shared/noashsharedwithzerobmaalllfsr.txt")[,-1]
+lfsr.ash=read.table("../../../Dropbox/formatthew/shared/univariate.ash.lfsr.txt")
+
+
+
+standard.error=data$sebetahat
+
+pm.mash.beta=mash.means*standard.error
+pm.bma.beta=bma.means*standard.error
+pm.ash.beta=ash.means*standard.error
+
+thresh=0.05
+```
+
+Here, we show the Proportion of Sharing by Sign:
+
+```{r tables3}
+
+sigmat=(lfsr.mash<=thresh)
+nsig= rowSums(sigmat)
+(signall=mean(het.norm(pm.mash.beta[nsig>0,])>0.5))
+(signall.mash=mean(het.norm(pm.mash.beta[1:400,])>0.5))
+
+##BMA
+sigmat=(lfsr.bma<=thresh)
+nsig= rowSums(sigmat)
+(signall=mean(het.norm(pm.bma.beta[nsig>0,])>0.5))
+(signall.bma=mean(het.norm(pm.bma.beta[1:400,])>0.5))
+
+
+##ASH
+sigmat=(lfsr.ash<thresh)
+nsig= rowSums(sigmat)
+(signall=mean(het.norm(pm.ash.beta[nsig>0,])>0.5))
+(signall.ash=mean(het.norm(pm.ash.beta[1:400,])>0.5))
+####SHow that results are robust in specific analysis
+
+(truth=(mean(het.norm(data$beta[1:400,])>0.5)))
+(standard=mean(het.norm(data$betahat[1:400,])>0.5))
+
+
+(RMLE=sqrt(mean((standard-truth)^2)))
+(RRMSE.mash=sqrt(mean((signall.mash-truth)^2))/RMLE)
+(RRMSE.bma=sqrt(mean((signall.bma-truth)^2))/RMLE)
+(RRMSE.ash=sqrt(mean((signall.ash-truth)^2))/RMLE)
+
+
+
+rmse.all.table=cbind(mash=RRMSE.mash,bmalite=RRMSE.bma,ash=RRMSE.ash)
+barplot(as.numeric(rmse.all.table),main="Shared, Structured Effects: Magnitude heterogeneity",
+        ylab="relative error (RRMSE)",xlab="Method",col=c("green","blue","red"),names=colnames(rmse.all.table),ylim=c(0,4.0),cex.main=1.5,cex.lab=1,cex.names=1,las=1)
+
+
+
+```
+
+
+##Heterogeneity Analysis: Independent by magnitude
+
+```{r ld3,echo=T}
+
+data=readRDS("../../../Dropbox/formatthew/independentsim.rds")
+t=data$tstat;bhat=data$betahat;sebetahat=data$sebetahat;beta=data$beta;v.j=matrix(rep(1,ncol(t)*nrow(t)),ncol=ncol(t),nrow=nrow(t))
+
+
+mash.means=read.table("../../../Dropbox/formatthew/independentsim_all/independentsimashcutoffomega2jun15posterior.means.txt")[,-1]
+ash.means=read.table("../../../Dropbox/formatthew/independentsim_all/univariate.ash.pmind.txt")
+
+bma.means=read.table("../../../Dropbox/formatthew/independentsim_all/noashindependentwithzerobmaallposterior.means.txt")[,-1]
+
+
+
+lfsr.mash=read.table("../../../Dropbox/formatthew/independentsim_all/independentsimashcutoffomega2jun15lfsr.txt")[,-1]
+lfsr.bma=read.table("../../../Dropbox/formatthew/independentsim_all/noashindependentwithzerobmaalllfsr.txt")[,-1]
+lfsr.ash=read.table("../../../Dropbox/formatthew/independentsim_all/univariate.ashind.lfsr.txt")
+
+
+
+
+standard.error=data$sebetahat
+
+pm.mash.beta=mash.means*standard.error
+pm.bma.beta=bma.means*standard.error
+pm.ash.beta=ash.means*standard.error
+
+thresh=0.05
+```
+
+Here, we show the Proportion of Sharing by Sign:
+
+```{r tables4}
+
+sigmat=(lfsr.mash<=thresh)
+nsig= rowSums(sigmat)
+(signall=mean(het.norm(pm.mash.beta[nsig>0,])>0.5))
+(signall.mash=mean(het.norm(pm.mash.beta[1:400,])>0.5))
+
+##BMA
+sigmat=(lfsr.bma<=thresh)
+nsig= rowSums(sigmat)
+(signall=mean(het.norm(pm.bma.beta[nsig>0,])>0.5))
+(signall.bma=mean(het.norm(pm.bma.beta[1:400,])>0.5))
+
+
+##ASH
+sigmat=(lfsr.ash<thresh)
+nsig= rowSums(sigmat)
+(signall=mean(het.norm(pm.ash.beta[nsig>0,])>0.5))
+(signall.ash=mean(het.norm(pm.ash.beta[1:400,])>0.5))
+####SHow that results are robust in specific analysis
+
+(truth=(mean(het.norm(data$beta[1:400,])>0.5)))
+(standard=mean(het.norm(data$betahat[1:400,])>0.5))
+
+
+(RMLE=sqrt(mean((standard-truth)^2)))
+(RRMSE.mash=sqrt(mean((signall.mash-truth)^2))/RMLE)
+(RRMSE.bma=sqrt(mean((signall.bma-truth)^2))/RMLE)
+(RRMSE.ash=sqrt(mean((signall.ash-truth)^2))/RMLE)
+
+
+rmse.all.table=cbind(mash=RRMSE.mash,bmalite=RRMSE.bma,ash=RRMSE.ash)
+barplot(as.numeric(rmse.all.table),main="Shared, Unstructured Effects: Magnitude heterogeneity",
+        ylab="relative error (RRMSE)",xlab="Method",col=c("green","blue","red"),names=colnames(rmse.all.table),ylim=c(0,1.5),cex.main=1.5,cex.lab=1,cex.names=1,las=1)
+
+
+```

@@ -1,0 +1,11 @@
+Arguments:  -input /Users/sarahurbut/Dropbox/sharedsimdata.txt -pvalue_table /Users/sarahurbut/Downloads/Metasoft/HanEskinPvalueTable.txt -mvalue_p_thres 1 -output /Users/sarahurbut/Dropbox/sharedtest -mvalue -mvalue_method mcmc
+ Input File: /Users/sarahurbut/Dropbox/sharedsimdata.txt
+Output File: /Users/sarahurbut/Dropbox/sharedtest
+Log File: log
+p-value Table File: /Users/sarahurbut/Downloads/Metasoft/HanEskinPvalueTable.txt
+Number of SNPs analyzed: 20000
+Maximum number of studies: 44
+Specified lambda for   mean effect part (default = 1.0): 1.000000
+Specified lambda for heterogeneity part (default = 1.0): 1.000000
+Newly calculated inflation factor lambda for   mean effect part: 1.029329
+Newly calculated inflation factor lambda for heterogeneity part: 0.988913
