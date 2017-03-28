@@ -2,7 +2,6 @@
 *cache
 *files
 .R*
-Data/*
 *.bbl
 *.blg
 *.dvi
