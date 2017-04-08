@@ -11828,7 +11828,7 @@ dat<span class="p">[</span><span class="kp">upper.tri</span><span class="p">(</s
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now we count the proportion of LD pairs having LD greater than 0.5:</p>
+<p>Now we count the total number and proportion of LD pairs having LD greater than 0.5:</p>
 
 </div>
 </div>
@@ -11838,7 +11838,9 @@ dat<span class="p">[</span><span class="kp">upper.tri</span><span class="p">(</s
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="kp">sum</span><span class="p">(</span><span class="kp">abs</span><span class="p">(</span>dat<span class="p">)</span> <span class="o">&gt;</span> <span class="m">0.5</span><span class="p">)</span> <span class="o">/</span> <span class="p">((</span><span class="kp">dim</span><span class="p">(</span>dat<span class="p">)[</span><span class="m">1</span><span class="p">]</span><span class="o">^</span><span class="m">2</span> <span class="o">-</span> <span class="kp">dim</span><span class="p">(</span>dat<span class="p">)[</span><span class="m">1</span><span class="p">])</span><span class="o">/</span> <span class="m">2</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span>m <span class="o">=</span> <span class="kp">abs</span><span class="p">(</span>dat<span class="p">)</span> <span class="o">&gt;</span> <span class="m">0.5</span>
+<span class="kp">sum</span><span class="p">(</span>m<span class="p">)</span>
+<span class="kp">sum</span><span class="p">(</span>m<span class="p">)</span> <span class="o">/</span> <span class="p">((</span><span class="kp">dim</span><span class="p">(</span>dat<span class="p">)[</span><span class="m">1</span><span class="p">]</span><span class="o">^</span><span class="m">2</span> <span class="o">-</span> <span class="kp">dim</span><span class="p">(</span>dat<span class="p">)[</span><span class="m">1</span><span class="p">])</span><span class="o">/</span> <span class="m">2</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -11848,6 +11850,14 @@ dat<span class="p">[</span><span class="kp">upper.tri</span><span class="p">(</s
 <div class="output_wrapper">
 <div class="output">
 
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+1094
+</div>
+
+</div>
 
 <div class="output_area"><div class="prompt"></div>
 
@@ -11866,7 +11876,7 @@ dat<span class="p">[</span><span class="kp">upper.tri</span><span class="p">(</s
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The SNPs involved are (<strong>unique row and column names of TRUE entries</strong>):</p>
+<p>The SNPs involved are (<strong>unique row and column names of TRUE entries in matrix <code>m</code></strong>):</p>
 
 </div>
 </div>
@@ -11876,8 +11886,7 @@ dat<span class="p">[</span><span class="kp">upper.tri</span><span class="p">(</s
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>m <span class="o">=</span> <span class="kp">abs</span><span class="p">(</span>dat<span class="p">)</span> <span class="o">&gt;</span> <span class="m">0.5</span>
-snps <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="kp">rownames</span><span class="p">(</span>m<span class="p">)[</span><span class="kp">row</span><span class="p">(</span>m<span class="p">)[</span><span class="kp">which</span><span class="p">(</span>m<span class="p">)]],</span> <span class="kp">colnames</span><span class="p">(</span>m<span class="p">)[</span><span class="kp">col</span><span class="p">(</span>m<span class="p">)[</span><span class="kp">which</span><span class="p">(</span>m<span class="p">)]])</span>
+<div class=" highlight hl-r"><pre><span></span>snps <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="kp">rownames</span><span class="p">(</span>m<span class="p">)[</span><span class="kp">row</span><span class="p">(</span>m<span class="p">)[</span><span class="kp">which</span><span class="p">(</span>m<span class="p">)]],</span> <span class="kp">colnames</span><span class="p">(</span>m<span class="p">)[</span><span class="kp">col</span><span class="p">(</span>m<span class="p">)[</span><span class="kp">which</span><span class="p">(</span>m<span class="p">)]])</span>
 snps <span class="o">&lt;-</span> <span class="kp">unlist</span><span class="p">(</span><span class="kp">lapply</span><span class="p">(</span>snps<span class="p">,</span> <span class="kr">function</span><span class="p">(</span>x<span class="p">)</span> <span class="p">(</span><span class="kp">paste</span><span class="p">(</span><span class="kp">strsplit</span><span class="p">(</span>x<span class="p">,</span> <span class="s">&#39;_&#39;</span><span class="p">)[[</span><span class="m">1</span><span class="p">]][</span><span class="m">-1</span><span class="p">],</span> collapse <span class="o">=</span> <span class="s">&#39;_&#39;</span><span class="p">))))</span>
 <span class="kp">length</span><span class="p">(</span><span class="kp">unique</span><span class="p">(</span>snps<span class="p">))</span>
 </pre></div>
@@ -11916,7 +11925,7 @@ snps <span class="o">&lt;-</span> <span class="kp">unlist</span><span class="p">
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>grid <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">0.5</span><span class="p">,</span> <span class="m">0.6</span><span class="p">,</span> <span class="m">0.7</span><span class="p">,</span> <span class="m">0.8</span><span class="p">,</span> <span class="m">0.9</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span>grid <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">0.5</span><span class="p">,</span> <span class="m">0.6</span><span class="p">,</span> <span class="m">0.7</span><span class="p">,</span> <span class="m">0.8</span><span class="p">,</span> <span class="m">0.9</span><span class="p">,</span> <span class="m">0.95</span><span class="p">,</span> <span class="m">0.99</span><span class="p">)</span>
 prop <span class="o">=</span> <span class="kt">matrix</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="kp">length</span><span class="p">(</span>grid<span class="p">),</span> <span class="m">22</span><span class="p">)</span>
 snps <span class="o">=</span> <span class="kt">matrix</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="kp">length</span><span class="p">(</span>grid<span class="p">),</span> <span class="m">22</span><span class="p">)</span>
 n_snps <span class="o">=</span> <span class="m">0</span>
@@ -11974,30 +11983,30 @@ prop
 
 <div class="output_html rendered_html output_subarea ">
 <table>
-<thead><tr><th></th><th scope=col>0.5</th><th scope=col>0.6</th><th scope=col>0.7</th><th scope=col>0.8</th><th scope=col>0.9</th></tr></thead>
+<thead><tr><th></th><th scope=col>0.5</th><th scope=col>0.6</th><th scope=col>0.7</th><th scope=col>0.8</th><th scope=col>0.9</th><th scope=col>0.95</th><th scope=col>0.99</th></tr></thead>
 <tbody>
-	<tr><th scope=row>chr 1</th><td>0.0009402058</td><td>0.0006015942</td><td>0.0003953333</td><td>0.0002621232</td><td>0.0001418044</td></tr>
-	<tr><th scope=row>chr 2</th><td>0.0011060030</td><td>0.0007685010</td><td>0.0005358983</td><td>0.0003443432</td><td>0.0001983964</td></tr>
-	<tr><th scope=row>chr 3</th><td>0.0017750274</td><td>0.0012965136</td><td>0.0008244663</td><td>0.0004655810</td><td>0.0002942213</td></tr>
-	<tr><th scope=row>chr 4</th><td>0.0012087494</td><td>0.0009189807</td><td>0.0006788866</td><td>0.0004801881</td><td>0.0002318149</td></tr>
-	<tr><th scope=row>chr 5</th><td>0.0007513954</td><td>0.0005367110</td><td>0.0003220266</td><td>0.0003220266</td><td>0.0001073422</td></tr>
-	<tr><th scope=row>chr 6</th><td>0.0012832255</td><td>0.0007871086</td><td>0.0006010647</td><td>0.0004484134</td><td>0.0003005324</td></tr>
-	<tr><th scope=row>chr 7</th><td>0.0019135913</td><td>0.0013430796</td><td>0.0009865098</td><td>0.0006655970</td><td>0.0003684555</td></tr>
-	<tr><th scope=row>chr 8</th><td>0.0018098755</td><td>0.0014449812</td><td>0.0010727891</td><td>0.0006568097</td><td>0.0003284048</td></tr>
-	<tr><th scope=row>chr 9</th><td>0.0019872320</td><td>0.0014469533</td><td>0.0010184564</td><td>0.0005589090</td><td>0.0003663959</td></tr>
-	<tr><th scope=row>chr 10</th><td>0.0019800333</td><td>0.0014642263</td><td>0.0011203550</td><td>0.0007321131</td><td>0.0003327787</td></tr>
-	<tr><th scope=row>chr 11</th><td>0.0015241352</td><td>0.0011214166</td><td>0.0007992416</td><td>0.0005885888</td><td>0.0003438598</td></tr>
-	<tr><th scope=row>chr 12</th><td>0.0017240410</td><td>0.0011693495</td><td>0.0007608268</td><td>0.0005359519</td><td>0.0003110770</td></tr>
-	<tr><th scope=row>chr 13</th><td>0.0017670393</td><td>0.0011539849</td><td>0.0007933646</td><td>0.0005409304</td><td>0.0001442481</td></tr>
-	<tr><th scope=row>chr 14</th><td>0.0020596108</td><td>0.0014789276</td><td>0.0009708297</td><td>0.0007621467</td><td>0.0004264392</td></tr>
-	<tr><th scope=row>chr 15</th><td>0.0024227741</td><td>0.0016928357</td><td>0.0011182034</td><td>0.0007920608</td><td>0.0003339080</td></tr>
-	<tr><th scope=row>chr 16</th><td>0.0039160383</td><td>0.0026534267</td><td>0.0016744172</td><td>0.0010139742</td><td>0.0004856198</td></tr>
-	<tr><th scope=row>chr 17</th><td>0.0016751378</td><td>0.0011883456</td><td>0.0008614313</td><td>0.0005822416</td><td>0.0003173694</td></tr>
-	<tr><th scope=row>chr 18</th><td>0.0022277917</td><td>0.0015037594</td><td>0.0009468115</td><td>0.0007240323</td><td>0.0003898635</td></tr>
-	<tr><th scope=row>chr 19</th><td>0.0010070072</td><td>0.0007120605</td><td>0.0004921595</td><td>0.0003263611</td><td>0.0001867414</td></tr>
-	<tr><th scope=row>chr 20</th><td>0.0026233100</td><td>0.0017728963</td><td>0.0012395860</td><td>0.0006630344</td><td>0.0003026896</td></tr>
-	<tr><th scope=row>chr 21</th><td>0.0048975150</td><td>0.0034463994</td><td>0.0022673680</td><td>0.0013604208</td><td>0.0009069472</td></tr>
-	<tr><th scope=row>chr 22</th><td>0.0038526331</td><td>0.0026953783</td><td>0.0018896946</td><td>0.0014355819</td><td>0.0006591958</td></tr>
+	<tr><th scope=row>chr 1</th><td>0.0009402058</td><td>0.0006015942</td><td>0.0003953333</td><td>0.0002621232</td><td>0.0001418044</td><td>7.648841e-05</td><td>2.578261e-05</td></tr>
+	<tr><th scope=row>chr 2</th><td>0.0011060030</td><td>0.0007685010</td><td>0.0005358983</td><td>0.0003443432</td><td>0.0001983964</td><td>1.003384e-04</td><td>1.368251e-05</td></tr>
+	<tr><th scope=row>chr 3</th><td>0.0017750274</td><td>0.0012965136</td><td>0.0008244663</td><td>0.0004655810</td><td>0.0002942213</td><td>1.907589e-04</td><td>2.586561e-05</td></tr>
+	<tr><th scope=row>chr 4</th><td>0.0012087494</td><td>0.0009189807</td><td>0.0006788866</td><td>0.0004801881</td><td>0.0002318149</td><td>1.573030e-04</td><td>4.139553e-05</td></tr>
+	<tr><th scope=row>chr 5</th><td>0.0007513954</td><td>0.0005367110</td><td>0.0003220266</td><td>0.0003220266</td><td>0.0001073422</td><td>0.000000e+00</td><td>0.000000e+00</td></tr>
+	<tr><th scope=row>chr 6</th><td>0.0012832255</td><td>0.0007871086</td><td>0.0006010647</td><td>0.0004484134</td><td>0.0003005324</td><td>1.860438e-04</td><td>3.339249e-05</td></tr>
+	<tr><th scope=row>chr 7</th><td>0.0019135913</td><td>0.0013430796</td><td>0.0009865098</td><td>0.0006655970</td><td>0.0003684555</td><td>2.099800e-04</td><td>4.358075e-05</td></tr>
+	<tr><th scope=row>chr 8</th><td>0.0018098755</td><td>0.0014449812</td><td>0.0010727891</td><td>0.0006568097</td><td>0.0003284048</td><td>1.240640e-04</td><td>2.919154e-05</td></tr>
+	<tr><th scope=row>chr 9</th><td>0.0019872320</td><td>0.0014469533</td><td>0.0010184564</td><td>0.0005589090</td><td>0.0003663959</td><td>1.552525e-04</td><td>4.968080e-05</td></tr>
+	<tr><th scope=row>chr 10</th><td>0.0019800333</td><td>0.0014642263</td><td>0.0011203550</td><td>0.0007321131</td><td>0.0003327787</td><td>1.719357e-04</td><td>5.546312e-05</td></tr>
+	<tr><th scope=row>chr 11</th><td>0.0015241352</td><td>0.0011214166</td><td>0.0007992416</td><td>0.0005885888</td><td>0.0003438598</td><td>1.827723e-04</td><td>5.576105e-05</td></tr>
+	<tr><th scope=row>chr 12</th><td>0.0017240410</td><td>0.0011693495</td><td>0.0007608268</td><td>0.0005359519</td><td>0.0003110770</td><td>1.761520e-04</td><td>5.621873e-05</td></tr>
+	<tr><th scope=row>chr 13</th><td>0.0017670393</td><td>0.0011539849</td><td>0.0007933646</td><td>0.0005409304</td><td>0.0001442481</td><td>1.081861e-04</td><td>3.606203e-05</td></tr>
+	<tr><th scope=row>chr 14</th><td>0.0020596108</td><td>0.0014789276</td><td>0.0009708297</td><td>0.0007621467</td><td>0.0004264392</td><td>2.086830e-04</td><td>5.443905e-05</td></tr>
+	<tr><th scope=row>chr 15</th><td>0.0024227741</td><td>0.0016928357</td><td>0.0011182034</td><td>0.0007920608</td><td>0.0003339080</td><td>1.242448e-04</td><td>7.765302e-06</td></tr>
+	<tr><th scope=row>chr 16</th><td>0.0039160383</td><td>0.0026534267</td><td>0.0016744172</td><td>0.0010139742</td><td>0.0004856198</td><td>2.330975e-04</td><td>5.438942e-05</td></tr>
+	<tr><th scope=row>chr 17</th><td>0.0016751378</td><td>0.0011883456</td><td>0.0008614313</td><td>0.0005822416</td><td>0.0003173694</td><td>1.980576e-04</td><td>3.579354e-05</td></tr>
+	<tr><th scope=row>chr 18</th><td>0.0022277917</td><td>0.0015037594</td><td>0.0009468115</td><td>0.0007240323</td><td>0.0003898635</td><td>2.227792e-04</td><td>0.000000e+00</td></tr>
+	<tr><th scope=row>chr 19</th><td>0.0010070072</td><td>0.0007120605</td><td>0.0004921595</td><td>0.0003263611</td><td>0.0001867414</td><td>1.256577e-04</td><td>2.966919e-05</td></tr>
+	<tr><th scope=row>chr 20</th><td>0.0026233100</td><td>0.0017728963</td><td>0.0012395860</td><td>0.0006630344</td><td>0.0003026896</td><td>1.153103e-04</td><td>1.441379e-05</td></tr>
+	<tr><th scope=row>chr 21</th><td>0.0048975150</td><td>0.0034463994</td><td>0.0022673680</td><td>0.0013604208</td><td>0.0009069472</td><td>2.720842e-04</td><td>0.000000e+00</td></tr>
+	<tr><th scope=row>chr 22</th><td>0.0038526331</td><td>0.0026953783</td><td>0.0018896946</td><td>0.0014355819</td><td>0.0006591958</td><td>2.929759e-04</td><td>1.464880e-05</td></tr>
 </tbody>
 </table>
 
@@ -12019,6 +12028,10 @@ prop
 		<dd>0.000648246778145431</dd>
 	<dt>0.9</dt>
 		<dd>0.000339913876798621</dd>
+	<dt>0.95</dt>
+		<dd>0.000165098428609122</dd>
+	<dt>0.99</dt>
+		<dd>3.07816292451549e-05</dd>
 </dl>
 
 </div>
@@ -12062,30 +12075,30 @@ snps
 
 <div class="output_html rendered_html output_subarea ">
 <table>
-<thead><tr><th></th><th scope=col>0.5</th><th scope=col>0.6</th><th scope=col>0.7</th><th scope=col>0.8</th><th scope=col>0.9</th></tr></thead>
+<thead><tr><th></th><th scope=col>0.5</th><th scope=col>0.6</th><th scope=col>0.7</th><th scope=col>0.8</th><th scope=col>0.9</th><th scope=col>0.95</th><th scope=col>0.99</th></tr></thead>
 <tbody>
-	<tr><th scope=row>chr 1</th><td>804</td><td>668</td><td>525</td><td>416</td><td>260</td></tr>
-	<tr><th scope=row>chr 2</th><td>422</td><td>346</td><td>268</td><td>204</td><td>136</td></tr>
-	<tr><th scope=row>chr 3</th><td>366</td><td>309</td><td>255</td><td>176</td><td>124</td></tr>
-	<tr><th scope=row>chr 4</th><td>176</td><td>139</td><td>116</td><td> 90</td><td> 52</td></tr>
-	<tr><th scope=row>chr 5</th><td> 14</td><td> 10</td><td>  6</td><td>  6</td><td>  2</td></tr>
-	<tr><th scope=row>chr 6</th><td>258</td><td>192</td><td>154</td><td>116</td><td> 88</td></tr>
-	<tr><th scope=row>chr 7</th><td>345</td><td>309</td><td>255</td><td>188</td><td>127</td></tr>
-	<tr><th scope=row>chr 8</th><td>219</td><td>186</td><td>146</td><td>103</td><td> 68</td></tr>
-	<tr><th scope=row>chr 9</th><td>256</td><td>206</td><td>172</td><td>124</td><td> 86</td></tr>
-	<tr><th scope=row>chr 10</th><td>279</td><td>224</td><td>185</td><td>127</td><td> 82</td></tr>
-	<tr><th scope=row>chr 11</th><td>411</td><td>363</td><td>288</td><td>237</td><td>159</td></tr>
-	<tr><th scope=row>chr 12</th><td>351</td><td>294</td><td>226</td><td>178</td><td>117</td></tr>
-	<tr><th scope=row>chr 13</th><td> 66</td><td> 47</td><td> 35</td><td> 27</td><td>  8</td></tr>
-	<tr><th scope=row>chr 14</th><td>220</td><td>179</td><td>141</td><td>114</td><td> 66</td></tr>
-	<tr><th scope=row>chr 15</th><td>253</td><td>210</td><td>150</td><td>114</td><td> 72</td></tr>
-	<tr><th scope=row>chr 16</th><td>445</td><td>385</td><td>322</td><td>234</td><td>161</td></tr>
-	<tr><th scope=row>chr 17</th><td>517</td><td>432</td><td>352</td><td>278</td><td>170</td></tr>
-	<tr><th scope=row>chr 18</th><td> 52</td><td> 39</td><td> 27</td><td> 20</td><td> 10</td></tr>
-	<tr><th scope=row>chr 19</th><td>558</td><td>450</td><td>375</td><td>271</td><td>163</td></tr>
-	<tr><th scope=row>chr 20</th><td>148</td><td>119</td><td>106</td><td> 69</td><td> 41</td></tr>
-	<tr><th scope=row>chr 21</th><td> 66</td><td> 56</td><td> 40</td><td> 24</td><td> 20</td></tr>
-	<tr><th scope=row>chr 22</th><td>202</td><td>165</td><td>124</td><td> 99</td><td> 58</td></tr>
+	<tr><th scope=row>chr 1</th><td>804</td><td>668</td><td>525</td><td>416</td><td>260</td><td>158</td><td>54 </td></tr>
+	<tr><th scope=row>chr 2</th><td>422</td><td>346</td><td>268</td><td>204</td><td>136</td><td> 79</td><td>12 </td></tr>
+	<tr><th scope=row>chr 3</th><td>366</td><td>309</td><td>255</td><td>176</td><td>124</td><td> 87</td><td>16 </td></tr>
+	<tr><th scope=row>chr 4</th><td>176</td><td>139</td><td>116</td><td> 90</td><td> 52</td><td> 35</td><td>10 </td></tr>
+	<tr><th scope=row>chr 5</th><td> 14</td><td> 10</td><td>  6</td><td>  6</td><td>  2</td><td>  0</td><td> 0 </td></tr>
+	<tr><th scope=row>chr 6</th><td>258</td><td>192</td><td>154</td><td>116</td><td> 88</td><td> 58</td><td>14 </td></tr>
+	<tr><th scope=row>chr 7</th><td>345</td><td>309</td><td>255</td><td>188</td><td>127</td><td> 79</td><td>22 </td></tr>
+	<tr><th scope=row>chr 8</th><td>219</td><td>186</td><td>146</td><td>103</td><td> 68</td><td> 34</td><td> 8 </td></tr>
+	<tr><th scope=row>chr 9</th><td>256</td><td>206</td><td>172</td><td>124</td><td> 86</td><td> 36</td><td>16 </td></tr>
+	<tr><th scope=row>chr 10</th><td>279</td><td>224</td><td>185</td><td>127</td><td> 82</td><td> 43</td><td>17 </td></tr>
+	<tr><th scope=row>chr 11</th><td>411</td><td>363</td><td>288</td><td>237</td><td>159</td><td>100</td><td>33 </td></tr>
+	<tr><th scope=row>chr 12</th><td>351</td><td>294</td><td>226</td><td>178</td><td>117</td><td> 80</td><td>27 </td></tr>
+	<tr><th scope=row>chr 13</th><td> 66</td><td> 47</td><td> 35</td><td> 27</td><td>  8</td><td>  6</td><td> 2 </td></tr>
+	<tr><th scope=row>chr 14</th><td>220</td><td>179</td><td>141</td><td>114</td><td> 66</td><td> 35</td><td>12 </td></tr>
+	<tr><th scope=row>chr 15</th><td>253</td><td>210</td><td>150</td><td>114</td><td> 72</td><td> 29</td><td> 2 </td></tr>
+	<tr><th scope=row>chr 16</th><td>445</td><td>385</td><td>322</td><td>234</td><td>161</td><td> 95</td><td>24 </td></tr>
+	<tr><th scope=row>chr 17</th><td>517</td><td>432</td><td>352</td><td>278</td><td>170</td><td>106</td><td>30 </td></tr>
+	<tr><th scope=row>chr 18</th><td> 52</td><td> 39</td><td> 27</td><td> 20</td><td> 10</td><td>  7</td><td> 0 </td></tr>
+	<tr><th scope=row>chr 19</th><td>558</td><td>450</td><td>375</td><td>271</td><td>163</td><td>120</td><td>31 </td></tr>
+	<tr><th scope=row>chr 20</th><td>148</td><td>119</td><td>106</td><td> 69</td><td> 41</td><td> 16</td><td> 2 </td></tr>
+	<tr><th scope=row>chr 21</th><td> 66</td><td> 56</td><td> 40</td><td> 24</td><td> 20</td><td>  6</td><td> 0 </td></tr>
+	<tr><th scope=row>chr 22</th><td>202</td><td>165</td><td>124</td><td> 99</td><td> 58</td><td> 31</td><td> 2 </td></tr>
 </tbody>
 </table>
 
@@ -12112,7 +12125,7 @@ snps
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="kp">apply</span><span class="p">(</span>snps<span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="kp">mean</span><span class="p">)</span> <span class="o">/</span> n_snps
+<div class=" highlight hl-r"><pre><span></span><span class="kp">apply</span><span class="p">(</span>snps<span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="kp">sum</span><span class="p">)</span> <span class="o">/</span> n_snps
 </pre></div>
 
 </div>
@@ -12128,15 +12141,19 @@ snps
 <div class="output_html rendered_html output_subarea ">
 <dl class=dl-horizontal>
 	<dt>0.5</dt>
-		<dd>0.0216961326339807</dd>
+		<dd>0.477314917947576</dd>
 	<dt>0.6</dt>
-		<dd>0.0179833532473319</dd>
+		<dd>0.395633771441301</dd>
 	<dt>0.7</dt>
-		<dd>0.0144055840201975</dd>
+		<dd>0.316922848444345</dd>
 	<dt>0.8</dt>
-		<dd>0.0108514415709782</dd>
+		<dd>0.238731714561521</dd>
 	<dt>0.9</dt>
-		<dd>0.00698677575487555</dd>
+		<dd>0.153709066607262</dd>
+	<dt>0.95</dt>
+		<dd>0.0920769287888914</dd>
+	<dt>0.99</dt>
+		<dd>0.0248013663028143</dd>
 </dl>
 
 </div>
