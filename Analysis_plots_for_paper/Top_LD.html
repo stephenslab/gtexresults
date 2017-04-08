@@ -11885,6 +11885,7 @@ dat<span class="p">[</span><span class="kp">upper.tri</span><span class="p">(</s
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span>m <span class="o">=</span> <span class="kp">abs</span><span class="p">(</span>dat<span class="p">)</span> <span class="o">&gt;</span> <span class="m">0.5</span>
 snps <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="kp">rownames</span><span class="p">(</span>m<span class="p">)[</span><span class="kp">row</span><span class="p">(</span>m<span class="p">)[</span><span class="kp">which</span><span class="p">(</span>m<span class="p">)]],</span> <span class="kp">colnames</span><span class="p">(</span>m<span class="p">)[</span><span class="kp">col</span><span class="p">(</span>m<span class="p">)[</span><span class="kp">which</span><span class="p">(</span>m<span class="p">)]])</span>
+snps <span class="o">&lt;-</span> <span class="kp">unlist</span><span class="p">(</span><span class="kp">lapply</span><span class="p">(</span>snps<span class="p">,</span> <span class="kr">function</span><span class="p">(</span>x<span class="p">)</span> <span class="p">(</span><span class="kp">paste</span><span class="p">(</span><span class="kp">strsplit</span><span class="p">(</span>x<span class="p">,</span> <span class="s">&#39;_&#39;</span><span class="p">)[[</span><span class="m">1</span><span class="p">]][</span><span class="m">-1</span><span class="p">],</span> collapse <span class="o">=</span> <span class="s">&#39;_&#39;</span><span class="p">))))</span>
 <span class="kp">length</span><span class="p">(</span><span class="kp">unique</span><span class="p">(</span>snps<span class="p">))</span>
 </pre></div>
 
@@ -11934,7 +11935,9 @@ n_snps <span class="o">=</span> <span class="m">0</span>
     <span class="kr">for</span> <span class="p">(</span>j <span class="kr">in</span> <span class="m">1</span><span class="o">:</span><span class="kp">length</span><span class="p">(</span>grid<span class="p">))</span> <span class="p">{</span>
         m <span class="o">=</span> <span class="kp">abs</span><span class="p">(</span>tmp<span class="p">)</span> <span class="o">&gt;</span> grid<span class="p">[</span>j<span class="p">]</span>
         prop<span class="p">[</span>j<span class="p">,</span>i<span class="p">]</span> <span class="o">=</span> <span class="kp">sum</span><span class="p">(</span>m<span class="p">)</span> <span class="o">/</span> <span class="p">((</span><span class="kp">dim</span><span class="p">(</span>tmp<span class="p">)[</span><span class="m">1</span><span class="p">]</span><span class="o">^</span><span class="m">2</span> <span class="o">-</span> <span class="kp">dim</span><span class="p">(</span>tmp<span class="p">)[</span><span class="m">1</span><span class="p">])</span><span class="o">/</span> <span class="m">2</span><span class="p">)</span>
-        snps<span class="p">[</span>j<span class="p">,</span>i<span class="p">]</span> <span class="o">=</span> <span class="kp">length</span><span class="p">(</span><span class="kp">unique</span><span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="kp">rownames</span><span class="p">(</span>m<span class="p">)[</span><span class="kp">row</span><span class="p">(</span>m<span class="p">)[</span><span class="kp">which</span><span class="p">(</span>m<span class="p">)]],</span> <span class="kp">colnames</span><span class="p">(</span>m<span class="p">)[</span><span class="kp">col</span><span class="p">(</span>m<span class="p">)[</span><span class="kp">which</span><span class="p">(</span>m<span class="p">)]])))</span>
+        ss <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="kp">rownames</span><span class="p">(</span>m<span class="p">)[</span><span class="kp">row</span><span class="p">(</span>m<span class="p">)[</span><span class="kp">which</span><span class="p">(</span>m<span class="p">)]],</span> <span class="kp">colnames</span><span class="p">(</span>m<span class="p">)[</span><span class="kp">col</span><span class="p">(</span>m<span class="p">)[</span><span class="kp">which</span><span class="p">(</span>m<span class="p">)]])</span>
+        ss <span class="o">=</span> <span class="kp">unlist</span><span class="p">(</span><span class="kp">lapply</span><span class="p">(</span>ss<span class="p">,</span> <span class="kr">function</span><span class="p">(</span>x<span class="p">)</span> <span class="p">(</span><span class="kp">paste</span><span class="p">(</span><span class="kp">strsplit</span><span class="p">(</span>x<span class="p">,</span> <span class="s">&#39;_&#39;</span><span class="p">)[[</span><span class="m">1</span><span class="p">]][</span><span class="m">-1</span><span class="p">],</span> collapse <span class="o">=</span> <span class="s">&#39;_&#39;</span><span class="p">))))</span>
+        snps<span class="p">[</span>j<span class="p">,</span>i<span class="p">]</span> <span class="o">=</span> <span class="kp">length</span><span class="p">(</span><span class="kp">unique</span><span class="p">(</span>ss<span class="p">))</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -12147,6 +12150,27 @@ snps
 
 </div>
 
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+13467
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>
+</pre></div>
+
+</div>
 </div>
 </div>
 
