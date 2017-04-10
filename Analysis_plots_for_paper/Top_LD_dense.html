@@ -12160,18 +12160,81 @@ snps
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Analysis-for-the-entire-data-matrix">Analysis for the entire data matrix<a class="anchor-link" href="#Analysis-for-the-entire-data-matrix">&#182;</a></h2>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>
+<div class=" highlight hl-r"><pre><span></span>dat <span class="o">=</span> <span class="kp">as.matrix</span><span class="p">(</span>feather<span class="o">::</span>read_feather<span class="p">(</span><span class="s">&quot;LD_all.feather&quot;</span><span class="p">))</span>
+<span class="kp">rownames</span><span class="p">(</span>dat<span class="p">)</span> <span class="o">=</span> <span class="kp">colnames</span><span class="p">(</span>dat<span class="p">)</span>
+dat0 <span class="o">=</span> dat
+<span class="kp">diag</span><span class="p">(</span>dat<span class="p">)</span> <span class="o">=</span> <span class="m">0</span>
+dat<span class="p">[</span><span class="kp">upper.tri</span><span class="p">(</span>dat<span class="p">)]</span> <span class="o">=</span> <span class="m">0</span>
+grid <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">0.5</span><span class="p">,</span> <span class="m">0.6</span><span class="p">,</span> <span class="m">0.7</span><span class="p">,</span> <span class="m">0.8</span><span class="p">,</span> <span class="m">0.9</span><span class="p">,</span> <span class="m">0.95</span><span class="p">,</span> <span class="m">0.99</span><span class="p">)</span>
+prop <span class="o">=</span> <span class="kt">matrix</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="kp">length</span><span class="p">(</span>grid<span class="p">),</span> <span class="m">1</span><span class="p">)</span>
+snps <span class="o">=</span> <span class="kt">matrix</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="kp">length</span><span class="p">(</span>grid<span class="p">),</span> <span class="m">1</span><span class="p">)</span>
+<span class="kr">for</span> <span class="p">(</span>j <span class="kr">in</span> <span class="m">1</span><span class="o">:</span><span class="kp">length</span><span class="p">(</span>grid<span class="p">))</span> <span class="p">{</span>
+  m <span class="o">=</span> <span class="kp">abs</span><span class="p">(</span>dat<span class="p">)</span> <span class="o">&gt;</span> grid<span class="p">[</span>j<span class="p">]</span>
+  prop<span class="p">[</span>j<span class="p">,</span> <span class="m">1</span><span class="p">]</span> <span class="o">=</span> <span class="kp">sum</span><span class="p">(</span>m<span class="p">)</span> <span class="o">/</span> <span class="p">((</span><span class="kp">dim</span><span class="p">(</span>dat<span class="p">)[</span><span class="m">1</span><span class="p">]</span><span class="o">^</span><span class="m">2</span> <span class="o">-</span> <span class="kp">dim</span><span class="p">(</span>dat<span class="p">)[</span><span class="m">1</span><span class="p">])</span><span class="o">/</span> <span class="m">2</span><span class="p">)</span>
+  ss <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="kp">rownames</span><span class="p">(</span>m<span class="p">)[</span><span class="kp">row</span><span class="p">(</span>m<span class="p">)[</span><span class="kp">which</span><span class="p">(</span>m<span class="p">)]],</span> <span class="kp">colnames</span><span class="p">(</span>m<span class="p">)[</span><span class="kp">col</span><span class="p">(</span>m<span class="p">)[</span><span class="kp">which</span><span class="p">(</span>m<span class="p">)]])</span>
+  snps<span class="p">[</span>j<span class="p">,</span> <span class="m">1</span><span class="p">]</span> <span class="o">=</span> <span class="kp">length</span><span class="p">(</span><span class="kp">unique</span><span class="p">(</span>ss<span class="p">))</span>
+<span class="p">}</span>
+<span class="kp">rownames</span><span class="p">(</span>prop<span class="p">)</span> <span class="o">=</span> grid
+<span class="kp">rownames</span><span class="p">(</span>snps<span class="p">)</span> <span class="o">=</span> grid
 </pre></div>
 
 </div>
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>&gt; prop
+             [,1]
+0.5  4.056535e-05
+0.6  3.053422e-05
+0.7  2.245775e-05
+0.8  1.531286e-05
+0.9  8.068154e-06
+0.95 4.258654e-06
+0.99 9.482160e-07
+
+&gt; snps
+     [,1]
+0.5  5000
+0.6  4134
+0.7  3335
+0.8  2509
+0.9  1474
+0.95  835
+0.99  223
+
+&gt; snps / dim(dat)[1]
+           [,1]
+0.5  0.32243503
+0.6  0.26658928
+0.7  0.21506416
+0.8  0.16179790
+0.9  0.09505385
+0.95 0.05384665
+0.99 0.01438060</code></pre>
+
+</div>
+</div>
 </div>
     </div>
   </div>
