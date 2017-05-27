@@ -6,7 +6,7 @@ The purpose of this repo is to store the results of  the mixture model, which us
 
 In this directory, under the folder *scripts* you will find the notated script, `MidwayScripts.Rmd` to reproduce the results found in Urbut et al.
 
-1) You'll note that the input data necessary to run this analysis is all available under inputs. This may take some time to run, and so we recommend using a cluster or submittable file system. We have conveniently provided the user with the outputs of running mash in **Data_vhat**.
+1) You'll note that the input data necessary to run this analysis is all available under inputs. This may take some time to run, and so we recommend using a cluster or submittable file system. We have provided the outputs of running mash in `Data_vhat`.
 
 This repo is organized so that you can run Mash using the gteX data contained in **Inputs** to produce the parameters and posteriors from mashr.
 
