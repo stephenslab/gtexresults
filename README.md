@@ -34,4 +34,4 @@ If you wish to produce all the results from the paper without running mashr firs
 
 
 
-[Here is the link to the index](http://surbut.github.io/gtexresults_matrixash/Plots_for_Paper_vmat/IndexofPlots.html) discussing the reproduction of all of the plots.
+[Here is the link to the index](Plots_for_Paper_vmat/IndexofPlots.html) discussing the reproduction of all of the plots.
