@@ -7,10 +7,10 @@ Uk3 is the covariance matrix corresponding to the output of the ExtremeDeconvolu
 
 ```{r,echo=T}
 library('knitr')
-knitr::opts_chunk$set(cache = TRUE,collapse = TRUE,comment = "#",
-                      fig.path = "figures/Figure3.Rmd",fig.align = "center",
-                      fig.width = 8,fig.height = 6) 
-opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/NGRevision/Figureswithres/") 
+#knitr::opts_chunk$set(cache = TRUE,collapse = TRUE,comment = "#",
+#                      fig.path = "figures/Figure3.Rmd",fig.align = "center",
+#                      fig.width = 8,fig.height = 6) 
+#opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/NGRevision/Figureswithres/") 
 covmat=readRDS("../../Data_vhat/covmatwithvhat.rds")
 
 z.stat=read.table("../../Data/maxz.txt")
@@ -27,7 +27,6 @@ barplot(colSums(pi.mat),main='WithVmat',las=2,cex.names=0.5)
 Here, we install necessary pacakges and load the indices and tissue names:
 
 ```{r corplotuk3,fig.height=10,fig.width=10}
-library(gplots)
 library(ggplot2)
 library('colorRamps')
 #install.packages("fields")
@@ -42,8 +41,8 @@ rownames(x)=names
 
 h=read.table("../../Data/uk3rowindices.txt")[,1]
 ```
-
-Now we orduce the heatmap. Note that this is flipped in the paper:
+s
+Now we produce the heatmap. Note that this is flipped in the paper:
 
 ```{r heatmapuk3final,fig.height=10,fig.width=10}
 

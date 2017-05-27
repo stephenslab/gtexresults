@@ -10,7 +10,7 @@ The aim of this document is to investigate the correlation of standard error and
 library('knitr')
 
 knitr::opts_chunk$set(cache=TRUE)
-opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/NGRevision/Figureswithres/") 
+#opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/NGRevision/Figureswithres/") 
 
 data=read.csv("../../Data/ExprSampleSize.csv.gz",header = T)
 rownames(data)=data[,1]

@@ -10,7 +10,7 @@ Here, we simply plot the density of the average expression for all genes to comp
 ```{r, cache=TRUE,echo=FALSE}
 
 library('knitr')
-opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/NGrevision/Figureswithres/") 
+#opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/NGrevision/Figureswithres/") 
 library('qtlcharts')
 data=read.csv("../../Data/AvgExpr.csv.gz",header = T)
 rownames(data)=data[,1]

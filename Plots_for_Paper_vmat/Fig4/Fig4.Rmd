@@ -9,9 +9,9 @@ output: pdf_document
 library('knitr')
 
 library('rmeta')
-knitr::opts_chunk$set(cache = TRUE,collapse = TRUE,comment = "#",
-                      fig.path = "figures/Figure3.Rmd",fig.align = "center",
-                      fig.width = 8,fig.height = 6,fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figureswithres/") 
+#knitr::opts_chunk$set(cache = TRUE,collapse = TRUE,comment = "#",
+#                      fig.path = "figures/Figure3.Rmd",fig.align = "center",
+#                      fig.width = 8,fig.height = 6,fig.path = #"/Users/sarahurbut/Dropbox/PaperEdits/Paper/Figureswithres/") 
 ```
 
 ##In this file, we make the metaplots demonstrating the original effects and the posterior estimates.

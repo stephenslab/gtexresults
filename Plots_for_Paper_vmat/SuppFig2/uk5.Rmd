@@ -10,7 +10,7 @@ Here we plot the correlation matrix and the first 3 eigenvectors of Uk5.
 library('knitr')
 
 knitr::opts_chunk$set(cache=TRUE)
-opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/NGRevision/Figureswithres/") 
+#opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/NGRevision/Figureswithres/") 
 
 covmat=readRDS("../../Data_vhat/covmatwithvhat.rds")
 

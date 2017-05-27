@@ -9,7 +9,7 @@ Here we plot the number of eQTL that are tissue specific by magnitude in only on
 
 library('knitr')
 knitr::opts_chunk$set(cache=TRUE)
-opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/NGrevision/Figureswithres/") 
+#opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/NGrevision/Figureswithres/") 
 ```
 
 ```{r barplotspec,echo=FALSE}

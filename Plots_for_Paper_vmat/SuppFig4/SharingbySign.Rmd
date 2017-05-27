@@ -9,7 +9,7 @@ Perform the analysis with global, showing the proportion of signficiatn eQTL tha
 ```{r setup, include=FALSE}
 library('knitr')
 knitr::opts_chunk$set(cache=TRUE)
-opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/NGRevision/Figureswithres/") 
+#opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/NGRevision/Figureswithres/") 
 ```
 
 ```{r loaddata,echo=F}
