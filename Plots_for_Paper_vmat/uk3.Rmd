@@ -1,0 +1,109 @@
+---
+title: "Please add a more descriptive title"
+author: "Sarah Urbut"
+date: 2017-05-30
+output: html_document
+---
+
+**Last updated:** `r Sys.Date()`
+
+Here we plot the correlation matrix and the first 3 eigenvectors of "Uk3". This
+provides a visualization of the primary patterns of genetic sharing identified
+by our method, **mash**. It is also Fig. 3 in the paper.
+
+"Uk3" is the covariance matrix corresponding to the output of the
+ExtremeDeconvolution algorithm that was initialized with the rank3 SVD
+approximation of $X^TX$. It is the pattern of sharing with the most loading. 
+We demonstrate which patterns have the most loading the $\pi$ barplot.
+
+```{r knitr, message = FALSE, echo = FALSE}
+knitr::opts_chunk$set(collaprse = TRUE, fig.width = 8,
+                      fig.height = 4,fig.align = "center")
+```
+
+First, we load the necessary libraries.
+
+```{r init, echo = TRUE, message = FALSE}
+library(lattice)
+library(ggplot2)
+library(colorRamps)
+library(fields)
+```
+
+*Explain here what this next code chunk does. It looks like you are loading
+a bunch of data sets from files. What are these data sets? And what is the
+bar chart you are creating?*
+
+```{r create_barplot, echo = TRUE}
+covmat <- readRDS("../Data_vhat/covmatwithvhat.rds")
+z.stat <- read.table("../Data/maxz.txt")
+pis    <- readRDS("../Data_vhat/piswithvhat.rds")$pihat
+pi.mat <- matrix(pis[-length(pis)],ncol = 54,nrow = 22,byrow = TRUE)
+names  <- colnames(z.stat)
+colnames(pi.mat) <-
+  c("ID","X'X","SVD","F1","F2","F3","F4","F5","SFA_Rank5",names,"ALL")
+
+# Please label the horizontal and vertical axes.
+barplot(colSums(pi.mat),las = 2,cex.names = 0.5)
+```
+
+Here, we load the indices and tissue names:
+
+```{r tissues}
+k <- 3
+
+x           <- cov2cor(covmat[[k]])
+x[x < 0]    <- 0
+colnames(x) <- names
+rownames(x) <- names
+
+h <- read.table("../Data/uk3rowindices.txt")[,1]
+```
+
+Now we produce the heatmap. *What is the heat map showing? What interesting 
+result(s) are highlighted by this heat map?* Note that this is flipped in 
+the paper:
+
+```{r heatmapuk3, fig.width = 10, fig.height = 8}
+smat <- (x[(h),(h)])
+smat[lower.tri(smat)] <- NA
+
+clrs <- colorRampPalette(rev(c("#D73027","#FC8D59","#FEE090","#FFFFBF",
+                               "#E0F3F8","#91BFDB","#4575B4")))(64)
+lat <- x[rev(h),rev(h)]
+
+lat[lower.tri(lat)] <- NA
+n <- nrow(lat)
+print(levelplot(lat[n:1,],col.regions = clrs,xlab = "",ylab = "",
+                colorkey = TRUE,at = seq(0,1,length.out = 64),
+                scales = list(cex = 0.6,x = list(rot = 45))))
+```
+
+Now let's do the eigenplots. *As before, what are these plots showing,
+and what sort of interesting results are highlighted by these plots?*
+
+```{r eigenplots, fig.height = 4}
+missing.tissues <- c(7,8,19,20,24,25,31,34,37)
+color.gtex <- read.table("../Data/GTExColors.txt",sep = "\t",
+                         comment.char = '')[-missing.tissues,]
+
+k <- 3
+vold  <- svd(covmat[[k]])$v
+u     <- svd(covmat[[k]])$u
+d     <- svd(covmat[[k]])$d
+v     <- vold[h,] # Shuffle so correct order
+names <- names[h]
+color.gtex <- color.gtex[h,]
+for (j in 1:3)
+  
+  # Please add labels to the horizontal and vertical axes in these plots.
+  barplot(v[,j]/v[,j][which.max(abs(v[,j]))],names = "",cex.names = 0.5,
+          las = 2,main = paste0("EigenVector",j,"Uk",k),
+          col = as.character(color.gtex[,2]))
+```
+
+## Session Information
+
+```{r session-info}
+print(sessionInfo())
+```
