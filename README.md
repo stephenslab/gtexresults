@@ -5,9 +5,23 @@ which uses a mixture of multivariate normals to estimate the effect
 size of a genetic variant on gene expression across 44 tissues, as
 ascertained from the GTEX project.
 
+## What's included
+
+*Describe structure of repo here.*
+
+## Quick Start
+
+*Give brief instructions on how to use this repo.*
+
+## Setup
+
+*Give setup & installation instructions here.*
+
 ## Using this Repo
 
-In this directory, under the folder *scripts* you will find the notated script, `MidwayScripts.Rmd` to reproduce the results found in Urbut et al.
+In this directory, under the folder *scripts* you will find the
+notated script, `MidwayScripts.Rmd` to reproduce the results found in
+Urbut et al.
 
 1) You'll note that the input data necessary to run this analysis is
 all available under inputs. This may take some time to run, and so we
@@ -55,3 +69,11 @@ instead use this output to produce the figures.
 
 [Here is the link to the index](https://stephenslab.github.io/gtexresults_mash/Plots_for_Paper_vmat/IndexofPlots.html)
 discussing the reproduction of all of the plots.
+
+## License
+
+*Add details of license here.*
+
+## Contributors
+
+*List people here who contributed to this project.*
