@@ -1,5 +1,5 @@
 ---
-title: "PLEASE ADD A MORE DESCRIPTIVE TITLE"
+title: "Please add a more descriptive title"
 author: "Sarah Urbut"
 date: 2017-05-30
 output: html_document
@@ -21,7 +21,7 @@ knitr::opts_chunk$set(collaprse = TRUE, fig.width = 8,
                       fig.height = 4,fig.align = "center")
 ```
 
-First, we load the necessary libraries.
+First, we load the necessary packages into the R environment.
 
 ```{r init, echo = TRUE, message = FALSE}
 library(lattice)

@@ -5,16 +5,18 @@ date: 2017-05-30
 output: html_document
 ---
 
-In this file, we make the metaplots demonstrating the original effects and 
+In this notebook, we make the metaplots demonstrating the original effects and 
 the posterior estimates.
 
-This is using the matrix of correlated residuals.
+First, we load the necessary packages into the R environment.
 
-```{r}
+```{r init, echo = TRUE, message = FALSE}
 library(rmeta)
 ```
 
-```{r exampleuk3,echo = FALSE}
+
+
+```{r exampleuk3, echo = FALSE}
 source("../Scripts/normfuncs.R")
 
 z.stat         <- read.table("../Data/maxz.txt")
