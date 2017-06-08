@@ -7,30 +7,24 @@ thresh_inconsistent=function(effectsize,thresh,sigs){
   })
   return(sum(z==TRUE))}
 
-
-het.norm=function(effectsize){
+het.norm = function(effectsize) {
   t(apply(effectsize,1,function(x){
     x/x[which.max(abs(x))]
-  }))}
+  }))
+}
 
-
-sign.norm=function(effectsize){
+sign.norm = function(effectsize) {
   t(apply(effectsize,1,function(x){
     x/sign(x[which.max(abs(x))])
   }))}
 
-sign.tissue.func=function(normdat){
+sign.tissue.func = function(normdat){
   apply(normdat,1,function(x){
     sum(x<0)})}
 
-
-
-#het.func=function(normdat,threshold){
-#apply(abs(normdat),1,function(x){sum(x>threshold)})}
-
-het.func=function(normdat,threshold){
-    apply((normdat),1,function(x){sum(x>threshold)})}
-
+het.func = function (normdat, threshold) {
+    apply((normdat),1,function(x){sum(x > threshold)})
+}
 
 hlindex=function(normdat,sigdat,thresh1,thresh2){
     hl=NULL
@@ -51,9 +45,7 @@ het.index.two=function(data,thresh){
         
     }))}
 
+# Compute RMSE.
+rmse <- function(truth, estimate)
+  sqrt(mean((truth - estimate)^2))
 
-
-#rmse function to compute rmse
-rmse=function(truth,estimate){
-    sqrt( mean( (truth-estimate)^2) )
-}

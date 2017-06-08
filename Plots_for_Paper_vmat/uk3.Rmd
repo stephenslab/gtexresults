@@ -17,7 +17,7 @@ provides a visualization of the primary patterns of genetic sharing identified
 by our method, **mash**. It is also Fig. 3 in the paper.
 
 ```{r knitr, message = FALSE, echo = FALSE}
-knitr::opts_chunk$set(collaprse = TRUE, fig.width = 8,
+knitr::opts_chunk$set(collapse = TRUE, fig.width = 8,
                       fig.height = 4,fig.align = "center")
 ```
 

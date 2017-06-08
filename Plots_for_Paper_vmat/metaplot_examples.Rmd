@@ -5,8 +5,16 @@ date: 2017-05-30
 output: html_document
 ---
 
-In this notebook, we make the metaplots demonstrating the original effects and 
-the posterior estimates.
+In this notebook, we make the metaplots comparing the original effect
+estimates (*effects of what?*), and the posterior estimates obtained using 
+the multivariate adaptive shrinkage model. *What is the main result(s) we 
+are showing in this notebook? What is the point of showing these plots.* 
+The plots below were used to create Fig. 4 of the paper.
+
+```{r knitr, message = FALSE, echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE,comment = "#",fig.width = 8,
+                      fig.height = 4,fig.align = "center")
+```
 
 First, we load the necessary packages into the R environment.
 
@@ -14,9 +22,10 @@ First, we load the necessary packages into the R environment.
 library(rmeta)
 ```
 
+*Please explain here what this next code chunk does. It looks like it is
+reading a bunch of data files. What data are being loaded?*
 
-
-```{r exampleuk3, echo = FALSE}
+```{r load_data}
 source("../Scripts/normfuncs.R")
 
 z.stat         <- read.table("../Data/maxz.txt")
@@ -27,66 +36,107 @@ covmat          <- readRDS("../Data_vhat/covmatwithvhat.rds")
 posterior.means <- read.table("../Data_vhat/withvhatposterior.means.txt")[,-1]
 lfsr            <- read.table("../Data_vhat/withvhatlfsr.txt")[,-1]
 mar.var         <- read.table("../Data_vhat/withvhatmarginal.var.txt")[,-1]
-colnames(lfsr)  <- colnames(mar.var)=colnames(posterior.means)=colnames(z.stat)
+colnames(lfsr)  <- colnames(mar.var) <- 
+  colnames(posterior.means) <- 
+  colnames(z.stat)
 
-posterior.betas <- standard.error*posterior.means
+posterior.betas <- standard.error * posterior.means
 pm.beta.norm    <- het.norm(posterior.betas)
 
-missing.tissues=c(7,8,19,20,24,25,31,34,37)
-uk3labels=read.table("../Data/uk3rowindices.txt")[,1]
+missing.tissues <- c(7,8,19,20,24,25,31,34,37)
+uk3labels       <- read.table("../Data/uk3rowindices.txt")[,1]
+```
 
-newfunc.2=function(j){
-gtex.colors=read.table('../Data/GTExColors.txt', sep = '\t', 
-                       comment.char = '')[-missing.tissues,2]
-gtex.colors=gtex.colors[uk3labels]
+*In this next chunk you are defining a function. Can you briefly explain
+in 1-2 sentences what this function does, and how you will use it in the code
+chunks below?*
 
-pm.beta.norm=pm.beta.norm[,uk3labels]##shufflecolumns
-z.shuffle=z.stat[,uk3labels]
-b.shuffle=b.stat[,uk3labels]
-post.var=mar.var[uk3labels]
-post.bshuffle=posterior.betas[,uk3labels]
-sem.shuffle=standard.error[,uk3labels]
-lfsr=lfsr[,uk3labels]
-title=strsplit(rownames(z.stat)[j], "[.]")[[1]][1]
+```{r metaplot_function}
 
-x=as.numeric(post.bshuffle[j,])
+# Can you please give a better name to this function than "newfunc.2"?
+# Maybe a name like gen.metaplot?
+newfunc.2 <- function (j) {
+  gtex.colors <- read.table('../Data/GTExColors.txt', sep = '\t', 
+                            comment.char = '')[-missing.tissues,2]
+  gtex.colors <- gtex.colors[uk3labels]
 
-par(mfrow=c(1,1))
-metaplot(as.numeric(b.shuffle[j,]),as.numeric(sem.shuffle[j,]),xlab = "",ylab="",colors=meta.colors(box=as.character(gtex.colors)),xlim=c(-1,1))
-title(title)
+  pm.beta.norm  <- pm.beta.norm[,uk3labels] # Shuffle columns.
+  z.shuffle     <- z.stat[,uk3labels]
+  b.shuffle     <- b.stat[,uk3labels]
+  post.var      <- mar.var[uk3labels]
+  post.bshuffle <- posterior.betas[,uk3labels]
+  sem.shuffle   <- standard.error[,uk3labels]
+  lfsr          <- lfsr[,uk3labels]
+  plot.title    <- strsplit(rownames(z.stat)[j], "[.]")[[1]][1]
 
-par(mfrow=c(1,1))
-sd=as.numeric(sem.shuffle[j,])*sqrt(as.numeric(post.var[j,]))##to transform to posterior sd of beta
-metaplot(x,sd,xlab = "",ylab="",colors=meta.colors(box=as.character(gtex.colors)),xlim=c(-1,1))
-title(title)
+  x <- as.numeric(post.bshuffle[j,])
+
+  layout(t(1:2))
+  
+  metaplot(as.numeric(b.shuffle[j,]),as.numeric(sem.shuffle[j,]),xlab = "",
+           ylab = "",colors = meta.colors(box = as.character(gtex.colors)),
+           xlim = c(-1,1))
+  title(plot.title)
+
+  # Transform to posterior sd of beta.
+  sd <- as.numeric(sem.shuffle[j,]) * sqrt(as.numeric(post.var[j,]))
+  metaplot(x,sd,xlab = "",ylab = "",
+           colors = meta.colors(box = as.character(gtex.colors)),
+           xlim = c(-1,1))
+  title(plot.title)
 }
 ```
 
-Our first example is MCPH1: original estimates and then posteriors:
+## First example: *MCPH1* gene 
 
-```{r example3,fig.height=5,fig.width=5}
-three.ex.3=which(rownames(z.stat)=="ENSG00000249898.3_8_6521432_T_C_b37")
+Our first example compares the *MCPH1* original eQTL estimates against 
+the posterior estimates.
+
+*What are the two plots showing? What is interesting about this example?
+What is the take-home message from this plot?*
+
+*Please add labels to the horizontal and vertical axes. Which of these 
+plots shows the original effect estimates, and which shows the posterior 
+("shrunk") estimates?*
+
+```{r metaplot_MCPH1, fig.keep = "last"}
+three.ex.3 <- 
+  which(rownames(z.stat) == "ENSG00000249898.3_8_6521432_T_C_b37")
 newfunc.2(three.ex.3)
-whole.blood.spec = 
+
+# This line of code doesn't seem to do anything. Why is it included?
+whole.blood.spec <-  
   which(rowSums(pm.beta.norm[,-44]<0.5)==43&(rowSums(lfsr[,1:44]<0.05)>=40))
 ```
 
-## FLJ13114 
+## Second example: *FLJ13114* gene
 
-```{r oldex5,fig.width = 5,fig.height = 5}
-five.ex=which(rownames(z.stat)=="ENSG00000120029.8_10_103924251_G_A_b37")
-testes.spec = which(rowSums(pm.beta.norm[,-40]<0.5) == 43 &
+*What is interesting about this example?
+What is the take-home message from this plot?*
+
+```{r metaplot_FLJ13114}
+five.ex <- which(rownames(z.stat) == "ENSG00000120029.8_10_103924251_G_A_b37")
+
+# This line of code doesn't seem to do anything. Why is it included?
+testes.spec <-  which(rowSums(pm.beta.norm[,-40]<0.5) == 43 &
                     (rowSums(lfsr[,1:44]<0.05)>=40))[1:10]
+
 newfunc.2(five.ex)
 ```
  
-## RALBP1
+## Third example: *RALBP1* gene
 
-```{r wholebloodquant,fig.width = 5,fig.height = 5}
-wholebloodfour=(which(rownames(z.stat)=="ENSG00000017797.7_18_9488704_C_T_b37"))
+*What is interesting about this example?
+What is the take-home message from this plot?*
+
+```{r metaplot_RALBP1}
+wholebloodfour <- 
+  (which(rownames(z.stat) == "ENSG00000017797.7_18_9488704_C_T_b37"))
 newfunc.2(wholebloodfour)
 ```
 
+## Session Information
 
-
-
+```{r session-info}
+print(sessionInfo())
+```
