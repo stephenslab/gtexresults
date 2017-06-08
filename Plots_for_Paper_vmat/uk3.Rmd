@@ -1,5 +1,5 @@
 ---
-title: "Please add a more descriptive title"
+title: "PLEASE ADD A MORE DESCRIPTIVE TITLE"
 author: "Sarah Urbut"
 date: 2017-05-30
 output: html_document
@@ -7,14 +7,14 @@ output: html_document
 
 **Last updated:** `r Sys.Date()`
 
-Here we plot the correlation matrix and the first 3 eigenvectors of "Uk3". This
-provides a visualization of the primary patterns of genetic sharing identified
-by our method, **mash**. It is also Fig. 3 in the paper.
-
 "Uk3" is the covariance matrix corresponding to the output of the
 ExtremeDeconvolution algorithm that was initialized with the rank3 SVD
 approximation of $X^TX$. It is the pattern of sharing with the most loading. 
 We demonstrate which patterns have the most loading the $\pi$ barplot.
+
+We plot the correlation matrix and the first 3 eigenvectors of "Uk3". This
+provides a visualization of the primary patterns of genetic sharing identified
+by our method, **mash**. It is also Fig. 3 in the paper.
 
 ```{r knitr, message = FALSE, echo = FALSE}
 knitr::opts_chunk$set(collaprse = TRUE, fig.width = 8,
@@ -47,7 +47,7 @@ colnames(pi.mat) <-
 barplot(colSums(pi.mat),las = 2,cex.names = 0.5)
 ```
 
-Here, we load the indices and tissue names:
+Here, we load the indices (*of the tissues?*) and tissue names:
 
 ```{r tissues}
 k <- 3
@@ -79,8 +79,9 @@ print(levelplot(lat[n:1,],col.regions = clrs,xlab = "",ylab = "",
                 scales = list(cex = 0.6,x = list(rot = 45))))
 ```
 
-Now let's do the eigenplots. *As before, what are these plots showing,
-and what sort of interesting results are highlighted by these plots?*
+Now let's do the eigenplots. *What are these plots showing,
+and what sort of interesting results (briefly) are being highlighted by 
+these plots? Can you briefly explain the color scheme you are using?*
 
 ```{r eigenplots, fig.height = 4}
 missing.tissues <- c(7,8,19,20,24,25,31,34,37)
