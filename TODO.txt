@@ -1,0 +1,7 @@
+to do items
+===========
+
+* Copy 20170829_MASH_Paper.ipynb to code/master_mash_analysis.ipynb (Gao).
+
+* Copy to "output" all the results that are necessary to produce the
+  figures and tables (Gao).
