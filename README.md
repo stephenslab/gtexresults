@@ -1,11 +1,10 @@
-# gtexresults_mash
-
-The purpose of this repo is to store the results of the mixture model,
-which uses a mixture of multivariate normals to estimate the effect
-size of a genetic variant on gene expression across 44 tissues, as
-ascertained from the GTEX project.
-
 ## What's included
+
+This repo contains some of the original scripts used to produce results
+from Urbut et al. 
+
+If you want to run mashr for yourself, we suggest starting with
+the software available [here](https://github.com/stephenslab/mashr).
 
 *Describe structure of repo here.*
 
@@ -23,7 +22,7 @@ In this directory, under the folder *scripts* you will find the
 notated script, `MidwayScripts.Rmd` to reproduce the results found in
 Urbut et al.
 
-1) You'll note that the input data necessary to run this analysis is
+1) The input data necessary to run this analysis is
 all available under inputs. This may take some time to run, and so we
 recommend using a cluster or submittable file system. We have provided
 the outputs of running mash in `Data_vhat`.
