@@ -6,6 +6,9 @@ from Urbut et al.
 If you want to run mashr for yourself, we suggest starting with
 the software available [here](https://github.com/stephenslab/mashr).
 
+FIXME: should point to the mashr-paper repo for reproducing the work of Urbut 2017. 
+(in fact it is to be automatically downloaded / installed when running codes/master_mash_analysis.ipynb)
+
 *Describe structure of repo here.*
 
 ## Quick Start
@@ -62,7 +65,7 @@ tail probabilities, null probabilites, and lfsr for all J genes across
 The directory **Plots_for_Paper_vmat** contains .Rmd files to plot figures from the paper,
 using our results which are provided in **Results_Data**. 
 
-[Here is the link to the index](https://stephenslab.github.io/gtexresults_mash/Plots_for_Paper_vmat/IndexofPlots.html)
+[Here is the link to the index](https://stephenslab.github.io/gtexresults_mash)
 discussing the reproduction of all of the plots.
 
 ## License
