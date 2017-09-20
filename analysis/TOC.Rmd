@@ -17,7 +17,7 @@ Supplementary Figure 1:[Sample sizes and effective sample sizes from mash analys
 
 Supplementary Figure 2:There are 4 figures here:
 
-[Summary of covariance matrices Uk with largest estimated weight (> 1%) in GTEx data:Uk2](Fig.Uk2.html)
+[Summary of covariance matrices Uk with largest estimated weight (> 1%) in GTEx data:Uk2](Fig.Uk2.pdf)
 
 [Summary of covariance matrices Uk with largest estimated weight (> 1%) in GTEx data:Uk4](Fig.Uk4.html)
 
