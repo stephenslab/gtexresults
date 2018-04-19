@@ -1,5 +1,9 @@
-to do items
-===========
+to do
+=====
+
+* Add LICENSE file, and license info to README.
 
 * Copy to "output" all the results that are necessary to produce the
-  figures and tables (They were initially in some earlier version of Sarah's repo, some maybe in midway. Currently some of them are missing from the master version of this repo).
+  figures and tables (They were initially in some earlier version of
+  Sarah's repo, some maybe in midway. Currently some of them are
+  missing from the master version of this repo).
