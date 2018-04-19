@@ -25,11 +25,7 @@ following the instructions provided on the Docker website, and
 check that Docker is working correctly, again following the steps
 given on the Docker website.
 
-2. Run `sudo usermod -aG docker $USER`
-
-3. Log out your current computer session and log back in. No need to reboot the computer.
-
-### Configure your environment
+2. Configure your shell environment.
 
 Put this line in your `~/.bash_profile` (or `~/.bashrc` for Linux)
 
@@ -43,7 +39,8 @@ then `source ~/.bash_profile`. To test it out:
 mash-paper pwd 
 ```
 
-Note that an automatic download for the `mash-paper` docker image will start at this point if it is the first time you run it.
+Note that an automatic download for the `mash-paper` docker image will
+start at this point if it is the first time you run it.
 
 ## Run MASH to reproduce GTEx results for Urbut et al 2017
 
