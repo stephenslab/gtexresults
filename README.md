@@ -17,7 +17,7 @@ work, please cite our paper:
 
 ## License
 
-Copyright (c) 2017-2018, Sarah Urbut.
+Copyright (c) 2016-2018, Sarah Urbut.
 
 All source code and software in this repository are made available
 under the terms of the
@@ -27,11 +27,10 @@ the [LICENSE](LICENSE) file for the full text of the license.
 ## Setup instructions (simpler)
 
 The analyses require installation of several programs and libraries,
-including SFA, ExtremeDeconvolution, and the GNU Scientific
+including SFA, ExtremeDeconvolution, OpenMP, and the GNU Scientific
 Library. To facilitate reproducing our results, we have developed a
 [Docker container](https://hub.docker.com/r/gaow/mash-paper) which
-contains the required software components. *Note that using Docker
-requires that you have administrator access to your computer.*
+contains the required software components. 
 
 If you would like to run the analyses without Docker, please see the
 "less simple" setup instructions below, which explain what software
@@ -48,12 +47,13 @@ configured.
 [Docker community edition](https://www.docker.com/community-edition),
 following the instructions provided on the Docker website, and
 check that Docker is working correctly, again following the steps
-given on the Docker website.
+given on the Docker website. *Note that setting up Docker
+requires that you have administrator access to your computer.*
 
 2. Run this command in the shell (this must be fit onto one line):
 
 ```bash
-alias docker-mash='docker run --rm --security-opt label:disable -t -P -w $PWD -u $UID:${GROUPS[0]} -v $USER:/home/docker -v /tmp:/tmp -v $PWD:$PWD gaow/mash-paper'
+alias mash-docker='docker run --rm --security-opt label:disable -t -P -w $PWD -u $UID:${GROUPS[0]} -v $USER:/home/docker -v /tmp:/tmp -v $PWD:$PWD gaow/mash-paper'
 ```
 
 *TO DO: Explain here what this command does.*
@@ -61,19 +61,23 @@ alias docker-mash='docker run --rm --security-opt label:disable -t -P -w $PWD -u
 To test out this command, run:
 
 ```bash
-docker-mash pwd 
+mash-docker pwd 
 ```
 
-Note that you may need to run the Docker command as root, which you
-can do by... *Gao will add instructions here.*
-
-Note that an automatic download for the `mash-paper` docker image will
+An automatic download for the `mash-paper` docker image will
 start at this point if it is the first time you run it.
 To double-check the image is installed, run this:
 
 ```bash
 docker images
 ```
+
+> Note that on some systems you may get an error 
+> `Cannot connect to the Docker daemon. Is the docker daemon running on this host?`. 
+> This can be solved simply by running Docker command as `root` (eg, via `sudo docker run`). 
+> However we strongly advice against it because it will produce files that only `root` can access.
+> You may find online some tips (for [Linux](https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo) and for [Mac](https://github.com/wodby/docker4drupal/issues/15)) to allow you run Docker without `sudo`
+
 
 ## Run MASH to reproduce GTEx results for Urbut et al 2017
 
