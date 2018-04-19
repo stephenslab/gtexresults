@@ -11,8 +11,8 @@ starting with the new version of software available
 
 We use a docker container to facilitate reproducing our computational
 experiments and analysis procedures. Here is the
-[docker file](workflows/Dockerfile) of how the container is configured. Note
-that it is based on another docker image
+[docker file](workflows/Dockerfile) showing how the container is configured. Note
+that it is built on top of another docker image
 [gaow/lab-base](https://hub.docker.com/r/gaow/lab-base),
 which is based on
 [rocker/rbase](https://hub.docker.com/r/rocker/r-base).
@@ -60,7 +60,7 @@ mash-paper sos run workflows/gtex6_mash_analysis.ipynb
 
 All intermediate and final output should be saved to a folder called
 `gtex6_workflow_output`. Particularly you may want to checkout
-`gtex6_workflow_output/gtex6_mash_analysis.html** which contains the
+`gtex6_workflow_output/gtex6_mash_analysis.html` which contains the
 complete analysis procedure.
 
 
