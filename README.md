@@ -11,9 +11,9 @@ starting with the new version of software available
 
 We use a docker container to facilitate reproducing our computational
 experiments and analysis procedures. Here is the
-[docker file](Dockerfile) of how the container is configured. Note
+[docker file](workflows/Dockerfile) of how the container is configured. Note
 that it is based on another docker image
-[gaow/dsc](https://hub.docker.com/r/gaow/mash-paper),
+[gaow/lab-base](https://hub.docker.com/r/gaow/lab-base),
 which is based on
 [rocker/rbase](https://hub.docker.com/r/rocker/r-base).
 

@@ -3,7 +3,7 @@
 
 # This is the base Docker image. It configures basic R and Python
 # environments to run related pipelines.
-FROM gaow/dsc
+FROM gaow/lab-base
 
 MAINTAINER Gao Wang, gaow@uchicago.edu
 
