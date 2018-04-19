@@ -1,12 +1,13 @@
-# Docker container for reproducing the MASH paper (Urbut, Wang and Stephens 2017)
+# Docker container for running the analyses the GTEx data in Urbut,
+# Wang & Stephens (2017).
 
-# Pull base image: it configures basic R and Python environments to run related pipelines
+# This ull base image: it configures basic R and Python environments to
+# run related pipelines
 FROM gaow/dsc
 
-# :)
 MAINTAINER Gao Wang, gaow@uchicago.edu
 
-# Install tools required by MASH
+# These are versions of the software needed to run the analyses.
 ENV SFAVERSION 1.0
 ENV MASHVERSION 0.2-1
 ENV EDVERSION master
