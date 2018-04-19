@@ -44,7 +44,7 @@ given on the Docker website.
 
 2. Run this command in the shell (this must be fit onto one line):
 
-```
+```bash
 alias docker-mash='docker run --rm --security-opt label:disable -t -P -w $PWD -u $UID:${GROUPS[0]} -v $USER:/home/docker -v /tmp:/tmp -v $PWD:$PWD gaow/mash-paper'
 ```
 
@@ -52,8 +52,15 @@ alias docker-mash='docker run --rm --security-opt label:disable -t -P -w $PWD -u
 
 To test out this command, run:
 
+```bash
+docker-mash pwd 
 ```
-mash-docker pwd 
+
+Note that you may need to run the Docker command as root, which you
+can do by running:
+
+```bash
+sudo docker-mash pwd
 ```
 
 Note that an automatic download for the `mash-paper` docker image will
