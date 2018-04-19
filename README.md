@@ -53,6 +53,14 @@ docker images
 Under the repo you will find `workflows/gtex6_mash_analysis.ipynb` 
 to reproduce the GTEx results in Figures ? and ?.
 
+To show what analysis are available,
+
+```bash
+mash-docker sos run workflows/gtex6_mash_analysis.ipynb -h
+```
+
+To run default (all) analysis,
+
 ```bash
 mash-docker sos run workflows/gtex6_mash_analysis.ipynb
 ```
