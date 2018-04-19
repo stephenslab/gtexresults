@@ -29,7 +29,7 @@ given on the Docker website.
 2. Run this command in the shell (this must be fit on one line):
 
 ```
-alias docker-mash='docker run --rm --security-opt label:disable -v
+alias mash-docker='docker run --rm --security-opt label:disable -v
   $USER:/home/docker -v /tmp:/tmp -v $PWD:$PWD -t -P -w $PWD -u 
   $UID:${GROUPS[0]} gaow/mash-paper'
 ```
@@ -39,7 +39,7 @@ alias docker-mash='docker run --rm --security-opt label:disable -v
 To test out this command, run:
 
 ```
-docker-mash pwd 
+mash-docker pwd 
 ```
 
 Note that an automatic download for the `mash-paper` docker image will
@@ -55,7 +55,7 @@ Under the repo you will find `workflows/gtex6_mash_analysis.ipynb`
 to reproduce the GTEx results in Figures ? and ?.
 
 ```bash
-mash-paper sos run workflows/gtex6_mash_analysis.ipynb
+mash-docker sos run workflows/gtex6_mash_analysis.ipynb
 ```
 
 All intermediate and final output should be saved to a folder called
