@@ -3,20 +3,30 @@
 This repo contains some of the original scripts used to produce results
 from Urbut et al 2017. 
 
-If you want to run the latest `mashr` for yourself, we suggest starting with
-the new version of software available [here](https://github.com/stephenslab/mashr).
+If you want to run the latest `mashr` for yourself, we suggest
+starting with the new version of software available
+[here](https://github.com/stephenslab/mashr).
 
 ## Before using this repo
 
-We use a docker container to facilitate reproducing our computational experiments and analysis procedures.
-Here is the [docker file](Dockerfile) of how the container is configured. Note that it is based on another docker image [gaow/dsc](https://hub.docker.com/r/gaow/mash-paper), which is based on [rocker/rbase](https://hub.docker.com/r/rocker/r-base/).
+We use a docker container to facilitate reproducing our computational
+experiments and analysis procedures. Here is the
+[docker file](Dockerfile) of how the container is configured. Note
+that it is based on another docker image
+[gaow/dsc](https://hub.docker.com/r/gaow/mash-paper), which is based
+on [rocker/rbase](https://hub.docker.com/r/rocker/r-base/).
 
-### Install docker
+*Note that these instructions will require that you have administrator
+access to your computer.*
 
-If you have not installed `docker` on your computer:
+1. Install
+[Docker community edition](https://www.docker.com/community-edition),
+following the instructions provided on the Docker website, and
+check that Docker is working correctly, again following the steps
+given on the Docker website.
 
-1. Follow [Docker installation guild](https://www.docker.com/community-edition) until you can use `sudo docker` to print the "Hello World" example.
 2. Run `sudo usermod -aG docker $USER`
+
 3. Log out your current computer session and log back in. No need to reboot the computer.
 
 ### Configure your environment
