@@ -43,6 +43,8 @@ mash-docker pwd
 Note that an automatic download for the `mash-paper` docker image will
 start at this point if it is the first time you run it.
 
+To double-check the image is installed,
+
 ```
 docker images
 ```
