@@ -6,19 +6,6 @@ from Urbut et al.
 If you want to run mashr for yourself, we suggest starting with
 the software available [here](https://github.com/stephenslab/mashr).
 
-FIXME: should point to the mashr-paper repo for reproducing the work of Urbut 2017. 
-(in fact it is to be automatically downloaded / installed when running codes/master_mash_analysis.ipynb)
-
-*Describe structure of repo here.*
-
-## Quick Start
-
-*Give brief instructions on how to use this repo.*
-
-## Setup
-
-*Give setup & installation instructions here.*
-
 ## Using this Repo
 
 In this directory, under the folder *scripts* you will find the
