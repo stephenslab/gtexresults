@@ -24,17 +24,25 @@ under the terms of the
 [MIT license](https://opensource.org/licenses/mit-license.html). See
 the [LICENSE](LICENSE) file for the full text of the license.
 
-## Instructions
+## Setup instructions (simpler)
 
-We use a docker container to facilitate reproducing our computational
-experiments and analysis procedures. Here is the
-[docker file](workflows/Dockerfile) showing how the container is
-configured. Note that it is built on top of another docker image
-[gaow/lab-base](https://hub.docker.com/r/gaow/lab-base), which is
-based on [rocker/rbase](https://hub.docker.com/r/rocker/r-base).
+The analyses require installation of several programs and libraries,
+including SFA, ExtremeDeconvolution, and the GNU Scientific
+Library. To facilitate reproducing our results, we have developed a
+[Docker container](https://hub.docker.com/r/gaow/mash-paper) which
+contains the required software components. *Note that using Docker
+requires that you have administrator access to your computer.*
 
-*Note that these instructions will require that you have administrator
-access to your computer.*
+If you would like to run the analyses without Docker, please see the
+"less simple" setup instructions below, which explain what software
+and libraries need to be installed to run the analyses.
+
+Note that this Docker container was developed on top of another Docker
+image, [gaow/lab-base](https://hub.docker.com/r/gaow/lab-base), which
+is itself based on
+[rocker/rbase](https://hub.docker.com/r/rocker/r-base). Refer to the
+[Dockerfile](workflows/Dockerfile) to see how the Docker container was
+configured.
 
 1. Install
 [Docker community edition](https://www.docker.com/community-edition),
@@ -57,17 +65,13 @@ docker-mash pwd
 ```
 
 Note that you may need to run the Docker command as root, which you
-can do by running:
-
-```bash
-sudo docker-mash pwd
-```
+can do by... *Gao will add instructions here.*
 
 Note that an automatic download for the `mash-paper` docker image will
 start at this point if it is the first time you run it.
-To double-check the image is installed,
+To double-check the image is installed, run this:
 
-```
+```bash
 docker images
 ```
 
@@ -93,10 +97,14 @@ All intermediate and final output should be saved to a folder called
 `gtex6_workflow_output/gtex6_mash_analysis.html` which contains the
 complete analysis procedure.
 
+## Setup instructions (less simple)
 
-**FIXME: update figure plotting instructions**
+*Explain briefly what software/libraries need to be installed if you
+prefer not to use Docker (or because you can't).*
 
 ### Figure plotting
+
+**FIXME: update figure plotting instructions**
 
 The input data necessary to run this analysis is
 all available under inputs. This may take some time to run.
