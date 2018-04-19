@@ -2,6 +2,4 @@ to do items
 ===========
 
 * Copy to "output" all the results that are necessary to produce the
-  figures and tables (Gao).
-* Merge README.md with code/master_mash_analysis.ipynb (Peter). (@pcarbo: I noticed you essentially added some notes to annotate `MidwayScript.Rmd` in README.md. If you still want to keep those notes you can take what you think is useful from README.md, open code/master_mash_analysis.ipynb add add to it, before you remove the README.md)
-
+  figures and tables (They were initially in some earlier version of Sarah's repo, some maybe in midway. Currently some of them are missing from the master version of this repo).
