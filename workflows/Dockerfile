@@ -17,9 +17,9 @@ ADD http://stephenslab.uchicago.edu/assets/software/sfa/sfa${SFAVERSION}.tar.gz 
 ADD https://github.com/stephenslab/mashr-paper/archive/v${MASHVERSION}.zip mash.zip
 ADD https://github.com/jobovy/extreme-deconvolution/archive/${EDVERSION}.zip ed.zip
 
-## Install OpenMP and GSL.
+## Install OpenMP, GSL and HDF5 library
 RUN apt-get -qq update \
-  && apt-get -qq -y install libgomp1 libgsl-dev \
+  && apt-get -qq -y install libgomp1 libgsl-dev hdf5-tools \
   && apt-get autoclean \
   && rm -rf /var/lib/apt/lists/* /var/log/dpkg.log
 
@@ -35,6 +35,10 @@ RUN tar zxf sfa.tar.gz && mv sfa /opt
 ## Install MASH code.
 RUN unzip mash.zip && mv mashr-paper-${MASHVERSION}/R /opt/mash-paper
 RUN install.r mvtnorm SQUAREM gplots colorRamps ashr
+
+## Install HDF5 libraries for Python and R
+RUN conda install pytables
+RUN Rscript -e 'source("https://bioconductor.org/biocLite.R"); biocLite("rhdf5", suppressUpdates=TRUE)'
 
 ## Clean up.
 RUN rm -rf *

@@ -78,7 +78,6 @@ docker images
 > However we strongly advice against it because it will produce files that only `root` can access.
 > You may find online some tips (for [Linux](https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo) and for [Mac](https://github.com/wodby/docker4drupal/issues/15)) to allow you run Docker without `sudo`
 
-
 ## Run MASH to reproduce GTEx results for Urbut et al 2017
 
 Under the repo you will find `workflows/gtex6_mash_analysis.ipynb` 
@@ -100,6 +99,33 @@ All intermediate and final output should be saved to a folder called
 `gtex6_workflow_output`. Particularly you may want to checkout
 `gtex6_workflow_output/gtex6_mash_analysis.html` which contains the
 complete analysis procedure.
+
+## Convert eQTL summary statistics to MASH format
+
+Under the repo you will find `workflows/fastqtl_to_mash.ipynb` 
+to convert eQTL summary statistics (default to `fastqtl` format) to MASH format. 
+Computation is configured to run in parallel for eQTL results from multiple studies. Example data-set 
+can be found at `data/eQTLDataDemo`. The workflow file is documented in itself, and has a few options 
+to customize the input and output.
+
+To read what's available, run:
+
+```bash
+mash-docker sos run workflows/fastqtl_to_mash.ipynb export
+```
+
+and read the HTML file `gtex6_workflow_output/fastqtl_to_mash.html`.
+
+To run the conversion:
+
+```bash
+mash-docker sos run workflows/fastqtl_to_mash.ipynb \
+  --data_list data/eQTLDataDemo/FastQTLSumStats.list \
+  --gene_list data/eQTLDataDemo/GTEx_genes.txt
+```
+
+In practice for GTEx data the conversion is computationally intensive and is best done on a cluster environment with 
+[configurations to run the workflow across different nodes](https://vatlab.github.io/sos-docs/doc/documentation/Remote_Execution.html).
 
 ## Setup instructions (less simple)
 
