@@ -26,11 +26,11 @@ the [LICENSE](LICENSE) file for the full text of the license.
 
 ## Setup instructions (simpler)
 
-The analyses require installation of several programs and libraries,
-including SFA, ExtremeDeconvolution, OpenMP, and the GNU Scientific
-Library. To facilitate reproducing our results, we have developed a
-[Docker container](https://hub.docker.com/r/gaow/mash-paper) which
-contains the required software components. 
+The complete analyses require installation of several programs and libraries,
+including SFA, ExtremeDeconvolution, OpenMP, MOSEK, the GNU Scientific
+Library and HDF5 related tools. To facilitate reproducing our results,
+we have developed a [Docker container](https://hub.docker.com/r/gaow/mash-paper)
+which contains the required software components.
 
 If you would like to run the analyses without Docker, please see the
 "less simple" setup instructions below, which explain what software
@@ -89,7 +89,7 @@ To show what analysis are available,
 mash-docker sos run workflows/gtex6_mash_analysis.ipynb -h
 ```
 
-To run default (all) analysis,
+To run default (the MASH prototype) analysis,
 
 ```bash
 mash-docker sos run workflows/gtex6_mash_analysis.ipynb
