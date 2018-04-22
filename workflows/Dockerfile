@@ -11,14 +11,14 @@ MAINTAINER Gao Wang, gaow@uchicago.edu
 ENV MOSEK_VERSION 8.1.0.49
 ENV EDVERSION master
 ENV SFAVERSION 1.0
-ENV MASHVERSION 0.2-1
+ENV PAPERVERSION 0.2-1
 ENV MASHRVERSION 0.2-6
 ENV PATH /opt/mosek/8/tools/platform/linux64x86/bin:$PATH
 
 WORKDIR /tmp
 ADD https://download.mosek.com/stable/${MOSEK_VERSION}/mosektoolslinux64x86.tar.bz2 ./
 ADD http://stephenslab.uchicago.edu/assets/software/sfa/sfa${SFAVERSION}.tar.gz sfa.tar.gz
-ADD https://github.com/stephenslab/mashr-paper/archive/v${MASHVERSION}.zip mash.zip
+ADD https://github.com/stephenslab/mashr-paper/archive/v${PAPERVERSION}.zip mash.zip
 ADD https://github.com/jobovy/extreme-deconvolution/archive/${EDVERSION}.zip ed.zip
 
 ## Install OpenMP, GSL and HDF5 library
@@ -51,7 +51,7 @@ RUN Rscript -e 'install.packages("REBayes")'
 RUN Rscript -e 'devtools::install_github("stephenslab/mashr@v'${MASHRVERSION}'")'
 
 ## Install MASH code (to reproduce Urbut et al 2017 paper).
-RUN unzip mash.zip && mv mashr-paper-${MASHVERSION}/R /opt/mash-paper
+RUN unzip mash.zip && mv mashr-paper-${PAPERVERSION}/R /opt/mash-paper
 RUN install.r mvtnorm SQUAREM gplots colorRamps
 
 ## Clean up.
