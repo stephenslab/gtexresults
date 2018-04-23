@@ -18,22 +18,30 @@ ENV PATH /opt/mosek/8/tools/platform/linux64x86/bin:$PATH
 
 WORKDIR /tmp
 
+## Install OpenMP, OpenBLAS, GSL and HDF5 library.
+RUN apt-get update \
+  && apt-get -y install libgomp1 libgsl-dev libopenblas-dev hdf5-tools \
+  && apt-get autoclean \
+  && rm -rf /var/lib/apt/lists/* /var/log/dpkg.log
+
+## Swap GSC CBLAS by OpenBLAS for better performance.
+RUN rm /usr/lib/x86_64-linux-gnu/libgslcblas.* \
+    && ln -s /usr/lib/libopenblas.so /usr/lib/x86_64-linux-gnu/libgslcblas.so \
+    && ln -s /usr/lib/libopenblas.so.0 /usr/lib/x86_64-linux-gnu/libgslcblas.so.0 \
+    && ln -s /usr/lib/libopenblas.a /usr/lib/x86_64-linux-gnu/libgslcblas.a
+
 ## Install rhdf5 library.
 RUN Rscript -e 'source("https://bioconductor.org/biocLite.R"); biocLite("rhdf5", suppressUpdates=TRUE)' \
     && rm -rf *
 
-## Install GSL and HDF5 tools.
-RUN conda install -c conda-forge gsl=${GSL_VERSION} hdf5
-
 ## Install SFA.
 RUN curl http://stephenslab.uchicago.edu/assets/software/sfa/sfa${SFA_VERSION}.tar.gz -o sfa.tar.gz \
-    && ln -s /opt/miniconda3/lib/libgsl.so.23.0.0 /lib/x86_64-linux-gnu/libgsl.so.0 \
     && tar zxf sfa.tar.gz && mv sfa /opt && rm -rf *
 
 ## Install Extreme Deconvolution R package.
 RUN curl -L https://github.com/jobovy/extreme-deconvolution/archive/${ED_VERSION}.zip -o ed.zip \
     && unzip ed.zip && cd extreme-deconvolution-${ED_VERSION} \
-    && make && make rpackage && R CMD INSTALL ExtremeDeconvolution_1.3.tar.gz && rm -rf /tmp/*
+    && make rpackage && rm -rf /tmp/*
 
 ## Install MOSEK, Rmosek and REBayes (to set up running the analysis with the new mashr package).
 RUN curl https://download.mosek.com/stable/${MOSEK_VERSION}/mosektoolslinux64x86.tar.bz2 -o mosek.tar.bz2 \
@@ -41,8 +49,8 @@ RUN curl https://download.mosek.com/stable/${MOSEK_VERSION}/mosektoolslinux64x86
 RUN Rscript -e 'install.packages("Rmosek", type="source", INSTALL_opts="--no-multiarch",\
     configure.vars="PKG_MOSEKHOME=/opt/mosek/8/tools/platform/linux64x86 PKG_MOSEKLIB=mosek64",\
     repos="http://download.mosek.com/R/8")' \
-    && Rscript -e 'install.packages("REBayes")' && rm -rf *
-
+    && install.R REBayes && rm -rf *
+    
 ## Install mashr package, a fast implementation of MASH algorithm.
 RUN Rscript -e 'devtools::install_github("stephenslab/mashr@v'${MASHR_VERSION}'")'
 
@@ -50,6 +58,9 @@ RUN Rscript -e 'devtools::install_github("stephenslab/mashr@v'${MASHR_VERSION}'"
 RUN curl https://github.com/stephenslab/mashr-paper/archive/v${PAPER_VERSION}.zip -o mash.zip \
     && unzip mash.zip && mv mashr-paper-${PAPER_VERSION}/R /opt/mash-paper && rm -rf *
 RUN install.R mvtnorm SQUAREM gplots colorRamps && rm -rf *
+
+## Install SoS for workflow execution.
+RUN pip install --no-cache-dir sos sos-pbs && rm -rf $HOME/.cache
 
 # Default command.
 CMD ["bash"]
