@@ -75,9 +75,7 @@ in the Docker container to check that the container loads
 successfully.
 
 ```bash
-alias mash-docker="docker run --security-opt label:disable -t -P -w \
-  '$PWD' -u '$UID:${GROUPS[0]}' -v '$USER:/home/docker' -v /tmp:/tmp \
-  -v '$PWD:$PWD' gaow/mash-paper"
+alias mash-docker='docker run --security-opt label:disable -t -P -w $PWD -u $UID:${GROUPS[0]} -v $USER:/home/docker -v /tmp:/tmp -v $PWD:$PWD gaow/mash-paper'
 mash-docker uname -a
 ```
 
