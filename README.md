@@ -33,7 +33,7 @@ for the required software components. Refer to the
 [Dockerfile](workflows/Dockerfile) to see how the Docker container was configured.
 Note that this Docker container was developed on top of 
 [gaow/lab-base](https://hub.docker.com/r/gaow/lab-base), a customized 
-R (Microsoft R Open) and Python (Miniconda 3) container.
+R and Python container.
 
 If you would like to run the analyses without Docker, please see the
 "less simple" setup instructions below, which explain what software
