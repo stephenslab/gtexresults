@@ -9,53 +9,47 @@ MAINTAINER Gao Wang, gaow@uchicago.edu
 
 # These are the versions of the software used to run the analyses.
 ENV MOSEK_VERSION 8.1.0.49
-ENV EDVERSION master
-ENV SFAVERSION 1.0
-ENV PAPERVERSION 0.2-1
-ENV MASHRVERSION 0.2-6
+ENV GSL_VERSION 2.4
+ENV ED_VERSION master
+ENV SFA_VERSION 1.0
+ENV PAPER_VERSION 0.2-1
+ENV MASHR_VERSION 0.2-6
 ENV PATH /opt/mosek/8/tools/platform/linux64x86/bin:$PATH
 
 WORKDIR /tmp
-ADD https://download.mosek.com/stable/${MOSEK_VERSION}/mosektoolslinux64x86.tar.bz2 ./
-ADD http://stephenslab.uchicago.edu/assets/software/sfa/sfa${SFAVERSION}.tar.gz sfa.tar.gz
-ADD https://github.com/stephenslab/mashr-paper/archive/v${PAPERVERSION}.zip mash.zip
-ADD https://github.com/jobovy/extreme-deconvolution/archive/${EDVERSION}.zip ed.zip
 
-## Install OpenMP, GSL and HDF5 library
-RUN apt-get -qq update \
-  && apt-get -qq -y install libgomp1 libgsl-dev hdf5-tools \
-  && apt-get autoclean \
-  && rm -rf /var/lib/apt/lists/* /var/log/dpkg.log
+## Install rhdf5 library.
+RUN Rscript -e 'source("https://bioconductor.org/biocLite.R"); biocLite("rhdf5", suppressUpdates=TRUE)' \
+    && rm -rf *
 
-## Install HDF5 libraries for Python and R.
-RUN conda install pytables
-RUN Rscript -e 'source("https://bioconductor.org/biocLite.R"); biocLite("rhdf5", suppressUpdates=TRUE)'
-
-## Install Extreme Deconvolution R package.
-RUN unzip ed.zip && cd extreme-deconvolution-${EDVERSION} \
-  && make && make rpackage && R CMD INSTALL ExtremeDeconvolution_1.3.tar.gz
+## Install GSL and HDF5 tools.
+RUN conda install -c conda-forge gsl=${GSL_VERSION} hdf5
 
 ## Install SFA.
-RUN ln -s /lib/x86_64-linux-gnu/libgsl.so.23.0.0 \
-  /lib/x86_64-linux-gnu/libgsl.so.0
-RUN tar zxf sfa.tar.gz && mv sfa /opt
+RUN curl http://stephenslab.uchicago.edu/assets/software/sfa/sfa${SFA_VERSION}.tar.gz -o sfa.tar.gz \
+    && ln -s /opt/miniconda3/lib/libgsl.so.23.0.0 /lib/x86_64-linux-gnu/libgsl.so.0 \
+    && tar zxf sfa.tar.gz && mv sfa /opt && rm -rf *
+
+## Install Extreme Deconvolution R package.
+RUN curl -L https://github.com/jobovy/extreme-deconvolution/archive/${ED_VERSION}.zip -o ed.zip \
+    && unzip ed.zip && cd extreme-deconvolution-${ED_VERSION} \
+    && make && make rpackage && R CMD INSTALL ExtremeDeconvolution_1.3.tar.gz && rm -rf /tmp/*
 
 ## Install MOSEK, Rmosek and REBayes (to set up running the analysis with the new mashr package).
-RUN tar jxf mosektoolslinux64x86.tar.bz2 && mv mosek /opt
+RUN curl https://download.mosek.com/stable/${MOSEK_VERSION}/mosektoolslinux64x86.tar.bz2 -o mosek.tar.bz2 \
+    && tar jxf mosek.tar.bz2 && mv mosek /opt && rm -rf *
 RUN Rscript -e 'install.packages("Rmosek", type="source", INSTALL_opts="--no-multiarch",\
     configure.vars="PKG_MOSEKHOME=/opt/mosek/8/tools/platform/linux64x86 PKG_MOSEKLIB=mosek64",\
-    repos="http://download.mosek.com/R/8")'
-RUN Rscript -e 'install.packages("REBayes")'
+    repos="http://download.mosek.com/R/8")' \
+    && Rscript -e 'install.packages("REBayes")' && rm -rf *
 
 ## Install mashr package, a fast implementation of MASH algorithm.
-RUN Rscript -e 'devtools::install_github("stephenslab/mashr@v'${MASHRVERSION}'")'
+RUN Rscript -e 'devtools::install_github("stephenslab/mashr@v'${MASHR_VERSION}'")'
 
 ## Install MASH code (to reproduce Urbut et al 2017 paper).
-RUN unzip mash.zip && mv mashr-paper-${PAPERVERSION}/R /opt/mash-paper
-RUN install.r mvtnorm SQUAREM gplots colorRamps
-
-## Clean up.
-RUN rm -rf *
+RUN curl https://github.com/stephenslab/mashr-paper/archive/v${PAPER_VERSION}.zip -o mash.zip \
+    && unzip mash.zip && mv mashr-paper-${PAPER_VERSION}/R /opt/mash-paper && rm -rf *
+RUN install.R mvtnorm SQUAREM gplots colorRamps && rm -rf *
 
 # Default command.
 CMD ["bash"]
