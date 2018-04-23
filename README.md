@@ -30,17 +30,15 @@ The complete analyses require installation of several programs and libraries,
 including SFA, ExtremeDeconvolution, MOSEK, OpenMP, OpenBLAS, the GNU Scientific
 Library and HDF5 related tools. To facilitate reproducing our results,
 we have developed a [Docker container](https://hub.docker.com/r/gaow/mash-paper)
-which contains the required software components.
+which contains the required software components. Refer to the 
+[Dockerfile](workflows/Dockerfile) to see how the Docker container was configured.
+Note that this Docker container was developed on top of 
+[gaow/lab-base](https://hub.docker.com/r/gaow/lab-base), a customized 
+R (Microsoft R Open) and Python (Miniconda 3) container.
 
 If you would like to run the analyses without Docker, please see the
 "less simple" setup instructions below, which explain what software
 and libraries need to be installed to run the analyses.
-
-Note that this Docker container was developed on top of another Docker
-image, [gaow/lab-base](https://hub.docker.com/r/gaow/lab-base), a customized 
-R (Microsoft R Open) and Python (Miniconda 3) container. Refer to the
-[Dockerfile](workflows/Dockerfile) to see how the Docker container was
-configured.
 
 1. Install
 [Docker community edition](https://www.docker.com/community-edition),
