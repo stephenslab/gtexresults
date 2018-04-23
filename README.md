@@ -81,11 +81,12 @@ mash-docker uname -a
 
 The `-v` flags in this command map directories between the standard
 computing environment and the Docker container. Since the analyses
-will write files to these directories, it is important to ensure that:
+below will write files to these directories, it is important to ensure
+that:
 
-  + Environment variables `$HOME` and `$PWD` are set to a valid
-    writeable directory (usually your home and working directories,
-    respectively).
+  + Environment variables `$HOME` and `$PWD` are set to valid and
+    writeable directories (usually your home and current working
+    directories, respectively).
 
   + `/tmp` should also be a valid and writeable directory.
 
