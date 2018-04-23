@@ -55,7 +55,9 @@ If you prefer to run the analyses without Docker, please see the "less
 simple" setup instructions below, which explain what software and
 libraries need to be installed to run the analyses.
 
-1. Download [Docker](https://docs.docker.com/install) (note that a
+### 1. Download and install Docker
+
+Download [Docker](https://docs.docker.com/install) (note that a
 free [community edition](https://www.docker.com/community-edition) of
 Docker is available), and install it following the instructions
 provided on the Docker website. Once you have installed Docker, check
@@ -65,7 +67,9 @@ you are using Docker for the first time, we recommend reading the
 entire Getting Started guide. *Note that setting up Docker requires
 that you have administrator access to your computer.*
 
-2. Run these commands in the shell, which will download the Docker
+### 2. Download and test Docker image
+
+Run these commands in the shell, which will download the Docker
 image if it has not already been downloaded, then run a simple command
 in the Docker container to check that the container loads
 successfully.
@@ -74,12 +78,20 @@ successfully.
 alias mash-docker="docker run --security-opt label:disable -t -P -w \
   '$PWD' -u '$UID:${GROUPS[0]}' -v '$USER:/home/docker' -v /tmp:/tmp \
   -v '$PWD:$PWD' gaow/mash-paper"
-mash-docker echo "Hello"
+mash-docker uname -a
 ```
 
-If you don't see an error, then you can run these commands to show the
-image downloaded to your computer, and show the container that has ran
-(and now exited):
+If the container was successfully run, you should see information
+about the Linux operating system outputted to the screen, something
+like this:
+
+```
+Linux 7d0d352abe91 4.9.87-linuxkit-aufs #1 SMP
+Wed Mar 14 15:12:16 UTC 2018 x86_64 GNU/Linux
+```
+
+You can also run these commands to show the image downloaded to your
+computer, and show the container that has ran (and exited):
 
 ```bash
 docker image ls
@@ -91,6 +103,8 @@ docker daemon running on this host?" in Linux or macOS, see
 [here (for Linux)](https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo)
 or [here (for Mac)](https://github.com/wodby/docker4drupal/issues/15)) for
 suggestions on how to resolve this issue.
+
+### 3. Add description of step 3 here.
 
 Under the repo you will find `workflows/gtex6_mash_analysis.ipynb` 
 to reproduce the GTEx results in Figures ? and ?.
@@ -111,6 +125,10 @@ All intermediate and final output should be saved to a folder called
 `gtex6_workflow_output`. Particularly you may want to checkout
 `gtex6_workflow_output/gtex6_mash_analysis.html` which contains the
 complete analysis procedure.
+
+*To do: Add instructions for pruning containers that have exited. See
+ also
+ [here](https://stackoverflow.com/questions/17014263/should-i-be-concerned-about-excess-non-running-docker-containers).*
 
 ## Convert eQTL summary statistics to MASH format
 
