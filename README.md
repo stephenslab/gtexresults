@@ -57,13 +57,13 @@ libraries need to be installed to run the analyses.
 
 ### 1. Download and install Docker
 
-Download [Docker](https://docs.docker.com/install) (note that a
-free [community edition](https://www.docker.com/community-edition) of
+Download [Docker](https://docs.docker.com/install) (note that a free
+[community edition](https://www.docker.com/community-edition) of
 Docker is available), and install it following the instructions
 provided on the Docker website. Once you have installed Docker, check
 that Docker is working correctly by working through the
-[Part 1 of the Getting Started guide](https://docs.docker.com/get-started). If
-you are using Docker for the first time, we recommend reading the
+[Part 1 of the Getting Started guide](https://docs.docker.com/get-started).
+If you are using Docker for the first time, we recommend reading the
 entire Getting Started guide. *Note that setting up Docker requires
 that you have administrator access to your computer.*
 
