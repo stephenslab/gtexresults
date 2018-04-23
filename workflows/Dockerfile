@@ -53,7 +53,8 @@ RUN curl -L https://github.com/jobovy/extreme-deconvolution/archive/${ED_VERSION
     && Rscript -e "devtools::install('r/')" && rm -rf /tmp/*
 
 ## Install mashr package, a fast implementation of MASH algorithm.
-RUN Rscript -e 'devtools::install_github("stephenslab/mashr@v'${MASHR_VERSION}'")'
+RUN Rscript -e 'devtools::install_github("stephenslab/mashr@v'${MASHR_VERSION}'")' \
+    && rm -rf *
 
 ## Install SFA.
 RUN curl http://stephenslab.uchicago.edu/assets/software/sfa/sfa${SFA_VERSION}.tar.gz -o sfa.tar.gz \
