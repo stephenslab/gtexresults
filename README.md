@@ -5,6 +5,11 @@ Wang & Stephens (2017). If you are primarily interested in applying
 the statistical methods to your own data, please see the
 [mashr package](https://github.com/stephenslab/mashr).
 
+If you find a bug, please post an
+[issue](https://github.com/stephenslab/gtexresults/issues).
+
+This code has been tested in...
+
 ## Citing this work
 
 If you find any of the source code in this repository useful for your
@@ -26,6 +31,9 @@ the [LICENSE](LICENSE) file for the full text of the license.
 
 ## Setup instructions (simpler)
 
+To reproduce the results of Urbut, Wang & Stephens (2017), please
+follow these steps.
+
 The complete analyses require installation of several programs and libraries.
 To facilitate reproducing our results, we have developed a 
 [Docker container](https://hub.docker.com/r/gaow/mash-paper)
@@ -35,7 +43,7 @@ Note that this Docker container was developed on top of
 [gaow/lab-base](https://hub.docker.com/r/gaow/lab-base), a customized 
 R and Python container.
 
-If you would like to run the analyses without Docker, please see the
+If you prefer to run the analyses without Docker, please see the
 "less simple" setup instructions below, which explain what software
 and libraries need to be installed to run the analyses.
 
@@ -154,4 +162,8 @@ discussing the reproduction of all of the plots.
 
 ## Contributors
 
-*List people here who contributed to this project.*
+This project was developed by
+[Sarah Urbut](https://github.com/surbut),
+[Gao Wang](https://github.com/gaow) and
+[Matthew Stephens](stephenslab.uchicago.edu) at the University of
+Chicago, with contributions from [Peter Carbonetto](http://pcarbo.github.io).

@@ -1,7 +1,8 @@
 to do
 =====
 
-* Add LICENSE file, and license info to README.
+* Add information to README about computing environment used to
+  run/test code.
 
 * Copy to "output" all the results that are necessary to produce the
   figures and tables (They were initially in some earlier version of
