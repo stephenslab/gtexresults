@@ -29,7 +29,7 @@ under the terms of the
 [MIT license](https://opensource.org/licenses/mit-license.html). See
 the [LICENSE](LICENSE) file for the full text of the license.
 
-## Setup instructions (simpler)
+## Instructions (simpler)
 
 To reproduce the results of Urbut, Wang & Stephens (2017), please
 follow these steps.
@@ -92,8 +92,6 @@ docker daemon running on this host?" in Linux or macOS, see
 or [here (for Mac)](https://github.com/wodby/docker4drupal/issues/15)) for
 suggestions on how to resolve this issue.
 
-## Run MASH to reproduce GTEx results for Urbut et al 2017
-
 Under the repo you will find `workflows/gtex6_mash_analysis.ipynb` 
 to reproduce the GTEx results in Figures ? and ?.
 
@@ -116,11 +114,12 @@ complete analysis procedure.
 
 ## Convert eQTL summary statistics to MASH format
 
-Under the repo you will find `workflows/fastqtl_to_mash.ipynb` 
-to convert eQTL summary statistics (default to `fastqtl` format) to MASH format. 
-Computation is configured to run in parallel for eQTL results from multiple studies. Example data-set 
-can be found at `data/eQTLDataDemo`. The workflow file is documented in itself, and has a few options 
-to customize the input and output.
+Under the repo you will find `workflows/fastqtl_to_mash.ipynb` to
+convert eQTL summary statistics (default to `fastqtl` format) to MASH
+format.  Computation is configured to run in parallel for eQTL results
+from multiple studies. Example data-set can be found at
+`data/eQTLDataDemo`. The workflow file is documented in itself, and
+has a few options to customize the input and output.
 
 To read what's available, run:
 
@@ -138,18 +137,20 @@ mash-docker sos run workflows/fastqtl_to_mash.ipynb \
   --gene_list data/eQTLDataDemo/GTEx_genes.txt
 ```
 
-In practice for GTEx data the conversion is computationally intensive and is best done on a cluster environment with 
+In practice for GTEx data the conversion is computationally intensive
+and is best done on a cluster environment with
 [configurations to run the workflow across different nodes](https://vatlab.github.io/sos-docs/doc/documentation/Remote_Execution.html).
 
-## Setup instructions (less simple)
+## Instructions (less simple)
 
 *Explain briefly what software/libraries need to be installed if you
 prefer not to use Docker (or because you can't).*
 
-Software involved for MASH analysis are SFA, ExtremeDeconvolution, MOSEK, 
-OpenMP, OpenBLAS and the GNU Scientific Library. Software involved for summary statistics
-formatting are HDF5 tools, pytables and rhdf5. Workflow system SoS is used to run the pipelines. 
-An improved MASH implementation `mashr` is also installed.
+Software involved for MASH analysis are SFA, ExtremeDeconvolution,
+MOSEK, OpenMP, OpenBLAS and the GNU Scientific Library. Software
+involved for summary statistics formatting are HDF5 tools, pytables
+and rhdf5. Workflow system SoS is used to run the pipelines.  An
+improved MASH implementation `mashr` is also installed.
 
 ## Other setup notes
 
