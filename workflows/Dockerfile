@@ -66,5 +66,8 @@ RUN install.R mvtnorm SQUAREM gplots colorRamps && rm -rf *
 RUN curl -L https://github.com/stephenslab/mashr-paper/archive/v${PAPER_VERSION}.zip -o mash.zip \
     && unzip mash.zip && mv mashr-paper-${PAPER_VERSION}/R /opt/mash-paper && rm -rf *
 
+# Default user.
+USER docker
+
 # Default command.
 CMD ["bash"]
