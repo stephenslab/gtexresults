@@ -93,6 +93,11 @@ that:
 If any of these statements are not true, please adjust the `alias`
 accordingly.
 
+Additionally, the option `-u $UID` is sometimes helpful to ensure that
+the new files are created under your user account. If environment
+variable `$UID` is undefined, this can be set to the user account name
+instead of the id number.
+
 If the container was successfully run, you should see information
 about the Linux operating system outputted to the screen, something
 like this:
