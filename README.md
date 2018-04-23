@@ -102,7 +102,27 @@ docker daemon running on this host?" in Linux or macOS, see
 or [here (for Mac)](https://github.com/wodby/docker4drupal/issues/15)) for
 suggestions on how to resolve this issue.
 
-### 3. Add description of step 3 here.
+### 3. Clone or download this repository
+
+Clone or download the `gtexresults` repository to your computer, then
+change your working directory in the shell to the root of the
+repository. After doing this, running `ls -1` should show the
+top-level contents of this repository:
+
+```
+LICENSE
+README.md
+TODO.txt
+analysis
+data
+docs
+output
+workflows
+```
+
+All commands below will be run from this directory.
+
+### 4. Add description of step 4 here.
 
 Under the repo you will find `workflows/gtex6_mash_analysis.ipynb` 
 to reproduce the GTEx results in Figures ? and ?.
@@ -110,7 +130,7 @@ to reproduce the GTEx results in Figures ? and ?.
 To show what analysis are available,
 
 ```bash
-mash-docker sos run workflows/gtex6_mash_analysis.ipynb -h
+mash-docker sos run cdworkflows/gtex6_mash_analysis.ipynb -h
 ```
 
 To run default (the MASH prototype) analysis,
