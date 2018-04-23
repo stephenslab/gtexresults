@@ -75,7 +75,7 @@ in the Docker container to check that the container loads
 successfully.
 
 ```bash
-alias mash-docker='docker run --security-opt label:disable -t -P -w $PWD -u $UID:${GROUPS[0]} -v $USER:/home/docker -v /tmp:/tmp -v $PWD:$PWD gaow/mash-paper'
+alias mash-docker='docker run --security-opt label:disable -t -P -w $PWD -v $HOME:/home/docker -v /tmp:/tmp -v $PWD:$PWD gaow/mash-paper'
 mash-docker uname -a
 ```
 
@@ -130,7 +130,7 @@ to reproduce the GTEx results in Figures ? and ?.
 To show what analysis are available,
 
 ```bash
-mash-docker sos run cdworkflows/gtex6_mash_analysis.ipynb -h
+mash-docker bash -c "sos run workflows/gtex6_mash_analysis.ipynb -h"
 ```
 
 To run default (the MASH prototype) analysis,
