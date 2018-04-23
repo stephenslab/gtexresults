@@ -144,7 +144,7 @@ to reproduce the GTEx results in Figures ? and ?.
 To show what analysis are available,
 
 ```bash
-mash-docker bash -c "sos run workflows/gtex6_mash_analysis.ipynb -h"
+mash-docker sos run workflows/gtex6_mash_analysis.ipynb -h
 ```
 
 To run default (the MASH prototype) analysis,
