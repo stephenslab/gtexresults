@@ -34,18 +34,23 @@ the [LICENSE](LICENSE) file for the full text of the license.
 To reproduce the results of Urbut, Wang & Stephens (2017), please
 follow these steps.
 
-The complete analyses require installation of several programs and libraries.
-To facilitate reproducing our results, we have developed a 
-[Docker container](https://hub.docker.com/r/gaow/mash-paper)
-for the required software components. Refer to the 
-[Dockerfile](workflows/Dockerfile) to see how the Docker container was configured.
-Note that this Docker container was developed on top of 
-[gaow/lab-base](https://hub.docker.com/r/gaow/lab-base), a customized 
-R and Python container.
+The complete analyses require installation of several programs and
+libraries. To facilitate reproducing our results, we have developed a
+[Docker container](https://hub.docker.com/r/gaow/mash-paper) that
+includes all software components necessary to run the analyses. Docker
+can run on most popular operating systems (Mac, Windows and Linux) as
+well as cloud computing services such as Amazon Web Services and
+Microsoft Azure. 
 
-If you prefer to run the analyses without Docker, please see the
-"less simple" setup instructions below, which explain what software
-and libraries need to be installed to run the analyses.
+For details on how the Docker image was configured, see the
+[Dockerfile](workflows/Dockerfile). The Docker image used for our
+analyses is based on
+[gaow/lab-base](https://hub.docker.com/r/gaow/lab-base), a Docker
+image for development with R and Python.
+
+If you prefer to run the analyses without Docker, please see the "less
+simple" setup instructions below, which explain what software and
+libraries need to be installed to run the analyses.
 
 1. Install
 [Docker community edition](https://www.docker.com/community-edition),
