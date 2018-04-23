@@ -1,8 +1,7 @@
 # Docker container for running the analyses the GTEx data in Urbut,
 # Wang & Stephens (2017).
 
-# This is the base Docker image. It configures basic R and Python
-# environments to run related pipelines.
+# This is the base Docker image for a basic R and Python environment.
 FROM gaow/lab-base
 
 MAINTAINER Gao Wang, gaow@uchicago.edu
@@ -23,17 +22,19 @@ RUN apt-get update \
   && apt-get autoclean \
   && rm -rf /var/lib/apt/lists/* /var/log/dpkg.log
 
-## Swap GSC CBLAS by OpenBLAS for better performance.
+## Customized GSL.
+## (Replace GSL CBLAS with OpenBLAS for better performance)
 RUN rm /usr/lib/x86_64-linux-gnu/libgslcblas.* \
     && ln -s /usr/lib/libopenblas.so /usr/lib/x86_64-linux-gnu/libgslcblas.so \
     && ln -s /usr/lib/libopenblas.so.0 /usr/lib/x86_64-linux-gnu/libgslcblas.so.0 \
-    && ln -s /usr/lib/libopenblas.a /usr/lib/x86_64-linux-gnu/libgslcblas.a
+    && ln -s /usr/lib/libopenblas.a /usr/lib/x86_64-linux-gnu/libgslcblas.a \
+    && ln -s /usr/lib/x86_64-linux-gnu/libgsl.so /usr/lib/x86_64-linux-gnu/libgsl.so.0
 
 ## Install R HDF5 library "rhdf5"
 RUN Rscript -e 'source("https://bioconductor.org/biocLite.R"); biocLite("rhdf5", suppressUpdates=TRUE)' \
     && rm -rf *
 
-## Install Python HDF5 library "pytables"
+## Install Python HDF5 library "pytables".
 ## Install SoS for workflow execution.
 RUN pip install --no-cache-dir tables sos sos-pbs && rm -rf $HOME/.cache
 
@@ -56,7 +57,6 @@ RUN Rscript -e 'devtools::install_github("stephenslab/mashr@v'${MASHR_VERSION}'"
 
 ## Install SFA.
 RUN curl http://stephenslab.uchicago.edu/assets/software/sfa/sfa${SFA_VERSION}.tar.gz -o sfa.tar.gz \
-    && ln -s /usr/lib/x86_64-linux-gnu/libgsl.so /usr/lib/x86_64-linux-gnu/libgsl.so.0 \
     && tar zxf sfa.tar.gz && mv sfa /opt && rm -rf *
 
 ## Install MASH code (to reproduce Urbut et al 2017 paper).
