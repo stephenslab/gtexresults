@@ -75,7 +75,7 @@ in the Docker container to check that the container loads
 successfully.
 
 ```bash
-alias mash-docker='docker run --security-opt label:disable -t -P -w $PWD -v $HOME:/home/docker -v /tmp:/tmp -v $PWD:$PWD gaow/mash-paper'
+alias mash-docker='docker run --security-opt label:disable -t -P -w $PWD -v $HOME:/home/docker -v /tmp:/tmp -v $PWD:$PWD -h gtex-results-for-mash-paper gaow/mash-paper'
 mash-docker uname -a
 ```
 
@@ -98,8 +98,8 @@ about the Linux operating system outputted to the screen, something
 like this:
 
 ```
-Linux 7d0d352abe91 4.9.87-linuxkit-aufs #1 SMP
-Wed Mar 14 15:12:16 UTC 2018 x86_64 GNU/Linux
+Linux gtex-results-for-mash-paper 3.16.0-4-amd64 #1 SMP 
+Debian 3.16.43-2+deb8u2 (2017-06-26) x86_64 GNU/Linux
 ```
 
 You can also run these commands to show the image downloaded to your
