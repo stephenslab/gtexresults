@@ -79,6 +79,19 @@ alias mash-docker='docker run --security-opt label:disable -t -P -w $PWD -v $HOM
 mash-docker uname -a
 ```
 
+The `-v` flags in this command map directories between the standard
+computing environment and the Docker container. Since the analyses
+will write files to these directories, it is important to ensure that:
+
+  + Environment variables `$HOME` and `$PWD` are set to a valid
+    writeable directory (usually your home and working directories,
+    respectively).
+
+  + `/tmp` should also be a valid and writeable directory.
+
+If any of these statements are not true, please adjust the `alias`
+accordingly.
+
 If the container was successfully run, you should see information
 about the Linux operating system outputted to the screen, something
 like this:
