@@ -26,11 +26,10 @@ the [LICENSE](LICENSE) file for the full text of the license.
 
 ## Setup instructions (simpler)
 
-The complete analyses require installation of several programs and libraries,
-including SFA, ExtremeDeconvolution, MOSEK, OpenMP, OpenBLAS, the GNU Scientific
-Library and HDF5 related tools. To facilitate reproducing our results,
-we have developed a [Docker container](https://hub.docker.com/r/gaow/mash-paper)
-which contains the required software components. Refer to the 
+The complete analyses require installation of several programs and libraries.
+To facilitate reproducing our results, we have developed a 
+[Docker container](https://hub.docker.com/r/gaow/mash-paper)
+for the required software components. Refer to the 
 [Dockerfile](workflows/Dockerfile) to see how the Docker container was configured.
 Note that this Docker container was developed on top of 
 [gaow/lab-base](https://hub.docker.com/r/gaow/lab-base), a customized 
@@ -128,6 +127,11 @@ In practice for GTEx data the conversion is computationally intensive and is bes
 
 *Explain briefly what software/libraries need to be installed if you
 prefer not to use Docker (or because you can't).*
+
+Software involved for MASH analysis are SFA, ExtremeDeconvolution, MOSEK, 
+OpenMP, OpenBLAS and the GNU Scientific Library. Software involved for summary statistics
+formatting are HDF5 tools, pytables and rhdf5. Workflow system SoS is used to run the pipelines. 
+An improved MASH implementation `mashr` is also installed.
 
 ### Figure plotting
 
