@@ -38,9 +38,12 @@ The complete analyses require installation of several programs and
 libraries. To facilitate reproducing our results, we have developed a
 [Docker container](https://hub.docker.com/r/gaow/mash-paper) that
 includes all software components necessary to run the analyses. Docker
-can run on most popular operating systems (Mac, Windows and Linux) as
-well as cloud computing services such as Amazon Web Services and
-Microsoft Azure. 
+can run on most popular operating systems (Mac, Windows and Linux) so
+long as you have administrator access. It also runs on cloud computing
+services such as Amazon Web Services and Microsoft Azure. If you have
+not used Docker before, you might want to read
+[this](https://docs.docker.com/engine/docker-overview) to learn the
+basic concepts and understand the benefits of Docker.
 
 For details on how the Docker image was configured, see the
 [Dockerfile](workflows/Dockerfile). The Docker image used for our
@@ -52,12 +55,15 @@ If you prefer to run the analyses without Docker, please see the "less
 simple" setup instructions below, which explain what software and
 libraries need to be installed to run the analyses.
 
-1. Install
-[Docker community edition](https://www.docker.com/community-edition),
-following the instructions provided on the Docker website, and
-check that Docker is working correctly, again following the steps
-given on the Docker website. *Note that setting up Docker
-requires that you have administrator access to your computer.*
+1. Download [Docker](https://docs.docker.com/install) (note that a
+free [community edition](https://www.docker.com/community-edition) of
+Docker is available), and install it following the instructions
+provided on the Docker website. Once you have installed Docker, check
+that Docker is working correctly by working through the
+[Part 1 of the Getting Started guide](https://docs.docker.com/get-started). If
+you are using Docker for the first time, we recommend reading the
+entire Getting Started guide. *Note that setting up Docker requires
+that you have administrator access to your computer.*
 
 2. Run this command in the shell (this must be fit onto one line):
 
