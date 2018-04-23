@@ -9,7 +9,6 @@ MAINTAINER Gao Wang, gaow@uchicago.edu
 
 # These are the versions of the software used to run the analyses.
 ENV MOSEK_VERSION 8.1.0.49
-ENV GSL_VERSION 2.4
 ENV ED_VERSION master
 ENV SFA_VERSION 1.0
 ENV PAPER_VERSION 0.2-1
