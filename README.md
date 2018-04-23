@@ -65,33 +65,32 @@ you are using Docker for the first time, we recommend reading the
 entire Getting Started guide. *Note that setting up Docker requires
 that you have administrator access to your computer.*
 
-2. Run this command in the shell (this must be fit onto one line):
+2. Run these commands in the shell, which will download the Docker
+image if it has not already been downloaded, then run a simple command
+in the Docker container to check that the container loads
+successfully.
 
 ```bash
-alias mash-docker='docker run --rm --security-opt label:disable -t -P -w $PWD -u $UID:${GROUPS[0]} -v $USER:/home/docker -v /tmp:/tmp -v $PWD:$PWD gaow/mash-paper'
+alias mash-docker="docker run --security-opt label:disable -t -P -w \
+  '$PWD' -u '$UID:${GROUPS[0]}' -v '$USER:/home/docker' -v /tmp:/tmp \
+  -v '$PWD:$PWD' gaow/mash-paper"
+mash-docker echo "Hello"
 ```
 
-*TO DO: Explain here what this command does.*
-
-To test out this command, run:
+If you don't see an error, then you can run these commands to show the
+image downloaded to your computer, and show the container that has ran
+(and now exited):
 
 ```bash
-mash-docker pwd 
+docker image ls
+docker container ls --all
 ```
 
-An automatic download for the `mash-paper` docker image will
-start at this point if it is the first time you run it.
-To double-check the image is installed, run this:
-
-```bash
-docker images
-```
-
-> Note that on some systems you may get an error 
-> `Cannot connect to the Docker daemon. Is the docker daemon running on this host?`. 
-> This can be solved simply by running Docker command as `root` (eg, via `sudo docker run`). 
-> However we strongly advice against it because it will produce files that only `root` can access.
-> You may find online some tips (for [Linux](https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo) and for [Mac](https://github.com/wodby/docker4drupal/issues/15)) to allow you run Docker without `sudo`
+*Note:* If you get error "Cannot connect to the Docker daemon. Is the
+docker daemon running on this host?" in Linux or macOS, see
+[here (for Linux)](https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo)
+or [here (for Mac)](https://github.com/wodby/docker4drupal/issues/15)) for
+suggestions on how to resolve this issue.
 
 ## Run MASH to reproduce GTEx results for Urbut et al 2017
 
@@ -151,6 +150,14 @@ Software involved for MASH analysis are SFA, ExtremeDeconvolution, MOSEK,
 OpenMP, OpenBLAS and the GNU Scientific Library. Software involved for summary statistics
 formatting are HDF5 tools, pytables and rhdf5. Workflow system SoS is used to run the pipelines. 
 An improved MASH implementation `mashr` is also installed.
+
+## Other setup notes
+
+Run the following command to update the Docker image:
+
+```bash
+docker pull gaow/mash-paper
+```
 
 ### Figure plotting
 
