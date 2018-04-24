@@ -22,7 +22,7 @@ work, please cite our paper:
 
 ## License
 
-Copyright (c) 2016-2018, Sarah Urbut.
+Copyright (c) 2016-2018, Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens.
 
 All source code and software in this repository are made available
 under the terms of the
