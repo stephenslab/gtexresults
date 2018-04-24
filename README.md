@@ -39,8 +39,10 @@ To reproduce the results of Urbut, Wang & Stephens (2017), please
 follow these steps.
 
 The complete analyses require installation of several programs and
-libraries, and requires downloading several large data sets. To
-facilitate reproducing our results, we have developed a
+libraries, and requires several large data sets. To facilitate 
+reproducing our results, we provide pre-processed data for use with 
+the core analysis, and a bioinformatics pipeline with a small toy 
+data-set to demonstrate the pre-processing step. We have also developed a
 [Docker container](https://hub.docker.com/r/gaow/mash-paper) that
 includes all software components necessary to run the analyses. Docker
 can run on most popular operating systems (Mac, Windows and Linux) so
@@ -74,15 +76,12 @@ that you have administrator access to your computer.*
 
 ### 2. Download and test Docker image
 
-Run these commands in the shell, which will download the Docker
-image if it has not already been downloaded, then run a simple command
-in the Docker container to check that the container loads
-successfully.
+Run the `alias` command below in the shell, to configure how we want the
+Docker container to execute,
 
 ```bash
-alias mash-docker='docker run --security-opt label:disable -t -P '\
+alias mash-docker='docker run --security-opt label:disable -t -P -h MASH '\
 '-w $PWD -v $HOME:/home/docker -v /tmp:/tmp -v $PWD:$PWD gaow/mash-paper'
-mash-docker uname -a
 ```
 
 The `-v` flags in this command map directories between the standard
@@ -103,14 +102,23 @@ Additionally, we have found that the `-u $UID` option is sometimes
 helpful to ensure that the new files are created under your user
 account. If, after running the analyses, you encounter issues with
 file permissions or file ownership, consider adding `-u $UID` to the
-above `alias` command and re-run the analyses.
+above `alias` command to fix the behavior in possible future re-runs.
+
+Then run a simple command in the Docker container to check that it loads
+successfully,
+
+```
+mash-docker uname -a
+```
+
+It will download the Docker image if it has not already been downloaded. 
 
 If the container was successfully run, you should see information
 about the Linux operating system outputted to the screen, something
 like this:
 
 ```
-Linux gtex-results-for-mash-paper 3.16.0-4-amd64 #1 SMP 
+Linux MASH 3.16.0-4-amd64 #1 SMP 
 Debian 3.16.43-2+deb8u2 (2017-06-26) x86_64 GNU/Linux
 ```
 
