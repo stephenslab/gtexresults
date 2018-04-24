@@ -36,7 +36,7 @@ RUN Rscript -e 'source("https://bioconductor.org/biocLite.R"); biocLite("rhdf5",
 
 # Install Python HDF5 library "pytables".
 # Install SoS for workflow execution.
-RUN pip install --no-cache-dir tables sos sos-pbs && rm -rf $HOME/.cache
+RUN pip install --no-cache-dir tables sos sos-pbs sos-notebook && rm -rf $HOME/.cache
 
 # Install MOSEK, Rmosek and REBayes (to set up running the analysis
 # with the new mashr package).
