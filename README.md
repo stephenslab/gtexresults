@@ -143,8 +143,14 @@ suggestions on how to resolve this issue.
 
 Clone or download the `gtexresults` repository to your computer, then
 change your working directory in the shell to the root of the
-repository. After doing this, running `ls -1` should show the
-top-level contents of this repository:
+repository, e.g.,
+
+```bash
+cd gtexresults
+```
+
+After doing this, running `ls -1` should show the top-level contents
+of this repository:
 
 ```
 LICENSE
@@ -161,8 +167,9 @@ All commands below will be run from this directory.
 
 ### 4. Add description of step 4 here.
 
-Assuming your working directory is the root of the git repository, run
-all the steps of the analysis with this command:
+Assuming your working directory is the root of the git repository (you
+can check by running `pwd`), run all the steps of the analysis with
+this command:
 
 ```bash
 mash-docker sos run workflows/gtex6_mash_analysis.ipynb
