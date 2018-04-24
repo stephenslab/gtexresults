@@ -159,6 +159,15 @@ To show what analysis are available,
 mash-docker sos run workflows/gtex6_mash_analysis.ipynb -h
 ```
 
+To read what's available, run:
+
+```bash
+mash-docker sos run workflows/gtex6_mash_analysis.ipynb export
+```
+
+and read the HTML files `gtex6_workflow_output/gtex6_mash_analysis.lite.html` and 
+`gtex6_workflow_output/gtex6_mash_analysis.full.html`
+
 To run default (the MASH prototype) analysis,
 
 ```bash
@@ -189,7 +198,8 @@ To read what's available, run:
 mash-docker sos run workflows/fastqtl_to_mash.ipynb export
 ```
 
-and read the HTML file `gtex6_workflow_output/fastqtl_to_mash.html`.
+and read the HTML files `gtex6_workflow_output/fastqtl_to_mash.lite.html` and 
+`gtex6_workflow_output/fastqtl_to_mash.full.html`
 
 To run the conversion:
 
