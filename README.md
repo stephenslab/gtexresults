@@ -33,7 +33,7 @@ the [LICENSE](LICENSE) file for the full text of the license.
 
 *Give brief overview of the files in this repository.*
 
-## Instructions (simpler)
+## Instructions
 
 To reproduce the results of Urbut, Wang & Stephens (2017), please
 follow these steps.
@@ -56,10 +56,9 @@ analyses is based on
 [gaow/lab-base](https://hub.docker.com/r/gaow/lab-base), a Docker
 image for development with R and Python.
 
-If you prefer to run the analyses without Docker, please see the "less
-simple" setup instructions below, which explain what software and
-libraries need to be installed and which data sets need to be
-downloaded in order to run the analyses.
+If you prefer to run the analyses without Docker, *add a few details
+about where you can find out more about software and libraries used,
+and other computing environment setup steps.*
 
 ### 1. Download and install Docker
 
@@ -100,10 +99,11 @@ that:
 If any of these statements are not true, please adjust the `alias`
 accordingly.
 
-Additionally, the option `-u $UID` is sometimes helpful to ensure that
-the new files are created under your user account. If environment
-variable `$UID` is undefined, this can be set to the user account name
-instead of the id number. *TO DO: Fix this paragraph---it is not correct.*
+Additionally, we have found that the `-u $UID` option is sometimes
+helpful to ensure that the new files are created under your user
+account. If, after running the analyses, you encounter issues with
+file permissions or file ownership, consider adding `-u $UID` to the
+above `alias` command and re-run the analyses.
 
 If the container was successfully run, you should see information
 about the Linux operating system outputted to the screen, something
