@@ -124,8 +124,8 @@ docker container ls --all
 
 *Note:* If you get error "Cannot connect to the Docker daemon. Is the
 docker daemon running on this host?" in Linux or macOS, see
-[here (for Linux)](https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo)
-or [here (for Mac)](https://github.com/wodby/docker4drupal/issues/15)) for
+[here for Linux](https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo)
+or [here for Mac](https://github.com/wodby/docker4drupal/issues/15) for
 suggestions on how to resolve this issue.
 
 ### 3. Clone or download this repository
