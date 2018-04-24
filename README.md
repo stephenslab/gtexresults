@@ -29,13 +29,18 @@ under the terms of the
 [MIT license](https://opensource.org/licenses/mit-license.html). See
 the [LICENSE](LICENSE) file for the full text of the license.
 
+## What's included
+
+*Give brief overview of the files in this repository.*
+
 ## Instructions (simpler)
 
 To reproduce the results of Urbut, Wang & Stephens (2017), please
 follow these steps.
 
 The complete analyses require installation of several programs and
-libraries. To facilitate reproducing our results, we have developed a
+libraries, and requires downloading several large data sets. To
+facilitate reproducing our results, we have developed a
 [Docker container](https://hub.docker.com/r/gaow/mash-paper) that
 includes all software components necessary to run the analyses. Docker
 can run on most popular operating systems (Mac, Windows and Linux) so
@@ -53,7 +58,8 @@ image for development with R and Python.
 
 If you prefer to run the analyses without Docker, please see the "less
 simple" setup instructions below, which explain what software and
-libraries need to be installed to run the analyses.
+libraries need to be installed and which data sets need to be
+downloaded in order to run the analyses.
 
 ### 1. Download and install Docker
 
@@ -76,8 +82,7 @@ successfully.
 
 ```bash
 alias mash-docker='docker run --security-opt label:disable -t -P '\
-'-u $UID -w $PWD -v $HOME:/home/docker -v /tmp:/tmp -v $PWD:$PWD '\
-'-h gtex-results-for-mash-paper gaow/mash-paper'
+'-w $PWD -v $HOME:/home/docker -v /tmp:/tmp -v $PWD:$PWD gaow/mash-paper'
 mash-docker uname -a
 ```
 
@@ -98,7 +103,7 @@ accordingly.
 Additionally, the option `-u $UID` is sometimes helpful to ensure that
 the new files are created under your user account. If environment
 variable `$UID` is undefined, this can be set to the user account name
-instead of the id number.
+instead of the id number. *TO DO: Fix this paragraph---it is not correct.*
 
 If the container was successfully run, you should see information
 about the Linux operating system outputted to the screen, something
