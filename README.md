@@ -58,7 +58,10 @@ image for development with R and Python.
 
 If you prefer to run the analyses without Docker, *add a few details
 about where you can find out more about software and libraries used,
-and other computing environment setup steps.*
+and other computing environment setup steps (mention Python 3.x, R, SFA,
+ExtremeDeconvolution, MOSEK, OpenMP, OpenBLAS, GSL, HDF5 tools,
+pytables rhdf5, and for an improved MASH implementation `mashr` is also
+installed).
 
 ### 1. Download and install Docker
 
@@ -118,8 +121,8 @@ You can also run these commands to show the image downloaded to your
 computer, and show the container that has ran (and exited):
 
 ```bash
-docker image ls
-docker container ls --all
+docker image list
+docker container list --all
 ```
 
 *Note:* If you get error "Cannot connect to the Docker daemon. Is the
@@ -150,28 +153,34 @@ All commands below will be run from this directory.
 
 ### 4. Add description of step 4 here.
 
-Under the repo you will find `workflows/gtex6_mash_analysis.ipynb` 
-to reproduce the GTEx results in Figures ? and ?.
-
-To show what analysis are available,
-
-```bash
-mash-docker sos run workflows/gtex6_mash_analysis.ipynb -h
-```
-
-To run default (the MASH prototype) analysis,
+Assuming your working directory is the root of the git repository, run
+all the steps of the analysis with this command:
 
 ```bash
 mash-docker sos run workflows/gtex6_mash_analysis.ipynb
 ```
+
+*TO DO: Give more details about what this command does, and the
+expected output, and the expected runtime for the individual steps.*
+
++ Compute a sparse factorization of the (centered) z-scores using the
+  [SFA software](http://stephenslab.uchicago.edu/software.html#sfa),
+  with K = 5 factors, and save the factors in an `.rds` file. This
+  will be used to construct the mixture-of-multivariate normals
+  prior.
+
++ Compute additional "data-driven" prior matrices by computing a
+  singular value decomposition of the (centered) z-scores and
+  low-rank approximations to the empirical covariance matrices. *TO
+  DO: Explain where results/outputs are saved.*
 
 All intermediate and final output should be saved to a folder called
 `gtex6_workflow_output`. Particularly you may want to checkout
 `gtex6_workflow_output/gtex6_mash_analysis.html` which contains the
 complete analysis procedure.
 
-*To do: Add instructions for pruning containers that have exited. See
- also
+*TO DO: Add instructions for pruning containers that have exited using
+ `docker container prune`. See also
  [here](https://stackoverflow.com/questions/17014263/should-i-be-concerned-about-excess-non-running-docker-containers).*
 
 ## Convert eQTL summary statistics to MASH format
@@ -202,17 +211,6 @@ mash-docker sos run workflows/fastqtl_to_mash.ipynb \
 In practice for GTEx data the conversion is computationally intensive
 and is best done on a cluster environment with
 [configurations to run the workflow across different nodes](https://vatlab.github.io/sos-docs/doc/documentation/Remote_Execution.html).
-
-## Instructions (less simple)
-
-*Explain briefly what software/libraries need to be installed if you
-prefer not to use Docker (or because you can't).*
-
-Software involved for MASH analysis are SFA, ExtremeDeconvolution,
-MOSEK, OpenMP, OpenBLAS and the GNU Scientific Library. Software
-involved for summary statistics formatting are HDF5 tools, pytables
-and rhdf5. Workflow system SoS is used to run the pipelines.  An
-improved MASH implementation `mashr` is also installed.
 
 ## Other setup notes
 
