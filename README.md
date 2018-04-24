@@ -45,8 +45,8 @@ the core analysis, and a bioinformatics pipeline with a small toy
 data-set to demonstrate the pre-processing step. We have also developed a
 [Docker container](https://hub.docker.com/r/gaow/mash-paper) that
 includes all software components necessary to run the analyses. Docker
-can run on most popular operating systems (Mac, Windows and Linux) so
-long as you have administrator access. It also runs on cloud computing
+can run on most popular operating systems (Mac, Windows and Linux).
+It also runs on cloud computing
 services such as Amazon Web Services and Microsoft Azure. If you have
 not used Docker before, you might want to read
 [this](https://docs.docker.com/engine/docker-overview) to learn the
@@ -173,8 +173,8 @@ To read what's available, run:
 mash-docker sos run workflows/gtex6_mash_analysis.ipynb export
 ```
 
-and read the HTML files `gtex6_workflow_output/gtex6_mash_analysis.lite.html` and 
-`gtex6_workflow_output/gtex6_mash_analysis.full.html`
+and read the HTML files `gtex6_mash_analysis.lite.html` and 
+`gtex6_mash_analysis.full.html` under folder `gtex6_workflow_output`.
 
 To run default (the MASH prototype) analysis,
 
@@ -182,10 +182,8 @@ To run default (the MASH prototype) analysis,
 mash-docker sos run workflows/gtex6_mash_analysis.ipynb
 ```
 
-All intermediate and final output should be saved to a folder called
-`gtex6_workflow_output`. Particularly you may want to checkout
-`gtex6_workflow_output/gtex6_mash_analysis.html` which contains the
-complete analysis procedure.
+All intermediate and final output should be saved to folder 
+`gtex6_workflow_output`. 
 
 *To do: Add instructions for pruning containers that have exited. See
  also
@@ -226,11 +224,12 @@ and is best done on a cluster environment with
 *Explain briefly what software/libraries need to be installed if you
 prefer not to use Docker (or because you can't).*
 
-Software involved for MASH analysis are SFA, ExtremeDeconvolution,
-MOSEK, OpenMP, OpenBLAS and the GNU Scientific Library. Software
-involved for summary statistics formatting are HDF5 tools, pytables
-and rhdf5. Workflow system SoS is used to run the pipelines.  An
-improved MASH implementation `mashr` is also installed.
+Software involved for MASH analysis are R, SFA, OpenMP, OpenBLAS, 
+the GNU Scientific Library, and R packages ExtremeDeconvolution,
+RMOSEK and REBayes. Software involved for summary statistics 
+formatting are R and Python, HDF5 tools, Python package pytables
+and R package rhdf5. Workflow system SoS is used to run the pipelines.  
+An improved MASH R implementation `mashr` is also installed.
 
 ## Other setup notes
 
