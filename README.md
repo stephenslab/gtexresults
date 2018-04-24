@@ -39,12 +39,14 @@ To reproduce the results of Urbut, Wang & Stephens (2017), please
 follow these steps.
 
 The complete analyses require installation of several programs and
-libraries, and requires downloading several large data sets. To
-facilitate reproducing our results, we have developed a
+libraries, and requires several large data sets. To facilitate 
+reproducing our results, we provide pre-processed data for use with 
+the core analysis, and a bioinformatics pipeline with a small toy 
+data-set to demonstrate the pre-processing step. We have also developed a
 [Docker container](https://hub.docker.com/r/gaow/mash-paper) that
 includes all software components necessary to run the analyses. Docker
-can run on most popular operating systems (Mac, Windows and Linux) so
-long as you have administrator access. It also runs on cloud computing
+can run on most popular operating systems (Mac, Windows and Linux).
+It also runs on cloud computing
 services such as Amazon Web Services and Microsoft Azure. If you have
 not used Docker before, you might want to read
 [this](https://docs.docker.com/engine/docker-overview) to learn the
@@ -77,15 +79,12 @@ that you have administrator access to your computer.*
 
 ### 2. Download and test Docker image
 
-Run these commands in the shell, which will download the Docker
-image if it has not already been downloaded, then run a simple command
-in the Docker container to check that the container loads
-successfully.
+Run the `alias` command below in the shell, to configure how we want the
+Docker container to execute,
 
 ```bash
-alias mash-docker='docker run --security-opt label:disable -t -P '\
+alias mash-docker='docker run --security-opt label:disable -t -P -h MASH '\
 '-w $PWD -v $HOME:/home/docker -v /tmp:/tmp -v $PWD:$PWD gaow/mash-paper'
-mash-docker uname -a
 ```
 
 The `-v` flags in this command map directories between the standard
@@ -106,14 +105,23 @@ Additionally, we have found that the `-u $UID` option is sometimes
 helpful to ensure that the new files are created under your user
 account. If, after running the analyses, you encounter issues with
 file permissions or file ownership, consider adding `-u $UID` to the
-above `alias` command and re-run the analyses.
+above `alias` command to fix the behavior in possible future re-runs.
+
+Then run a simple command in the Docker container to check that it loads
+successfully,
+
+```
+mash-docker uname -a
+```
+
+It will download the Docker image if it has not already been downloaded. 
 
 If the container was successfully run, you should see information
 about the Linux operating system outputted to the screen, something
 like this:
 
 ```
-Linux gtex-results-for-mash-paper 3.16.0-4-amd64 #1 SMP 
+Linux MASH 3.16.0-4-amd64 #1 SMP 
 Debian 3.16.43-2+deb8u2 (2017-06-26) x86_64 GNU/Linux
 ```
 
@@ -174,10 +182,8 @@ expected output, and the expected runtime for the individual steps.*
   low-rank approximations to the empirical covariance matrices. *TO
   DO: Explain where results/outputs are saved.*
 
-All intermediate and final output should be saved to a folder called
-`gtex6_workflow_output`. Particularly you may want to checkout
-`gtex6_workflow_output/gtex6_mash_analysis.html` which contains the
-complete analysis procedure.
+All intermediate and final output should be saved to folder 
+`gtex6_workflow_output`. 
 
 *TO DO: Add instructions for pruning containers that have exited using
  `docker container prune`. See also
@@ -198,7 +204,8 @@ To read what's available, run:
 mash-docker sos run workflows/fastqtl_to_mash.ipynb export
 ```
 
-and read the HTML file `gtex6_workflow_output/fastqtl_to_mash.html`.
+and read the HTML files `gtex6_workflow_output/fastqtl_to_mash.lite.html` and 
+`gtex6_workflow_output/fastqtl_to_mash.full.html`
 
 To run the conversion:
 
