@@ -76,6 +76,9 @@ that Docker is working correctly by working through the
 If you are using Docker for the first time, we recommend reading the
 entire Getting Started guide. *Note that setting up Docker requires
 that you have administrator access to your computer.*
+([Singularity](https://singularity.lbl.gov/docs-docker) is an
+alternative that doesn't require administrator access, and supports
+Docker images.)
 
 ### 2. Download and test Docker image
 
@@ -175,6 +178,12 @@ this command:
 mash-docker sos run workflows/gtex6_mash_analysis.ipynb
 ```
 
+This command will take several hours to run.
+
+*TO DO: Explain here that although this is a Jupyter notebook, this
+command does not run the code sequentially like a typical notebook;
+it uses the SoS framework.*
+
 *TO DO: Give more details about what this command does, and the
 expected output, and the expected runtime for the individual steps.*
 
@@ -195,6 +204,23 @@ All intermediate and final output should be saved to folder
 *TO DO: Add instructions for pruning containers that have exited using
  `docker container prune`. See also
  [here](https://stackoverflow.com/questions/17014263/should-i-be-concerned-about-excess-non-running-docker-containers).*
+
+## More detailed usage notes
+
+Above we have given the minimal instructions necessary to reproduce
+the results of. Here are some additional details about the 
+
+Things that will go here:
+
++ Explain how to get a summary of the possible analysis steps that can
+  be run.
+
++ See the Jupyter notebook to get more details; how the notebook
+  should be interpreted.
+
++ Explain how to run the analysis using the improved (faster)
+  implementation of the [mashr R
+  package](https://github.com/stephenslab/mashr).
 
 ## Convert eQTL summary statistics to MASH format
 
