@@ -194,16 +194,22 @@ This command will execute the following steps of the analysis:
   [SFA software](http://stephenslab.uchicago.edu/software.html#sfa),
   with K = 5 factors, and save the factors in an `.rds` file. This
   will be used to construct the mixture-of-multivariate normals
-  prior. This step should only take a few minutes to run.
+  prior. This step is labeled `sfa`, and should only take a few
+  minutes to run.
 
 + Compute additional "data-driven" prior matrices by computing a
   singular value decomposition of the (centered) z-scores and low-rank
   approximations to the empirical covariance matrices. Most of the
   work in this step involves running the Extreme Deconvolution
-  method. The outcome of running Extreme Deconvolution method is saved
-  to a new `.rds` file. This step may take several hours to run (in
-  one run on a MacBook Pro with a 3.5 GHz Intel Core i7, it took over
-  6 hours to complete).
+  method. The outcome of running the Extreme Deconvolution method is
+  saved to a new `.rds` file. This step is labeled `mash-paper_1` and
+  may take several hours to run (in one run on a MacBook Pro with
+  a 3.5 GHz Intel Core i7, it took over 6 hours to complete).
+
++ A final collection of "canonical" and single-rank prior matrices
+  based on SFA and the "BMAlite" models of Flutre *et al* (2013). This
+  step is labeled `mash-paper_2`, and should take at most a minute to
+  run.
 
 + *Add info about next step here.*
 
