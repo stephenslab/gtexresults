@@ -188,18 +188,26 @@ notebook; this is because the code in this notebook is meant to be run
 using the [Script of Scripts (SoS)](https://github.com/vatlab/SoS)
 framework.
 
-This command will execute
+This command will execute the following steps of the analysis:
 
 + Compute a sparse factorization of the (centered) z-scores using the
   [SFA software](http://stephenslab.uchicago.edu/software.html#sfa),
   with K = 5 factors, and save the factors in an `.rds` file. This
   will be used to construct the mixture-of-multivariate normals
-  prior.
+  prior. This step should only take a few minutes to run.
 
 + Compute additional "data-driven" prior matrices by computing a
-  singular value decomposition of the (centered) z-scores and
-  low-rank approximations to the empirical covariance matrices. *TO
-  DO: Explain where results/outputs are saved.*
+  singular value decomposition of the (centered) z-scores and low-rank
+  approximations to the empirical covariance matrices. Most of the
+  work in this step involves running the Extreme Deconvolution
+  method. The outcome of running Extreme Deconvolution method is saved
+  to a new `.rds` file. This step may take several hours to run (in
+  one run on a MacBook Pro with a 3.5 GHz Intel Core i7, it took over
+  6 hours to complete).
+
++ *Add info about next step here.*
+
+*TO DO: Explain where results/outputs are saved.*
 
 Finally, note that all containers that have run and exited will still
 be retained in the Docker system. Run `docker container list --all` to
