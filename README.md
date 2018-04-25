@@ -87,7 +87,8 @@ Docker container to execute,
 
 ```bash
 alias mash-docker='docker run --security-opt label:disable -t -P -h MASH '\
-'-w $PWD -v $HOME:/home/docker -v /tmp:/tmp -v $PWD:$PWD gaow/mash-paper'
+'-w $PWD -v $HOME:$HOME -v /tmp:/tmp -v $PWD:$PWD '\
+'-u $UID:${GROUPS[0]} -e HOME=$HOME -e USER=$USER gaow/mash-paper'
 ```
 
 The `-v` flags in this command map directories between the standard
@@ -103,12 +104,6 @@ that:
 
 If any of these statements are not true, please adjust the `alias`
 accordingly.
-
-Additionally, we have found that the `-u $UID` option is sometimes
-helpful to ensure that the new files are created under your user
-account. If, after running the analyses, you encounter issues with
-file permissions or file ownership, consider adding `-u $UID` to the
-above `alias` command to fix the behavior in possible future re-runs.
 
 Then run a simple command in the Docker container to check that it loads
 successfully,
