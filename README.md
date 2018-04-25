@@ -88,7 +88,7 @@ Docker container to execute,
 ```bash
 alias mash-docker='docker run --security-opt label:disable -t -P -h MASH '\
 '-w $PWD -v $HOME:/home/$USER -v /tmp:/tmp -v $PWD:$PWD '\
-'-u $UID:${GROUPS[0]} -e HOME=$HOME -e USER=$USER gaow/mash-paper'
+'-u $UID:${GROUPS[0]} -e HOME=/home/$USER -e USER=$USER gaow/mash-paper'
 ```
 
 The `-v` flags in this command map directories between the standard
@@ -96,7 +96,7 @@ computing environment and the Docker container. Since the analyses
 below will write files to these directories, it is important to ensure
 that:
 
-  + Environment variables `$HOME` and `$PWD` are set to valid and
+  + Environment variables `$HOME`, `$USER` and `$PWD` are set to valid and
     writeable directories (usually your home and current working
     directories, respectively).
 
