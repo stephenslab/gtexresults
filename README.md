@@ -22,7 +22,8 @@ work, please cite our paper:
 
 ## License
 
-Copyright (c) 2016-2018, Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens.
+Copyright (c) 2016-2018, Sarah Urbut, Gao Wang, Peter Carbonetto and
+Matthew Stephens.
 
 All source code and software in this repository are made available
 under the terms of the
@@ -62,8 +63,8 @@ If you prefer to run the analyses without Docker, *add a few details
 about where you can find out more about software and libraries used,
 and other computing environment setup steps (mention Python 3.x, R, SFA,
 ExtremeDeconvolution, MOSEK, OpenMP, OpenBLAS, GSL, HDF5 tools,
-pytables rhdf5, and for an improved MASH implementation `mashr` is also
-installed).
+pytables rhdf5, and for an improved MASH implementation mashr is also
+installed).*
 
 ### 1. Download and install Docker
 
@@ -71,19 +72,19 @@ Download [Docker](https://docs.docker.com/install) (note that a free
 [community edition](https://www.docker.com/community-edition) of
 Docker is available), and install it following the instructions
 provided on the Docker website. Once you have installed Docker, check
-that Docker is working correctly by working through the
+that Docker is working correctly by following
 [Part 1 of the Getting Started guide](https://docs.docker.com/get-started).
 If you are using Docker for the first time, we recommend reading the
 entire Getting Started guide. *Note that setting up Docker requires
 that you have administrator access to your computer.*
 ([Singularity](https://singularity.lbl.gov/docs-docker) is an
-alternative that doesn't require administrator access, and supports
-Docker images.)
+alternative that accepts Docker images and does not require
+administrator access.)
 
 ### 2. Download and test Docker image
 
-Run the `alias` command below in the shell, to configure how we want the
-Docker container to execute,
+Run this `alias` command in the shell, which will be used below to run
+commands inside the Docker container:
 
 ```bash
 alias mash-docker='docker run --security-opt label:disable -t -P -h MASH '\
@@ -103,26 +104,30 @@ that:
   + `/tmp` should also be a valid and writeable directory.
 
 If any of these statements are not true, please adjust the `alias`
-accordingly.
+accordingly. The remaining options only affect operation of the
+container, and so should function the same regardless of your operating
+system.
 
-Then run a simple command in the Docker container to check that it loads
-successfully,
+Next, run a simple command in the Docker container to check that has
+loaded successfully:
 
 ```
 mash-docker uname -sn
 ```
 
-It will download the Docker image if it has not already been downloaded. 
+This command will download the Docker image if it has not already been
+downloaded.
 
-If the container was successfully run, you should see information
+If the container was successfully run, you should see this information
 about the Docker container outputted to the screen:
 
 ```
 Linux MASH
 ```
 
-You can also run these commands to show the image downloaded to your
-computer, and show the container that has ran (and exited):
+You can also run these commands to show the information about the
+image downloaded to your computer and the container that has run
+(and exited):
 
 ```bash
 docker image list
