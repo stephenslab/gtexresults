@@ -87,7 +87,7 @@ Docker container to execute,
 
 ```bash
 alias mash-docker='docker run --security-opt label:disable -t -P -h MASH '\
-'-w $PWD -v $HOME:$HOME -v /tmp:/tmp -v $PWD:$PWD '\
+'-w $PWD -v $HOME:/home/$USER -v /tmp:/tmp -v $PWD:$PWD '\
 '-u $UID:${GROUPS[0]} -e HOME=$HOME -e USER=$USER gaow/mash-paper'
 ```
 
