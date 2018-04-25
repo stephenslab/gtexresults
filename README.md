@@ -211,7 +211,7 @@ This command will execute the following steps of the analysis:
   step is labeled `mash-paper_2`, and should take at most a minute to
   run.
 
-+ *Add info about next step here.*
++ *Add info about next step here* (`mash-paper_3`).
 
 *TO DO: Explain where results/outputs are saved.*
 
