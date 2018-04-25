@@ -207,7 +207,8 @@ This command will execute the following steps of the analysis:
   a 3.5 GHz Intel Core i7, it took over 6 hours to complete).
 
 + A final collection of "canonical" and single-rank prior matrices
-  based on SFA and the "BMAlite" models of Flutre *et al* (2013). This
+  based on SFA and the "BMAlite" models of Flutre *et al*
+  (2013). These matrices are again written to another `.rds` file. This
   step is labeled `mash-paper_2`, and should take at most a minute to
   run.
 
