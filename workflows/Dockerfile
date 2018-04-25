@@ -16,19 +16,11 @@ ENV PATH /opt/mosek/8/tools/platform/linux64x86/bin:$PATH
 
 WORKDIR /tmp
 
-# Install OpenMP, OpenBLAS, GSL and HDF5 library.
+# Install OpenMP, ATLAS, GSL and HDF5 library.
 RUN apt-get update \
-  && apt-get -y install libgomp1 libgsl-dev libopenblas-dev hdf5-tools \
+  && apt-get -y install libgomp1 libgsl-dev libgsl2 libatlas3-base hdf5-tools \
   && apt-get autoclean \
   && rm -rf /var/lib/apt/lists/* /var/log/dpkg.log
-
-# Customized GSL.
-# (Replace GSL CBLAS with OpenBLAS for better performance.)
-RUN rm /usr/lib/x86_64-linux-gnu/libgslcblas.* \
-  && ln -s /usr/lib/libopenblas.so /usr/lib/x86_64-linux-gnu/libgslcblas.so \
-  && ln -s /usr/lib/libopenblas.so.0 /usr/lib/x86_64-linux-gnu/libgslcblas.so.0 \
-  && ln -s /usr/lib/libopenblas.a /usr/lib/x86_64-linux-gnu/libgslcblas.a \
-  && ln -s /usr/lib/x86_64-linux-gnu/libgsl.so /usr/lib/x86_64-linux-gnu/libgsl.so.0
 
 # Install R HDF5 library "rhdf5".
 RUN Rscript -e 'source("https://bioconductor.org/biocLite.R"); biocLite("rhdf5", suppressUpdates=TRUE)' \
@@ -59,15 +51,13 @@ RUN Rscript -e 'devtools::install_github("stephenslab/mashr@v'${MASHR_VERSION}'"
 
 # Install SFA.
 RUN curl http://stephenslab.uchicago.edu/assets/software/sfa/sfa${SFA_VERSION}.tar.gz -o sfa.tar.gz \
+    && ln -s /usr/lib/x86_64-linux-gnu/libgsl.so /usr/lib/x86_64-linux-gnu/libgsl.so.0 \
     && tar zxf sfa.tar.gz && mv sfa /opt && rm -rf *
 
 # Install MASH code (to reproduce Urbut et al 2017 paper).
 RUN install.R mvtnorm SQUAREM gplots colorRamps && rm -rf *
 RUN curl -L https://github.com/stephenslab/mashr-paper/archive/v${PAPER_VERSION}.zip -o mash.zip \
     && unzip mash.zip && mv mashr-paper-${PAPER_VERSION}/R /opt/mash-paper && rm -rf *
-
-# Default user.
-USER docker
 
 # Default command.
 CMD ["bash"]

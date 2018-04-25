@@ -62,7 +62,7 @@ image for development with R and Python.
 If you prefer to run the analyses without Docker, *add a few details
 about where you can find out more about software and libraries used,
 and other computing environment setup steps (mention Python 3.x, R, SFA,
-ExtremeDeconvolution, MOSEK, OpenMP, OpenBLAS, GSL, HDF5 tools,
+ExtremeDeconvolution, MOSEK, OpenMP, MKL, GSL, HDF5 tools,
 pytables rhdf5, and for an improved MASH implementation mashr is also
 installed).*
 
@@ -97,7 +97,7 @@ computing environment and the Docker container. Since the analyses
 below will write files to these directories, it is important to ensure
 that:
 
-  + Environment variables `$HOME`, `$USER` and `$PWD` are set to valid and
+  + Environment variables `$HOME` and `$PWD` are set to valid and
     writeable directories (usually your home and current working
     directories, respectively).
 
