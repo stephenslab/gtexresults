@@ -109,18 +109,16 @@ Then run a simple command in the Docker container to check that it loads
 successfully,
 
 ```
-mash-docker uname -a
+mash-docker uname -sn
 ```
 
 It will download the Docker image if it has not already been downloaded. 
 
 If the container was successfully run, you should see information
-about the Linux operating system outputted to the screen, something
-like this:
+about the Docker container outputted to the screen:
 
 ```
-Linux MASH 3.16.0-4-amd64 #1 SMP 
-Debian 3.16.43-2+deb8u2 (2017-06-26) x86_64 GNU/Linux
+Linux MASH
 ```
 
 You can also run these commands to show the image downloaded to your
