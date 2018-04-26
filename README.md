@@ -220,9 +220,7 @@ This command will execute the following steps of the analysis:
   matrix. These two outputs are saved to two separate `.rds` files.
   This step is expected to take at most a few hours to complete.
 
-*Add info about next step here* (`mash-paper_3`).
-
-*TO DO: Explain where results/outputs are saved.*
++ *Add info about next step here* (`mash-paper_4`).
 
 Finally, note that all containers that have run and exited will still
 be retained in the Docker system. Run `docker container list --all` to
