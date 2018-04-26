@@ -212,7 +212,15 @@ This command will execute the following steps of the analysis:
   step is labeled `mash-paper_2`, and should take at most a minute to
   run.
 
-+ *Add info about next step here* (`mash-paper_3`).
++ The `mash-paper_3` step fits the MASH ("multivariate adaptive
+  shrinkage") model to the GTEx data (the centered z-scores); the
+  model parameters estimated in this fitting step are the weights of
+  the multivariate normal mixture. The outputs from this step are the
+  estimated mixture weights and the conditional likelihood
+  matrix. These two outputs are saved to two separate `.rds` files.
+  This step is expected to take at most a few hours to complete.
+
+*Add info about next step here* (`mash-paper_3`).
 
 *TO DO: Explain where results/outputs are saved.*
 
