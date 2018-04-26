@@ -166,7 +166,7 @@ workflows
 
 All commands below will be run from this directory.
 
-### 4. Add title of step 4 here.
+### 4. Fit MASH model and compute posterior statistics
 
 Assuming your working directory is the root of the git repository (you
 can check by running `pwd`), run all the steps of the analysis with
@@ -220,7 +220,11 @@ This command will execute the following steps of the analysis:
   matrix. These two outputs are saved to two separate `.rds` files.
   This step is expected to take at most a few hours to complete.
 
-+ *Add info about next step here* (`mash-paper_4`).
++ The `mash-paper_4` step computes posterior statistics using the
+  fitted MASH model from the previous step. These posterior statistics
+  are summarized and visualized in subsequent analyses. The posterior
+  statistics are saved to another `.rds` file. This step is expected
+  to take a few hours to complete.
 
 Finally, note that all containers that have run and exited will still
 be retained in the Docker system. Run `docker container list --all` to
@@ -228,6 +232,10 @@ list all previous run containers. To clear these previously run
 containers, run `docker container prune`. See
 [here](https://stackoverflow.com/questions/17014263/should-i-be-concerned-about-excess-non-running-docker-containers)
 for more information.
+
+### 5. Add Step 5 title here
+
+*Add details about Step 5 here*
 
 ## More detailed usage notes
 
