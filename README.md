@@ -240,9 +240,10 @@ for more information.
 ## More detailed usage notes
 
 Above we have given the minimal instructions necessary to reproduce
-the results of. Here are some additional details about the 
+the results of Urbut *et al* (2017). Here are some additional details
+about the analyses.
 
-Things that will go here:
+*Things that will go here:*
 
 + Explain how to get a summary of the possible analysis steps that can
   be run.
@@ -254,7 +255,17 @@ Things that will go here:
   implementation of the [mashr R
   package](https://github.com/stephenslab/mashr).
 
-## Convert eQTL summary statistics to MASH format
++ MOSEK?
+
++ In the [data](data) folder, we have provided a file
+  [MatrixEQTLSumStats.Portable.Z.rds](data/MatrixEQTLSumStats.Portable.Z.rds)
+  containing eQTL summary statistics in a format convenient for
+  running MASH. This was generated from the original eQTL summary
+  statistics downloaded from the GTEx Portal website, then converted
+  using the code in `fastqtl_to_mash.ipynb`. See below for details on
+  this step.
+
+## Converting eQTL summary statistics to MASH format
 
 Under the repo you will find `workflows/fastqtl_to_mash.ipynb` to
 convert eQTL summary statistics (default to `fastqtl` format) to MASH
@@ -269,7 +280,8 @@ To read what's available, run:
 mash-docker sos run workflows/fastqtl_to_mash.ipynb export
 ```
 
-and read the HTML files `gtex6_workflow_output/fastqtl_to_mash.lite.html` and 
+and read the HTML files
+`gtex6_workflow_output/fastqtl_to_mash.lite.html` and
 `gtex6_workflow_output/fastqtl_to_mash.full.html`
 
 To run the conversion:
@@ -284,7 +296,7 @@ In practice for GTEx data the conversion is computationally intensive
 and is best done on a cluster environment with
 [configurations to run the workflow across different nodes](https://vatlab.github.io/sos-docs/doc/documentation/Remote_Execution.html).
 
-## Other setup notes
+## Developer notes
 
 Run the following command to update the Docker image:
 
@@ -296,17 +308,17 @@ docker pull gaow/mash-paper
 
 **FIXME: update figure plotting instructions**
 
-The input data necessary to run this analysis is
-all available under inputs. This may take some time to run.
-We have provided
-the outputs of running mash in `Data_vhat`.
+The input data necessary to run this analysis is all available under
+inputs. This may take some time to run.  We have provided the outputs
+of running mash in `Data_vhat`.
 
 This repo is organized so that you can run Mash using the gteX data
 contained in **Inputs** to produce the parameters and posteriors from
 mashr.
 
-The directory **Plots_for_Paper_vmat** contains .Rmd files to plot figures from the paper,
-using our results which are provided in **Results_Data**. 
+The directory **Plots_for_Paper_vmat** contains .Rmd files to plot
+figures from the paper, using our results which are provided in
+**Results_Data**.
 
 [Here is the link to the index](https://stephenslab.github.io/gtexresults_mash)
 discussing the reproduction of all of the plots.
