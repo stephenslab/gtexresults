@@ -32,7 +32,7 @@ the [LICENSE](LICENSE) file for the full text of the license.
 
 ## What's included
 
-*Give brief overview of the files in this repository.*
+*TO DO: Give brief overview of the files in this repository.*
 
 ## Instructions
 
@@ -243,7 +243,7 @@ Above we have given the minimal instructions necessary to reproduce
 the results of Urbut *et al* (2017). Here are some additional details
 about the analyses.
 
-*Things that will go here:*
+*TO DO: Things that will go here:*
 
 + Explain how to get a summary of the possible analysis steps that can
   be run.
@@ -266,6 +266,13 @@ about the analyses.
   this step.
 
 ## Converting eQTL summary statistics to MASH format
+
+Here we explain how the
+[MatrixEQTLSumStats.Portable.Z.rds](data/MatrixEQTLSumStats.Portable.Z.rds)
+data file was generated from the source data downloaded from the
+[GTEx Portal](http://gtexportal.org). The source data are the SNP-gene
+association statistics from release 6 of the GTEx Project
+(`GTEx_Analysis_V6_all-snp-gene-associations.tar`).
 
 Under the repo you will find `workflows/fastqtl_to_mash.ipynb` to
 convert eQTL summary statistics (default to `fastqtl` format) to MASH
@@ -296,14 +303,6 @@ In practice for GTEx data the conversion is computationally intensive
 and is best done on a cluster environment with
 [configurations to run the workflow across different nodes](https://vatlab.github.io/sos-docs/doc/documentation/Remote_Execution.html).
 
-## Developer notes
-
-Run the following command to update the Docker image:
-
-```bash
-docker pull gaow/mash-paper
-```
-
 ### Figure plotting
 
 **FIXME: update figure plotting instructions**
@@ -322,6 +321,14 @@ figures from the paper, using our results which are provided in
 
 [Here is the link to the index](https://stephenslab.github.io/gtexresults_mash)
 discussing the reproduction of all of the plots.
+
+## Developer notes
+
+Run the following command to update the Docker image:
+
+```bash
+docker pull gaow/mash-paper
+```
 
 ## Contributors
 
