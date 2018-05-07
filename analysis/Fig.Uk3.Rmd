@@ -1,11 +1,8 @@
 ---
 title: "Please add a more descriptive title"
 author: "Sarah Urbut"
-date: 2017-05-30
-output: html_document
+output: workflowr::wflow_html
 ---
-
-**Last updated:** `r Sys.Date()`
 
 "Uk3" is the covariance matrix corresponding to the output of the
 ExtremeDeconvolution algorithm that was initialized with the rank3 SVD
@@ -35,9 +32,9 @@ a bunch of data sets from files. What are these data sets? And what is the
 bar chart you are creating?*
 
 ```{r create_barplot, echo = TRUE}
-covmat <- readRDS("../Data_vhat/covmatwithvhat.rds")
-z.stat <- read.table("../Data/maxz.txt")
-pis    <- readRDS("../Data_vhat/piswithvhat.rds")$pihat
+covmat <- readRDS("../output/covmatwithvhat.rds")
+z.stat <- read.table("../output/maxz.txt")
+pis    <- readRDS("../output/piswithvhat.rds")$pihat
 pi.mat <- matrix(pis[-length(pis)],ncol = 54,nrow = 22,byrow = TRUE)
 names  <- colnames(z.stat)
 colnames(pi.mat) <-
@@ -57,7 +54,7 @@ x[x < 0]    <- 0
 colnames(x) <- names
 rownames(x) <- names
 
-h <- read.table("../Data/uk3rowindices.txt")[,1]
+h <- read.table("../output/uk3rowindices.txt")[,1]
 ```
 
 Now we produce the heatmap. *What is the heat map showing? What interesting 
@@ -87,7 +84,6 @@ these plots? Can you briefly explain the color scheme you are using?*
 missing.tissues <- c(7,8,19,20,24,25,31,34,37)
 color.gtex <- read.table("../Data/GTExColors.txt",sep = "\t",
                          comment.char = '')[-missing.tissues,]
-
 k <- 3
 vold  <- svd(covmat[[k]])$v
 u     <- svd(covmat[[k]])$u
@@ -101,10 +97,4 @@ for (j in 1:3)
   barplot(v[,j]/v[,j][which.max(abs(v[,j]))],names = "",cex.names = 0.5,
           las = 2,main = paste0("EigenVector",j,"Uk",k),
           col = as.character(color.gtex[,2]))
-```
-
-## Session Information
-
-```{r session-info}
-print(sessionInfo())
 ```
