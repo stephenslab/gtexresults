@@ -1,14 +1,7 @@
 ## R project files
-.Rproj.user
-.Rhistory
-.RData
-
-## Temp files
-*~
-*.#*
 
 ## Workflow related
 **/.sos
 **/.ipynb_checkpoints
 **/__pycache__
-**/*_output
+
