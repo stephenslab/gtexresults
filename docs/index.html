@@ -16,12 +16,12 @@
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -190,6 +190,19 @@ $(document).ready(function () {
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
 
 <div class="fluid-row" id="header">
 
@@ -201,10 +214,182 @@ $(document).ready(function () {
 </div>
 
 
+<p><strong>Last updated:</strong> 2018-05-07</p>
+<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
+<ul>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/6ebb3f99e98829b3d132656e0856920be9523147" target="_blank">6ebb3f9</a> </summary></p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+<pre><code>
+Ignored files:
+    Ignored:    .sos/
+    Ignored:    RtmpsGtQ0Q/
+    Ignored:    data/.sos/
+    Ignored:    gtex6_workflow_output/
+    Ignored:    pymp-sc58ij9q/
+    Ignored:    workflows/.ipynb_checkpoints/
+    Ignored:    workflows/.sos/
+
+Untracked files:
+    Untracked:  docs/Table.likelihoodcomparison.xlsx
+
+</code></pre>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
+</li>
+</ul>
+<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
+<ul>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+File
+</th>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:left;">
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/6ebb3f99e98829b3d132656e0856920be9523147/analysis/index.Rmd" target="_blank">6ebb3f9</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-05-07
+</td>
+<td style="text-align:left;">
+wflow_publish(“index.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/c6c84508b4028a30e3db43a8afcffaa37c57be29/analysis/index.Rmd" target="_blank">c6c8450</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-05-07
+</td>
+<td style="text-align:left;">
+Setting up workflowr settings.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/c6c84508b4028a30e3db43a8afcffaa37c57be29/docs/index.html" target="_blank">c6c8450</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-05-07
+</td>
+<td style="text-align:left;">
+Setting up workflowr settings.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/33f72d6007c845a7f0e5b1610ec4d9b721cca299/analysis/index.Rmd" target="_blank">33f72d6</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-05-07
+</td>
+<td style="text-align:left;">
+Added workflowr 1.0.1.9000 files.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/b4e38c281089fb599eac5b70930ff8366b1a6f48/docs/index.html" target="_blank">b4e38c2</a>
+</td>
+<td style="text-align:left;">
+Gao Wang
+</td>
+<td style="text-align:left;">
+2017-09-20
+</td>
+<td style="text-align:left;">
+Fix one more broken link
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/80f285faf2eaf3c1e1b4fc25317c58996d5b2525/docs/index.html" target="_blank">80f285f</a>
+</td>
+<td style="text-align:left;">
+Gao Wang
+</td>
+<td style="text-align:left;">
+2017-09-20
+</td>
+<td style="text-align:left;">
+Update figures
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/afc401f3e92f562d878d377ddac5033f230e7c51/docs/index.html" target="_blank">afc401f</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2017-09-20
+</td>
+<td style="text-align:left;">
+Moved doc to docs.
+</td>
+</tr>
+</tbody>
+</table>
+</ul>
+<p></details></p>
+<hr />
 <p>In this directory, we provide all the instructions for reproducing the GTEx results from: “Flexible statistical methods for estimating and testing effects in genomic studies with multiple conditions” (Urbut et al 2017).</p>
-<pre class="r"><code>rnorm(10)</code></pre>
-<pre><code>##  [1]  0.5855288  0.7094660 -0.1093033 -0.4534972  0.6058875 -1.8179560
-##  [7]  0.6300986 -0.2761841 -0.2841597 -0.9193220</code></pre>
 <p>Figure 3:<a href="Fig.Uk3.html">Summary of primary patterns identified by mash in GTEx data</a></p>
 <p>Figure 4:<a href="Fig.GTExExamples.html">Examples illustrating of how mash uses patterns of sharing to inform effect estimates in the GTEx data.</a></p>
 <p>Figure 5:<a href="Fig.SharingHist.pdf">Histogram of Sharing</a></p>
@@ -221,6 +406,30 @@ $(document).ready(function () {
 <p>Supplementary Figure 6:<a href="Fig.ExpressionAnalysis.html">Expression levels in genes with “tissue-specific eQTLs” are similar to those in other genes</a></p>
 <p>Table 1: Heterogeneity Analysis <a href="Table.hettablesim.html">Simulation</a> and <a href="Table.HeterogeneityTables.html">Data</a>.</p>
 
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<hr>
+<p>
+  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+  analysis was created with
+  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.0.1.9000
+</p>
+<hr>
 
 
 
