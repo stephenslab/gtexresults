@@ -211,6 +211,12 @@ for more information.
 
 ### 5. Add Step 5 title here
 
+Install some packages from CRAN:
+
+```R
+install.packages("colorRamps","fields","ggplot2")
+```
+
 **FIXME: update figure plotting instructions**
 
 The input data necessary to run this analysis is all available under
