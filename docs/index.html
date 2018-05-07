@@ -9,10 +9,10 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Peter Carbonetto" />
+<meta name="author" content="Sarah Urbut" />
 
 
-<title>MASH analysis of GTEx data from Urbut et al (2017)</title>
+<title>MASH analysis of GTEx data (Urbut et al, 2017)</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -208,8 +208,8 @@ div.section {
 
 
 
-<h1 class="title toc-ignore">MASH analysis of GTEx data from Urbut et al (2017)</h1>
-<h4 class="author"><em>Peter Carbonetto</em></h4>
+<h1 class="title toc-ignore">MASH analysis of GTEx data (Urbut <em>et al</em>, 2017)</h1>
+<h4 class="author"><em>Sarah Urbut</em></h4>
 
 </div>
 
@@ -223,20 +223,21 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/6ebb3f99e98829b3d132656e0856920be9523147" target="_blank">6ebb3f9</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/533f5cc6c7ec4859c3f6c7785e7b54c125428cc8" target="_blank">533f5cc</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
     Ignored:    .sos/
-    Ignored:    RtmpsGtQ0Q/
     Ignored:    data/.sos/
-    Ignored:    gtex6_workflow_output/
-    Ignored:    pymp-sc58ij9q/
     Ignored:    workflows/.ipynb_checkpoints/
     Ignored:    workflows/.sos/
 
 Untracked files:
-    Untracked:  docs/Table.likelihoodcomparison.xlsx
+    Untracked:  gtex6_workflow_output/
+
+Unstaged changes:
+    Modified:   .gitignore
+    Modified:   README.md
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -389,7 +390,77 @@ Moved doc to docs.
 </ul>
 <p></details></p>
 <hr />
-<p>In this directory, we provide all the instructions for reproducing the GTEx results from: “Flexible statistical methods for estimating and testing effects in genomic studies with multiple conditions” (Urbut et al 2017).</p>
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<p>To reproduce the results of Urbut, Wang &amp; Stephens (2017), please follow these instructions.</p>
+<p>For more information, please see the <a href="https://github.com/stephenslab/gtexresults">README</a>.</p>
+<p>The complete analyses require installation of several programs and libraries, and requires several large data sets. To facilitate reproducing our results, we provide pre-processed data for use with the core analysis, and a bioinformatics pipeline with a small toy data-set to demonstrate the pre-processing step. We have also developed a <a href="https://hub.docker.com/r/gaow/mash-paper">Docker container</a> that includes all software components necessary to run the analyses. Docker can run on most popular operating systems (Mac, Windows and Linux). It also runs on cloud computing services such as Amazon Web Services and Microsoft Azure. If you have not used Docker before, you might want to read <a href="https://docs.docker.com/engine/docker-overview">this</a> to learn the basic concepts and understand the benefits of Docker.</p>
+<p>For details on how the Docker image was configured, see the <a href="workflows/Dockerfile">Dockerfile</a>. The Docker image used for our analyses is based on <a href="https://hub.docker.com/r/gaow/lab-base">gaow/lab-base</a>, a Docker image for development with R and Python.</p>
+<p>If you prefer to run the analyses without Docker, <em>add a few details about where you can find out more about software and libraries used, and other computing environment setup steps (mention Python 3.x, R, SFA, ExtremeDeconvolution, MOSEK, OpenMP, MKL, GSL, HDF5 tools, pytables rhdf5, and for an improved MASH implementation mashr is also installed).</em></p>
+</div>
+<div id="download-and-install-docker" class="section level2">
+<h2>1. Download and install Docker</h2>
+<p>Download <a href="https://docs.docker.com/install">Docker</a> (note that a free <a href="https://www.docker.com/community-edition">community edition</a> of Docker is available), and install it following the instructions provided on the Docker website. Once you have installed Docker, check that Docker is working correctly by following <a href="https://docs.docker.com/get-started">Part 1 of the Getting Started guide</a>. If you are using Docker for the first time, we recommend reading the entire Getting Started guide. <em>Note that setting up Docker requires that you have administrator access to your computer.</em> (<a href="https://singularity.lbl.gov/docs-docker">Singularity</a> is an alternative that accepts Docker images and does not require administrator access.)</p>
+</div>
+<div id="download-and-test-docker-image" class="section level2">
+<h2>2. Download and test Docker image</h2>
+<p>Run this <code>alias</code> command in the shell, which will be used below to run commands inside the Docker container:</p>
+<pre class="bash"><code>alias mash-docker=&#39;docker run --security-opt label:disable -t -P -h MASH &#39;\
+&#39;-w $PWD -v $HOME:/home/$USER -v /tmp:/tmp -v $PWD:$PWD &#39;\
+&#39;-u $UID:${GROUPS[0]} -e HOME=/home/$USER -e USER=$USER gaow/mash-paper&#39;</code></pre>
+<p>The <code>-v</code> flags in this command map directories between the standard computing environment and the Docker container. Since the analyses below will write files to these directories, it is important to ensure that:</p>
+<ul>
+<li><p>Environment variables <code>$HOME</code> and <code>$PWD</code> are set to valid and writeable directories (usually your home and current working directories, respectively).</p></li>
+<li><p><code>/tmp</code> should also be a valid and writeable directory.</p></li>
+</ul>
+<p>If any of these statements are not true, please adjust the <code>alias</code> accordingly. The remaining options only affect operation of the container, and so should function the same regardless of your operating system.</p>
+<p>Next, run a simple command in the Docker container to check that has loaded successfully:</p>
+<pre><code>mash-docker uname -sn</code></pre>
+<p>This command will download the Docker image if it has not already been downloaded.</p>
+<p>If the container was successfully run, you should see this information about the Docker container outputted to the screen:</p>
+<pre><code>Linux MASH</code></pre>
+<p>You can also run these commands to show the information about the image downloaded to your computer and the container that has run (and exited):</p>
+<pre class="bash"><code>docker image list
+docker container list --all</code></pre>
+<p><em>Note:</em> If you get error “Cannot connect to the Docker daemon. Is the docker daemon running on this host?” in Linux or macOS, see <a href="https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo">here for Linux</a> or <a href="https://github.com/wodby/docker4drupal/issues/15">here for Mac</a> for suggestions on how to resolve this issue.</p>
+</div>
+<div id="clone-or-download-this-repository" class="section level2">
+<h2>3. Clone or download this repository</h2>
+<p>Clone or download the <code>gtexresults</code> repository to your computer, then change your working directory in the shell to the root of the repository, e.g.,</p>
+<pre class="bash"><code>cd gtexresults</code></pre>
+<p>After doing this, running <code>ls -1</code> should show the top-level contents of this repository:</p>
+<pre><code>LICENSE
+README.md
+TODO.txt
+analysis
+data
+docs
+output
+workflows</code></pre>
+<p>All commands below will be run from this directory.</p>
+<div id="fit-mash-model-and-compute-posterior-statistics" class="section level3">
+<h3>4. Fit MASH model and compute posterior statistics</h3>
+<p>Assuming your working directory is the root of the git repository (you can check by running <code>pwd</code>), run all the steps of the analysis with this command:</p>
+<pre class="bash"><code>mash-docker sos run workflows/gtex6_mash_analysis.ipynb</code></pre>
+<p>This command will take several hours to run—see below for more information on the individual steps. All outputs generated by this command will be saved to folder <code>gtex6_workflow_output</code> inside the repository.</p>
+<p>Note that you may recognize this file as a Jupyter notebook. Indeed, you may open this notebook in Jupyter. However, you should not step through the code sequentially as you would in a typical Jupyter notebook; this is because the code in this notebook is meant to be run using the <a href="https://github.com/vatlab/SoS">Script of Scripts (SoS)</a> framework.</p>
+<p>This command will execute the following steps of the analysis:</p>
+<ul>
+<li><p>Compute a sparse factorization of the (centered) z-scores using the <a href="http://stephenslab.uchicago.edu/software.html#sfa">SFA software</a>, with K = 5 factors, and save the factors in an <code>.rds</code> file. This will be used to construct the mixture-of-multivariate normals prior. This step is labeled <code>sfa</code>, and should only take a few minutes to run.</p></li>
+<li><p>Compute additional “data-driven” prior matrices by computing a singular value decomposition of the (centered) z-scores and low-rank approximations to the empirical covariance matrices. Most of the work in this step involves running the Extreme Deconvolution method. The outcome of running the Extreme Deconvolution method is saved to a new <code>.rds</code> file. This step is labeled <code>mash-paper_1</code> and may take several hours to run (in one run on a MacBook Pro with a 3.5 GHz Intel Core i7, it took over 6 hours to complete).</p></li>
+<li><p>A final collection of “canonical” and single-rank prior matrices based on SFA and the “BMAlite” models of Flutre <em>et al</em> (2013). These matrices are again written to another <code>.rds</code> file. This step is labeled <code>mash-paper_2</code>, and should take at most a minute to run.</p></li>
+<li><p>The <code>mash-paper_3</code> step fits the MASH (“multivariate adaptive shrinkage”) model to the GTEx data (the centered z-scores); the model parameters estimated in this fitting step are the weights of the multivariate normal mixture. The outputs from this step are the estimated mixture weights and the conditional likelihood matrix. These two outputs are saved to two separate <code>.rds</code> files. This step is expected to take at most a few hours to complete.</p></li>
+<li><p>The <code>mash-paper_4</code> step computes posterior statistics using the fitted MASH model from the previous step. These posterior statistics are summarized and visualized in subsequent analyses. The posterior statistics are saved to another <code>.rds</code> file. This step is expected to take a few hours to complete.</p></li>
+</ul>
+<p>Finally, note that all containers that have run and exited will still be retained in the Docker system. Run <code>docker container list --all</code> to list all previous run containers. To clear these previously run containers, run <code>docker container prune</code>. See <a href="https://stackoverflow.com/questions/17014263/should-i-be-concerned-about-excess-non-running-docker-containers">here</a> for more information.</p>
+</div>
+<div id="add-step-5-title-here" class="section level3">
+<h3>5. Add Step 5 title here</h3>
+<p><strong>FIXME: update figure plotting instructions</strong></p>
+<p>The input data necessary to run this analysis is all available under inputs. This may take some time to run. We have provided the outputs of running mash in <code>Data_vhat</code>.</p>
+<p>This repo is organized so that you can run Mash using the gteX data contained in <strong>Inputs</strong> to produce the parameters and posteriors from mashr.</p>
+<p>The directory <strong>Plots_for_Paper_vmat</strong> contains .Rmd files to plot figures from the paper, using our results which are provided in <strong>Results_Data</strong>.</p>
+<p><a href="https://stephenslab.github.io/gtexresults_mash">Here is the link to the index</a> discussing the reproduction of all of the plots.</p>
 <p>Figure 3:<a href="Fig.Uk3.html">Summary of primary patterns identified by mash in GTEx data</a></p>
 <p>Figure 4:<a href="Fig.GTExExamples.html">Examples illustrating of how mash uses patterns of sharing to inform effect estimates in the GTEx data.</a></p>
 <p>Figure 5:<a href="Fig.SharingHist.pdf">Histogram of Sharing</a></p>
@@ -405,6 +476,38 @@ Moved doc to docs.
 <p>Supplementary Figure 5:<a href="Fig.Tspecific.html">Number of “tissue-specific eQTLs” in each tissues.</a></p>
 <p>Supplementary Figure 6:<a href="Fig.ExpressionAnalysis.html">Expression levels in genes with “tissue-specific eQTLs” are similar to those in other genes</a></p>
 <p>Table 1: Heterogeneity Analysis <a href="Table.hettablesim.html">Simulation</a> and <a href="Table.HeterogeneityTables.html">Data</a>.</p>
+</div>
+</div>
+<div id="more-detailed-usage-notes" class="section level2">
+<h2>More detailed usage notes</h2>
+<p>Above we have given the minimal instructions necessary to reproduce the results of Urbut <em>et al</em> (2017). Here are some additional details about the analyses.</p>
+<p><em>TO DO: Things that will go here:</em></p>
+<ul>
+<li><p>Explain how to get a summary of the possible analysis steps that can be run.</p></li>
+<li><p>See the Jupyter notebook to get more details; how the notebook should be interpreted.</p></li>
+<li><p>Explain how to run the analysis using the improved (faster) implementation of the <a href="https://github.com/stephenslab/mashr">mashr R package</a>.</p></li>
+<li><p><em>MOSEK?</em></p></li>
+<li><p>In the <a href="data" class="uri">data</a> folder, we have provided a file <a href="data/MatrixEQTLSumStats.Portable.Z.rds">MatrixEQTLSumStats.Portable.Z.rds</a> containing eQTL summary statistics in a format convenient for running MASH. This was generated from the original eQTL summary statistics downloaded from the GTEx Portal website, then converted using the code in <code>fastqtl_to_mash.ipynb</code>. See below for details on this step.</p></li>
+</ul>
+</div>
+<div id="converting-eqtl-summary-statistics-to-mash-format" class="section level2">
+<h2>Converting eQTL summary statistics to MASH format</h2>
+<p>Here we explain how the <a href="data/MatrixEQTLSumStats.Portable.Z.rds">MatrixEQTLSumStats.Portable.Z.rds</a> data file was generated from the source data downloaded from the <a href="http://gtexportal.org">GTEx Portal</a>. The source data are the SNP-gene association statistics from release 6 of the GTEx Project (<code>GTEx_Analysis_V6_all-snp-gene-associations.tar</code>).</p>
+<p>Under the repo you will find <code>workflows/fastqtl_to_mash.ipynb</code> to convert eQTL summary statistics (default to <code>fastqtl</code> format) to MASH format. Computation is configured to run in parallel for eQTL results from multiple studies. Example data-set can be found at <code>data/eQTLDataDemo</code>. The workflow file is documented in itself, and has a few options to customize the input and output.</p>
+<p>To read what’s available, run:</p>
+<pre class="bash"><code>mash-docker sos run workflows/fastqtl_to_mash.ipynb export</code></pre>
+<p>and read the HTML files <code>gtex6_workflow_output/fastqtl_to_mash.lite.html</code> and <code>gtex6_workflow_output/fastqtl_to_mash.full.html</code></p>
+<p>To run the conversion:</p>
+<pre class="bash"><code>mash-docker sos run workflows/fastqtl_to_mash.ipynb \
+  --data_list data/eQTLDataDemo/FastQTLSumStats.list \
+  --gene_list data/eQTLDataDemo/GTEx_genes.txt</code></pre>
+<p>In practice for GTEx data the conversion is computationally intensive and is best done on a cluster environment with <a href="https://vatlab.github.io/sos-docs/doc/documentation/Remote_Execution.html">configurations to run the workflow across different nodes</a>.</p>
+</div>
+<div id="developer-notes" class="section level2">
+<h2>Developer notes</h2>
+<p>Run the following command to update the Docker image:</p>
+<pre class="bash"><code>docker pull gaow/mash-paper</code></pre>
+</div>
 
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
