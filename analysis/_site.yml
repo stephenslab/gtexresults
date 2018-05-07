@@ -1,22 +1,21 @@
-name: "gtexresults"
-output_dir: "../docs"
-include: [".nojekyll"]
-exclude: ["include"]
+name: Source to reproduce GTEx results from Urbut et al (2017)
+output_dir: ../docs
+include: .nojekyll
+exclude: include
 navbar:
-  title: "gtexresults"
+  title: MASH analysis of GTEx
   left:
-    - text: "Home"
+    - text: Overview
       href: index.html
-    - text: "About"
-      href: about.html
-    - text: "License"
-      href: license.html
   right:
-    - icon: fa-github
-      href: https://github.com/jdblischak/workflowr
+    - text: source
+      href: https://github.com/stephenslab/gtexresults
 output:
   workflowr::wflow_html:
-    toc: true
-    toc_float: true
-    theme: cosmo
+    toc: yes
+    toc_float: yes
+    theme: readable
     highlight: textmate
+    include:
+      before_body: include/header.html
+      after_body: include/footer.html
