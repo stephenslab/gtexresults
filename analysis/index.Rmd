@@ -12,10 +12,6 @@ output:
 To reproduce the results of Urbut, Wang & Stephens (2017), please
 follow these instructions.
 
-```{r test}
-x <- rnorm(8)
-```
-
 For more information, please see the
 [README](https://github.com/stephenslab/gtexresults).
 
