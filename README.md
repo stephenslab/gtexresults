@@ -42,5 +42,6 @@ the [LICENSE](LICENSE) file for the full text of the license.
 This project was developed by
 [Sarah Urbut](https://github.com/surbut),
 [Gao Wang](https://github.com/gaow) and
-[Matthew Stephens](stephenslab.uchicago.edu) at the University of
-Chicago, with contributions from [Peter Carbonetto](http://pcarbo.github.io).
+[Matthew Stephens](https://stephenslab.uchicago.edu) at the University
+of Chicago, with contributions from
+[Peter Carbonetto](http://pcarbo.github.io).
