@@ -217,6 +217,9 @@ Install some packages from CRAN:
 install.packages("colorRamps","fields","ggplot2")
 ```
 
+**For convenience, the results needed to generate the figures and
+tables have been saved in the `output` folder.**
+
 **FIXME: update figure plotting instructions**
 
 The input data necessary to run this analysis is all available under
@@ -230,9 +233,6 @@ mashr.
 The directory **Plots_for_Paper_vmat** contains .Rmd files to plot
 figures from the paper, using our results which are provided in
 **Results_Data**.
-
-[Here is the link to the index](https://stephenslab.github.io/gtexresults_mash)
-discussing the reproduction of all of the plots.
 
 Figure 3:[Summary of primary patterns identified by mash in GTEx
 data](Fig.Uk3.html)
