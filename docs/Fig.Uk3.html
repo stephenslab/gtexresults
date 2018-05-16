@@ -12,7 +12,7 @@
 <meta name="author" content="Sarah Urbut" />
 
 
-<title>Please add a more descriptive title</title>
+<title>Primary correlation patterns identified by mash in GTEx data</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -306,17 +306,18 @@ div.section {
 
 
 
-<h1 class="title toc-ignore">Please add a more descriptive title</h1>
+<h1 class="title toc-ignore">Primary correlation patterns identified by mash in GTEx data</h1>
 <h4 class="author"><em>Sarah Urbut</em></h4>
 
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-05-09</p>
+<p><strong>Last updated:</strong> 2018-05-16</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
-<p><details> <summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
 </details>
 </li>
 <li>
@@ -335,7 +336,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/ea42e8a34505bf6d32b37485659b2a9bdbb6ccf8" target="_blank">ea42e8a</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/d2554195ff98ad0f5fedf04c61fbbb5ba86c360b" target="_blank">d255419</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -345,10 +346,13 @@ Ignored files:
     Ignored:    workflows/.sos/
 
 Untracked files:
+    Untracked:  .DS_Store
     Untracked:  gtex6_workflow_output/
 
 Unstaged changes:
-    Modified:   analysis/Fig.Uk3.Rmd
+    Modified:   TODO.txt
+    Modified:   analysis/index.Rmd
+    Modified:   workflows/gtex6_mash_analysis.ipynb
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -377,6 +381,57 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/d2554195ff98ad0f5fedf04c61fbbb5ba86c360b/analysis/Fig.Uk3.Rmd" target="_blank">d255419</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-05-16
+</td>
+<td style="text-align:left;">
+wflow_publish(“Fig.Uk3.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/cb41bece271e16d090a3f5882af8ed4a65c28e06/analysis/Fig.Uk3.Rmd" target="_blank">cb41bec</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-05-09
+</td>
+<td style="text-align:left;">
+In Fig.Uk3.Rmd, added pathnames for files containing results from Gao’s analysis pipeline.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/cb41bece271e16d090a3f5882af8ed4a65c28e06/docs/Fig.Uk3.html" target="_blank">cb41bec</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-05-09
+</td>
+<td style="text-align:left;">
+In Fig.Uk3.Rmd, added pathnames for files containing results from Gao’s analysis pipeline.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -433,8 +488,8 @@ Update figures
 </ul>
 <p></details></p>
 <hr />
-<p>“Uk3” is the covariance matrix corresponding to the output of the ExtremeDeconvolution algorithm that was initialized with the rank3 SVD approximation of <span class="math inline">\(X^TX\)</span>. It is the pattern of sharing with the most loading. We demonstrate which patterns have the most loading the <span class="math inline">\(\pi\)</span> barplot.</p>
-<p>We plot the correlation matrix and the first 3 eigenvectors of “Uk3”. This provides a visualization of the primary patterns of genetic sharing identified by our method, <strong>mash</strong>. It is also Fig. 3 in the paper.</p>
+<p>“Uk3” is the covariance matrix corresponding to the output of the ExtremeDeconvolution algorithm that was initialized with the rank3 SVD approximation of <span class="math inline">\(X^TX\)</span>. It is the pattern of sharing identified from the dominant covariance matrix (the one with the largest mixture weight).</p>
+<p>Here we plot the correlation matrix and the first 3 eigenvectors of “Uk3”. This provides a visualization of the primary patterns of genetic sharing identified by our method, MASH. This code should reproduce Figure 3 of the paper.</p>
 <div id="set-up-environment" class="section level2">
 <h2>Set up environment</h2>
 <p>First, we load some packages into the R environment.</p>
@@ -443,57 +498,53 @@ library(ggplot2)
 library(colorRamps)
 library(fields)</code></pre>
 </div>
-<div id="load-data" class="section level2">
-<h2>Load data</h2>
-<p>Next, we load data generated</p>
-<p><em>Explain here what this next code chunk does. It looks like you are loading a bunch of data sets from files. What are these data sets? And what is the bar chart you are creating?</em></p>
-<pre class="r"><code># Files generated by Gao&#39;s analysis pipeline:
-# covmat &lt;- readRDS(paste0(&quot;../gtex6_workflow_output/MatrixEQTLSumStats.&quot;,
-#                          &quot;Portable.Z.coved.K3.P3.lite.single.expanded.&quot;,
-#                          &quot;rds&quot;))$covmat
-# pis    &lt;- readRDS(paste0(&quot;../gtex6_workflow_output/MatrixEQTLSumStats.&quot;,
-#                          &quot;Portable.Z.coved.K3.P3.lite.single.expanded.&quot;,
-#                          &quot;pihat.rds&quot;))$pihat
-covmat &lt;- readRDS(&quot;../output/covmatwithvhat.rds&quot;)
-
-z.stat &lt;- read.table(&quot;../output/maxz.txt&quot;)
-pis    &lt;- readRDS(&quot;../output/piswithvhat.rds&quot;)$pihat
+<div id="load-data-and-mash-results" class="section level2">
+<h2>Load data and MASH results</h2>
+<p>We load some GTEx summary statistics, as well as some of the results generated from the MASH analysis of the GTEx data.</p>
+<pre class="r"><code>covmat &lt;- readRDS(paste(&quot;../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3&quot;,
+                        &quot;lite.single.expanded.rds&quot;,sep = &quot;.&quot;))
+pis    &lt;- readRDS(paste(&quot;../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3&quot;,
+                        &quot;lite.single.expanded.V1.pihat.rds&quot;,sep = &quot;.&quot;))$pihat
+z.stat &lt;- readRDS(&quot;../data/MatrixEQTLSumStats.Portable.Z.rds&quot;)$test.z
 pi.mat &lt;- matrix(pis[-length(pis)],ncol = 54,nrow = 22,byrow = TRUE)
 names  &lt;- colnames(z.stat)
 colnames(pi.mat) &lt;-
-  c(&quot;ID&quot;,&quot;X&#39;X&quot;,&quot;SVD&quot;,&quot;F1&quot;,&quot;F2&quot;,&quot;F3&quot;,&quot;F4&quot;,&quot;F5&quot;,&quot;SFA_Rank5&quot;,names,&quot;ALL&quot;)
-
-# Please label the horizontal and vertical axes.
-barplot(colSums(pi.mat),las = 2,cex.names = 0.5)</code></pre>
-<p><img src="figure/Fig.Uk3.Rmd/create-barplot-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>Here, we load the indices (<em>of the tissues?</em>) and tissue names:</p>
+  c(&quot;ID&quot;,&quot;X&#39;X&quot;,&quot;SVD&quot;,&quot;F1&quot;,&quot;F2&quot;,&quot;F3&quot;,&quot;F4&quot;,&quot;F5&quot;,&quot;SFA_Rank5&quot;,names,&quot;ALL&quot;)</code></pre>
+<p>Next, we load the tissue indices and tissue names:</p>
 <pre class="r"><code>k &lt;- 3
-
 x           &lt;- cov2cor(covmat[[k]])
 x[x &lt; 0]    &lt;- 0
 colnames(x) &lt;- names
 rownames(x) &lt;- names
-
 h &lt;- read.table(&quot;../output/uk3rowindices.txt&quot;)[,1]</code></pre>
-<p>Now we produce the heatmap. <em>What is the heat map showing? What interesting result(s) are highlighted by this heat map?</em> Note that this is flipped in the paper:</p>
+<p>For the plots of the eigenvectors, we load the colours that are conventionally used to represent the tissues in plots.</p>
+<pre class="r"><code>missing.tissues &lt;- c(7,8,19,20,24,25,31,34,37)
+color.gtex &lt;- read.table(&quot;../data/GTExColors.txt&quot;,sep = &quot;\t&quot;,
+                         comment.char = &#39;&#39;)[-missing.tissues,]</code></pre>
+</div>
+<div id="summarize-relative-importance-of-the-covariance-matrices" class="section level2">
+<h2>Summarize relative importance of the covariance matrices</h2>
+<p>The posterior mixture weights give the relative importance of the covariance matrices for capturing patterns in the data.</p>
+<pre class="r"><code>barplot(colSums(pi.mat),las = 2,cex.names = 0.5)</code></pre>
+<p><img src="figure/Fig.Uk3.Rmd/plot-mixture-weights-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>Here we see that the SVD component has the largest weight.</p>
+</div>
+<div id="generate-heatmap-of-uk3-covariance-matrix" class="section level2">
+<h2>Generate heatmap of Uk3 covariance matrix</h2>
+<p>Now we produce the heatmap showing the full covariance matrix.</p>
 <pre class="r"><code>smat &lt;- (x[(h),(h)])
 smat[lower.tri(smat)] &lt;- NA
-
 clrs &lt;- colorRampPalette(rev(c(&quot;#D73027&quot;,&quot;#FC8D59&quot;,&quot;#FEE090&quot;,&quot;#FFFFBF&quot;,
                                &quot;#E0F3F8&quot;,&quot;#91BFDB&quot;,&quot;#4575B4&quot;)))(64)
 lat &lt;- x[rev(h),rev(h)]
-
 lat[lower.tri(lat)] &lt;- NA
 n &lt;- nrow(lat)
 print(levelplot(lat[n:1,],col.regions = clrs,xlab = &quot;&quot;,ylab = &quot;&quot;,
                 colorkey = TRUE,at = seq(0,1,length.out = 64),
                 scales = list(cex = 0.6,x = list(rot = 45))))</code></pre>
-<p><img src="figure/Fig.Uk3.Rmd/heatmapuk3-1.png" width="960" style="display: block; margin: auto;" /></p>
-<p>Now let’s do the eigenplots. <em>What are these plots showing, and what sort of interesting results (briefly) are being highlighted by these plots? Can you briefly explain the color scheme you are using?</em></p>
-<pre class="r"><code>missing.tissues &lt;- c(7,8,19,20,24,25,31,34,37)
-color.gtex &lt;- read.table(&quot;../Data/GTExColors.txt&quot;,sep = &quot;\t&quot;,
-                         comment.char = &#39;&#39;)[-missing.tissues,]
-k &lt;- 3
+<p><img src="figure/Fig.Uk3.Rmd/heatmap-uk3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>The eigenvectors capture the predominant patterns in the UK3 covariance matrix.</p>
+<pre class="r"><code>k &lt;- 3
 vold  &lt;- svd(covmat[[k]])$v
 u     &lt;- svd(covmat[[k]])$u
 d     &lt;- svd(covmat[[k]])$d
@@ -501,12 +552,11 @@ v     &lt;- vold[h,] # Shuffle so correct order
 names &lt;- names[h]
 color.gtex &lt;- color.gtex[h,]
 for (j in 1:3)
-  
-  # Please add labels to the horizontal and vertical axes in these plots.
   barplot(v[,j]/v[,j][which.max(abs(v[,j]))],names = &quot;&quot;,cex.names = 0.5,
           las = 2,main = paste0(&quot;EigenVector&quot;,j,&quot;Uk&quot;,k),
           col = as.character(color.gtex[,2]))</code></pre>
-<p><img src="figure/Fig.Uk3.Rmd/eigenplots-1.png" width="768" style="display: block; margin: auto;" /><img src="figure/Fig.Uk3.Rmd/eigenplots-2.png" width="768" style="display: block; margin: auto;" /><img src="figure/Fig.Uk3.Rmd/eigenplots-3.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/Fig.Uk3.Rmd/plot-eigenvectors-1.png" width="576" style="display: block; margin: auto;" /><img src="figure/Fig.Uk3.Rmd/plot-eigenvectors-2.png" width="576" style="display: block; margin: auto;" /><img src="figure/Fig.Uk3.Rmd/plot-eigenvectors-3.png" width="576" style="display: block; margin: auto;" /></p>
+<p>The first eigenvector reflects broad sharing among tissues, with all effects in the same direction; the second eigenvector captures differences between brain (and, to a less extent, testis and pituitary) vs other tissues; the third eigenvector primarily captures effects that are stronger in whole blood than elsewhere.</p>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
