@@ -22,13 +22,12 @@ knitr::opts_chunk$set(collapse = TRUE, fig.width = 8,
 
 ## Set up environment
 
-First, we load some packages into the R environment.
+First, we load a few packages used in the code chunks below.
 
 ```{r load-pkgs, message = FALSE}
 library(lattice)
 library(ggplot2)
 library(colorRamps)
-library(fields)
 ```
 
 ## Load data and MASH results
