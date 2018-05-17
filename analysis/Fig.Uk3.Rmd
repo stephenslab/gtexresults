@@ -13,7 +13,7 @@ weight).
 Here we plot the correlation matrix and the first 3 eigenvectors of
 "Uk3". This provides a visualization of the primary patterns of
 genetic sharing identified by our method, MASH. This code should
-reproduce Figure 3 of the paper.
+closely reproduce Figure 3 of the paper.
 
 ```{r knitr, message = FALSE, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, fig.width = 8,

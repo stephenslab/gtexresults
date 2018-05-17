@@ -13,6 +13,9 @@ Here we plot the correlation matrix for the second covariance
 component. Its mixture weight isn't quite as high as the [dominant
 covariance matrix](Fig.Uk3.html), but still quite strong.
 
+The plots generated in the code below should be the same or very
+similar to the top-left panel of Supplementary Figure 2.
+
 ```{r knitr, message = FALSE, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, fig.width = 8,
                       fig.height = 4,fig.align = "center")
