@@ -312,11 +312,12 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-05-16</p>
+<p><strong>Last updated:</strong> 2018-05-18</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
-<p><details> <summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
 </details>
 </li>
 <li>
@@ -335,7 +336,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/d9994cf73798e865bd313767c5e53c1b2dde9c63" target="_blank">d9994cf</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/178efd2e8a5f73bfba058ef8379020d027d761c1" target="_blank">178efd2</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -349,7 +350,6 @@ Untracked files:
 
 Unstaged changes:
     Modified:   analysis/Fig.Uk2.Rmd
-    Modified:   analysis/Fig.Uk3.Rmd
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -378,6 +378,74 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/178efd2e8a5f73bfba058ef8379020d027d761c1/analysis/Fig.Uk3.Rmd" target="_blank">178efd2</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-05-18
+</td>
+<td style="text-align:left;">
+wflow_publish(“Fig.Uk3.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/725c3055522eacf9b37b1aff77c80c95d55087a8/analysis/Fig.Uk3.Rmd" target="_blank">725c305</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-05-16
+</td>
+<td style="text-align:left;">
+Added a sentence to Fig.Uk2.Rmd.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/04f6a2154f8ac6e7eced0f9e02df4543481679ae/analysis/Fig.Uk3.Rmd" target="_blank">04f6a21</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-05-16
+</td>
+<td style="text-align:left;">
+Working on revisions to Fig.Uk2.Rmd.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/04f6a2154f8ac6e7eced0f9e02df4543481679ae/docs/Fig.Uk3.html" target="_blank">04f6a21</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-05-16
+</td>
+<td style="text-align:left;">
+Working on revisions to Fig.Uk2.Rmd.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -486,7 +554,7 @@ Update figures
 <p></details></p>
 <hr />
 <p>“Uk3” is the covariance matrix corresponding to the output of the ExtremeDeconvolution algorithm that was initialized with the rank3 SVD approximation of <span class="math inline">\(X^TX\)</span>. It is the pattern of sharing identified from the dominant covariance matrix (the one with the largest mixture weight).</p>
-<p>Here we plot the correlation matrix and the first 3 eigenvectors of “Uk3”. This provides a visualization of the primary patterns of genetic sharing identified by our method, MASH. This code should reproduce Figure 3 of the paper.</p>
+<p>Here we plot the correlation matrix and the first 3 eigenvectors of “Uk3”. This provides a visualization of the primary patterns of genetic sharing identified by our method, MASH. This code should closely reproduce Figure 3 of the paper.</p>
 <div id="set-up-environment" class="section level2">
 <h2>Set up environment</h2>
 <p>First, we load a few packages used in the code chunks below.</p>
@@ -506,11 +574,12 @@ pi.mat &lt;- matrix(pis[-length(pis)],ncol = 54,nrow = 22,byrow = TRUE)
 names  &lt;- colnames(z.stat)
 colnames(pi.mat) &lt;-
   c(&quot;ID&quot;,&quot;X&#39;X&quot;,&quot;SVD&quot;,&quot;F1&quot;,&quot;F2&quot;,&quot;F3&quot;,&quot;F4&quot;,&quot;F5&quot;,&quot;SFA_Rank5&quot;,names,&quot;ALL&quot;)</code></pre>
+<p>Compute the correlations from the <span class="math inline">\(k=3\)</span> covariance matrix.</p>
+<pre class="r"><code>k        &lt;- 3
+x        &lt;- cov2cor(covmat[[k]])
+x[x &lt; 0] &lt;- 0</code></pre>
 <p>Next, we load the tissue indices and tissue names:</p>
-<pre class="r"><code>k &lt;- 3
-x           &lt;- cov2cor(covmat[[k]])
-x[x &lt; 0]    &lt;- 0
-colnames(x) &lt;- names
+<pre class="r"><code>colnames(x) &lt;- names
 rownames(x) &lt;- names
 h &lt;- read.table(&quot;../output/uk3rowindices.txt&quot;)[,1]</code></pre>
 <p>For the plots of the eigenvectors, we load the colours that are conventionally used to represent the tissues in plots.</p>
