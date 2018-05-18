@@ -47,12 +47,17 @@ colnames(pi.mat) <-
   c("ID","X'X","SVD","F1","F2","F3","F4","F5","SFA_Rank5",names,"ALL")
 ```
 
+Compute the correlations from the $k=3$ covariance matrix.
+
+```{r get-correlations}
+k        <- 3
+x        <- cov2cor(covmat[[k]])
+x[x < 0] <- 0
+```
+
 Next, we load the tissue indices and tissue names:
 
 ```{r load-tissues-names}
-k <- 3
-x           <- cov2cor(covmat[[k]])
-x[x < 0]    <- 0
 colnames(x) <- names
 rownames(x) <- names
 h <- read.table("../output/uk3rowindices.txt")[,1]
