@@ -1,5 +1,5 @@
 ---
-title: "Second covariance component "
+title: "Correlation patterns from second covariance component"
 author: "Sarah Urbut"
 output: workflowr::wflow_html
 ---
@@ -11,7 +11,8 @@ output: html_document
 
 Here we plot the correlation matrix for the second covariance
 component. Its mixture weight isn't quite as high as the [dominant
-covariance matrix](Fig.Uk3.html), but still quite strong.
+covariance matrix](Fig.Uk3.html), but still one of the more
+predominant components.
 
 The plots generated in the code below should be the same or very
 similar to the top-left panel of Supplementary Figure 2.
@@ -53,16 +54,28 @@ Next, we load the tissue indices:
 h <- read.table("../output/uk2rowIndices.txt")[,1]
 ```
 
-```{r corplotuk2,fig.height=10,fig.width=10}
-k=2
-colSums(pi.mat)[k]
+For the plots of the eigenvectors, we load the colours that are
+conventionally used to represent the tissues in plots.
+
+```{r load-tissue-colors}
+missing.tissues <- c(7,8,19,20,24,25,31,34,37)
+color.gtex      <- read.table("../data/GTExColors.txt",sep = '\t',
+                              comment.char = '')[-missing.tissues,]
+```
+
+Compute the correlations from the $k=2$ covariance matrix.
+
+```{r get-correlations}
+k           <- 2
 x           <- cov2cor(covmat[[k]])
 x[x < 0]    <- 0
 colnames(x) <- names
 rownames(x) <- names
 ```
 
-Here we make the lattice plot:
+## Generate heatmap of Uk2 covariance matrix
+
+Now we produce the heatmap showing the full covariance matrix.
 
 ```{r heatmapuk2final,fig.height=10,fig.width=10}
 clrs <- colorRampPalette(rev(c("#D73027","#FC8D59","#FEE090","#FFFFBF",
@@ -74,18 +87,18 @@ print(levelplot(lat[n:1,],col.regions = clrs,xlab = "",ylab = "",
       colorkey = TRUE))
 ```
 
-And the eigenvectors:
+## Plot eigenvectors capturing predominant patterns
 
-```{r eigenplots2}
-missing.tissues=c(7,8,19,20,24,25,31,34,37)
-color.gtex =read.table("../data/GTExColors.txt",sep = '\t',
-             comment.char = '')[-missing.tissues,]
+The eigenvectors capture the predominant patterns in the Uk3
+covariance matrix.
+
+```{r plot-eigenvectors, fig.width = 6, fig.height = 4}
 col = as.character(color.gtex[,2])
 for(g in 1:3){
-v=svd(covmat[[k]])$v[h,];d=svd(covmat[[k]])$d
-par(mar=c(8,4.1,4.1,2.1))
-barplot(v[,g]/v[which.max(abs(v[,g])),g],las=2,
-        main=paste("Eigenvector",g,"of Uk",k),
-        cex.names = 0.5,col=col[h],names=names[h])
+  v=svd(covmat[[k]])$v[h,];d=svd(covmat[[k]])$d
+  par(mar=c(8,4.1,4.1,2.1))
+  barplot(v[,g]/v[which.max(abs(v[,g])),g],las=2,
+          main=paste("Eigenvector",g,"of Uk",k),
+          cex.names = 0.5,col=col[h],names=names[h])
 }
-````
+```

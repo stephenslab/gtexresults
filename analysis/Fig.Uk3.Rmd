@@ -100,7 +100,9 @@ print(levelplot(lat[n:1,],col.regions = clrs,xlab = "",ylab = "",
                 scales = list(cex = 0.6,x = list(rot = 45))))
 ```
 
-The eigenvectors capture the predominant patterns in the UK3
+## Plot eigenvectors capturing predominant patterns
+
+The eigenvectors capture the predominant patterns in the Uk3
 covariance matrix.
 
 ```{r plot-eigenvectors, fig.width = 6, fig.height = 3}
