@@ -4,11 +4,6 @@ author: "Sarah Urbut"
 output: workflowr::wflow_html
 ---
 
----
-title: "StructureEigenUk2"
-output: html_document
----
-
 Here we plot the correlation matrix for the second covariance
 component. Its mixture weight isn't quite as high as the [dominant
 covariance matrix](Fig.Uk3.html), but still one of the more
@@ -24,11 +19,10 @@ knitr::opts_chunk$set(collapse = TRUE, fig.width = 8,
 
 ## Set up environment
 
-First, we load a few packages used in the code chunks below.
+First, we load a couple plotting packages used in the code chunks below.
 
 ```{r load-pkgs, message = FALSE}
 library(lattice)
-library(ggplot2)
 library(colorRamps)
 ```
 
