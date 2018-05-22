@@ -55,8 +55,8 @@ for (i in 1:ncol(lfsr.mash))
     sig.row=which(lfsr.mash[,i]<thresh)
     sig.col=which(lfsr.mash[,j]<thresh)
     a=(union(sig.row,sig.col))
-    quotient=(pm.mash.beta[a,i]/pm.mash.beta[a,j])##divide effect sizes
-    shared.fold.size[i,j]=mean(quotient>0.5&quotient<2)
+    quotient=(pm.mash.beta[a,i]/pm.mash.beta[a,j])
+    shared.fold.size[i,j] = mean(quotient > 0.5 & quotient < 2)
   }
 ```
 

@@ -1,8 +1,7 @@
 ---
-title: "Examples of multi-tissue effects estimated by mash"
+title: "Examples illustrating how mash uses patterns of sharing to inform effect estimates"
 author: "Sarah Urbut"
-date: 2017-05-30
-output: html_document
+output: workflowr::wflow_html
 ---
 
 Having estimated patterns of sharing from the data, mash exploits
@@ -38,9 +37,7 @@ out    <- readRDS("../data/MatrixEQTLSumStats.Portable.Z.rds")
 b.stat <- out$test.b
 z.stat <- out$test.z
 out    <- readRDS(paste("../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3",
-                     "lite.single.expanded.V1.posterior.rds",sep = "."))
-covmat <- readRDS(paste("../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3",
-                        "lite.single.expanded.rds",sep = "."))
+                        "lite.single.expanded.V1.posterior.rds",sep = "."))
 posterior.means <- out$posterior.means
 lfsr            <- out$lfsr
 mar.var         <- out$marginal.var
