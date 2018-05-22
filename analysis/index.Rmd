@@ -214,7 +214,7 @@ for more information.
 Install some packages from CRAN:
 
 ```R
-install.packages("colorRamps","fields","ggplot2")
+# Add commands here to install packages.
 ```
 
 **For convenience, the results needed to generate the figures and
