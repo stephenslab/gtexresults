@@ -1,15 +1,16 @@
 ---
-title: "Please add a more descriptive title"
+title: "Examples of multi-tissue effects estimated by mash"
 author: "Sarah Urbut"
 date: 2017-05-30
 output: html_document
 ---
 
-In this notebook, we make the metaplots comparing the original effect
-estimates (*effects of what?*), and the posterior estimates obtained using 
-the multivariate adaptive shrinkage model. *What is the main result(s) we 
-are showing in this notebook? What is the point of showing these plots.* 
-The plots below were used to create Fig. 4 of the paper.
+Having estimated patterns of sharing from the data, mash exploits
+these patterns to improve effect estimates at each putative eQTL. Here
+we give three examples can provide intuition into the way that mash
+achieves improved accuracy of effect estimation.
+
+Compare the plots against Figure 4 of the paper.
 
 ```{r knitr, message = FALSE, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE,comment = "#",fig.width = 8,
@@ -33,10 +34,11 @@ as some of the results generated from the MASH analysis of the GTEx
 data.
 
 ```{r load-results}
-out <- readRDS(paste("../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3",
+out    <- readRDS("../data/MatrixEQTLSumStats.Portable.Z.rds")
+b.stat <- out$test.b
+z.stat <- out$test.z
+out    <- readRDS(paste("../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3",
                      "lite.single.expanded.V1.posterior.rds",sep = "."))
-b.stat <- read.table("../output/maxbetahats.txt")
-z.stat <- readRDS("../data/MatrixEQTLSumStats.Portable.Z.rds")$test.z
 covmat <- readRDS(paste("../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3",
                         "lite.single.expanded.rds",sep = "."))
 posterior.means <- out$posterior.means
@@ -70,8 +72,16 @@ gtex.colors <- gtex.colors[uk3labels]
 
 ## *MCPH1* gene 
 
-Our first example compares the *MCPH1* original eQTL estimates against 
-the posterior estimates.
+In the first example, the vast majority of effect estimates are
+positive in each tissue, with the strongest signals in a subset of
+brain tissues. Based on the patterns of sharing learned in the first
+step, mash estimates the effects in all tissues to be positive---even
+those with negative observed effects. This is because the few modest
+negative effects at this eQTL are outweighed by the strong background
+information that effects are highly correlated among tissues.
+
+To create the metaplot, we first define a function which we will use
+in this example, and reuse in subsequent examples.
 
 ```{r define-create-metaplot-function}
 create.metaplot <- function (j) {
@@ -103,12 +113,10 @@ create.metaplot <- function (j) {
 }
 ```
 
-*What are the two plots showing? What is interesting about this example?
-What is the take-home message from this plot?*
-
-*Please add labels to the horizontal and vertical axes. Which of these 
-plots shows the original effect estimates, and which shows the posterior 
-("shrunk") estimates?*
+Now create the *MCHP1* metaplot summarizing the eQTL effect
+estimates. The original effect estimates are shown on the left-hand
+side, and the shrunken estimates from mash are shown on the right-hand
+side.
 
 ```{r metaplot-MCPH1, fig.keep = "last"}
 create.metaplot(which(rownames(z.stat) ==
@@ -117,26 +125,27 @@ create.metaplot(which(rownames(z.stat) ==
 
 ## *FLJ13114* gene
 
-*What is interesting about this example?
-What is the take-home message from this plot?*
+In the second example, the effect estimates in non-brain tissues are
+mostly positive, but modest in size, and only one effect is,
+individually, nominally significant. However, combining information
+among tissues, mash effect estimates in non-brain tissues are all
+positive, and mostly "significant".
 
 ```{r metaplot-FLJ13114}
-five.ex <- which(rownames(z.stat) == "ENSG00000120029.8_10_103924251_G_A_b37")
-
-# This line of code doesn't seem to do anything. Why is it included?
-testes.spec <-  which(rowSums(pm.beta.norm[,-40]<0.5) == 43 &
-                    (rowSums(lfsr[,1:44]<0.05)>=40))[1:10]
-
-newfunc.2(five.ex)
+create.metaplot(which(rownames(z.stat) ==
+  "ENSG00000120029.8_10_103924251_G_A_b37"))
 ```
  
 ## *RALBP1* gene
 
-*What is interesting about this example?
-What is the take-home message from this plot?*
+In this example, the effect estimates vary in sign, and are modest
+except for a very strong signal in whole blood. While
+whole-blood-specific effects are estimated to be rare, mash recognizes
+that the strong data at this eQTL outweigh this background
+information, and estimates a strong effect in blood with insignificant
+effects in other tissues.
 
-```{r metaplot_RALBP1}
-wholebloodfour <- 
-  (which(rownames(z.stat) == "ENSG00000017797.7_18_9488704_C_T_b37"))
-newfunc.2(wholebloodfour)
+```{r metaplot-RALBP1}
+create.metaplot(which(rownames(z.stat) ==
+  "ENSG00000017797.7_18_9488704_C_T_b37"))
 ```
