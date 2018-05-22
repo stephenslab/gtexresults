@@ -22,29 +22,32 @@ First, we load the rmeta package, as well as some functions defined
 for MASH analyses.
 
 ```{r load-pkgs, message = FALSE}
-source("../workflow/normfuncs.R")
+source("../workflows/normfuncs.R")
 library(rmeta)
 ```
 
 ## Load data and MASH results
 
-*Please explain here what this next code chunk does. It looks like it is
-reading a bunch of data files. What data are being loaded?*
+In the next code chunk, we load some GTEx summary statistics, as well
+as some of the results generated from the MASH analysis of the GTEx
+data.
 
-```{r load-data}
-b.stat <- read
+```{r load-results}
+out <- readRDS(paste("../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3",
+                     "lite.single.expanded.V1.posterior.rds",sep = "."))
+b.stat <- read.table("../output/maxbetahats.txt")
 z.stat <- readRDS("../data/MatrixEQTLSumStats.Portable.Z.rds")$test.z
-standard.error <- b.stat/z.stat
 covmat <- readRDS(paste("../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3",
                         "lite.single.expanded.rds",sep = "."))
-b.stat          <- read.table("../output/maxbetahats.txt")
-posterior.means <- read.table("../output/withvhatposterior.means.txt")[,-1]
-lfsr            <- read.table("../output/withvhatlfsr.txt")[,-1]
-mar.var         <- read.table("../output/withvhatmarginal.var.txt")[,-1]
+posterior.means <- out$posterior.means
+lfsr            <- out$lfsr
+mar.var         <- out$marginal.var
+rm(out)
 colnames(lfsr)  <-
   colnames(mar.var) <- 
   colnames(posterior.means) <- 
   colnames(z.stat)
+standard.error  <- b.stat/z.stat
 posterior.betas <- standard.error * posterior.means
 pm.beta.norm    <- het.norm(posterior.betas)
 ```
@@ -53,23 +56,30 @@ Load the tissue indices:
 
 ```{r load-tissues-names}
 missing.tissues <- c(7,8,19,20,24,25,31,34,37)
-uk3labels       <- read.table("../Data/uk3rowindices.txt")[,1]
+uk3labels       <- read.table("../output/uk3rowindices.txt")[,1]
 ```
 
-*In this next chunk you are defining a function. Can you briefly explain
-in 1-2 sentences what this function does, and how you will use it in the code
-chunks below?*
+For the plots of the eigenvectors, we load the colours that are
+conventionally used to represent the tissues in plots.
+
+```{r load-tissue-colors}
+gtex.colors <- read.table('../data/GTExColors.txt', sep = '\t', 
+                          comment.char = '')[-missing.tissues,2]
+gtex.colors <- gtex.colors[uk3labels]
+```
+
+## *MCPH1* gene 
+
+Our first example compares the *MCPH1* original eQTL estimates against 
+the posterior estimates.
 
 ```{r define-create-metaplot-function}
 create.metaplot <- function (j) {
-  gtex.colors <- read.table('../Data/GTExColors.txt', sep = '\t', 
-                            comment.char = '')[-missing.tissues,2]
-  gtex.colors <- gtex.colors[uk3labels]
 
   pm.beta.norm  <- pm.beta.norm[,uk3labels] # Shuffle columns.
   z.shuffle     <- z.stat[,uk3labels]
   b.shuffle     <- b.stat[,uk3labels]
-  post.var      <- mar.var[uk3labels]
+  post.var      <- mar.var[,uk3labels]
   post.bshuffle <- posterior.betas[,uk3labels]
   sem.shuffle   <- standard.error[,uk3labels]
   lfsr          <- lfsr[,uk3labels]
@@ -93,11 +103,6 @@ create.metaplot <- function (j) {
 }
 ```
 
-## *MCPH1* gene 
-
-Our first example compares the *MCPH1* original eQTL estimates against 
-the posterior estimates.
-
 *What are the two plots showing? What is interesting about this example?
 What is the take-home message from this plot?*
 
@@ -105,14 +110,9 @@ What is the take-home message from this plot?*
 plots shows the original effect estimates, and which shows the posterior 
 ("shrunk") estimates?*
 
-```{r metaplot_MCPH1, fig.keep = "last"}
-three.ex.3 <- 
-  which(rownames(z.stat) == "ENSG00000249898.3_8_6521432_T_C_b37")
-newfunc.2(three.ex.3)
-
-# This line of code doesn't seem to do anything. Why is it included?
-whole.blood.spec <-  
-  which(rowSums(pm.beta.norm[,-44]<0.5)==43&(rowSums(lfsr[,1:44]<0.05)>=40))
+```{r metaplot-MCPH1, fig.keep = "last"}
+create.metaplot(which(rownames(z.stat) ==
+  "ENSG00000249898.3_8_6521432_T_C_b37"))
 ```
 
 ## *FLJ13114* gene
@@ -120,7 +120,7 @@ whole.blood.spec <-
 *What is interesting about this example?
 What is the take-home message from this plot?*
 
-```{r metaplot_FLJ13114}
+```{r metaplot-FLJ13114}
 five.ex <- which(rownames(z.stat) == "ENSG00000120029.8_10_103924251_G_A_b37")
 
 # This line of code doesn't seem to do anything. Why is it included?
