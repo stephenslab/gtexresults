@@ -1,41 +1,52 @@
 ---
-title: "SharingbySign"
-output: pdf_document
+title: "Pairwise sharing by sign of eQTLs among tissues"
+author: "Sarah Urbut"
+output: workflowr::wflow_html
 ---
 
+The plot generated here summarizes eQTL sharing by sign between all
+pairs of tissues. Compare against Supplementary Figure 4 of the paper.
 
-Perform the analysis with global, showing the proportion of signficiatn eQTL that have the same sign.
-
-```{r setup, include=FALSE}
-library('knitr')
-knitr::opts_chunk$set(cache=TRUE)
-#opts_chunk$set(fig.path = "/Users/sarahurbut/Dropbox/PaperEdits/Paper/NGRevision/Figureswithres/") 
+```{r knitr, message = FALSE, echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, fig.width = 8,
+                      fig.height = 4,fig.align = "center")
 ```
 
-```{r loaddata,echo=F}
-library(gplots)
-library(ggplot2)
+## Set up environment
 
+First, we load the lattice package used for generating the plot below.
 
-pm.mash=as.matrix(read.table("../../Data_vhat/withvhatposterior.means.txt")[,-1])
-lfsr.all=read.table("../../Data_vhat/withvhatlfsr.txt")[,-1]
-
-maxb=read.table("../../Data/maxbetahats.txt")
-maxz=read.table("../../Data/maxz.txt")
-
-standard.error=maxb/maxz
-#pm.mash=as.matrix(read.table("../../Dropbox/Aug12/Aug13withEDposterior.means.txt")[,-1])
-
-pm.mash.beta=pm.mash*standard.error
-
+```{r load-pkgs, message = FALSE}
+library(lattice)
 ```
 
-```{r generate matrix,echo=F}
+## Load data and MASH results
+
+In the next code chunk, we load some GTEx summary statistics, as well
+as some of the results generated from the MASH analysis of the GTEx
+data.
+
+```{r load-results}
+out      <- readRDS("../data/MatrixEQTLSumStats.Portable.Z.rds")
+maxb     <- out$test.b
+maxz     <- out$test.z
+out      <-readRDS(paste("../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3",
+                         "lite.single.expanded.V1.posterior.rds",sep = "."))
+pm.mash  <- out$posterior.means
+lfsr.all <- out$lfsr
+standard.error <- maxb/maxz
+pm.mash.beta <- pm.mash*standard.error
+```
+
+## Compute sharing-by-sign statistics
+
+For each pair of tissues, compute the estimated proportion of eQTLs
+that have effect sizes that are the same sign.
+
+```{r generate-matrix}
 thresh=0.05
-
 pm.mash.beta=pm.mash.beta[rowSums(lfsr.all<0.05)>0,]
 lfsr.mash=lfsr.all[rowSums(lfsr.all<0.05)>0,]
-
 shared.fold.size=matrix(NA,nrow = ncol(lfsr.mash),ncol=ncol(lfsr.mash))
 colnames(shared.fold.size)=rownames(shared.fold.size)=colnames(maxz)
 for(i in 1:ncol(lfsr.mash)){
@@ -43,55 +54,26 @@ for(i in 1:ncol(lfsr.mash)){
     sig.row=which(lfsr.mash[,i]<thresh)
     sig.col=which(lfsr.mash[,j]<thresh)
     a=(union(sig.row,sig.col))
-    #a=(intersect(sig.row,sig.col))
-    #quotient=abs(pm.mash.beta[a,i]/pm.mash.beta[a,j])
-    quotient=(pm.mash.beta[a,i]/pm.mash.beta[a,j])##divide effect sizes
-    ##divide effect sizes
-    shared.fold.size[i,j]=mean(quotient>0)
-   
-  }}
-
-````
-
-
-
-```{r sharingbysigndiagonalcorrplot,echo=F}
-library('colorRamps')
-library('corrplot')
-missing.tissues=c(7,8,19,20,24,25,31,34,37)
-color.gtex=read.table("../../Data/GTExColors.txt",sep = '\t', comment.char = '')[-missing.tissues,]
-col = as.character(color.gtex[,2])
-
-
-
-
+    quotient=(pm.mash.beta[a,i]/pm.mash.beta[a,j])
+    shared.fold.size[i,j]=mean(quotient > 0)
+  }
+}
 ```
 
-Generate plott with lattice:
+## Plot heatmap of sharing by sign
 
-```{r heatmap2sharingsign,echo=F,fig.height=10,fig.width=10}
-all.tissue.order=read.table("../../Data/alltissueorder.txt")[,1]
+Generate the heatmap using the "levelplot" function from the lattice
+package.
 
-
-h=all.tissue.order
-
-library(lattice)
-
-#print(levelplot(smat,col.regions = jet.colors,xlab = "",ylab = "",colorkey = TRUE))
-
-
-
-#clrs <- colorRampPalette(rev(c("purple","#FC8D59","#FEE090","#FFFFBF","#E0F3F8","#91BFDB","#4575B4")))(64)
-
+```{r heatmap-sharing-sign, fig.height=10, fig.width=10}
+all.tissue.order = read.table("../output/alltissueorder.txt")[,1]
 clrs <- colorRampPalette(rev(c("#D73027","#FC8D59","#FEE090","#FFFFBF",
                                "#E0F3F8","#91BFDB","#4575B4")))(64)
-#clrs[63:64] <- "darkviolet"
-
-
 lat=shared.fold.size[rev(all.tissue.order),rev(all.tissue.order)]
 lat[lower.tri(lat)] <- NA
 n=nrow(lat)
-print(levelplot(lat[n:1,],col.regions = clrs,xlab = "",ylab = "",colorkey = TRUE))
+print(levelplot(lat[n:1,],col.regions = clrs,xlab = "",ylab = "",
+      colorkey = TRUE))
 ```
 
 
