@@ -60,6 +60,8 @@ for (i in 1:ncol(lfsr.mash))
   }
 ```
 
+## Plot heatmap of sharing by magnitude
+
 Generate the heatmap using the "levelplot" function from the lattice
 package.
 
