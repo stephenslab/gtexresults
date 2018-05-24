@@ -10,10 +10,15 @@ Specifically, we take genes with tissue-specific eQTLs, and examine
 the distribution of expression in the eQTL-affected tissue relative to
 expression in other tissues.
 
+```{r knitr, message = FALSE, echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, fig.width = 8,
+                      fig.height = 4,fig.align = "center")
+```
+
 ## Load data and MASH results
 
-In the next code chunk, we load some GTEx summary statistics ( average
-gene expression values and z-scores), as well as some of the results
+In the next code chunk, we load some GTEx summary statistics (average
+gene expression values and *z*-scores), as well as some of the results
 generated from the MASH analysis of the GTEx data.
 
 Expression is here defined as median across individuals of the log
