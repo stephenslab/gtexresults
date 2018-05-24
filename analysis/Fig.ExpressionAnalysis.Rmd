@@ -11,7 +11,7 @@ the distribution of expression in the eQTL-affected tissue relative to
 expression in other tissues.
 
 ```{r knitr, message = FALSE, echo = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, fig.width = 8,
+knitr::opts_chunk$set(collapse = TRUE, fig.width = 5.5,
                       fig.height = 4,fig.align = "center",
                       comment = "#")
 ```
