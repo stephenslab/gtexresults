@@ -12,7 +12,8 @@ expression in other tissues.
 
 ```{r knitr, message = FALSE, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, fig.width = 8,
-                      fig.height = 4,fig.align = "center")
+                      fig.height = 4,fig.align = "center",
+                      comment = "#")
 ```
 
 ## Load data and MASH results
