@@ -41,22 +41,7 @@ exp.sort           <- expr.sort[,-missing.tissues]
 colnames(exp.sort) <- colnames(maxz)
 ```
 
-
-
 ```{r definefunc}
-plot_tissuespecific = function(tissuename,lfsr,curvedata,title,
-                      thresh = 0.05,subset = 1:44) {
-  index_tissue=which(colnames(lfsr) %in% tissuename);
-  ybar=title
-  ##create a matrix showing whether or not lfsr satisfies threshold
-  sigmat = lfsr <= thresh;
-  sigs=which(rowSums(sigmat[,index_tissue,drop=FALSE])==length(tissuename) &
-             rowSums(sigmat[,-index_tissue,drop=FALSE])==0)
-  sigs.it=which(lfsr[sigs,index_tissue]<thresh)
-  iplotCurves(curvedata[sigs,subset],chartOpts=list(curves_xlab="Tissue",
-              curves_ylab=ybar))
-}
-
 plot_tissuespecifictwo = function(tissuename,lfsr,ymax,curvedata,title,
                                   thresh=0.05,subset=1:44,exclude=0.01) {
   index_tissue=which(colnames(lfsr) %in% tissuename);
@@ -81,12 +66,12 @@ plot_tissuespecifictwo = function(tissuename,lfsr,ymax,curvedata,title,
   }
 
 plot_tissuespecificthree = function(tissuename,lfsr,ymax,curvedata,title,
-                                     thresh=0.05,subset=1:44,exclude=0.01) {
+                                    thresh=0.05,subset=1:44,exclude=0.01) {
   index_tissue=which(colnames(lfsr) %in% tissuename);
   ybar=title
   
-  ##create a matrix showing whether or not lfsr satisfies threshold
-  sigmat = lfsr <= thresh;
+  # Create a matrix showing whether or not lfsr satisfies threshold.
+  sigmat = lfsr <= thresh
   sigs=which(rowSums(sigmat[,index_tissue,drop=FALSE])==length(tissuename) &
              rowSums(sigmat[,-index_tissue,drop=FALSE])==0)
   norm.spec=ecdf(curvedata[sigs,index_tissue])
@@ -102,17 +87,6 @@ plot_tissuespecificthree = function(tissuename,lfsr,ymax,curvedata,title,
 
 Here we compare quantiles and plot data:
 
-Thyroid:
-
-```{r thyroid}
-plot_tissuespecifictwo(tissuename = "Thyroid",lfsr = lfsr,
-                       curvedata = log(exp.sort),title = "Test",
-                       thresh = 0.05,ymax=0.5 )
-plot_tissuespecificthree(tissuename = "Thyroid",lfsr = lfsr,
-                         curvedata = log(exp.sort),title = "Test",
-                         thresh = 0.05,ymax=1 )
-```
-
 Testis:
 
 ```{r testis}
@@ -122,6 +96,17 @@ plot_tissuespecifictwo(tissuename = "Testis",lfsr = lfsr,
 plot_tissuespecificthree(tissuename = "Testis",lfsr = lfsr,
                          curvedata = log(exp.sort),title = "Test",
                          thresh = 0.05 ,ymax=1)
+```
+
+Thyroid:
+
+```{r thyroid}
+plot_tissuespecifictwo(tissuename = "Thyroid",lfsr = lfsr,
+                       curvedata = log(exp.sort),title = "Test",
+                       thresh = 0.05,ymax = 0.5)
+plot_tissuespecificthree(tissuename = "Thyroid",lfsr = lfsr,
+                         curvedata = log(exp.sort),title = "Test",
+                         thresh = 0.05,ymax = 1)
 ```
 
 Whole Blood:
@@ -135,7 +120,7 @@ plot_tissuespecificthree(tissuename = "Whole_Blood",lfsr = lfsr,
                          thresh = 0.05 ,ymax=1)
 ```
 
-Muscle_Skeletal:
+fibroblasts:
 
 ```{r ctf}
 plot_tissuespecifictwo(tissuename = "Cells_Transformed_fibroblasts",

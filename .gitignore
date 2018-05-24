@@ -5,3 +5,5 @@
 **/.ipynb_checkpoints
 **/__pycache__
 
+## Default pipeline output
+gtex6_workflow_output

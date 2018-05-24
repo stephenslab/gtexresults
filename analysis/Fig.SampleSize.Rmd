@@ -29,7 +29,6 @@ data=read.csv("../data/ExprSampleSize.csv.gz",header = TRUE)
 rownames(data)=data[,1]
 expr.data=data[,-1]
 expr.sort=expr.data[rownames(expr.data)%in%qtl.names,]
-
 a=match(qtl.names,rownames(expr.sort))
 expr.sort=expr.sort[a,]
 missing.tissues=c(7,8,19,20,24,25,31,34,37)
