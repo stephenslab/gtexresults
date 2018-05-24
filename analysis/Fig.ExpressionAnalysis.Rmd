@@ -1,22 +1,23 @@
 ---
-title: "Add appropriate title here"
+title: "Comparison of genes with tissue-specific eQTLs against other genes"
 author: "Sarah Urbut"
 output: workflowr::wflow_html
 ---
 
-*Add text here.*
-
-## Set up environment
-
-```{r load-pkgs, message = FALSE}
-# library('qtlcharts')
-```
+In this analysis, we assess whether tissue-specific eQTLs we
+identified can be explained by tissue-specific expression.
+Specifically, we take genes with tissue-specific eQTLs, and examine
+the distribution of expression in the eQTL-affected tissue relative to
+expression in other tissues.
 
 ## Load data and MASH results
 
-In the next code chunk, we load some GTEx summary statistics (e.g.,
-average gene expression values, z scores), as well as some of the results
+In the next code chunk, we load some GTEx summary statistics ( average
+gene expression values and z-scores), as well as some of the results
 generated from the MASH analysis of the GTEx data.
+
+Expression is here defined as median across individuals of the log
+Reads per Kilobase Mapped (RPKM).
 
 ```{r load-results}
 data <- read.csv("../data/AvgExpr.csv.gz",header = TRUE)
@@ -41,7 +42,12 @@ exp.sort           <- expr.sort[,-missing.tissues]
 colnames(exp.sort) <- colnames(maxz)
 ```
 
-```{r definefunc}
+## Define plotting functions
+
+Here we define a couple functions used to compare the densities and
+CDFs of gene expression levels.
+
+```{r define-plotting-functions}
 plot_tissuespecifictwo = function(tissuename,lfsr,ymax,curvedata,title,
                                   thresh=0.05,subset=1:44,exclude=0.01) {
   index_tissue=which(colnames(lfsr) %in% tissuename);
@@ -85,9 +91,11 @@ plot_tissuespecificthree = function(tissuename,lfsr,ymax,curvedata,title,
   } 
 ```
 
-Here we compare quantiles and plot data:
+## Distribution of expression levels in testis
 
-Testis:
+The two plots below compare the densities and cumulative distribution
+functions of the expression levels for all genes (black), and for
+genes identified as having a “tissue-specific” eQTL (red) in testis.
 
 ```{r testis}
 plot_tissuespecifictwo(tissuename = "Testis",lfsr = lfsr,
@@ -98,7 +106,11 @@ plot_tissuespecificthree(tissuename = "Testis",lfsr = lfsr,
                          thresh = 0.05 ,ymax=1)
 ```
 
-Thyroid:
+The distribution functions are reasonably similar.
+
+## Distribution of expression levels in thyroid
+
+Next we show the same two plots for thyroid.
 
 ```{r thyroid}
 plot_tissuespecifictwo(tissuename = "Thyroid",lfsr = lfsr,
@@ -109,9 +121,11 @@ plot_tissuespecificthree(tissuename = "Thyroid",lfsr = lfsr,
                          thresh = 0.05,ymax = 1)
 ```
 
-Whole Blood:
+## Distribution of expression levels in whole blood
 
-```{r wholeblood}
+Next, we look at the distributions in whole blood cells.
+
+```{r whole-blood}
 plot_tissuespecifictwo(tissuename = "Whole_Blood",lfsr = lfsr,
                        curvedata = log(exp.sort),title = "Test",
                        thresh = 0.05,ymax=0.5)
@@ -120,9 +134,11 @@ plot_tissuespecificthree(tissuename = "Whole_Blood",lfsr = lfsr,
                          thresh = 0.05 ,ymax=1)
 ```
 
-fibroblasts:
+## Distribution of expression levels in fibroblasts
 
-```{r ctf}
+Finally, we examine the gene expression distributions in fibroblasts.
+
+```{r fibroblasts}
 plot_tissuespecifictwo(tissuename = "Cells_Transformed_fibroblasts",
                        lfsr = lfsr,curvedata = log(exp.sort),title = "Test",
                        thresh = 0.05,ymax=0.5)
@@ -130,3 +146,7 @@ plot_tissuespecificthree(tissuename = "Cells_Transformed_fibroblasts",
                         lfsr = lfsr,curvedata = log(exp.sort),title = "Test",
                         thresh = 0.05 ,ymax=1)
 ```
+
+In each case, the distribution functions are similar.  This tells us
+that tissue-specific eQTLs are not simply reflecting tissue-specific
+expression.
