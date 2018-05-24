@@ -12,8 +12,9 @@ achieves improved accuracy of effect estimation.
 Compare the plots against Figure 4 of the paper.
 
 ```{r knitr, message = FALSE, echo = FALSE}
-knitr::opts_chunk$set(collapse = TRUE,comment = "#",fig.width = 8,
-                      fig.height = 4,fig.align = "center")
+knitr::opts_chunk$set(collapse = TRUE, fig.width = 8,
+                      fig.height = 4,fig.align = "center",
+                      comment = "#")
 ```
 
 ## Set up environment

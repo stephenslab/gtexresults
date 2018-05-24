@@ -17,7 +17,8 @@ closely reproduce Figure 3 of the paper.
 
 ```{r knitr, message = FALSE, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, fig.width = 8,
-                      fig.height = 4,fig.align = "center")
+                      fig.height = 4,fig.align = "center",
+                      comment = "#")
 ```
 
 ## Set up environment
