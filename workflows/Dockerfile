@@ -65,5 +65,11 @@ ENV FLASHR_VERSION 0.5-6
 RUN Rscript -e 'devtools::install_github("stephenslab/flashr@v'${FLASHR_VERSION}'")' \
     && rm -rf *
 
+# https://stat.ethz.ch/R-manual/R-devel/library/base/html/Startup.html
+# If you want ‘~/.Renviron’ or ‘~/.Rprofile’ to be ignored by child R processes (such as those run by R CMD check and R CMD build), set the appropriate environment variable R_ENVIRON_USER or R_PROFILE_USER to (if possible, which it is not on Windows) "" or to the name of a non-existent file.
+
+ENV R_ENVIRON_USER ""
+ENV R_PROFILE_USER ""
+
 # Default command.
 CMD ["bash"]
