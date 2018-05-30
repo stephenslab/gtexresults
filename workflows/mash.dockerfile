@@ -50,12 +50,12 @@ RUN curl -L https://github.com/stephenslab/mashr-paper/archive/v${PAPER_VERSION}
 ENV MASHR_VERSION 0.2-9
 RUN Rscript -e 'devtools::install_github("stephenslab/mashr@v'${MASHR_VERSION}'")' \
     && rm -rf *
-RUN install.R mclust plyr
 
 # Install flashr.
 ENV FLASHR_VERSION 0.5-6
 RUN Rscript -e 'devtools::install_github("stephenslab/flashr@v'${FLASHR_VERSION}'")' \
     && rm -rf *
+RUN install.R mclust plyr
 
 # Install SoS for workflow execution.
 RUN pip install --no-cache-dir sos sos-notebook jupyter_contrib_nbextensions && rm -rf $HOME/.cache
