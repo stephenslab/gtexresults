@@ -10,19 +10,11 @@ MAINTAINER Gao Wang, gaow@uchicago.edu
 ENV PATH /opt/mosek/8/tools/platform/linux64x86/bin:$PATH
 WORKDIR /tmp
 
-# Install OpenMP, ATLAS, GSL and HDF5 library.
+# Install GSL (for SFA)
 RUN apt-get update \
-  && apt-get -y install libgomp1 libgsl-dev libgsl2 libatlas3-base hdf5-tools \
+  && apt-get -y install libgsl-dev libgsl2 \
   && apt-get autoclean \
   && rm -rf /var/lib/apt/lists/* /var/log/dpkg.log
-
-# Install R HDF5 library "rhdf5".
-RUN Rscript -e 'source("https://bioconductor.org/biocLite.R"); biocLite("rhdf5", suppressUpdates=TRUE)' \
-    && rm -rf *
-
-# Install Python HDF5 library "pytables".
-# Install SoS for workflow execution.
-RUN pip install --no-cache-dir tables sos sos-notebook jupyter_contrib_nbextensions && rm -rf $HOME/.cache
 
 # Install MOSEK, Rmosek and REBayes (to set up running the analysis
 # with the new mashr package).
@@ -64,6 +56,9 @@ RUN install.R mclust plyr
 ENV FLASHR_VERSION 0.5-6
 RUN Rscript -e 'devtools::install_github("stephenslab/flashr@v'${FLASHR_VERSION}'")' \
     && rm -rf *
+
+# Install SoS for workflow execution.
+RUN pip install --no-cache-dir sos sos-notebook jupyter_contrib_nbextensions && rm -rf $HOME/.cache
 
 # Default command.
 CMD ["bash"]
