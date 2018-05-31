@@ -1,0 +1,3 @@
+This folder contains source code (SoS workflows) and Docker
+configuration files ("Dockerfiles") to implement a data processing
+pipeline for mash, and an end-to-end analysis of the GTEx data.

@@ -1,0 +1,8 @@
+---
+title: "MASH analysis of GTEx data"
+author: "Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens"
+site: workflowr::wflow_site
+output:
+  workflowr::wflow_html:
+    toc: false
+---
