@@ -1,9 +1,7 @@
-## R project files
-
-## Workflow related
+# workflow files
 **/.sos
 **/.ipynb_checkpoints
 **/__pycache__
 
-## Default pipeline output
-gtex6_workflow_output
+# workflow outputs
+output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3.lite.single.expanded.V1.loglik.rds
