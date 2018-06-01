@@ -16,9 +16,6 @@ If you find a bug, please post an
 To reproduce the results of Urbut, Wang & Stephens (2017), please
 follow these instructions.
 
-For more information, please see the
-[README](https://github.com/stephenslab/gtexresults).
-
 The complete analyses require installation of several programs and
 libraries, and requires several large data sets. To facilitate 
 reproducing our results, we provide pre-processed data for use with 
@@ -38,13 +35,6 @@ For details on how the Docker image was configured, see the
 analyses is based on
 [gaow/lab-base](https://hub.docker.com/r/gaow/lab-base), a Docker
 image for development with R and Python.
-
-If you prefer to run the analyses without Docker, *add a few details
-about where you can find out more about software and libraries used,
-and other computing environment setup steps (mention Python 3.x, R, SFA,
-ExtremeDeconvolution, MOSEK, OpenMP, MKL, GSL, HDF5 tools,
-pytables rhdf5, and for an improved MASH implementation mashr is also
-installed).*
 
 ## 1. Download and install Docker
 

@@ -10,9 +10,9 @@ navbar:
     - text: mashr
       href: https://github.com/stephenslab/mashr
     - text: Fastqtl to mash
-      href: fastqtl2mash.Rmd
+      href: fastqtl2mash.html
     - text: GTEx analysis
-      href: gtex.Rmd
+      href: gtex.html
   right:
     - text: source
       href: https://github.com/stephenslab/gtexresults
