@@ -11,11 +11,11 @@ output:
 
 We provide code to convert association statistics in
 [FastQTL][fastqtl] format, or a format similar to FastQTL, to a format
-that is more convenient for mash analysis. This code was used to
-generate data file `MatrixEQTLSumStats.Portable.Z.rds` in the
+that is more suited for analysis with mash. This code was used to
+generate `MatrixEQTLSumStats.Portable.Z.rds` in the
 [git repository][gtexresults] from the SNP-gene association statistics
-included as part of Release 6 of the [GTEx Project][gtex]
-(`GTEx_Analysis_V6_all-snp-gene-associations.tar`).
+included as part of Release 6 of the [GTEx Project][gtex] (the source
+file was named `GTEx_Analysis_V6_all-snp-gene-associations.tar`).
 
 Here we give instructions for using this code, and demonstrate how to
 convert a toy FastQTL data set. This toy data set is included in the
@@ -128,10 +128,10 @@ All the commands below will be run from this directory.
 
 ## Convert eQTL summary statistics
 
-Next, we will use the `fastqtl_to_mash.ipynb` source code in the
-`workflows` directory to convert the toy data set in FastQTL format to
-the mash format. The toy data are stored in the `data/fastqtl`
-subdirectory of the git repository.
+Next, use the `fastqtl_to_mash.ipynb` code in the `workflows`
+directory to convert the toy data set in FastQTL format to the mash
+format. The toy data are stored in the `data/fastqtl` subdirectory of
+the git repository.
 
 Having followed the above steps to set up the Docker container on your
 computer, the data conversion can be carried out with the following
@@ -143,9 +143,23 @@ fastqtl2mash-docker sos run workflows/fastqtl_to_mash.ipynb \
   --gene_list data/fastqtl/GTEx_genes.txt
 ```
 
-*Add information here about the expected outputs.*
+If successful, this command will write several files to a newly
+created directory, `fastqtl_to_mash_output`. The file
+`FastQTLSumStats.mash.rds` contains the eQTL summary statistics in an
+RDS file, which is easily loaded into R; see `help(readRDS)` in R for
+detailsf. For more information about the contents of this file, and
+how they can be provided as input to the mash methods using the
+`set_mash_data` function, see the documentation inside the
+[fastqtl2mash notebook][fastqtl2mash-notebook] and the vignettes in
+the [mashr package][mashr].
 
-## More usage notes
+## Additional usage notes
+
++ All containers that have run and exited will still be retained in
+the Docker system. Run `docker container list --all` to list all
+previous run containers. To clear these previously run containers, run
+`docker container prune`. See [here][docker-prune] for more
+information.
 
 + The conversion procedure has several options which were not
 illustrated in the example above. View the `fastqtl_to_mash.ipynb`
@@ -153,15 +167,16 @@ file in Jupyter, or in your Web browser
 [here][fastqtl2mash-notebook], for more details about the available
 options and other usage information.
 
-+ In practice for GTEx data the conversion is computationally intensive
-and is best done on a cluster environment with configurations to run
-the workflow across different compute nodes. See
++ Converting the full GTEx data set is computationally intensive and
+is best done in high-performance computing environment with
+configurations to run the workflow across different compute nodes. See
 [here][sos-cluster-info] for details.
 
 [gtex]: http://gtexportal.org
 [gtexresults]: https://github.com/stephenslab/gtexresults
 [issues]: https://github.com/stephenslab/gtexresults/issues
 [fastqtl]: http://fastqtl.sourceforge.net
+[mashr]: https://github.com/stephenslab/mashr
 [docker-lab-base]: https://hub.docker.com/r/gaow/lab-base
 [docker-overview]: https://docs.docker.com/engine/docker-overview
 [docker-download]: https://docs.docker.com/install
@@ -169,6 +184,7 @@ the workflow across different compute nodes. See
 [docker-getting-started]: https://docs.docker.com/get-started
 [docker-hdf5tools]: https://hub.docker.com/r/gaow/hdf5tools
 [singularity]: https://singularity.lbl.gov/docs-docker
+[docker-prune]: https://stackoverflow.com/questions/17014263/should-i-be-concerned-about-excess-non-running-docker-containers
 [docker-daemon-linux]: https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo
 [docker-daemon-mac]: https://github.com/wodby/docker4drupal/issues/15
 [sos-cluster-info]: https://vatlab.github.io/sos-docs/doc/documentation/Remote_Execution.html
