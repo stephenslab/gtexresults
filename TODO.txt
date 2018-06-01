@@ -1,5 +1,0 @@
-to do
-=====
-
-* Add information to README about computing environment used to
-  run/test code.

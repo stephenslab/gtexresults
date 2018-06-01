@@ -1,5 +1,5 @@
 ---
-title: "Converting "
+title: "Converting FastQTL results to mash format"
 author: "Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens"
 site: workflowr::wflow_site
 output: workflowr::wflow_html
@@ -7,13 +7,14 @@ output: workflowr::wflow_html
 
 ## Overview
 
-Follow these instructions to convert summary statistics in
-[FastQTL][fastqtl] format, or a format similar to FastQTL
+We provide code to convert association statistics in
+[FastQTL][fastqtl] format, or a format similar to FastQTL, to a format
+that is more convenient for mash analysis. Here we give instructions
+for using this code, and demonstrate how to convert a toy FastQTL data
+set. This toy data set is included in the git repository.
 
-[fastqtl]: http://fastqtl.sourceforge.net/
-
-If you find a bug, please post an
-[issue](https://github.com/stephenslab/gtexresults/issues).
+If you find a bug in any of these steps, please post an
+[issue][issues].
 
 ## Converting eQTL summary statistics to MASH format
 
@@ -53,4 +54,6 @@ In practice for GTEx data the conversion is computationally intensive
 and is best done on a cluster environment with
 [configurations to run the workflow across different nodes](https://vatlab.github.io/sos-docs/doc/documentation/Remote_Execution.html).
 
+[issues]: https://github.com/stephenslab/gtexresults/issues
+[fastqtl]: http://fastqtl.sourceforge.net
 
