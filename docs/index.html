@@ -174,12 +174,18 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">MASH analysis of GTEx</a>
+      <a class="navbar-brand" href="index.html">mash code resources</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
   <a href="index.html">Overview</a>
+</li>
+<li>
+  <a href="fastqtl2mash.Rmd">Fastqtl to mash</a>
+</li>
+<li>
+  <a href="gtex.Rmd">GTEx analysis</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -223,7 +229,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/fbc54f180666afa8a8abe18aa0388fa6651e34a0" target="_blank">fbc54f1</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/515985c0b3e552cc26f4c1ab92c0cd8b311a11ea" target="_blank">515985c</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -234,11 +240,13 @@ Ignored files:
     Ignored:    workflows/.sos/
 
 Untracked files:
+    Untracked:  analysis/.#index.Rmd
     Untracked:  analysis/fastqtl2mash.Rmd
     Untracked:  gtex6_workflow_output/
     Untracked:  output/README
 
 Unstaged changes:
+    Modified:   analysis/_site.yml
     Modified:   analysis/gtex.Rmd
 
 </code></pre>
@@ -268,6 +276,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/515985c0b3e552cc26f4c1ab92c0cd8b311a11ea/analysis/index.Rmd" target="_blank">515985c</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-01
+</td>
+<td style="text-align:left;">
+wflow_publish(“index.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/dad17f3bdf40ab20a7db6983db822a660726166a/docs/index.html" target="_blank">dad17f3</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-01
+</td>
+<td style="text-align:left;">
+This is a new, pared-down version of the home page.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -517,19 +559,16 @@ Moved doc to docs.
 <blockquote>
 <p>Sarah M. Urbut, Gao Wang and Matthew Stephens (2017). <em>Flexible statistical methods for estimating and testing effects in genomic studies with multiple conditions.</em> bioRxiv <a href="http://dx.doi.org/10.1101/096552">doi:10.1101/096552</a>.</p>
 </blockquote>
-<p>We provide three sets of resources:</p>
+<p>We provide three sets of code resources:</p>
 <ol style="list-style-type: decimal">
-<li><p>If you are primarily interested in applying multivariate adaptive shrinkage (<em>mash</em>) methods to your own data, please see the <a href="https://github.com/stephenslab/mashr">mashr repository</a>.</p></li>
-<li><p>If you are working with association statistics from the <a href="http://gtexportal.org">GTEx study</a>, or a similar data set, please see here for our code to convert association statistics in the <a href="http://fastqtl.sourceforge.net">FastQTL</a> format, or a similar format, to a format that is more convenient for analysis with mashr.</p></li>
-<li><p>If you would like follow the exact steps we took to produce the results presented in the manuscript, follow the instructions <a href="gtex.html">here</a>.</p></li>
+<li><p>If you are primarily interested in applying the multivariate adaptive shrinkage (<em>mash</em>) methods to your own data, please see the <a href="https://github.com/stephenslab/mashr">mashr repository</a>.</p></li>
+<li><p>If you are working with association statistics from the <a href="http://gtexportal.org">GTEx study</a>, or similar genetic association data, please see <a href="fastqtl2mash.html">here</a> for our code to convert association statistics in the <a href="http://fastqtl.sourceforge.net">FastQTL</a> format, or a similar format, to a format that is more convenient for analysis with <em>mashr</em>.</p></li>
+<li><p>If you would like follow the exact steps we took to produce the results of the GTEx analysis presented in the manuscript, follow the instructions <a href="gtex.html">here</a>.</p></li>
 </ol>
 </div>
 <div id="citing-this-work" class="section level2">
 <h2>Citing this work</h2>
-<p>If you find any of the source code in this repository useful for your work, please cite our paper:</p>
-<blockquote>
-<p>Sarah M. Urbut, Gao Wang and Matthew Stephens (2017). <em>Flexible statistical methods for estimating and testing effects in genomic studies with multiple conditions.</em> bioRxiv <a href="http://dx.doi.org/10.1101/096552">doi:10.1101/096552</a>.</p>
-</blockquote>
+<p>If you find any of the source code in this repository useful for your work, please cite our manuscript, Urbut <em>et al</em> (2017). The full citation is given above,</p>
 </div>
 <div id="license" class="section level2">
 <h2>License</h2>
@@ -538,11 +577,7 @@ Moved doc to docs.
 </div>
 <div id="contributors" class="section level2">
 <h2>Contributors</h2>
-<p>This project was developed by <a href="https://github.com/surbut">Sarah Urbut</a>, <a href="https://github.com/gaow">Gao Wang</a>, <a href="http://pcarbo.github.io">Peter Carbonetto</a>. <a href="https://stephenslab.uchicago.edu">Matthew Stephens</a> at the University of Chicago, with contributions from</p>
-<p>We provide three sets of code resources to accompany Urbut, Wang, Carbonetto &amp; Stephens (2017)</p>
-<p>This site contains source code to produce results from Urbut, Wang &amp; Stephens (2017).</p>
-<p>If you are primarily interested in applying the statistical methods to your own data, please see the <a href="https://github.com/stephenslab/mashr">mashr package</a>.</p>
-<p>To reproduce the results of Urbut, Wang &amp; Stephens (2017), please follow the instructions <a href="https://github.com/stephenslab/gtexresults">here</a>.</p>
+<p>This project was developed by <a href="https://github.com/surbut">Sarah Urbut</a>, <a href="https://github.com/gaow">Gao Wang</a>, <a href="http://pcarbo.github.io">Peter Carbonetto</a>. <a href="https://stephenslab.uchicago.edu">Matthew Stephens</a> at the University of Chicago.</p>
 </div>
 <div id="overview-1" class="section level2">
 <h2>Overview</h2>
