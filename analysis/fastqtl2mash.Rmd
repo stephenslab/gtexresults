@@ -1,0 +1,56 @@
+---
+title: "Converting "
+author: "Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens"
+site: workflowr::wflow_site
+output: workflowr::wflow_html
+---
+
+## Overview
+
+Follow these instructions to convert summary statistics in
+[FastQTL][fastqtl] format, or a format similar to FastQTL
+
+[fastqtl]: http://fastqtl.sourceforge.net/
+
+If you find a bug, please post an
+[issue](https://github.com/stephenslab/gtexresults/issues).
+
+## Converting eQTL summary statistics to MASH format
+
+Here we explain how the
+[MatrixEQTLSumStats.Portable.Z.rds](data/MatrixEQTLSumStats.Portable.Z.rds)
+data file was generated from the source data downloaded from the
+[GTEx Portal](http://gtexportal.org). The source data are the SNP-gene
+association statistics from release 6 of the GTEx Project
+(`GTEx_Analysis_V6_all-snp-gene-associations.tar`).
+
+Under the repo you will find `workflows/fastqtl_to_mash.ipynb` to
+convert eQTL summary statistics (default to `fastqtl` format) to MASH
+format.  Computation is configured to run in parallel for eQTL results
+from multiple studies. Example data-set can be found at
+`data/eQTLDataDemo`. The workflow file is documented in itself, and
+has a few options to customize the input and output.
+
+To read what's available, run:
+
+```bash
+mash-docker sos run workflows/fastqtl_to_mash.ipynb export
+```
+
+and read the HTML files
+`output/fastqtl_to_mash.lite.html` and
+`output/fastqtl_to_mash.full.html`
+
+To run the conversion:
+
+```bash
+mash-docker sos run workflows/fastqtl_to_mash.ipynb \
+  --data_list data/eQTLDataDemo/FastQTLSumStats.list \
+  --gene_list data/eQTLDataDemo/GTEx_genes.txt
+```
+
+In practice for GTEx data the conversion is computationally intensive
+and is best done on a cluster environment with
+[configurations to run the workflow across different nodes](https://vatlab.github.io/sos-docs/doc/documentation/Remote_Execution.html).
+
+

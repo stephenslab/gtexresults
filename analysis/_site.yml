@@ -1,12 +1,18 @@
-name: Source to reproduce GTEx results from Urbut et al (2017)
+name: Code resources to accompany Urbut et al (2017)
 output_dir: ../docs
 include: .nojekyll
 exclude: include
 navbar:
-  title: MASH analysis of GTEx
+  title: mash code resources
   left:
     - text: Overview
       href: index.html
+    - text: mashr
+      href: https://github.com/stephenslab/mashr
+    - text: Fastqtl to mash
+      href: fastqtl2mash.Rmd
+    - text: GTEx analysis
+      href: gtex.Rmd
   right:
     - text: source
       href: https://github.com/stephenslab/gtexresults
