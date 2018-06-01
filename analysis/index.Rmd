@@ -37,7 +37,7 @@ We provide three sets of code resources:
 
 If you find any of the source code in this repository useful for your
 work, please cite our manuscript, Urbut *et al* (2017). The full
-citation is given above,
+citation is given above.
 
 ## License
 
@@ -45,9 +45,11 @@ Copyright (c) 2016-2018, Sarah Urbut, Gao Wang, Peter Carbonetto and
 Matthew Stephens.
 
 All source code and software in this repository are made available
-under the terms of the
-[MIT license](https://opensource.org/licenses/mit-license.html). See
-the [LICENSE](LICENSE) file for the full text of the license.
+under the terms of the [MIT license][mit-license].
+
+## What's included
+
+*Fill out this section.*
 
 ## Contributors
 
@@ -63,3 +65,4 @@ University of Chicago.
 [gao]: https://github.com/gaow
 [peter]: http://pcarbo.github.io
 [matthew]: https://stephenslab.uchicago.edu
+[mit-license]: https://opensource.org/licenses/mit-license.html
