@@ -232,7 +232,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/155cfc91e2df10bf09bb7e819cd164c53fe33b8d" target="_blank">155cfc9</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/f59f05284cd8deb08aae34c10038e3392f59613d" target="_blank">f59f052</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -244,11 +244,6 @@ Ignored files:
 
 Untracked files:
     Untracked:  gtex6_workflow_output/
-
-Unstaged changes:
-    Modified:   analysis/_site.yml
-    Modified:   analysis/gtex.Rmd
-    Modified:   workflows/README
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -277,6 +272,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/f59f05284cd8deb08aae34c10038e3392f59613d/analysis/fastqtl2mash.Rmd" target="_blank">f59f052</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-01
+</td>
+<td style="text-align:left;">
+wflow_publish(“fastqtl2mash.Rmd”)
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -352,10 +364,14 @@ Moved some output files to data folder; removed some old files from
 <hr />
 <div id="overview" class="section level2">
 <h2>Overview</h2>
-<p>We provide code to convert association statistics in <a href="http://fastqtl.sourceforge.net">FastQTL</a> format, or a format similar to FastQTL, to a format that is more convenient for mash analysis. Here we give instructions for using this code, and demonstrate how to convert a toy FastQTL data set. This toy data set is included in the git repository.</p>
-<p>To facilitate running our conversion procedure, we have also developed a <a href="https://hub.docker.com/r/gaow/mash-paper">Docker container</a> that includes all the required software components, including the HDF5 libraries. Docker can run on most popular operating systems (Mac, Windows and Linux) abd cloud computing services such as Amazon Web Services and Microsoft Azure. If you have not used Docker before, you might want to read <a href="https://docs.docker.com/engine/docker-overview">this</a> to learn the basic concepts and understand the main benefits of Docker.</p>
+<p>We provide code to convert association statistics in <a href="http://fastqtl.sourceforge.net">FastQTL</a> format, or a format similar to FastQTL, to a format that is more convenient for mash analysis. Here we give instructions for using this code, and demonstrate how to convert a toy FastQTL data set. This toy data set is included in the <a href="https://github.com/stephenslab/gtexresults">git repository</a>.</p>
+<p>To facilitate running our conversion procedure, we have also developed a <a href="https://hub.docker.com/r/gaow/mash-paper">Docker container</a> that includes all the required software components, including the HDF5 libraries. Docker can run on most popular operating systems (Mac, Windows and Linux) and cloud computing services such as Amazon Web Services and Microsoft Azure. If you have not used Docker before, you might want to read <a href="https://docs.docker.com/engine/docker-overview">this</a> to learn the basic concepts and understand the main benefits of Docker.</p>
 <p>For details on how the Docker image was configured, see <code>fastqtl2mash.dockerfile</code> in the <code>workflows</code> directory of the <a href="https://github.com/stephenslab/gtexresults">git repository</a>. The Docker image used for our analyses is based on <a href="https://hub.docker.com/r/gaow/lab-base">gaow/lab-base</a>, a customized Docker image for development with R and Python.</p>
 <p>If you find a bug in any of these steps, please post an <a href="https://github.com/stephenslab/gtexresults/issues">issue</a>.</p>
+</div>
+<div id="download-and-install-docker" class="section level2">
+<h2>1. Download and install Docker</h2>
+<p>Download <a href="https://docs.docker.com/install">Docker</a> (note that a free <a href="https://www.docker.com/community-edition">community edition</a> of Docker is available), and install it following the instructions provided on the Docker website. Once you have installed Docker, check that Docker is working correctly by following <a href="https://docs.docker.com/get-started">Part 1 of the Getting Started guide</a>. If you are using Docker for the first time, we recommend reading the entire Getting Started guide. <em>Note that setting up Docker requires that you have administrator access to your computer.</em> (<a href="https://singularity.lbl.gov/docs-docker">Singularity</a> is an alternative that accepts Docker images and does not require administrator access.)</p>
 </div>
 <div id="converting-eqtl-summary-statistics-to-mash-format" class="section level2">
 <h2>Converting eQTL summary statistics to MASH format</h2>
