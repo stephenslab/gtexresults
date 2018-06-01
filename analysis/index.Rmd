@@ -7,19 +7,31 @@ output:
     toc: false
 ---
 
+## Overview
 
-This repository contains source code to produce results from Urbut,
-Wang & Stephens (2017). If you are primarily interested in applying
-the statistical methods to your own data, please see the
-[mashr package](https://github.com/stephenslab/mashr).
+This repository contains code resources to accompany our research
+paper:
 
-To reproduce the results of Urbut, Wang & Stephens (2017), please
-follow the instructions [here](https://github.com/stephenslab/gtexresults).
+> Sarah M. Urbut, Gao Wang and Matthew Stephens (2017). *Flexible
+> statistical methods for estimating and testing effects in genomic
+> studies with multiple conditions.* bioRxiv
+> [doi:10.1101/096552][biorxiv-paper].
 
-If you find a bug, please post an
-[issue](https://github.com/stephenslab/gtexresults/issues).
+We provide three sets of resources:
 
-This code has been tested in...
+1. If you are primarily interested in applying multivariate adaptive
+   shrinkage (*mash*) methods to your own data, please see the
+   [mashr repository][mashr].
+
+2. If you are working with association statistics from the
+   [GTEx study][gtex], or a similar data set, please see here for our
+   code to convert association statistics in the [FastQTL][fastqtl]
+   format, or a similar format, to a format that is more convenient
+   for analysis with mashr.
+
+3. If you would like follow the exact steps we took to produce the
+   results presented in the manuscript, follow the instructions 
+   [here](gtex.html).
 
 ## Citing this work
 
@@ -400,3 +412,7 @@ Run the following command to update the Docker image:
 docker pull gaow/mash-paper
 ```
 
+[biorxiv-paper]: http://dx.doi.org/10.1101/096552
+[mashr]: https://github.com/stephenslab/mashr
+[gtex]: http://gtexportal.org
+[fastqtl]: http://fastqtl.sourceforge.net
