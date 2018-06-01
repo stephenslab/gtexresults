@@ -232,7 +232,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/cb5e65cb3e8f61e7a5de757d25a7ee401c1932ec" target="_blank">cb5e65c</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/7ff4f673d585f44b34066c047e9e9a77cfac7408" target="_blank">7ff4f67</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -245,6 +245,9 @@ Ignored files:
 Untracked files:
     Untracked:  fastqtl_to_mash_output/
     Untracked:  gtex6_workflow_output/
+
+Unstaged changes:
+    Modified:   analysis/index.Rmd
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -273,6 +276,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/7ff4f673d585f44b34066c047e9e9a77cfac7408/analysis/fastqtl2mash.Rmd" target="_blank">7ff4f67</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-01
+</td>
+<td style="text-align:left;">
+wflow_publish(“fastqtl2mash.Rmd”, view = FALSE)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/0bbaec2f516038c11376973d2d281cf241349b3f/docs/fastqtl2mash.html" target="_blank">0bbaec2</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-01
+</td>
+<td style="text-align:left;">
+A few small revisions to fastqtl2mash demo.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -433,7 +470,7 @@ Moved some output files to data folder; removed some old files from
 <hr />
 <div id="overview" class="section level2">
 <h2>Overview</h2>
-<p>We provide code to convert association statistics in <a href="http://fastqtl.sourceforge.net">FastQTL</a> format, or a format similar to FastQTL, to a format that is more convenient for mash analysis. This code was used to generate data file <code>MatrixEQTLSumStats.Portable.Z.rds</code> in the <a href="https://github.com/stephenslab/gtexresults">git repository</a> from the SNP-gene association statistics included as part of Release 6 of the <a href="http://gtexportal.org">GTEx Project</a> (<code>GTEx_Analysis_V6_all-snp-gene-associations.tar</code>).</p>
+<p>We provide code to convert association statistics in <a href="http://fastqtl.sourceforge.net">FastQTL</a> format, or a format similar to FastQTL, to a format that is more suited for analysis with mash. This code was used to generate <code>MatrixEQTLSumStats.Portable.Z.rds</code> in the <a href="https://github.com/stephenslab/gtexresults">git repository</a> from the SNP-gene association statistics included as part of Release 6 of the <a href="http://gtexportal.org">GTEx Project</a> (the source file was named <code>GTEx_Analysis_V6_all-snp-gene-associations.tar</code>).</p>
 <p>Here we give instructions for using this code, and demonstrate how to convert a toy FastQTL data set. This toy data set is included in the <a href="https://github.com/stephenslab/gtexresults">git repository</a>.</p>
 <p>To facilitate running our conversion procedure, we have also developed a <a href="https://hub.docker.com/r/gaow/hdf5tools">Docker container</a> that includes all the required software components, notably the HDF5 libraries used to create intermediate data files that can be efficiently queried. Docker can run on most popular operating systems (Mac, Windows and Linux) and cloud computing services such as Amazon Web Services and Microsoft Azure. If you have not used Docker before, you might want to read <a href="https://docs.docker.com/engine/docker-overview">this</a> to learn the basic concepts and understand the main benefits of Docker.</p>
 <p>For details on how the Docker image was configured, see <code>hdf5tools.dockerfile</code> in the <code>workflows</code> directory of the <a href="https://github.com/stephenslab/gtexresults">git repository</a>. The Docker image used for our analyses is based on <a href="https://hub.docker.com/r/gaow/lab-base">gaow/lab-base</a>, a customized Docker image for development with R and Python.</p>
@@ -474,18 +511,19 @@ docker container list --all</code></pre>
 </div>
 <div id="convert-eqtl-summary-statistics" class="section level2">
 <h2>Convert eQTL summary statistics</h2>
-<p>Next, we will use the <code>fastqtl_to_mash.ipynb</code> source code in the <code>workflows</code> directory to convert the toy data set in FastQTL format to the mash format. The toy data are stored in the <code>data/fastqtl</code> subdirectory of the git repository.</p>
+<p>Next, use the <code>fastqtl_to_mash.ipynb</code> code in the <code>workflows</code> directory to convert the toy data set in FastQTL format to the mash format. The toy data are stored in the <code>data/fastqtl</code> subdirectory of the git repository.</p>
 <p>Having followed the above steps to set up the Docker container on your computer, the data conversion can be carried out with the following command:</p>
 <pre class="bash"><code>fastqtl2mash-docker sos run workflows/fastqtl_to_mash.ipynb \
   --data_list data/fastqtl/FastQTLSumStats.list \
   --gene_list data/fastqtl/GTEx_genes.txt</code></pre>
-<p><em>Add information here about the expected outputs.</em></p>
+<p>If successful, this command will write several files to a newly created directory, <code>fastqtl_to_mash_output</code>. The file <code>FastQTLSumStats.mash.rds</code> contains the eQTL summary statistics in an RDS file, which is easily loaded into R; see <code>help(readRDS)</code> in R for detailsf. For more information about the contents of this file, and how they can be provided as input to the mash methods using the <code>set_mash_data</code> function, see the documentation inside the <a href="https://github.com/stephenslab/gtexresults/blob/master/workflows/fastqtl_to_mash.ipynb">fastqtl2mash notebook</a> and the vignettes in the <a href="https://github.com/stephenslab/mashr">mashr package</a>.</p>
 </div>
-<div id="more-usage-notes" class="section level2">
-<h2>More usage notes</h2>
+<div id="additional-usage-notes" class="section level2">
+<h2>Additional usage notes</h2>
 <ul>
+<li><p>All containers that have run and exited will still be retained in the Docker system. Run <code>docker container list --all</code> to list all previous run containers. To clear these previously run containers, run <code>docker container prune</code>. See <a href="https://stackoverflow.com/questions/17014263/should-i-be-concerned-about-excess-non-running-docker-containers">here</a> for more information.</p></li>
 <li><p>The conversion procedure has several options which were not illustrated in the example above. View the <code>fastqtl_to_mash.ipynb</code> file in Jupyter, or in your Web browser <a href="https://github.com/stephenslab/gtexresults/blob/master/workflows/fastqtl_to_mash.ipynb">here</a>, for more details about the available options and other usage information.</p></li>
-<li><p>In practice for GTEx data the conversion is computationally intensive and is best done on a cluster environment with configurations to run the workflow across different compute nodes. See <a href="https://vatlab.github.io/sos-docs/doc/documentation/Remote_Execution.html">here</a> for details.</p></li>
+<li><p>Converting the full GTEx data set is computationally intensive and is best done in high-performance computing environment with configurations to run the workflow across different compute nodes. See <a href="https://vatlab.github.io/sos-docs/doc/documentation/Remote_Execution.html">here</a> for details.</p></li>
 </ul>
 </div>
 
