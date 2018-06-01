@@ -17,31 +17,27 @@ paper:
 > studies with multiple conditions.* bioRxiv
 > [doi:10.1101/096552][biorxiv-paper].
 
-We provide three sets of resources:
+We provide three sets of code resources:
 
-1. If you are primarily interested in applying multivariate adaptive
+1. If you are primarily interested in applying the multivariate adaptive
    shrinkage (*mash*) methods to your own data, please see the
    [mashr repository][mashr].
 
 2. If you are working with association statistics from the
-   [GTEx study][gtex], or a similar data set, please see here for our
-   code to convert association statistics in the [FastQTL][fastqtl]
-   format, or a similar format, to a format that is more convenient
-   for analysis with mashr.
+   [GTEx study][gtex], or similar genetic association data, please see
+   [here](fastqtl2mash.html) for our code to convert association
+   statistics in the [FastQTL][fastqtl] format, or a similar format,
+   to a format that is more convenient for analysis with *mashr*.
 
 3. If you would like follow the exact steps we took to produce the
-   results presented in the manuscript, follow the instructions 
-   [here](gtex.html).
+   results of the GTEx analysis presented in the manuscript, follow
+   the instructions [here](gtex.html).
 
 ## Citing this work
 
 If you find any of the source code in this repository useful for your
-work, please cite our paper:
-
-> Sarah M. Urbut, Gao Wang and Matthew Stephens (2017). *Flexible
-> statistical methods for estimating and testing effects in genomic
-> studies with multiple conditions.* bioRxiv
-> [doi:10.1101/096552](http://dx.doi.org/10.1101/096552).
+work, please cite our manuscript, Urbut *et al* (2017). The full
+citation is given above,
 
 ## License
 
@@ -55,29 +51,18 @@ the [LICENSE](LICENSE) file for the full text of the license.
 
 ## Contributors
 
-This project was developed by
-[Sarah Urbut][sarah],
-[Gao Wang](https://github.com/gaow),
-[Peter Carbonetto](http://pcarbo.github.io).
-[Matthew Stephens](https://stephenslab.uchicago.edu) at the University
-of Chicago, with contributions from
+This project was developed by [Sarah Urbut][sarah], [Gao Wang][gao],
+[Peter Carbonetto][peter].  [Matthew Stephens][matthew] at the
+University of Chicago.
 
+[biorxiv-paper]: http://dx.doi.org/10.1101/096552
+[mashr]: https://github.com/stephenslab/mashr
+[gtex]: http://gtexportal.org
+[fastqtl]: http://fastqtl.sourceforge.net
 [sarah]: https://github.com/surbut
-
-
-We provide three sets of code resources to accompany Urbut, Wang,
-Carbonetto & Stephens (2017)
-
-This site contains source code to produce results from Urbut,
-Wang & Stephens (2017).
-
-If you are primarily interested in applying
-the statistical methods to your own data, please see the
-[mashr package](https://github.com/stephenslab/mashr).
-
-To reproduce the results of Urbut, Wang & Stephens (2017), please
-follow the instructions [here](https://github.com/stephenslab/gtexresults).
-
+[gao]: https://github.com/gaow
+[peter]: http://pcarbo.github.io
+[matthew]: https://stephenslab.uchicago.edu
 
 ## Overview
 
@@ -412,7 +397,3 @@ Run the following command to update the Docker image:
 docker pull gaow/mash-paper
 ```
 
-[biorxiv-paper]: http://dx.doi.org/10.1101/096552
-[mashr]: https://github.com/stephenslab/mashr
-[gtex]: http://gtexportal.org
-[fastqtl]: http://fastqtl.sourceforge.net
