@@ -11,13 +11,19 @@ output:
 
 We provide code to convert association statistics in
 [FastQTL][fastqtl] format, or a format similar to FastQTL, to a format
-that is more convenient for mash analysis. Here we give instructions
-for using this code, and demonstrate how to convert a toy FastQTL data
-set. This toy data set is included in the [git repository][github].
+that is more convenient for mash analysis. This code was used to
+generate data file `MatrixEQTLSumStats.Portable.Z.rds` in the
+[git repository][gtexresults] from the SNP-gene association statistics
+included as part of Release 6 of the [GTEx Project][gtex]
+(`GTEx_Analysis_V6_all-snp-gene-associations.tar`).
+
+Here we give instructions for using this code, and demonstrate how to
+convert a toy FastQTL data set. This toy data set is included in the
+[git repository][gtexresults].
 
 To facilitate running our conversion procedure, we have also developed
-a [Docker container][docker-mash] that includes all the required
-software components, including the HDF5 libraries used to create
+a [Docker container][docker-hdf5tools] that includes all the required
+software components, notably the HDF5 libraries used to create
 intermediate data files that can be efficiently queried. Docker can
 run on most popular operating systems (Mac, Windows and Linux) and
 cloud computing services such as Amazon Web Services and Microsoft
@@ -26,8 +32,8 @@ Azure. If you have not used Docker before, you might want to read
 main benefits of Docker.
 
 For details on how the Docker image was configured, see
-`fastqtl2mash.dockerfile` in the `workflows` directory of the
-[git repository][github]. The Docker image used for our analyses is
+`hdf5tools.dockerfile` in the `workflows` directory of the
+[git repository][gtexresults]. The Docker image used for our analyses is
 based on [gaow/lab-base][docker-lab-base], a customized Docker image
 for development with R and Python.
 
@@ -40,59 +46,130 @@ Download [Docker][docker-download] (note that a free
 [community edition][docker-ce] of Docker is available), and install it
 following the instructions provided on the Docker website. Once you
 have installed Docker, check that Docker is working correctly by
-following Part 1 of the
-["Getting Started" guide][docker-getting-started].  If you are new to
-Docker, we recommend reading the entire "Getting Started" guide.
+following Part 1 of the ["Getting Started" guide][docker-getting-started].
+If you are new to Docker, we recommend reading the entire "Getting
+Started" guide.
 
 **Note:** Setting up Docker requires that you have administrator
-access to your computer. [Singularity](https://singularity.lbl.gov/docs-docker) is an
+access to your computer. [Singularity][singularity] is an
 alternative that accepts Docker images and does not require
 administrator access.
 
+## 2. Download and test Docker image
+
+Run this `alias` command in the shell, which will be used below to run
+commands inside the Docker container:
+
+```bash
+alias fastqtl2mash-docker='docker run --security-opt label:disable -t '\
+'-P -h MASH -w $PWD -v $HOME:/home/$USER -v /tmp:/tmp -v $PWD:$PWD '\
+'-u $UID:${GROUPS[0]} -e HOME=/home/$USER -e USER=$USER gaow/hdf5tools'
+```
+
+The `-v` flags in this command map directories between the standard
+computing environment and the Docker container. Since the analyses
+below will write files to these directories, it is important to ensure
+that:
+
+  + Environment variables `$HOME` and `$PWD` are set to valid and
+    writeable directories (usually your home and current working
+    directories, respectively).
+
+  + `/tmp` should also be a valid and writeable directory.
+
+If any of these statements are not true, please adjust the `alias`
+accordingly. The remaining options only affect operation of the
+container, and so should function the same regardless of your operating
+system.
+
+Next, run a simple command in the Docker container to check that has
+loaded successfully:
+
+```
+fastqtl2mash-docker uname -sn
+```
+
+This command will download the Docker image if it has not already been
+downloaded.
+
+If the container was successfully run, you should see this information
+about the Docker container outputted to the screen:
+
+```
+Linux MASH
+```
+
+You can also run these commands to show the information about the
+image downloaded to your computer and the container that has run
+(and exited):
+
+```bash
+docker image list
+docker container list --all
+```
+
+*Note:* If you get error "Cannot connect to the Docker daemon. Is the
+docker daemon running on this host?" in Linux or macOS, see
+[here for Linux][docker-daemon-linux]
+or [here for Mac][docker-daemon-mac] for
+suggestions on how to resolve this issue.
+
+## 3. Clone or download this repository
+
+Clone or download the [gtexresults][gtexresults] repository to your
+computer, then change your working directory in the shell to the root
+of the repository, e.g.,
+
+```bash
+cd gtexresults
+```
+
+All the commands below will be run from this directory.
+
+## 4. Convert eQTL summary statistics
+
+Next, we will use the `fastqtl_to_mash.ipynb` source code in the
+`workflows` directory to convert the toy data set in FastQTL format to
+the mash format. The toy data are stored in the `data/fastqtl`
+subdirectory of the git repository.
+
+Having followed the above steps to set up the Docker container on your
+computer, the data conversion can be carried out with the following
+command:
+
+```bash
+fastqtl2mash-docker sos run workflows/fastqtl_to_mash.ipynb \
+  --data_list data/fastqtl/FastQTLSumStats.list \
+  --gene_list data/fastqtl/GTEx_genes.txt
+```
+
+## More usage notes
+
++ The conversion procedure has several options which were not
+illustrated in the example above. View the `fastqtl_to_mash.ipynb`
+file in Jupyter, or in your Web browser
+[here][fastqtl2mash-notebook], for more details about the available
+options and other usage information.
+
++ In practice for GTEx data the conversion is computationally intensive
+and is best done on a cluster environment with configurations to run
+the workflow across different compute nodes. See
+[here][sos-cluster-info] for details.
+
 ## Converting eQTL summary statistics to MASH format
 
-Here we explain how the
-[MatrixEQTLSumStats.Portable.Z.rds](data/MatrixEQTLSumStats.Portable.Z.rds)
-data file was generated from the source data downloaded from the
-[GTEx Portal](http://gtexportal.org). The source data are the SNP-gene
-association statistics from release 6 of the GTEx Project
-(`GTEx_Analysis_V6_all-snp-gene-associations.tar`).
-
-Under the repo you will find `workflows/fastqtl_to_mash.ipynb` to
-convert eQTL summary statistics (default to `fastqtl` format) to MASH
-format.  Computation is configured to run in parallel for eQTL results
-from multiple studies. Example data-set can be found at
-`data/eQTLDataDemo`. The workflow file is documented in itself, and
-has a few options to customize the input and output.
-
-To read what's available, run:
-
-```bash
-mash-docker sos run workflows/fastqtl_to_mash.ipynb export
-```
-
-and read the HTML files
-`output/fastqtl_to_mash.lite.html` and
-`output/fastqtl_to_mash.full.html`
-
-To run the conversion:
-
-```bash
-mash-docker sos run workflows/fastqtl_to_mash.ipynb \
-  --data_list data/eQTLDataDemo/FastQTLSumStats.list \
-  --gene_list data/eQTLDataDemo/GTEx_genes.txt
-```
-
-In practice for GTEx data the conversion is computationally intensive
-and is best done on a cluster environment with
-[configurations to run the workflow across different nodes](https://vatlab.github.io/sos-docs/doc/documentation/Remote_Execution.html).
-
-[github]: https://github.com/stephenslab/gtexresults
+[gtex]: http://gtexportal.org
+[gtexresults]: https://github.com/stephenslab/gtexresults
 [issues]: https://github.com/stephenslab/gtexresults/issues
 [fastqtl]: http://fastqtl.sourceforge.net
 [docker-lab-base]: https://hub.docker.com/r/gaow/lab-base
-[docker-mash]: https://hub.docker.com/r/gaow/mash-paper
 [docker-overview]: https://docs.docker.com/engine/docker-overview
 [docker-download]: https://docs.docker.com/install
 [docker-ce]: https://www.docker.com/community-edition
 [docker-getting-started]: https://docs.docker.com/get-started
+[docker-hdf5tools]: https://hub.docker.com/r/gaow/hdf5tools
+[singularity]: https://singularity.lbl.gov/docs-docker
+[docker-daemon-linux]: https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo
+[docker-daemon-mac]: https://github.com/wodby/docker4drupal/issues/15
+[sos-cluster-info]: https://vatlab.github.io/sos-docs/doc/documentation/Remote_Execution.html
+[fastqtl2mash-notebook]: https://github.com/stephenslab/gtexresults/blob/master/workflows/fastqtl_to_mash.ipynb
