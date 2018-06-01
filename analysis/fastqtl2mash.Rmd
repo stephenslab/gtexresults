@@ -13,13 +13,13 @@ We provide code to convert association statistics in
 [FastQTL][fastqtl] format, or a format similar to FastQTL, to a format
 that is more convenient for mash analysis. Here we give instructions
 for using this code, and demonstrate how to convert a toy FastQTL data
-set. This toy data set is included in the git repository.
+set. This toy data set is included in the [git repository][github].
 
 To facilitate running our conversion procedure, we have also developed
 a [Docker container](https://hub.docker.com/r/gaow/mash-paper) that
 includes all the required software components, including the HDF5
 libraries. Docker can run on most popular operating systems (Mac,
-Windows and Linux) abd cloud computing services such as Amazon Web
+Windows and Linux) and cloud computing services such as Amazon Web
 Services and Microsoft Azure. If you have not used Docker before, you
 might want to read
 [this](https://docs.docker.com/engine/docker-overview) to learn the
@@ -28,11 +28,26 @@ basic concepts and understand the main benefits of Docker.
 For details on how the Docker image was configured, see
 `fastqtl2mash.dockerfile` in the `workflows` directory of the
 [git repository][github]. The Docker image used for our analyses is
-based on [gaow/lab-base](https://hub.docker.com/r/gaow/lab-base), a
-customized Docker image for development with R and Python.
+based on [gaow/lab-base][docker-lab-base], a customized Docker image
+for development with R and Python.
 
 If you find a bug in any of these steps, please post an
 [issue][issues].
+
+## 1. Download and install Docker
+
+Download [Docker](https://docs.docker.com/install) (note that a free
+[community edition](https://www.docker.com/community-edition) of
+Docker is available), and install it following the instructions
+provided on the Docker website. Once you have installed Docker, check
+that Docker is working correctly by following
+[Part 1 of the Getting Started guide](https://docs.docker.com/get-started).
+If you are using Docker for the first time, we recommend reading the
+entire Getting Started guide. *Note that setting up Docker requires
+that you have administrator access to your computer.*
+([Singularity](https://singularity.lbl.gov/docs-docker) is an
+alternative that accepts Docker images and does not require
+administrator access.)
 
 ## Converting eQTL summary statistics to MASH format
 
@@ -75,3 +90,4 @@ and is best done on a cluster environment with
 [github]: https://github.com/stephenslab/gtexresults
 [issues]: https://github.com/stephenslab/gtexresults/issues
 [fastqtl]: http://fastqtl.sourceforge.net
+[docker-lab-base]: https://hub.docker.com/r/gaow/lab-base
