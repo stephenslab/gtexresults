@@ -2,7 +2,9 @@
 title: "Converting FastQTL results to mash format"
 author: "Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens"
 site: workflowr::wflow_site
-output: workflowr::wflow_html
+output:
+  workflowr::wflow_html:
+    toc: false
 ---
 
 ## Overview
@@ -12,6 +14,22 @@ We provide code to convert association statistics in
 that is more convenient for mash analysis. Here we give instructions
 for using this code, and demonstrate how to convert a toy FastQTL data
 set. This toy data set is included in the git repository.
+
+To facilitate running our conversion procedure, we have also developed
+a [Docker container](https://hub.docker.com/r/gaow/mash-paper) that
+includes all the required software components, including the HDF5
+libraries. Docker can run on most popular operating systems (Mac,
+Windows and Linux) abd cloud computing services such as Amazon Web
+Services and Microsoft Azure. If you have not used Docker before, you
+might want to read
+[this](https://docs.docker.com/engine/docker-overview) to learn the
+basic concepts and understand the main benefits of Docker.
+
+For details on how the Docker image was configured, see
+`fastqtl2mash.dockerfile` in the `workflows` directory of the
+[git repository][github]. The Docker image used for our analyses is
+based on [gaow/lab-base](https://hub.docker.com/r/gaow/lab-base), a
+customized Docker image for development with R and Python.
 
 If you find a bug in any of these steps, please post an
 [issue][issues].
@@ -54,6 +72,6 @@ In practice for GTEx data the conversion is computationally intensive
 and is best done on a cluster environment with
 [configurations to run the workflow across different nodes](https://vatlab.github.io/sos-docs/doc/documentation/Remote_Execution.html).
 
+[github]: https://github.com/stephenslab/gtexresults
 [issues]: https://github.com/stephenslab/gtexresults/issues
 [fastqtl]: http://fastqtl.sourceforge.net
-
