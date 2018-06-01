@@ -40,7 +40,7 @@ for development with R and Python.
 If you find a bug in any of these steps, please post an
 [issue][issues].
 
-## 1. Download and install Docker
+## Download and install Docker
 
 Download [Docker][docker-download] (note that a free
 [community edition][docker-ce] of Docker is available), and install it
@@ -55,7 +55,7 @@ access to your computer. [Singularity][singularity] is an
 alternative that accepts Docker images and does not require
 administrator access.
 
-## 2. Download and test Docker image
+## Download and test Docker image
 
 Run this `alias` command in the shell, which will be used below to run
 commands inside the Docker container:
@@ -114,7 +114,7 @@ docker daemon running on this host?" in Linux or macOS, see
 or [here for Mac][docker-daemon-mac] for
 suggestions on how to resolve this issue.
 
-## 3. Clone or download this repository
+## Clone or download the gtexresults repository
 
 Clone or download the [gtexresults][gtexresults] repository to your
 computer, then change your working directory in the shell to the root
@@ -126,7 +126,7 @@ cd gtexresults
 
 All the commands below will be run from this directory.
 
-## 4. Convert eQTL summary statistics
+## Convert eQTL summary statistics
 
 Next, we will use the `fastqtl_to_mash.ipynb` source code in the
 `workflows` directory to convert the toy data set in FastQTL format to
@@ -143,6 +143,8 @@ fastqtl2mash-docker sos run workflows/fastqtl_to_mash.ipynb \
   --gene_list data/fastqtl/GTEx_genes.txt
 ```
 
+*Add information here about the expected outputs.*
+
 ## More usage notes
 
 + The conversion procedure has several options which were not
@@ -155,8 +157,6 @@ options and other usage information.
 and is best done on a cluster environment with configurations to run
 the workflow across different compute nodes. See
 [here][sos-cluster-info] for details.
-
-## Converting eQTL summary statistics to MASH format
 
 [gtex]: http://gtexportal.org
 [gtexresults]: https://github.com/stephenslab/gtexresults
