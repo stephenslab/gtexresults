@@ -232,7 +232,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/f59f05284cd8deb08aae34c10038e3392f59613d" target="_blank">f59f052</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/68995c41bdb9a7acb2b1d3dd445e5bc97512417a" target="_blank">68995c4</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -243,6 +243,7 @@ Ignored files:
     Ignored:    workflows/.sos/
 
 Untracked files:
+    Untracked:  fastqtl_to_mash_output/
     Untracked:  gtex6_workflow_output/
 
 </code></pre>
@@ -272,6 +273,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/68995c41bdb9a7acb2b1d3dd445e5bc97512417a/analysis/fastqtl2mash.Rmd" target="_blank">68995c4</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-01
+</td>
+<td style="text-align:left;">
+wflow_publish(“fastqtl2mash.Rmd”, view = FALSE)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/ab370ff229cf6853953f69f94cc19b866b31e181/analysis/fastqtl2mash.Rmd" target="_blank">ab370ff</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-01
+</td>
+<td style="text-align:left;">
+Revising fastqtl2mash instructions.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -364,27 +399,62 @@ Moved some output files to data folder; removed some old files from
 <hr />
 <div id="overview" class="section level2">
 <h2>Overview</h2>
-<p>We provide code to convert association statistics in <a href="http://fastqtl.sourceforge.net">FastQTL</a> format, or a format similar to FastQTL, to a format that is more convenient for mash analysis. Here we give instructions for using this code, and demonstrate how to convert a toy FastQTL data set. This toy data set is included in the <a href="https://github.com/stephenslab/gtexresults">git repository</a>.</p>
-<p>To facilitate running our conversion procedure, we have also developed a <a href="https://hub.docker.com/r/gaow/mash-paper">Docker container</a> that includes all the required software components, including the HDF5 libraries. Docker can run on most popular operating systems (Mac, Windows and Linux) and cloud computing services such as Amazon Web Services and Microsoft Azure. If you have not used Docker before, you might want to read <a href="https://docs.docker.com/engine/docker-overview">this</a> to learn the basic concepts and understand the main benefits of Docker.</p>
-<p>For details on how the Docker image was configured, see <code>fastqtl2mash.dockerfile</code> in the <code>workflows</code> directory of the <a href="https://github.com/stephenslab/gtexresults">git repository</a>. The Docker image used for our analyses is based on <a href="https://hub.docker.com/r/gaow/lab-base">gaow/lab-base</a>, a customized Docker image for development with R and Python.</p>
+<p>We provide code to convert association statistics in <a href="http://fastqtl.sourceforge.net">FastQTL</a> format, or a format similar to FastQTL, to a format that is more convenient for mash analysis. This code was used to generate data file <code>MatrixEQTLSumStats.Portable.Z.rds</code> in the <a href="https://github.com/stephenslab/gtexresults">git repository</a> from the SNP-gene association statistics included as part of Release 6 of the <a href="http://gtexportal.org">GTEx Project</a> (<code>GTEx_Analysis_V6_all-snp-gene-associations.tar</code>).</p>
+<p>Here we give instructions for using this code, and demonstrate how to convert a toy FastQTL data set. This toy data set is included in the <a href="https://github.com/stephenslab/gtexresults">git repository</a>.</p>
+<p>To facilitate running our conversion procedure, we have also developed a <a href="https://hub.docker.com/r/gaow/hdf5tools">Docker container</a> that includes all the required software components, notably the HDF5 libraries used to create intermediate data files that can be efficiently queried. Docker can run on most popular operating systems (Mac, Windows and Linux) and cloud computing services such as Amazon Web Services and Microsoft Azure. If you have not used Docker before, you might want to read <a href="https://docs.docker.com/engine/docker-overview">this</a> to learn the basic concepts and understand the main benefits of Docker.</p>
+<p>For details on how the Docker image was configured, see <code>hdf5tools.dockerfile</code> in the <code>workflows</code> directory of the <a href="https://github.com/stephenslab/gtexresults">git repository</a>. The Docker image used for our analyses is based on <a href="https://hub.docker.com/r/gaow/lab-base">gaow/lab-base</a>, a customized Docker image for development with R and Python.</p>
 <p>If you find a bug in any of these steps, please post an <a href="https://github.com/stephenslab/gtexresults/issues">issue</a>.</p>
 </div>
 <div id="download-and-install-docker" class="section level2">
 <h2>1. Download and install Docker</h2>
-<p>Download <a href="https://docs.docker.com/install">Docker</a> (note that a free <a href="https://www.docker.com/community-edition">community edition</a> of Docker is available), and install it following the instructions provided on the Docker website. Once you have installed Docker, check that Docker is working correctly by following <a href="https://docs.docker.com/get-started">Part 1 of the Getting Started guide</a>. If you are using Docker for the first time, we recommend reading the entire Getting Started guide. <em>Note that setting up Docker requires that you have administrator access to your computer.</em> (<a href="https://singularity.lbl.gov/docs-docker">Singularity</a> is an alternative that accepts Docker images and does not require administrator access.)</p>
+<p>Download <a href="https://docs.docker.com/install">Docker</a> (note that a free <a href="https://www.docker.com/community-edition">community edition</a> of Docker is available), and install it following the instructions provided on the Docker website. Once you have installed Docker, check that Docker is working correctly by following Part 1 of the <a href="https://docs.docker.com/get-started">“Getting Started” guide</a>. If you are new to Docker, we recommend reading the entire “Getting Started” guide.</p>
+<p><strong>Note:</strong> Setting up Docker requires that you have administrator access to your computer. <a href="https://singularity.lbl.gov/docs-docker">Singularity</a> is an alternative that accepts Docker images and does not require administrator access.</p>
+</div>
+<div id="download-and-test-docker-image" class="section level2">
+<h2>2. Download and test Docker image</h2>
+<p>Run this <code>alias</code> command in the shell, which will be used below to run commands inside the Docker container:</p>
+<pre class="bash"><code>alias fastqtl2mash-docker=&#39;docker run --security-opt label:disable -t &#39;\
+&#39;-P -h MASH -w $PWD -v $HOME:/home/$USER -v /tmp:/tmp -v $PWD:$PWD &#39;\
+&#39;-u $UID:${GROUPS[0]} -e HOME=/home/$USER -e USER=$USER gaow/hdf5tools&#39;</code></pre>
+<p>The <code>-v</code> flags in this command map directories between the standard computing environment and the Docker container. Since the analyses below will write files to these directories, it is important to ensure that:</p>
+<ul>
+<li><p>Environment variables <code>$HOME</code> and <code>$PWD</code> are set to valid and writeable directories (usually your home and current working directories, respectively).</p></li>
+<li><p><code>/tmp</code> should also be a valid and writeable directory.</p></li>
+</ul>
+<p>If any of these statements are not true, please adjust the <code>alias</code> accordingly. The remaining options only affect operation of the container, and so should function the same regardless of your operating system.</p>
+<p>Next, run a simple command in the Docker container to check that has loaded successfully:</p>
+<pre><code>fastqtl2mash-docker uname -sn</code></pre>
+<p>This command will download the Docker image if it has not already been downloaded.</p>
+<p>If the container was successfully run, you should see this information about the Docker container outputted to the screen:</p>
+<pre><code>Linux MASH</code></pre>
+<p>You can also run these commands to show the information about the image downloaded to your computer and the container that has run (and exited):</p>
+<pre class="bash"><code>docker image list
+docker container list --all</code></pre>
+<p><em>Note:</em> If you get error “Cannot connect to the Docker daemon. Is the docker daemon running on this host?” in Linux or macOS, see <a href="https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo">here for Linux</a> or <a href="https://github.com/wodby/docker4drupal/issues/15">here for Mac</a> for suggestions on how to resolve this issue.</p>
+</div>
+<div id="clone-or-download-this-repository" class="section level2">
+<h2>3. Clone or download this repository</h2>
+<p>Clone or download the <a href="https://github.com/stephenslab/gtexresults">gtexresults</a> repository to your computer, then change your working directory in the shell to the root of the repository, e.g.,</p>
+<pre class="bash"><code>cd gtexresults</code></pre>
+<p>All the commands below will be run from this directory.</p>
+</div>
+<div id="convert-eqtl-summary-statistics" class="section level2">
+<h2>4. Convert eQTL summary statistics</h2>
+<p>Next, we will use the <code>fastqtl_to_mash.ipynb</code> source code in the <code>workflows</code> directory to convert the toy data set in FastQTL format to the mash format. The toy data are stored in the <code>data/fastqtl</code> subdirectory of the git repository.</p>
+<p>Having followed the above steps to set up the Docker container on your computer, the data conversion can be carried out with the following command:</p>
+<pre class="bash"><code>fastqtl2mash-docker sos run workflows/fastqtl_to_mash.ipynb \
+  --data_list data/fastqtl/FastQTLSumStats.list \
+  --gene_list data/fastqtl/GTEx_genes.txt</code></pre>
+</div>
+<div id="more-usage-notes" class="section level2">
+<h2>More usage notes</h2>
+<ul>
+<li><p>The conversion procedure has several options which were not illustrated in the example above. View the <code>fastqtl_to_mash.ipynb</code> file in Jupyter, or in your Web browser <a href="https://github.com/stephenslab/gtexresults/blob/master/workflows/fastqtl_to_mash.ipynb">here</a>, for more details about the available options and other usage information.</p></li>
+<li><p>In practice for GTEx data the conversion is computationally intensive and is best done on a cluster environment with configurations to run the workflow across different compute nodes. See <a href="https://vatlab.github.io/sos-docs/doc/documentation/Remote_Execution.html">here</a> for details.</p></li>
+</ul>
 </div>
 <div id="converting-eqtl-summary-statistics-to-mash-format" class="section level2">
 <h2>Converting eQTL summary statistics to MASH format</h2>
-<p>Here we explain how the <a href="data/MatrixEQTLSumStats.Portable.Z.rds">MatrixEQTLSumStats.Portable.Z.rds</a> data file was generated from the source data downloaded from the <a href="http://gtexportal.org">GTEx Portal</a>. The source data are the SNP-gene association statistics from release 6 of the GTEx Project (<code>GTEx_Analysis_V6_all-snp-gene-associations.tar</code>).</p>
-<p>Under the repo you will find <code>workflows/fastqtl_to_mash.ipynb</code> to convert eQTL summary statistics (default to <code>fastqtl</code> format) to MASH format. Computation is configured to run in parallel for eQTL results from multiple studies. Example data-set can be found at <code>data/eQTLDataDemo</code>. The workflow file is documented in itself, and has a few options to customize the input and output.</p>
-<p>To read what’s available, run:</p>
-<pre class="bash"><code>mash-docker sos run workflows/fastqtl_to_mash.ipynb export</code></pre>
-<p>and read the HTML files <code>output/fastqtl_to_mash.lite.html</code> and <code>output/fastqtl_to_mash.full.html</code></p>
-<p>To run the conversion:</p>
-<pre class="bash"><code>mash-docker sos run workflows/fastqtl_to_mash.ipynb \
-  --data_list data/eQTLDataDemo/FastQTLSumStats.list \
-  --gene_list data/eQTLDataDemo/GTEx_genes.txt</code></pre>
-<p>In practice for GTEx data the conversion is computationally intensive and is best done on a cluster environment with <a href="https://vatlab.github.io/sos-docs/doc/documentation/Remote_Execution.html">configurations to run the workflow across different nodes</a>.</p>
 </div>
 
 <script type="text/x-mathjax-config">
