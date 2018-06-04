@@ -62,8 +62,8 @@ you will find in the repository:
 ```
 
 + The **analysis** contains R Markdown source files for the workflowr
-  website, including R code used to generate figures and tables for
-  the manuscript.
+  website, including R code used in the final step of the analysis to
+  generate figures and tables for the manuscript.
 
 + The **code** directory contains additional supporting code for the
   analyses.
@@ -77,8 +77,8 @@ you will find in the repository:
 + The **docs** directory contains webpages generated from the R
   Markdown files in the analysis directory.
 
-+ The **output** directory is used to store outputs from analysis
-  pipelines.
++ The **output** stores outputs from data processing and analysis
+  pipelines ("workflows").
 
 + The **workflows** directory contains source code ("SoS workflows")
   and Docker configuration files ("Dockerfiles") implementing a data
