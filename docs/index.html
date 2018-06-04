@@ -232,7 +232,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/340ad6fb2a23ef21a6758142b65977ba2d7277b6" target="_blank">340ad6f</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/4d2da8c6cca28dd2a86cead411cf9bf059b9b6dd" target="_blank">4d2da8c</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -245,6 +245,9 @@ Ignored files:
 Untracked files:
     Untracked:  fastqtl_to_mash_output/
     Untracked:  gtex6_workflow_output/
+
+Unstaged changes:
+    Modified:   workflows/README
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -273,6 +276,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/4d2da8c6cca28dd2a86cead411cf9bf059b9b6dd/analysis/index.Rmd" target="_blank">4d2da8c</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-04
+</td>
+<td style="text-align:left;">
+wflow_publish(“index.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/ec7e83eb62cf1bd422f38d79578fefe3b156c975/docs/index.html" target="_blank">ec7e83e</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-04
+</td>
+<td style="text-align:left;">
+Re-built main webpages after several updates and improvements.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -674,9 +711,23 @@ Moved doc to docs.
 <p>Copyright (c) 2016-2018, Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens.</p>
 <p>All source code and software in this repository are made available under the terms of the <a href="https://opensource.org/licenses/mit-license.html">MIT license</a>.</p>
 </div>
-<div id="whats-included" class="section level2">
-<h2>What’s included</h2>
-<p><em>Fill out this section.</em></p>
+<div id="whats-included-in-the-git-repository" class="section level2">
+<h2>What’s included in the git repository</h2>
+<p>See <a href="https://github.com/stephenslab/gtexresults">here</a> for the source repository. This is what you will find in the repository:</p>
+<pre><code>├── analysis
+├── code
+├── data
+├── docs
+├── output
+└── workflows</code></pre>
+<ul>
+<li><p>The <strong>analysis</strong> contains R Markdown source files for the workflowr website, including R code used to generate figures and tables for the manuscript.</p></li>
+<li><p>The <strong>code</strong> directory contains additional supporting code for the analyses.</p></li>
+<li><p>The <strong>data</strong> directory contains original and processed data files used in the mash analysis of the GTEx data, example data sets used to illustrate the data processing and analysis pipelines, and additional data used to generate the tables and figures for the manuscript.</p></li>
+<li><p>The <strong>docs</strong> directory contains webpages generated from the R Markdown files in the analysis directory.</p></li>
+<li><p>The <strong>output</strong> directory is used to store outputs from analysis pipelines.</p></li>
+<li><p>The <strong>workflows</strong> directory contains source code (“SoS workflows”) and Docker configuration files (“Dockerfiles”) implementing a data processing pipeline for mash and an end-to-end analysis of the GTEx data using the multivariate statistical methods (“mash”).</p></li>
+</ul>
 </div>
 <div id="contributors" class="section level2">
 <h2>Contributors</h2>
