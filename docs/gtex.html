@@ -12,7 +12,7 @@
 <meta name="author" content="Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens" />
 
 
-<title>MASH analysis of GTEx data</title>
+<title>mash analysis of GTEx data</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -185,10 +185,10 @@ $(document).ready(function () {
   <a href="https://github.com/stephenslab/mashr">mashr</a>
 </li>
 <li>
-  <a href="fastqtl2mash.Rmd">Fastqtl to mash</a>
+  <a href="fastqtl2mash.html">Fastqtl to mash</a>
 </li>
 <li>
-  <a href="gtex.Rmd">GTEx analysis</a>
+  <a href="gtex.html">GTEx analysis</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -217,13 +217,13 @@ div.section {
 
 
 
-<h1 class="title toc-ignore">MASH analysis of GTEx data</h1>
+<h1 class="title toc-ignore">mash analysis of GTEx data</h1>
 <h4 class="author"><em>Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens</em></h4>
 
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-06-01</p>
+<p><strong>Last updated:</strong> 2018-06-04</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -232,7 +232,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/930e0f63d6aaccb07131b6466a161697c912cb58" target="_blank">930e0f6</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/340ad6fb2a23ef21a6758142b65977ba2d7277b6" target="_blank">340ad6f</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -243,10 +243,8 @@ Ignored files:
     Ignored:    workflows/.sos/
 
 Untracked files:
+    Untracked:  fastqtl_to_mash_output/
     Untracked:  gtex6_workflow_output/
-
-Unstaged changes:
-    Modified:   workflows/README
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -275,6 +273,57 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/340ad6fb2a23ef21a6758142b65977ba2d7277b6/analysis/gtex.Rmd" target="_blank">340ad6f</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-04
+</td>
+<td style="text-align:left;">
+wflow_publish(c(“index.Rmd”, “gtex.Rmd”, “fastqtl2mash.Rmd”))
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/ec550297c218c87466a56bad24e3c4d5b235d830/analysis/gtex.Rmd" target="_blank">ec55029</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-01
+</td>
+<td style="text-align:left;">
+Misc. fixes.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/00c1dfa384db706afaadb1d28233e0d57b44c6b0/docs/gtex.html" target="_blank">00c1dfa</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-01
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -314,24 +363,26 @@ Removed most of the materials from the README.
 </ul>
 <p></details></p>
 <hr />
-<p>If you find a bug, please post an <a href="https://github.com/stephenslab/gtexresults/issues">issue</a>.</p>
 <div id="overview" class="section level2">
 <h2>Overview</h2>
-<p>To reproduce the results of Urbut, Wang &amp; Stephens (2017), please follow these instructions.</p>
-<p>For more information, please see the <a href="https://github.com/stephenslab/gtexresults">README</a>.</p>
-<p>The complete analyses require installation of several programs and libraries, and requires several large data sets. To facilitate reproducing our results, we provide pre-processed data for use with the core analysis, and a bioinformatics pipeline with a small toy data-set to demonstrate the pre-processing step. We have also developed a <a href="https://hub.docker.com/r/gaow/mash-paper">Docker container</a> that includes all software components necessary to run the analyses. Docker can run on most popular operating systems (Mac, Windows and Linux). It also runs on cloud computing services such as Amazon Web Services and Microsoft Azure. If you have not used Docker before, you might want to read <a href="https://docs.docker.com/engine/docker-overview">this</a> to learn the basic concepts and understand the benefits of Docker.</p>
-<p>For details on how the Docker image was configured, see the <a href="workflows/Dockerfile">Dockerfile</a>. The Docker image used for our analyses is based on <a href="https://hub.docker.com/r/gaow/lab-base">gaow/lab-base</a>, a Docker image for development with R and Python.</p>
-<p>If you prefer to run the analyses without Docker, <em>add a few details about where you can find out more about software and libraries used, and other computing environment setup steps (mention Python 3.x, R, SFA, ExtremeDeconvolution, MOSEK, OpenMP, MKL, GSL, HDF5 tools, pytables rhdf5, and for an improved MASH implementation mashr is also installed).</em></p>
+<p>To reproduce the results of Urbut, Wang &amp; Stephens (2017), please follow these instructions. You are welcome to adapt these steps to your own study. Please also visit the <a href="https://github.com/stephenslab/mashr">mashr R package repository</a>, which has a more user-friendly interface and tutorials on how to apply multivariate adaptive shrinkage (mash) to association analysis gene expression (eQTL analysis).</p>
+<p>The complete analyses of the GTEx data require installation of several programs and libraries, as well as large data sets that are specifically prepared for mash. To facilitate reproducing our results, we provide data that was pre-processed using the <a href="fastqtl2mash.html">fastqtl2mash preprocessing pipeline</a>. We have also developed a <a href="https://hub.docker.com/r/gaow/mash-paper">Docker container</a> that includes all software components necessary to run the analyses. Docker can run on most popular operating systems (Mac, Windows and Linux) and cloud computing services such as Amazon Web Services and Microsoft Azure. If you have not used Docker before, you might want to read <a href="https://docs.docker.com/engine/docker-overview">this</a> to learn the basic concepts and understand the main benefits of Docker.</p>
+<p>For details on how the Docker image was configured, see <code>mash.dockerfile</code> in the <code>workflows</code> directory of the <a href="https://github.com/stephenslab/gtexresults">git repository</a>. The Docker image used for our analyses is based on <a href="https://hub.docker.com/r/gaow/lab-base">gaow/lab-base</a>, a customized Docker image for development with R and Python.</p>
+<p>If you find a bug in any of these steps, please post an <a href="https://github.com/stephenslab/gtexresults/issues">issue</a>.</p>
 </div>
 <div id="download-and-install-docker" class="section level2">
-<h2>1. Download and install Docker</h2>
-<p>Download <a href="https://docs.docker.com/install">Docker</a> (note that a free <a href="https://www.docker.com/community-edition">community edition</a> of Docker is available), and install it following the instructions provided on the Docker website. Once you have installed Docker, check that Docker is working correctly by following <a href="https://docs.docker.com/get-started">Part 1 of the Getting Started guide</a>. If you are using Docker for the first time, we recommend reading the entire Getting Started guide. <em>Note that setting up Docker requires that you have administrator access to your computer.</em> (<a href="https://singularity.lbl.gov/docs-docker">Singularity</a> is an alternative that accepts Docker images and does not require administrator access.)</p>
+<h2>Download and install Docker</h2>
+<p>Download <a href="https://docs.docker.com/install">Docker</a> (note that a free <a href="https://www.docker.com/community-edition">community edition</a> of Docker is available), and install it following the instructions provided on the Docker website. Once you have installed Docker, check that Docker is working correctly by following Part 1 of the <a href="https://docs.docker.com/get-started">“Getting Started” guide</a>. If you are new to Docker, we recommend reading the entire “Getting Started” guide.</p>
+<p><strong>Note:</strong> Setting up Docker requires that you have administrator access to your computer. <a href="https://singularity.lbl.gov/docs-docker">Singularity</a> is an alternative that accepts Docker images and does not require administrator access.</p>
 </div>
 <div id="download-and-test-docker-image" class="section level2">
-<h2>2. Download and test Docker image</h2>
+<h2>Download and test Docker image</h2>
+</div>
+<div id="download-and-test-docker-image-1" class="section level2">
+<h2>Download and test Docker image</h2>
 <p>Run this <code>alias</code> command in the shell, which will be used below to run commands inside the Docker container:</p>
-<pre class="bash"><code>alias mash-docker=&#39;docker run --security-opt label:disable -t -P -h MASH &#39;\
-&#39;-w $PWD -v $HOME:/home/$USER -v /tmp:/tmp -v $PWD:$PWD &#39;\
+<pre class="bash"><code>alias mash-docker=&#39;docker run --security-opt label:disable -t &#39;\
+&#39;-P -h MASH -w $PWD -v $HOME:/home/$USER -v /tmp:/tmp -v $PWD:$PWD &#39;\
 &#39;-u $UID:${GROUPS[0]} -e HOME=/home/$USER -e USER=$USER gaow/mash-paper&#39;</code></pre>
 <p>The <code>-v</code> flags in this command map directories between the standard computing environment and the Docker container. Since the analyses below will write files to these directories, it is important to ensure that:</p>
 <ul>
@@ -349,22 +400,13 @@ Removed most of the materials from the README.
 docker container list --all</code></pre>
 <p><em>Note:</em> If you get error “Cannot connect to the Docker daemon. Is the docker daemon running on this host?” in Linux or macOS, see <a href="https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo">here for Linux</a> or <a href="https://github.com/wodby/docker4drupal/issues/15">here for Mac</a> for suggestions on how to resolve this issue.</p>
 </div>
-<div id="clone-or-download-this-repository" class="section level2">
-<h2>3. Clone or download this repository</h2>
-<p>Clone or download the <code>gtexresults</code> repository to your computer, then change your working directory in the shell to the root of the repository, e.g.,</p>
+<div id="clone-or-download-the-gtexresults-repository" class="section level2">
+<h2>Clone or download the gtexresults repository</h2>
+<p>Clone or download the <a href="https://github.com/stephenslab/gtexresults">gtexresults</a> repository to your computer, then change your working directory in the shell to the root of the repository, e.g.,</p>
 <pre class="bash"><code>cd gtexresults</code></pre>
-<p>After doing this, running <code>ls -1</code> should show the top-level contents of this repository:</p>
-<pre><code>LICENSE
-README.md
-TODO.txt
-analysis
-data
-docs
-output
-workflows</code></pre>
-<p>All commands below will be run from this directory.</p>
+<p>All the commands below will be run from this directory.</p>
 <div id="fit-mash-model-and-compute-posterior-statistics" class="section level3">
-<h3>4. Fit MASH model and compute posterior statistics</h3>
+<h3>Fit mash model and compute posterior statistics</h3>
 <p>Assuming your working directory is the root of the git repository (you can check by running <code>pwd</code>), run all the steps of the analysis with this command:</p>
 <pre class="bash"><code>mash-docker sos run workflows/gtex6_mash_analysis.ipynb</code></pre>
 <p>This command will take several hours to run—see below for more information on the individual steps. All outputs generated by this command will be saved to folder <code>output</code> inside the repository.</p>

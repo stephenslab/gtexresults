@@ -223,7 +223,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-06-01</p>
+<p><strong>Last updated:</strong> 2018-06-04</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -232,7 +232,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/7ff4f673d585f44b34066c047e9e9a77cfac7408" target="_blank">7ff4f67</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/340ad6fb2a23ef21a6758142b65977ba2d7277b6" target="_blank">340ad6f</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -245,9 +245,6 @@ Ignored files:
 Untracked files:
     Untracked:  fastqtl_to_mash_output/
     Untracked:  gtex6_workflow_output/
-
-Unstaged changes:
-    Modified:   analysis/index.Rmd
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -276,6 +273,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/340ad6fb2a23ef21a6758142b65977ba2d7277b6/analysis/fastqtl2mash.Rmd" target="_blank">340ad6f</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-04
+</td>
+<td style="text-align:left;">
+wflow_publish(c(“index.Rmd”, “gtex.Rmd”, “fastqtl2mash.Rmd”))
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -516,13 +530,13 @@ docker container list --all</code></pre>
 <pre class="bash"><code>fastqtl2mash-docker sos run workflows/fastqtl_to_mash.ipynb \
   --data_list data/fastqtl/FastQTLSumStats.list \
   --gene_list data/fastqtl/GTEx_genes.txt</code></pre>
-<p>If successful, this command will write several files to a newly created directory, <code>fastqtl_to_mash_output</code>. The file <code>FastQTLSumStats.mash.rds</code> contains the eQTL summary statistics in an RDS file, which is easily loaded into R; see <code>help(readRDS)</code> in R for detailsf. For more information about the contents of this file, and how they can be provided as input to the mash methods using the <code>set_mash_data</code> function, see the documentation inside the <a href="https://github.com/stephenslab/gtexresults/blob/master/workflows/fastqtl_to_mash.ipynb">fastqtl2mash notebook</a> and the vignettes in the <a href="https://github.com/stephenslab/mashr">mashr package</a>.</p>
+<p>If successful, this command will write several files to a newly created directory, <code>fastqtl_to_mash_output</code>. One file, <code>FastQTLSumStats.mash.rds</code>, contains the eQTL summary statistics in an RDS file, which is easily loaded into R; see <code>help(readRDS)</code> in R for detailsf. For more information about the contents of this file, and how they can be provided as input to the mash methods using the <code>set_mash_data</code> function, see the documentation inside the <a href="https://github.com/stephenslab/gtexresults/blob/master/workflows/fastqtl_to_mash.ipynb">fastqtl2mash notebook</a> and the vignettes in the <a href="https://github.com/stephenslab/mashr">mashr package</a>.</p>
 </div>
 <div id="additional-usage-notes" class="section level2">
 <h2>Additional usage notes</h2>
 <ul>
 <li><p>All containers that have run and exited will still be retained in the Docker system. Run <code>docker container list --all</code> to list all previous run containers. To clear these previously run containers, run <code>docker container prune</code>. See <a href="https://stackoverflow.com/questions/17014263/should-i-be-concerned-about-excess-non-running-docker-containers">here</a> for more information.</p></li>
-<li><p>The conversion procedure has several options which were not illustrated in the example above. View the <code>fastqtl_to_mash.ipynb</code> file in Jupyter, or in your Web browser <a href="https://github.com/stephenslab/gtexresults/blob/master/workflows/fastqtl_to_mash.ipynb">here</a>, for more details about the available options and other usage information.</p></li>
+<li><p>The conversion procedure has several options which were not illustrated in the example above. View the <code>fastqtl_to_mash.ipynb</code> file in Jupyter, or in your Web browser <a href="https://github.com/stephenslab/gtexresults/blob/master/workflows/fastqtl_to_mash.ipynb">here</a>, for more details about the available options, specifications of the input files, and other usage information.</p></li>
 <li><p>Converting the full GTEx data set is computationally intensive and is best done in high-performance computing environment with configurations to run the workflow across different compute nodes. See <a href="https://vatlab.github.io/sos-docs/doc/documentation/Remote_Execution.html">here</a> for details.</p></li>
 </ul>
 </div>
