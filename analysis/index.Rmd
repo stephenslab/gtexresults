@@ -54,7 +54,7 @@ under the terms of the [MIT license][mit-license].
 ## Contributors
 
 This project was developed by [Sarah Urbut][sarah], [Gao Wang][gao],
-[Peter Carbonetto][peter].  [Matthew Stephens][matthew] at the
+[Peter Carbonetto][peter] and [Matthew Stephens][matthew] at the
 University of Chicago.
 
 [biorxiv-paper]: http://dx.doi.org/10.1101/096552

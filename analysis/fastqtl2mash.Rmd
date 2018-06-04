@@ -144,8 +144,8 @@ fastqtl2mash-docker sos run workflows/fastqtl_to_mash.ipynb \
 ```
 
 If successful, this command will write several files to a newly
-created directory, `fastqtl_to_mash_output`. The file
-`FastQTLSumStats.mash.rds` contains the eQTL summary statistics in an
+created directory, `fastqtl_to_mash_output`. One file,
+`FastQTLSumStats.mash.rds`, contains the eQTL summary statistics in an
 RDS file, which is easily loaded into R; see `help(readRDS)` in R for
 detailsf. For more information about the contents of this file, and
 how they can be provided as input to the mash methods using the
@@ -165,7 +165,7 @@ information.
 illustrated in the example above. View the `fastqtl_to_mash.ipynb`
 file in Jupyter, or in your Web browser
 [here][fastqtl2mash-notebook], for more details about the available
-options and other usage information.
+options, specifications of the input files, and other usage information.
 
 + Converting the full GTEx data set is computationally intensive and
 is best done in high-performance computing environment with

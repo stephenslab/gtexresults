@@ -1,5 +1,5 @@
 ---
-title: "MASH analysis of GTEx data"
+title: "mash analysis of GTEx data"
 author: "Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens"
 site: workflowr::wflow_site
 output:
@@ -7,58 +7,63 @@ output:
     toc: false
 ---
 
-If you find a bug, please post an
-[issue](https://github.com/stephenslab/gtexresults/issues).
-
-
 ## Overview
 
 To reproduce the results of Urbut, Wang & Stephens (2017), please
-follow these instructions.
+follow these instructions. You are welcome to adapt these steps to
+your own study. Please also visit the
+[mashr R package repository][mashr], which has a more user-friendly
+interface and tutorials on how to apply multivariate adaptive
+shrinkage (mash) to association analysis gene expression (eQTL
+analysis).
 
-The complete analyses require installation of several programs and
-libraries, and requires several large data sets. To facilitate 
-reproducing our results, we provide pre-processed data for use with 
-the core analysis, and a bioinformatics pipeline with a small toy 
-data-set to demonstrate the pre-processing step. We have also developed a
-[Docker container](https://hub.docker.com/r/gaow/mash-paper) that
-includes all software components necessary to run the analyses. Docker
-can run on most popular operating systems (Mac, Windows and Linux).
-It also runs on cloud computing
-services such as Amazon Web Services and Microsoft Azure. If you have
-not used Docker before, you might want to read
-[this](https://docs.docker.com/engine/docker-overview) to learn the
-basic concepts and understand the benefits of Docker.
+The complete analyses of the GTEx data require installation of several
+programs and libraries, as well as large data sets that are
+specifically prepared for mash. To facilitate reproducing our results,
+we provide data that was pre-processed using the
+[fastqtl2mash preprocessing pipeline](fastqtl2mash.html). We have also
+developed a [Docker container][docker-mash-paper] that includes all
+software components necessary to run the analyses. Docker can run on
+most popular operating systems (Mac, Windows and Linux) and cloud
+computing services such as Amazon Web Services and Microsoft Azure. If
+you have not used Docker before, you might want to read
+[this][docker-overview] to learn the basic concepts and understand the
+main benefits of Docker.
 
-For details on how the Docker image was configured, see the
-[Dockerfile](workflows/Dockerfile). The Docker image used for our
-analyses is based on
-[gaow/lab-base](https://hub.docker.com/r/gaow/lab-base), a Docker
+For details on how the Docker image was configured, see
+`mash.dockerfile` in the `workflows` directory of the
+[git repository][gtexresults]. The Docker image used for our analyses
+is based on [gaow/lab-base][docker-lab-base], a customized Docker
 image for development with R and Python.
 
-## 1. Download and install Docker
+If you find a bug in any of these steps, please post an
+[issue][issues].
 
-Download [Docker](https://docs.docker.com/install) (note that a free
-[community edition](https://www.docker.com/community-edition) of
-Docker is available), and install it following the instructions
-provided on the Docker website. Once you have installed Docker, check
-that Docker is working correctly by following
-[Part 1 of the Getting Started guide](https://docs.docker.com/get-started).
-If you are using Docker for the first time, we recommend reading the
-entire Getting Started guide. *Note that setting up Docker requires
-that you have administrator access to your computer.*
-([Singularity](https://singularity.lbl.gov/docs-docker) is an
+## Download and install Docker
+
+Download [Docker][docker-download] (note that a free
+[community edition][docker-ce] of Docker is available), and install it
+following the instructions provided on the Docker website. Once you
+have installed Docker, check that Docker is working correctly by
+following Part 1 of the ["Getting Started" guide][docker-getting-started].
+If you are new to Docker, we recommend reading the entire "Getting
+Started" guide.
+
+**Note:** Setting up Docker requires that you have administrator
+access to your computer. [Singularity][singularity] is an
 alternative that accepts Docker images and does not require
-administrator access.)
+administrator access.
 
-## 2. Download and test Docker image
+## Download and test Docker image
+
+## Download and test Docker image
 
 Run this `alias` command in the shell, which will be used below to run
 commands inside the Docker container:
 
 ```bash
-alias mash-docker='docker run --security-opt label:disable -t -P -h MASH '\
-'-w $PWD -v $HOME:/home/$USER -v /tmp:/tmp -v $PWD:$PWD '\
+alias mash-docker='docker run --security-opt label:disable -t '\
+'-P -h MASH -w $PWD -v $HOME:/home/$USER -v /tmp:/tmp -v $PWD:$PWD '\
 '-u $UID:${GROUPS[0]} -e HOME=/home/$USER -e USER=$USER gaow/mash-paper'
 ```
 
@@ -106,37 +111,23 @@ docker container list --all
 
 *Note:* If you get error "Cannot connect to the Docker daemon. Is the
 docker daemon running on this host?" in Linux or macOS, see
-[here for Linux](https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo)
-or [here for Mac](https://github.com/wodby/docker4drupal/issues/15) for
+[here for Linux][docker-daemon-linux]
+or [here for Mac][docker-daemon-mac] for
 suggestions on how to resolve this issue.
 
-## 3. Clone or download this repository
+## Clone or download the gtexresults repository
 
-Clone or download the `gtexresults` repository to your computer, then
-change your working directory in the shell to the root of the
-repository, e.g.,
+Clone or download the [gtexresults][gtexresults] repository to your
+computer, then change your working directory in the shell to the root
+of the repository, e.g.,
 
 ```bash
 cd gtexresults
 ```
 
-After doing this, running `ls -1` should show the top-level contents
-of this repository:
+All the commands below will be run from this directory.
 
-```
-LICENSE
-README.md
-TODO.txt
-analysis
-data
-docs
-output
-workflows
-```
-
-All commands below will be run from this directory.
-
-### 4. Fit MASH model and compute posterior statistics
+### Fit mash model and compute posterior statistics
 
 Assuming your working directory is the root of the git repository (you
 can check by running `pwd`), run all the steps of the analysis with
@@ -148,8 +139,7 @@ mash-docker sos run workflows/gtex6_mash_analysis.ipynb
 
 This command will take several hours to run—see below for more
 information on the individual steps. All outputs generated by this
-command will be saved to folder `output` inside the
-repository.
+command will be saved to folder `output` inside the repository.
 
 Note that you may recognize this file as a Jupyter notebook. Indeed,
 you may open this notebook in Jupyter. However, you should not step
@@ -249,7 +239,6 @@ Supplementary Figure 2:There are 4 figures here:
 
 [Summary of covariance matrices Uk with largest estimated weight (> 1%) in GTEx data:Uk8](Fig.Uk8.html)
 
-
 Supplementary Figure 3: Illustration of how Linkage Disequilibrium can impact effect estimate [table](TwoSNP.html) and [figure](TwoSNPPlot.pdf)
 
 Supplementary Figure 4:[Pairwise Sharing By Sign](Fig.SharingSign.html)
@@ -296,3 +285,15 @@ Run the following command to update the Docker image:
 docker pull gaow/mash-paper
 ```
 
+[gtexresults]: https://github.com/stephenslab/gtexresults
+[mashr]: https://github.com/stephenslab/mashr
+[issues]: https://github.com/stephenslab/gtexresults/issues
+[docker-overview]: https://docs.docker.com/engine/docker-overview
+[docker-getting-started]: https://docs.docker.com/get-started
+[docker-download]: https://docs.docker.com/install
+[docker-ce]: https://www.docker.com/community-edition
+[docker-lab-base]: https://hub.docker.com/r/gaow/lab-base
+[docker-mash-paper]: https://hub.docker.com/r/gaow/mash-paper
+[singularity]: https://singularity.lbl.gov/docs-docker
+[docker-daemon-linux]: https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo
+[docker-daemon-mac]: https://github.com/wodby/docker4drupal/issues/15
