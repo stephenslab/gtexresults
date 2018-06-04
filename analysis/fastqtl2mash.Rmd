@@ -172,6 +172,12 @@ is best done in high-performance computing environment with
 configurations to run the workflow across different compute nodes. See
 [here][sos-cluster-info] for details.
 
++ Run the following command to update the Docker image:
+
+  ```bash
+  docker pull gaow/hdf5tools
+  ```
+
 [gtex]: http://gtexportal.org
 [gtexresults]: https://github.com/stephenslab/gtexresults
 [issues]: https://github.com/stephenslab/gtexresults/issues

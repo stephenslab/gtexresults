@@ -191,7 +191,7 @@ containers, run `docker container prune`. See
 [here](https://stackoverflow.com/questions/17014263/should-i-be-concerned-about-excess-non-running-docker-containers)
 for more information.
 
-### 5. Add Step 5 title here
+## 5. Add Step 5 title here
 
 Install some packages from CRAN:
 
@@ -266,13 +266,11 @@ summary statistics downloaded from the GTEx Portal website, then
 converted using the code in `fastqtl_to_mash.ipynb`. See
 [here](fastqtl2mash.html) for details on this step.
 
-## Developer notes
++ Run the following command to update the Docker image:
 
-Run the following command to update the Docker image:
-
-```bash
-docker pull gaow/mash-paper
-```
+  ```bash
+  docker pull gaow/mash-paper
+  ```
 
 [gtexresults]: https://github.com/stephenslab/gtexresults
 [mashr]: https://github.com/stephenslab/mashr
