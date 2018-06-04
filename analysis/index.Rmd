@@ -47,9 +47,43 @@ Matthew Stephens.
 All source code and software in this repository are made available
 under the terms of the [MIT license][mit-license].
 
-## What's included
+## What's included in the git repository
 
-*Fill out this section.*
+See [here][gtexresults] for the source repository. This is what
+you will find in the repository:
+
+```
+├── analysis
+├── code
+├── data
+├── docs
+├── output
+└── workflows
+```
+
++ The **analysis** contains R Markdown source files for the workflowr
+  website, including R code used to generate figures and tables for
+  the manuscript.
+
++ The **code** directory contains additional supporting code for the
+  analyses.
+
++ The **data** directory contains original and processed data files
+  used in the mash analysis of the GTEx data, example data sets used
+  to illustrate the data processing and analysis pipelines, and
+  additional data used to generate the tables and figures for the
+  manuscript.
+
++ The **docs** directory contains webpages generated from the R
+  Markdown files in the analysis directory.
+
++ The **output** directory is used to store outputs from analysis
+  pipelines.
+
++ The **workflows** directory contains source code ("SoS workflows")
+  and Docker configuration files ("Dockerfiles") implementing a data
+  processing pipeline for mash and an end-to-end analysis of the GTEx
+  data using the multivariate statistical methods ("mash").
 
 ## Contributors
 
@@ -57,6 +91,7 @@ This project was developed by [Sarah Urbut][sarah], [Gao Wang][gao],
 [Peter Carbonetto][peter] and [Matthew Stephens][matthew] at the
 University of Chicago.
 
+[gtexresults]: https://github.com/stephenslab/gtexresults
 [biorxiv-paper]: http://dx.doi.org/10.1101/096552
 [mashr]: https://github.com/stephenslab/mashr
 [gtex]: http://gtexportal.org
