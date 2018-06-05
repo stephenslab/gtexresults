@@ -271,10 +271,7 @@ converted using the code in `fastqtl_to_mash.ipynb`. See
 [here](fastqtl2mash.html) for details on this step.
 
 + Run the following command to update the Docker image:
-
-  ```bash
-  docker pull gaow/mash-paper
-  ```
+  `docker pull gaow/mash-paper`
 
 [gtexresults]: https://github.com/stephenslab/gtexresults
 [mashr]: https://github.com/stephenslab/mashr
