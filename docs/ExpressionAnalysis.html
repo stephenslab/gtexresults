@@ -272,12 +272,21 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">MASH analysis of GTEx</a>
+      <a class="navbar-brand" href="index.html">mash code resources</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
   <a href="index.html">Overview</a>
+</li>
+<li>
+  <a href="https://github.com/stephenslab/mashr">mashr</a>
+</li>
+<li>
+  <a href="fastqtl2mash.html">Fastqtl to mash</a>
+</li>
+<li>
+  <a href="gtex.html">GTEx analysis</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -312,7 +321,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-05-24</p>
+<p><strong>Last updated:</strong> 2018-06-05</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -336,15 +345,24 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/1681b38ba3cf0cf9db1d751c48ea0bff75fd9d16" target="_blank">1681b38</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/0a5d3bced0fd9ab4880c9d7fb2a7feaf052669f3" target="_blank">0a5d3bc</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
     Ignored:    .sos/
     Ignored:    data/.sos/
-    Ignored:    gtex6_workflow_output/
+    Ignored:    output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3.lite.single.expanded.V1.loglik.rds
     Ignored:    workflows/.ipynb_checkpoints/
     Ignored:    workflows/.sos/
+
+Untracked files:
+    Untracked:  analysis/Fig.ExpressionAnalysis.Rmd
+    Untracked:  analysis/files.txt
+    Untracked:  fastqtl_to_mash_output/
+    Untracked:  gtex6_workflow_output/
+
+Unstaged changes:
+    Modified:   analysis/gtex.Rmd
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -378,16 +396,16 @@ Message
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/1681b38ba3cf0cf9db1d751c48ea0bff75fd9d16/analysis/Fig.ExpressionAnalysis.Rmd" target="_blank">1681b38</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/0a5d3bced0fd9ab4880c9d7fb2a7feaf052669f3/analysis/ExpressionAnalysis.Rmd" target="_blank">0a5d3bc</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
 </td>
 <td style="text-align:left;">
-2018-05-24
+2018-06-05
 </td>
 <td style="text-align:left;">
-wflow_publish(“Fig.ExpressionAnalysis.Rmd”)
+Renamed Fig.ExpressionAnalysis.Rmd as ExpressionAnalysis.Rmd.
 </td>
 </tr>
 <tr>
@@ -395,33 +413,16 @@ wflow_publish(“Fig.ExpressionAnalysis.Rmd”)
 html
 </td>
 <td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/gtexresults/83c59325493e8465dfb5e3be9db70371164967fd/docs/Fig.ExpressionAnalysis.html" target="_blank">83c5932</a>
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/0a5d3bced0fd9ab4880c9d7fb2a7feaf052669f3/docs/ExpressionAnalysis.html" target="_blank">0a5d3bc</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
 </td>
 <td style="text-align:left;">
-2018-05-24
+2018-06-05
 </td>
 <td style="text-align:left;">
-Build site.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rmd
-</td>
-<td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/1525d3dbac9f2898eee14eab37c98cee96711ae5/analysis/Fig.ExpressionAnalysis.Rmd" target="_blank">1525d3d</a>
-</td>
-<td style="text-align:left;">
-Peter Carbonetto
-</td>
-<td style="text-align:left;">
-2018-05-24
-</td>
-<td style="text-align:left;">
-wflow_publish(“Fig.ExpressionAnalysis.Rmd”)
+Renamed Fig.ExpressionAnalysis.Rmd as ExpressionAnalysis.Rmd.
 </td>
 </tr>
 <tr>
@@ -429,118 +430,33 @@ wflow_publish(“Fig.ExpressionAnalysis.Rmd”)
 html
 </td>
 <td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/gtexresults/3f22f690db2d64b0a46056e99d00d58b1b6c7e8a/docs/Fig.ExpressionAnalysis.html" target="_blank">3f22f69</a>
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/afc401f3e92f562d878d377ddac5033f230e7c51/docs/ExpressionAnalysis.html" target="_blank">afc401f</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
-</td>
-<td style="text-align:left;">
-2018-05-24
-</td>
-<td style="text-align:left;">
-Some improvements to the formatting in Fig.ExpressionAnalysis.Rmd.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rmd
-</td>
-<td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/336a8b680ed49d0ab6e4373e82b87f2da6c919e4/analysis/Fig.ExpressionAnalysis.Rmd" target="_blank">336a8b6</a>
-</td>
-<td style="text-align:left;">
-Peter Carbonetto
-</td>
-<td style="text-align:left;">
-2018-05-24
-</td>
-<td style="text-align:left;">
-wflow_publish(“Fig.ExpressionAnalysis.Rmd”)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rmd
-</td>
-<td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/ae61358de3515c68c087a85738371adc8ed79a08/analysis/Fig.ExpressionAnalysis.Rmd" target="_blank">ae61358</a>
-</td>
-<td style="text-align:left;">
-Peter Carbonetto
-</td>
-<td style="text-align:left;">
-2018-05-24
-</td>
-<td style="text-align:left;">
-wflow_publish(“Fig.ExpressionAnalysis.Rmd”)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rmd
-</td>
-<td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/e8c6f6f601d66cc0c78c56bd892a3ecd869f6afc/analysis/Fig.ExpressionAnalysis.Rmd" target="_blank">e8c6f6f</a>
-</td>
-<td style="text-align:left;">
-Peter Carbonetto
-</td>
-<td style="text-align:left;">
-2018-05-24
-</td>
-<td style="text-align:left;">
-Working on revisions to Fig.ExpressionAnalysis.Rmd.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rmd
-</td>
-<td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/5ed67157e82a0368d5caa3d9a4bd45d1ddf75227/analysis/Fig.ExpressionAnalysis.Rmd" target="_blank">5ed6715</a>
-</td>
-<td style="text-align:left;">
-Peter Carbonetto
-</td>
-<td style="text-align:left;">
-2018-05-24
-</td>
-<td style="text-align:left;">
-Moved AvgExpr..csv and working on changes to Fig.ExpressionAnalysis.Rmd analysis.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rmd
-</td>
-<td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/80f285faf2eaf3c1e1b4fc25317c58996d5b2525/analysis/Fig.ExpressionAnalysis.Rmd" target="_blank">80f285f</a>
-</td>
-<td style="text-align:left;">
-Gao Wang
 </td>
 <td style="text-align:left;">
 2017-09-20
 </td>
 <td style="text-align:left;">
-Update figures
+Moved doc to docs.
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-html
+Rmd
 </td>
 <td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/gtexresults/80f285faf2eaf3c1e1b4fc25317c58996d5b2525/docs/Fig.ExpressionAnalysis.html" target="_blank">80f285f</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/e1e48dfd00f536a3e20940fb47241c67f4a2f1cc/analysis/ExpressionAnalysis.Rmd" target="_blank">e1e48df</a>
 </td>
 <td style="text-align:left;">
-Gao Wang
+Peter Carbonetto
 </td>
 <td style="text-align:left;">
 2017-09-20
 </td>
 <td style="text-align:left;">
-Update figures
+Reorganized many of the files.
 </td>
 </tr>
 </tbody>
@@ -625,7 +541,7 @@ plot_tissuespecificthree = function(tissuename,lfsr,ymax,curvedata,title,
 <pre class="r"><code>plot_tissuespecifictwo(tissuename = &quot;Testis&quot;,lfsr = lfsr,
                        curvedata = log(exp.sort),title = &quot;Test&quot;,
                        thresh = 0.05 ,ymax=0.5)</code></pre>
-<p><img src="figure/Fig.ExpressionAnalysis.Rmd/testis-1.png" width="528" style="display: block; margin: auto;" /></p>
+<p><img src="figure/ExpressionAnalysis.Rmd/testis-1.png" width="528" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of testis-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
 <thead>
@@ -644,13 +560,13 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/3f22f690db2d64b0a46056e99d00d58b1b6c7e8a/docs/figure/Fig.ExpressionAnalysis.Rmd/testis-1.png" target="_blank">3f22f69</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/0a5d3bced0fd9ab4880c9d7fb2a7feaf052669f3/docs/figure/ExpressionAnalysis.Rmd/testis-1.png" target="_blank">0a5d3bc</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
 </td>
 <td style="text-align:left;">
-2018-05-24
+2018-06-05
 </td>
 </tr>
 </tbody>
@@ -659,7 +575,7 @@ Peter Carbonetto
 <pre class="r"><code>plot_tissuespecificthree(tissuename = &quot;Testis&quot;,lfsr = lfsr,
                          curvedata = log(exp.sort),title = &quot;Test&quot;,
                          thresh = 0.05 ,ymax=1)</code></pre>
-<p><img src="figure/Fig.ExpressionAnalysis.Rmd/testis-2.png" width="528" style="display: block; margin: auto;" /></p>
+<p><img src="figure/ExpressionAnalysis.Rmd/testis-2.png" width="528" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of testis-2.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
 <thead>
@@ -678,13 +594,13 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/3f22f690db2d64b0a46056e99d00d58b1b6c7e8a/docs/figure/Fig.ExpressionAnalysis.Rmd/testis-2.png" target="_blank">3f22f69</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/0a5d3bced0fd9ab4880c9d7fb2a7feaf052669f3/docs/figure/ExpressionAnalysis.Rmd/testis-2.png" target="_blank">0a5d3bc</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
 </td>
 <td style="text-align:left;">
-2018-05-24
+2018-06-05
 </td>
 </tr>
 </tbody>
@@ -698,7 +614,7 @@ Peter Carbonetto
 <pre class="r"><code>plot_tissuespecifictwo(tissuename = &quot;Thyroid&quot;,lfsr = lfsr,
                        curvedata = log(exp.sort),title = &quot;Test&quot;,
                        thresh = 0.05,ymax = 0.5)</code></pre>
-<p><img src="figure/Fig.ExpressionAnalysis.Rmd/thyroid-1.png" width="528" style="display: block; margin: auto;" /></p>
+<p><img src="figure/ExpressionAnalysis.Rmd/thyroid-1.png" width="528" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of thyroid-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
 <thead>
@@ -717,13 +633,13 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/3f22f690db2d64b0a46056e99d00d58b1b6c7e8a/docs/figure/Fig.ExpressionAnalysis.Rmd/thyroid-1.png" target="_blank">3f22f69</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/0a5d3bced0fd9ab4880c9d7fb2a7feaf052669f3/docs/figure/ExpressionAnalysis.Rmd/thyroid-1.png" target="_blank">0a5d3bc</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
 </td>
 <td style="text-align:left;">
-2018-05-24
+2018-06-05
 </td>
 </tr>
 </tbody>
@@ -732,7 +648,7 @@ Peter Carbonetto
 <pre class="r"><code>plot_tissuespecificthree(tissuename = &quot;Thyroid&quot;,lfsr = lfsr,
                          curvedata = log(exp.sort),title = &quot;Test&quot;,
                          thresh = 0.05,ymax = 1)</code></pre>
-<p><img src="figure/Fig.ExpressionAnalysis.Rmd/thyroid-2.png" width="528" style="display: block; margin: auto;" /></p>
+<p><img src="figure/ExpressionAnalysis.Rmd/thyroid-2.png" width="528" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of thyroid-2.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
 <thead>
@@ -751,13 +667,13 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/3f22f690db2d64b0a46056e99d00d58b1b6c7e8a/docs/figure/Fig.ExpressionAnalysis.Rmd/thyroid-2.png" target="_blank">3f22f69</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/0a5d3bced0fd9ab4880c9d7fb2a7feaf052669f3/docs/figure/ExpressionAnalysis.Rmd/thyroid-2.png" target="_blank">0a5d3bc</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
 </td>
 <td style="text-align:left;">
-2018-05-24
+2018-06-05
 </td>
 </tr>
 </tbody>
@@ -770,7 +686,7 @@ Peter Carbonetto
 <pre class="r"><code>plot_tissuespecifictwo(tissuename = &quot;Whole_Blood&quot;,lfsr = lfsr,
                        curvedata = log(exp.sort),title = &quot;Test&quot;,
                        thresh = 0.05,ymax=0.5)</code></pre>
-<p><img src="figure/Fig.ExpressionAnalysis.Rmd/whole-blood-1.png" width="528" style="display: block; margin: auto;" /></p>
+<p><img src="figure/ExpressionAnalysis.Rmd/whole-blood-1.png" width="528" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of whole-blood-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
 <thead>
@@ -789,13 +705,13 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/3f22f690db2d64b0a46056e99d00d58b1b6c7e8a/docs/figure/Fig.ExpressionAnalysis.Rmd/whole-blood-1.png" target="_blank">3f22f69</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/0a5d3bced0fd9ab4880c9d7fb2a7feaf052669f3/docs/figure/ExpressionAnalysis.Rmd/whole-blood-1.png" target="_blank">0a5d3bc</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
 </td>
 <td style="text-align:left;">
-2018-05-24
+2018-06-05
 </td>
 </tr>
 </tbody>
@@ -804,7 +720,7 @@ Peter Carbonetto
 <pre class="r"><code>plot_tissuespecificthree(tissuename = &quot;Whole_Blood&quot;,lfsr = lfsr,
                          curvedata = log(exp.sort),title = &quot;Test&quot;,
                          thresh = 0.05 ,ymax=1)</code></pre>
-<p><img src="figure/Fig.ExpressionAnalysis.Rmd/whole-blood-2.png" width="528" style="display: block; margin: auto;" /></p>
+<p><img src="figure/ExpressionAnalysis.Rmd/whole-blood-2.png" width="528" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of whole-blood-2.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
 <thead>
@@ -823,13 +739,13 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/3f22f690db2d64b0a46056e99d00d58b1b6c7e8a/docs/figure/Fig.ExpressionAnalysis.Rmd/whole-blood-2.png" target="_blank">3f22f69</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/0a5d3bced0fd9ab4880c9d7fb2a7feaf052669f3/docs/figure/ExpressionAnalysis.Rmd/whole-blood-2.png" target="_blank">0a5d3bc</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
 </td>
 <td style="text-align:left;">
-2018-05-24
+2018-06-05
 </td>
 </tr>
 </tbody>
@@ -842,7 +758,7 @@ Peter Carbonetto
 <pre class="r"><code>plot_tissuespecifictwo(tissuename = &quot;Cells_Transformed_fibroblasts&quot;,
                        lfsr = lfsr,curvedata = log(exp.sort),title = &quot;Test&quot;,
                        thresh = 0.05,ymax=0.5)</code></pre>
-<p><img src="figure/Fig.ExpressionAnalysis.Rmd/fibroblasts-1.png" width="528" style="display: block; margin: auto;" /></p>
+<p><img src="figure/ExpressionAnalysis.Rmd/fibroblasts-1.png" width="528" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of fibroblasts-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
 <thead>
@@ -861,13 +777,13 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/3f22f690db2d64b0a46056e99d00d58b1b6c7e8a/docs/figure/Fig.ExpressionAnalysis.Rmd/fibroblasts-1.png" target="_blank">3f22f69</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/0a5d3bced0fd9ab4880c9d7fb2a7feaf052669f3/docs/figure/ExpressionAnalysis.Rmd/fibroblasts-1.png" target="_blank">0a5d3bc</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
 </td>
 <td style="text-align:left;">
-2018-05-24
+2018-06-05
 </td>
 </tr>
 </tbody>
@@ -876,7 +792,7 @@ Peter Carbonetto
 <pre class="r"><code>plot_tissuespecificthree(tissuename = &quot;Cells_Transformed_fibroblasts&quot;,
                         lfsr = lfsr,curvedata = log(exp.sort),title = &quot;Test&quot;,
                         thresh = 0.05 ,ymax=1)</code></pre>
-<p><img src="figure/Fig.ExpressionAnalysis.Rmd/fibroblasts-2.png" width="528" style="display: block; margin: auto;" /></p>
+<p><img src="figure/ExpressionAnalysis.Rmd/fibroblasts-2.png" width="528" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of fibroblasts-2.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
 <thead>
@@ -895,13 +811,13 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/3f22f690db2d64b0a46056e99d00d58b1b6c7e8a/docs/figure/Fig.ExpressionAnalysis.Rmd/fibroblasts-2.png" target="_blank">3f22f69</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/0a5d3bced0fd9ab4880c9d7fb2a7feaf052669f3/docs/figure/ExpressionAnalysis.Rmd/fibroblasts-2.png" target="_blank">0a5d3bc</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
 </td>
 <td style="text-align:left;">
-2018-05-24
+2018-06-05
 </td>
 </tr>
 </tbody>
