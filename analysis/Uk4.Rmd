@@ -23,10 +23,10 @@ library(lattice)
 library(colorRamps)
 ```
 
-## Load data and MASH results
+## Load data and mash results
 
 In the next code chunk, we load some GTEx summary statistics, as well
-as some of the results generated from the MASH analysis of the GTEx
+as some of the results generated from the mash analysis of the GTEx
 data.
 
 ```{r load-results}
