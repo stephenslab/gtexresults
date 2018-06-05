@@ -9,7 +9,7 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Sarah Urbut" />
+<meta name="author" content="Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens" />
 
 
 <title>Pairwise sharing by magnitude of eQTLs among tissues</title>
@@ -272,12 +272,21 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">MASH analysis of GTEx</a>
+      <a class="navbar-brand" href="index.html">mash code resources</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
   <a href="index.html">Overview</a>
+</li>
+<li>
+  <a href="https://github.com/stephenslab/mashr">mashr</a>
+</li>
+<li>
+  <a href="fastqtl2mash.html">Fastqtl to mash</a>
+</li>
+<li>
+  <a href="gtex.html">GTEx analysis</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -307,12 +316,12 @@ div.section {
 
 
 <h1 class="title toc-ignore">Pairwise sharing by magnitude of eQTLs among tissues</h1>
-<h4 class="author"><em>Sarah Urbut</em></h4>
+<h4 class="author"><em>Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens</em></h4>
 
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-05-22</p>
+<p><strong>Last updated:</strong> 2018-06-05</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -336,20 +345,23 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/6ca4127fb00dadfa5f2df62c5008abf7c35476c8" target="_blank">6ca4127</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/35816c477f8c017e9d82c7061660b02c30563553" target="_blank">35816c4</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
     Ignored:    .sos/
     Ignored:    data/.sos/
+    Ignored:    output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3.lite.single.expanded.V1.loglik.rds
     Ignored:    workflows/.ipynb_checkpoints/
     Ignored:    workflows/.sos/
 
 Untracked files:
+    Untracked:  analysis/files.txt
+    Untracked:  fastqtl_to_mash_output/
     Untracked:  gtex6_workflow_output/
 
 Unstaged changes:
-    Modified:   analysis/Fig.GTExExamples.Rmd
+    Modified:   analysis/gtex.Rmd
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -383,16 +395,16 @@ Message
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/6ca4127fb00dadfa5f2df62c5008abf7c35476c8/analysis/Fig.SharingMag.Rmd" target="_blank">6ca4127</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/35816c477f8c017e9d82c7061660b02c30563553/analysis/SharingMag.Rmd" target="_blank">35816c4</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
 </td>
 <td style="text-align:left;">
-2018-05-22
+2018-06-05
 </td>
 <td style="text-align:left;">
-wflow_publish(“Fig.SharingMag.Rmd”)
+wflow_publish(“SharingMag.Rmd”)
 </td>
 </tr>
 <tr>
@@ -400,16 +412,16 @@ wflow_publish(“Fig.SharingMag.Rmd”)
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/80f285faf2eaf3c1e1b4fc25317c58996d5b2525/analysis/Fig.SharingMag.Rmd" target="_blank">80f285f</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/747f788f961685a999d1ae8c655626a0f85d7bcd/analysis/SharingMag.Rmd" target="_blank">747f788</a>
 </td>
 <td style="text-align:left;">
-Gao Wang
+Peter Carbonetto
 </td>
 <td style="text-align:left;">
-2017-09-20
+2018-06-05
 </td>
 <td style="text-align:left;">
-Update figures
+Rebuilt SharingSign page after renaming and other improvements.
 </td>
 </tr>
 <tr>
@@ -417,16 +429,16 @@ Update figures
 html
 </td>
 <td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/gtexresults/80f285faf2eaf3c1e1b4fc25317c58996d5b2525/docs/Fig.SharingMag.html" target="_blank">80f285f</a>
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/747f788f961685a999d1ae8c655626a0f85d7bcd/docs/SharingMag.html" target="_blank">747f788</a>
 </td>
 <td style="text-align:left;">
-Gao Wang
+Peter Carbonetto
 </td>
 <td style="text-align:left;">
-2017-09-20
+2018-06-05
 </td>
 <td style="text-align:left;">
-Update figures
+Rebuilt SharingSign page after renaming and other improvements.
 </td>
 </tr>
 </tbody>
@@ -441,17 +453,17 @@ Update figures
 <pre class="r"><code>library(lattice)</code></pre>
 </div>
 <div id="load-data-and-mash-results" class="section level2">
-<h2>Load data and MASH results</h2>
-<p>In the next code chunk, we load some GTEx summary statistics, as well as some of the results generated from the MASH analysis of the GTEx data.</p>
+<h2>Load data and mash results</h2>
+<p>In the next code chunk, we load some GTEx summary statistics, as well as some of the results generated from the mash analysis of the GTEx data.</p>
 <pre class="r"><code>out      &lt;- readRDS(&quot;../data/MatrixEQTLSumStats.Portable.Z.rds&quot;)
 maxb     &lt;- out$test.b
 maxz     &lt;- out$test.z
 out      &lt;-readRDS(paste(&quot;../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3&quot;,
                          &quot;lite.single.expanded.V1.posterior.rds&quot;,sep = &quot;.&quot;))
-pm.mash  &lt;- out$posterior.means
-lfsr.all &lt;- out$lfsr
+pm.mash        &lt;- out$posterior.means
+lfsr.all       &lt;- out$lfsr
 standard.error &lt;- maxb/maxz
-pm.mash.beta &lt;- pm.mash*standard.error</code></pre>
+pm.mash.beta   &lt;- pm.mash*standard.error</code></pre>
 </div>
 <div id="compute-sharing-by-magnitude-statistics" class="section level2">
 <h2>Compute sharing-by-magnitude statistics</h2>
@@ -466,11 +478,14 @@ for (i in 1:ncol(lfsr.mash))
     sig.row=which(lfsr.mash[,i]&lt;thresh)
     sig.col=which(lfsr.mash[,j]&lt;thresh)
     a=(union(sig.row,sig.col))
-    quotient=(pm.mash.beta[a,i]/pm.mash.beta[a,j])##divide effect sizes
-    shared.fold.size[i,j]=mean(quotient&gt;0.5&amp;quotient&lt;2)
+    quotient=(pm.mash.beta[a,i]/pm.mash.beta[a,j])
+    shared.fold.size[i,j] = mean(quotient &gt; 0.5 &amp; quotient &lt; 2)
   }</code></pre>
+</div>
+<div id="plot-heatmap-of-sharing-by-magnitude" class="section level2">
+<h2>Plot heatmap of sharing by magnitude</h2>
 <p>Generate the heatmap using the “levelplot” function from the lattice package.</p>
-<pre class="r"><code>all.tissue.order &lt;- read.table(&quot;../output/alltissueorder.txt&quot;)[,1]
+<pre class="r"><code>all.tissue.order &lt;- read.table(&quot;../data/alltissueorder.txt&quot;)[,1]
 clrs &lt;- colorRampPalette(rev(c(&quot;#D73027&quot;,&quot;#FC8D59&quot;,&quot;#FEE090&quot;,&quot;#FFFFBF&quot;,
                                &quot;#E0F3F8&quot;,&quot;#91BFDB&quot;,&quot;#4575B4&quot;)))(64)
 lat &lt;- shared.fold.size[rev(all.tissue.order),rev(all.tissue.order)]
@@ -478,36 +493,66 @@ lat[lower.tri(lat)] &lt;- NA
 n &lt;- nrow(lat)
 print(levelplot(lat[n:1,],col.regions = clrs,xlab = &quot;&quot;,ylab = &quot;&quot;,
       colorkey = TRUE))</code></pre>
-<p><img src="figure/Fig.SharingMag.Rmd/heatmap-sharing-magnitude-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/SharingMag.Rmd/heatmap-sharing-magnitude-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of heatmap-sharing-magnitude-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/747f788f961685a999d1ae8c655626a0f85d7bcd/docs/figure/SharingMag.Rmd/heatmap-sharing-magnitude-1.png" target="_blank">747f788</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-05
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
 <pre class="r"><code>sessionInfo()
-R version 3.4.3 (2017-11-30)
-Platform: x86_64-apple-darwin15.6.0 (64-bit)
-Running under: macOS High Sierra 10.13.4
-
-Matrix products: default
-BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
-LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
-
-locale:
-[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
-
-attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
-
-other attached packages:
-[1] lattice_0.20-35
-
-loaded via a namespace (and not attached):
- [1] workflowr_1.0.1.9000 Rcpp_0.12.16         digest_0.6.15       
- [4] rprojroot_1.3-2      R.methodsS3_1.7.1    grid_3.4.3          
- [7] backports_1.1.2      git2r_0.21.0         magrittr_1.5        
-[10] evaluate_0.10.1      stringi_1.1.7        whisker_0.3-2       
-[13] R.oo_1.21.0          R.utils_2.6.0        rmarkdown_1.9       
-[16] tools_3.4.3          stringr_1.3.0        yaml_2.1.18         
-[19] compiler_3.4.3       htmltools_0.3.6      knitr_1.20          </code></pre>
+# R version 3.4.3 (2017-11-30)
+# Platform: x86_64-apple-darwin15.6.0 (64-bit)
+# Running under: macOS High Sierra 10.13.4
+# 
+# Matrix products: default
+# BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
+# LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
+# 
+# locale:
+# [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+# 
+# attached base packages:
+# [1] stats     graphics  grDevices utils     datasets  methods   base     
+# 
+# other attached packages:
+# [1] lattice_0.20-35
+# 
+# loaded via a namespace (and not attached):
+#  [1] workflowr_1.0.1.9000 Rcpp_0.12.16         digest_0.6.15       
+#  [4] rprojroot_1.3-2      R.methodsS3_1.7.1    grid_3.4.3          
+#  [7] backports_1.1.2      git2r_0.21.0         magrittr_1.5        
+# [10] evaluate_0.10.1      stringi_1.1.7        whisker_0.3-2       
+# [13] R.oo_1.21.0          R.utils_2.6.0        rmarkdown_1.9       
+# [16] tools_3.4.3          stringr_1.3.0        yaml_2.1.18         
+# [19] compiler_3.4.3       htmltools_0.3.6      knitr_1.20</code></pre>
 </div>
 
 <script type="text/x-mathjax-config">
