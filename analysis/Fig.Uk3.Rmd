@@ -1,6 +1,6 @@
 ---
 title: "Primary correlation patterns identified by mash in GTEx data"
-author: "Sarah Urbut"
+author: "Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens"
 output: workflowr::wflow_html
 ---
 
@@ -60,7 +60,7 @@ Next, we load the tissue indices and tissue names:
 ```{r load-tissues-names}
 colnames(x) <- names
 rownames(x) <- names
-h <- read.table("../output/uk3rowindices.txt")[,1]
+h <- read.table("../data/uk3rowindices.txt")[,1]
 ```
 
 For the plots of the eigenvectors, we load the colours that are
