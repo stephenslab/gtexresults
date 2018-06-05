@@ -223,7 +223,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-06-04</p>
+<p><strong>Last updated:</strong> 2018-06-05</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -232,7 +232,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/8b09c366afd44023720d71047429d1e4120b169e" target="_blank">8b09c36</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/cdb0541bf7686f707bf46c3527842b8f642befd5" target="_blank">cdb0541</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -245,9 +245,6 @@ Ignored files:
 Untracked files:
     Untracked:  fastqtl_to_mash_output/
     Untracked:  gtex6_workflow_output/
-
-Unstaged changes:
-    Modified:   workflows/README
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -276,6 +273,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/cdb0541bf7686f707bf46c3527842b8f642befd5/analysis/gtex.Rmd" target="_blank">cdb0541</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-05
+</td>
+<td style="text-align:left;">
+wflow_publish(“gtex.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/3345ce39aef90224f44e26c9a4d1e028c8b37b2d/analysis/gtex.Rmd" target="_blank">3345ce3</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-04
+</td>
+<td style="text-align:left;">
+A few minor revisions to instructions for running pipelines.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -432,7 +463,7 @@ Removed most of the materials from the README.
 <p>You can also run these commands to show the information about the image downloaded to your computer and the container that has run (and exited):</p>
 <pre class="bash"><code>docker image list
 docker container list --all</code></pre>
-<p><em>Note:</em> If you get error “Cannot connect to the Docker daemon. Is the docker daemon running on this host?” in Linux or macOS, see <a href="https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo">here for Linux</a> or <a href="https://github.com/wodby/docker4drupal/issues/15">here for Mac</a> for suggestions on how to resolve this issue.</p>
+<p><em>Note:</em> If you get error “Cannot connect to the Docker daemon. Is the docker daemon running on this host?” in Linux or macOS, see <a href="https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo">here for Linux</a> or <a href="https://github.com/wodby/docker4drupal/issues/15%20encounter%20fact">here for Mac</a> for suggestions on how to resolve this issue.</p>
 </div>
 <div id="clone-or-download-the-gtexresults-repository" class="section level2">
 <h2>Clone or download the gtexresults repository</h2>
@@ -455,16 +486,18 @@ docker container list --all</code></pre>
 <li><p>The <code>mash-paper_4</code> step computes posterior statistics using the fitted mash model from the previous step. These posterior statistics are summarized and visualized in subsequent analysis steps. The posterior statistics are saved to another <code>.rds</code> file. This step is expected to take a few hours to complete.</p></li>
 </ul>
 <p><strong>Note:</strong> All containers that have run and exited will still be retained in the Docker system. Run <code>docker container list --all</code> to list all previous run containers. To clear these previously run containers, run <code>docker container prune</code>. See <a href="https://stackoverflow.com/questions/17014263/should-i-be-concerned-about-excess-non-running-docker-containers">here</a> for more information.</p>
-<div id="add-step-5-title-here" class="section level3">
-<h3>5. Add Step 5 title here</h3>
-<p>Install some packages from CRAN:</p>
-<pre class="r"><code># Add commands here to install packages.</code></pre>
-<p><strong>For convenience, the results needed to generate the figures and tables have been saved in the <code>output</code> folder.</strong></p>
-<p><strong>FIXME: update figure plotting instructions</strong></p>
-<p>The input data necessary to run this analysis is all available under inputs. This may take some time to run. We have provided the outputs of running mash in <code>Data_vhat</code>.</p>
-<p>This repo is organized so that you can run Mash using the gteX data contained in <strong>Inputs</strong> to produce the parameters and posteriors from mashr.</p>
-<p>The directory <strong>Plots_for_Paper_vmat</strong> contains .Rmd files to plot figures from the paper, using our results which are provided in <strong>Results_Data</strong>.</p>
-<p>Figure 3:<a href="Fig.Uk3.html">Summary of primary patterns identified by mash in GTEx data</a></p>
+</div>
+<div id="generate-figures-and-tables-summarizing-results-of-mash-analysis" class="section level2">
+<h2>Generate figures and tables summarizing results of mash analysis</h2>
+<p>Once you have completed the mash analysis pipeline, the next step is to examine and interpret the results. We provide R code implementing this step; you can either view the webpages listed below, or view the R Markdown source files in the <code>analysis</code> directory of the <a href="https://github.com/stephenslab/gtexresults">gtexresults</a> repository.</p>
+<p>If you were unable to complete the mash analysis pipeline, we have provided the outputs needed to generate the figures and tables below. For convenience, the results needed to generate the figures and tables have been saved in the <code>output</code> folder.</p>
+<p>Before running the R code in the pages listed below, you will need to first install several R packages that are used in the code:</p>
+<pre class="r"><code>install.packages(&quot;colorRamps&quot;)</code></pre>
+<p>Note that at the bottom of each webpage, we have recorded information about the exact version of R and the R Packages that were used. This might be useful if you would like to replicate our computing setup as closely as possible. Also note that the webpages were generated from the R Markdown files using <a href="https://github.com/jdblischak/workflowr">workflowr</a>.</p>
+<p>Visit the following links to view the R code we used to generate summarizies of the GTEx results incorporated into the manuscript:</p>
+<ul>
+<li><a href="Fig.Uk3.html">Primary correlation patterns identified by mash in GTEx data</a>.</li>
+</ul>
 <p>Figure 4:<a href="Fig.GTExExamples.html">Examples illustrating of how mash uses patterns of sharing to inform effect estimates in the GTEx data.</a></p>
 <p>Figure 5:<a href="Fig.SharingHist.pdf">Histogram of Sharing</a></p>
 <p>Figure 6:<a href="Fig.SharingMag.html">Pairwise sharing by magnitude of eQTL among tissues</a></p>
@@ -480,19 +513,15 @@ docker container list --all</code></pre>
 <p>Supplementary Figure 6:<a href="Fig.ExpressionAnalysis.html">Expression levels in genes with “tissue-specific eQTLs” are similar to those in other genes</a></p>
 <p>Table 1: Heterogeneity Analysis <a href="Table.hettablesim.html">Simulation</a> and <a href="Table.HeterogeneityTables.html">Data</a>.</p>
 </div>
-</div>
 <div id="additional-usage-notes" class="section level2">
 <h2>Additional usage notes</h2>
 <ul>
 <li><p>All containers that have run and exited will still be retained in the Docker system. Run <code>docker container list --all</code> to list all previous run containers. To clear these previously run containers, run <code>docker container prune</code>. See [here][docker-prune] for more information.</p></li>
 <li><p>See the Jupyter notebook to get more details; how the notebook should be interpreted.</p></li>
 <li><p>In the <code>data</code> folder, we have provided a file <a href="data/MatrixEQTLSumStats.Portable.Z.rds">MatrixEQTLSumStats.Portable.Z.rds</a> containing eQTL summary statistics from the GTEx study, in a format suitable for running mash. This was generated from the original eQTL summary statistics downloaded from the GTEx Portal website, then converted using the code in <code>fastqtl_to_mash.ipynb</code>. See <a href="fastqtl2mash.html">here</a> for details on this step.</p></li>
+<li><p>Run the following command to update the Docker image:</p></li>
 </ul>
-</div>
-<div id="developer-notes" class="section level2">
-<h2>Developer notes</h2>
-<p>Run the following command to update the Docker image:</p>
-<pre class="bash"><code>docker pull gaow/mash-paper</code></pre>
+<p><code>bash   docker pull gaow/mash-paper</code></p>
 </div>
 
 <script type="text/x-mathjax-config">
