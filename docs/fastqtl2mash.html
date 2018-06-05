@@ -223,7 +223,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-06-04</p>
+<p><strong>Last updated:</strong> 2018-06-05</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -232,7 +232,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/340ad6fb2a23ef21a6758142b65977ba2d7277b6" target="_blank">340ad6f</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/62c92b0226dd0fcf7d73bba86f27270320f6cc22" target="_blank">62c92b0</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -243,6 +243,7 @@ Ignored files:
     Ignored:    workflows/.sos/
 
 Untracked files:
+    Untracked:  analysis/files.txt
     Untracked:  fastqtl_to_mash_output/
     Untracked:  gtex6_workflow_output/
 
@@ -273,6 +274,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/3345ce39aef90224f44e26c9a4d1e028c8b37b2d/analysis/fastqtl2mash.Rmd" target="_blank">3345ce3</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-04
+</td>
+<td style="text-align:left;">
+A few minor revisions to instructions for running pipelines.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/ec7e83eb62cf1bd422f38d79578fefe3b156c975/docs/fastqtl2mash.html" target="_blank">ec7e83e</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-04
+</td>
+<td style="text-align:left;">
+Re-built main webpages after several updates and improvements.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -538,7 +573,9 @@ docker container list --all</code></pre>
 <li><p>All containers that have run and exited will still be retained in the Docker system. Run <code>docker container list --all</code> to list all previous run containers. To clear these previously run containers, run <code>docker container prune</code>. See <a href="https://stackoverflow.com/questions/17014263/should-i-be-concerned-about-excess-non-running-docker-containers">here</a> for more information.</p></li>
 <li><p>The conversion procedure has several options which were not illustrated in the example above. View the <code>fastqtl_to_mash.ipynb</code> file in Jupyter, or in your Web browser <a href="https://github.com/stephenslab/gtexresults/blob/master/workflows/fastqtl_to_mash.ipynb">here</a>, for more details about the available options, specifications of the input files, and other usage information.</p></li>
 <li><p>Converting the full GTEx data set is computationally intensive and is best done in high-performance computing environment with configurations to run the workflow across different compute nodes. See <a href="https://vatlab.github.io/sos-docs/doc/documentation/Remote_Execution.html">here</a> for details.</p></li>
+<li><p>Run the following command to update the Docker image:</p></li>
 </ul>
+<p><code>bash   docker pull gaow/hdf5tools</code></p>
 </div>
 
 <script type="text/x-mathjax-config">
