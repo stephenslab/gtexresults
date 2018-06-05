@@ -1,6 +1,6 @@
 ---
 title: "Pairwise sharing by magnitude of eQTLs among tissues"
-author: "Sarah Urbut"
+author: "Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens"
 output: workflowr::wflow_html
 ---
 
@@ -21,10 +21,10 @@ First, we load the lattice package used for generating the plot below.
 library(lattice)
 ```
 
-## Load data and MASH results
+## Load data and mash results
 
 In the next code chunk, we load some GTEx summary statistics, as well
-as some of the results generated from the MASH analysis of the GTEx
+as some of the results generated from the mash analysis of the GTEx
 data.
 
 ```{r load-results}
@@ -67,7 +67,7 @@ Generate the heatmap using the "levelplot" function from the lattice
 package.
 
 ```{r heatmap-sharing-magnitude, fig.height=10, fig.width=10}
-all.tissue.order <- read.table("../output/alltissueorder.txt")[,1]
+all.tissue.order <- read.table("../data/alltissueorder.txt")[,1]
 clrs <- colorRampPalette(rev(c("#D73027","#FC8D59","#FEE090","#FFFFBF",
                                "#E0F3F8","#91BFDB","#4575B4")))(64)
 lat <- shared.fold.size[rev(all.tissue.order),rev(all.tissue.order)]
