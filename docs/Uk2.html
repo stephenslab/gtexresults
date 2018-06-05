@@ -345,7 +345,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/6a4141142e30f12ab3fb0634af6c3d897586e516" target="_blank">6a41411</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/a9bca8bde119b55f260e4c34b171a14223716724" target="_blank">a9bca8b</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -357,14 +357,7 @@ Ignored files:
 
 Untracked files:
     Untracked:  TODO.txt
-    Untracked:  analysis/Uk3.Rmd
-    Untracked:  analysis/Uk4.Rmd
-    Untracked:  analysis/Uk5.Rmd
-    Untracked:  analysis/Uk8.Rmd
     Untracked:  analysis/files.txt
-    Untracked:  docs/figure/Uk3.Rmd/
-    Untracked:  docs/figure/Uk4.Rmd/
-    Untracked:  docs/figure/Uk5.Rmd/
     Untracked:  fastqtl_to_mash_output/
     Untracked:  gtex6_workflow_output/
 
@@ -380,6 +373,50 @@ Unstaged changes:
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
 </li>
 </ul>
+<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
+<ul>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+File
+</th>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:left;">
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/03a5484154109734021c456c1afc80e46ea44a64/docs/Uk2.html" target="_blank">03a5484</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-05
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
+</tbody>
+</table>
+</ul>
+<p></details></p>
 <hr />
 <p>Here we plot the correlation matrix for the second covariance component. Its mixture weight isn’t quite as high as the <a href="Uk3.html">dominant covariance matrix</a>, but still one of the more predominant components.</p>
 <p>The plots generated in the code below should be the same or very similar to the top-left panel of Supplementary Figure 2.</p>
@@ -423,6 +460,36 @@ n = nrow(lat)
 print(levelplot(lat[n:1,],col.regions = clrs,xlab = &quot;&quot;,ylab = &quot;&quot;,
       colorkey = TRUE))</code></pre>
 <p><img src="figure/Uk2.Rmd/heatmapuk2final-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of heatmapuk2final-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/03a5484154109734021c456c1afc80e46ea44a64/docs/figure/Uk2.Rmd/heatmapuk2final-1.png" target="_blank">03a5484</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-05
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="plot-eigenvectors-capturing-predominant-patterns" class="section level2">
 <h2>Plot eigenvectors capturing predominant patterns</h2>
@@ -435,7 +502,97 @@ for(g in 1:3){
           main=paste(&quot;Eigenvector&quot;,g,&quot;of Uk&quot;,k),
           cex.names = 0.5,col=col[h],names=names[h])
 }</code></pre>
-<p><img src="figure/Uk2.Rmd/plot-eigenvectors-1.png" width="576" style="display: block; margin: auto;" /><img src="figure/Uk2.Rmd/plot-eigenvectors-2.png" width="576" style="display: block; margin: auto;" /><img src="figure/Uk2.Rmd/plot-eigenvectors-3.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="figure/Uk2.Rmd/plot-eigenvectors-1.png" width="576" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of plot-eigenvectors-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/03a5484154109734021c456c1afc80e46ea44a64/docs/figure/Uk2.Rmd/plot-eigenvectors-1.png" target="_blank">03a5484</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-05
+</td>
+</tr>
+</tbody>
+</table>
+<p></details> <img src="figure/Uk2.Rmd/plot-eigenvectors-2.png" width="576" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of plot-eigenvectors-2.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/03a5484154109734021c456c1afc80e46ea44a64/docs/figure/Uk2.Rmd/plot-eigenvectors-2.png" target="_blank">03a5484</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-05
+</td>
+</tr>
+</tbody>
+</table>
+<p></details> <img src="figure/Uk2.Rmd/plot-eigenvectors-3.png" width="576" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of plot-eigenvectors-3.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/03a5484154109734021c456c1afc80e46ea44a64/docs/figure/Uk2.Rmd/plot-eigenvectors-3.png" target="_blank">03a5484</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-05
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
