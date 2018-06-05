@@ -9,7 +9,7 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Sarah Urbut" />
+<meta name="author" content="Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens" />
 
 
 <title>Comparison of genes with tissue-specific eQTLs against other genes</title>
@@ -316,7 +316,7 @@ div.section {
 
 
 <h1 class="title toc-ignore">Comparison of genes with tissue-specific eQTLs against other genes</h1>
-<h4 class="author"><em>Sarah Urbut</em></h4>
+<h4 class="author"><em>Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens</em></h4>
 
 </div>
 
@@ -345,7 +345,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/0a5d3bced0fd9ab4880c9d7fb2a7feaf052669f3" target="_blank">0a5d3bc</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/4a93c87e1e71b120897dd6c3abc8168c9b2a1e12" target="_blank">4a93c87</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -356,7 +356,6 @@ Ignored files:
     Ignored:    workflows/.sos/
 
 Untracked files:
-    Untracked:  analysis/Fig.ExpressionAnalysis.Rmd
     Untracked:  analysis/files.txt
     Untracked:  fastqtl_to_mash_output/
     Untracked:  gtex6_workflow_output/
@@ -391,6 +390,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/4a93c87e1e71b120897dd6c3abc8168c9b2a1e12/analysis/ExpressionAnalysis.Rmd" target="_blank">4a93c87</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-05
+</td>
+<td style="text-align:left;">
+wflow_publish(“ExpressionAnalysis.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/19b54429c809a3062b7c1dc5ca68e62fd2d4507b/docs/ExpressionAnalysis.html" target="_blank">19b5442</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-05
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -466,8 +499,8 @@ Reorganized many of the files.
 <hr />
 <p>In this analysis, we assess whether tissue-specific eQTLs we identified can be explained by tissue-specific expression. Specifically, we take genes with tissue-specific eQTLs, and examine the distribution of expression in the eQTL-affected tissue relative to expression in other tissues.</p>
 <div id="load-data-and-mash-results" class="section level2">
-<h2>Load data and MASH results</h2>
-<p>In the next code chunk, we load some GTEx summary statistics (average gene expression values and <em>z</em>-scores), as well as some of the results generated from the MASH analysis of the GTEx data.</p>
+<h2>Load data and mash results</h2>
+<p>In the next code chunk, we load some GTEx summary statistics (average gene expression values and <em>z</em>-scores), as well as some of the results generated from the mash analysis of the GTEx data.</p>
 <p>Expression is here defined as median across individuals of the log Reads per Kilobase Mapped (RPKM).</p>
 <pre class="r"><code>data &lt;- read.csv(&quot;../data/AvgExpr.csv.gz&quot;,header = TRUE)
 out  &lt;- readRDS(&quot;../data/MatrixEQTLSumStats.Portable.Z.rds&quot;)
