@@ -201,8 +201,10 @@ R Markdown source files in the `analysis` directory of the
 
 If you were unable to complete the mash analysis pipeline, we have
 provided the outputs needed to generate the figures and tables
-below. For convenience, the results needed to generate the figures and
-tables have been saved in the `output` folder.
+below. (If you were able to successfully complete the mash analysis,
+then these files will be overwritten by your outputs.) For
+convenience, the results needed to generate the figures and tables
+have been saved in the `output` folder.
 
 Before running the R code in the pages listed below, you will need to
 first install several R packages that are used in the code:
@@ -220,8 +222,15 @@ the R Markdown files using [workflowr][workflowr].
 Visit the following links to view the R code we used to generate
 summarizies of the GTEx results incorporated into the manuscript:
 
-+ [Primary correlation patterns identified by mash in GTEx
-data](Fig.Uk3.html).
++ [Primary correlation patterns identified by mash in GTEx data](Uk3.html).
+
++ [Correlation patterns from second covariance component](Uk2.html).
+
++ [Correlation patterns from fourth covariance component](Uk4.html).
+
++ [Correlation patterns from fifth covariance component](Uk5.html).
+
++ [Correlation patterns from eighth covariance component](Uk8.html).
 
 Figure 4:[Examples illustrating of how mash uses patterns of sharing to inform effect estimates in the GTEx data.](Fig.GTExExamples.html)
 
@@ -230,10 +239,6 @@ Figure 5:[Histogram of Sharing](Fig.SharingHist.pdf)
 Figure 6:[Pairwise sharing by magnitude of eQTL among tissues](Fig.SharingMag.html)
 
 Supplementary Figure 1:[Sample sizes and effective sample sizes from mash analysis across tissues](Fig.SampleSize.html)
-
-Supplementary Figure 2:There are 4 figures here:
-
-[Summary of covariance matrices Uk with largest estimated weight (> 1%) in GTEx data:Uk2](Fig.Uk2.pdf)
 
 [Summary of covariance matrices Uk with largest estimated weight (> 1%) in GTEx data:Uk4](Fig.Uk4.html)
 
