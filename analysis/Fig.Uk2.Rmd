@@ -1,6 +1,6 @@
 ---
 title: "Correlation patterns from second covariance component"
-author: "Sarah Urbut"
+author: "Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens"
 output: workflowr::wflow_html
 ---
 
@@ -27,10 +27,10 @@ library(lattice)
 library(colorRamps)
 ```
 
-## Load data and MASH results
+## Load data and mash results
 
 In the next code chunk, we load some GTEx summary statistics, as well
-as some of the results generated from the MASH analysis of the GTEx
+as some of the results generated from the mash analysis of the GTEx
 data.
 
 ```{r load-results}
@@ -46,7 +46,7 @@ names  <- colnames(z.stat)
 Next, we load the tissue indices:
 
 ```{r load-tissues-names}
-h <- read.table("../output/uk2rowIndices.txt")[,1]
+h <- read.table("../data/uk2rowIndices.txt")[,1]
 ```
 
 For the plots of the eigenvectors, we load the colours that are
