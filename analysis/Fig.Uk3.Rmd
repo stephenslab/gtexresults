@@ -12,7 +12,7 @@ weight).
 
 Here we plot the correlation matrix and the first 3 eigenvectors of
 "Uk3". This provides a visualization of the primary patterns of
-genetic sharing identified by our method, MASH. This code should
+genetic sharing identified by our method, mash. This code should
 closely reproduce Figure 3 of the paper.
 
 ```{r knitr, message = FALSE, echo = FALSE}
@@ -30,10 +30,10 @@ library(lattice)
 library(colorRamps)
 ```
 
-## Load data and MASH results
+## Load data and mash results
 
 We load some GTEx summary statistics, as well as some of the results
-generated from the MASH analysis of the GTEx data.
+generated from the mash analysis of the GTEx data.
 
 ```{r load-results}
 covmat <- readRDS(paste("../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3",
