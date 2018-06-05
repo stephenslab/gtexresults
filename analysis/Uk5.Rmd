@@ -1,0 +1,97 @@
+---
+title: "Correlation patterns from fifth covariance component"
+author: "Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens"
+output: workflowr::wflow_html
+---
+
+Here we plot the correlation matrix for the fifth covariance
+component, which, similarly to the
+[fourth covariance component](Uk4.html), captures some effects
+that are stronger in Whole Blood than other tissues.
+
+```{r knitr, message = FALSE, echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, fig.width = 8,
+                      fig.height = 4,fig.align = "center",
+                      comment = "#")
+```
+
+## Set up environment
+
+First, we load a couple plotting packages used in the code chunks below.
+
+```{r load-pkgs, message = FALSE}
+library(lattice)
+library(colorRamps)
+```
+
+## Load data and MASH results
+
+In the next code chunk, we load some GTEx summary statistics, as well
+as some of the results generated from the MASH analysis of the GTEx
+data.
+
+```{r load-results}
+covmat <- readRDS(paste("../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3",
+                        "lite.single.expanded.rds",sep = "."))
+pis    <- readRDS(paste("../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3",
+                        "lite.single.expanded.V1.pihat.rds",sep = "."))$pihat
+z.stat <- readRDS("../data/MatrixEQTLSumStats.Portable.Z.rds")$test.z
+pi.mat <- matrix(pis[-length(pis)],ncol = 54,nrow = 22,byrow = TRUE)
+names  <- colnames(z.stat)
+```
+
+Next, we load the tissue indices:
+
+```{r load-tissues-names}
+h <- read.table("../data/uk5rowIndices.txt")[,1]
+```
+
+For the plots of the eigenvectors, we load the colours that are
+conventionally used to represent the tissues in plots.
+
+```{r load-tissue-colors}
+missing.tissues <- c(7,8,19,20,24,25,31,34,37)
+color.gtex      <- read.table("../data/GTExColors.txt",sep = '\t',
+                              comment.char = '')[-missing.tissues,]
+```
+
+Compute the correlations from the $k=5$ covariance matrix.
+
+```{r get-correlations}
+k <- 5
+x <- cov2cor(covmat[[k]])
+x[x<0]      <- 0
+colnames(x) <- names
+rownames(x) <- names
+```
+
+## Generate heatmap of Uk5 covariance matrix
+
+Now we produce the heatmap showing the full covariance matrix.
+
+```{r heatmapuk5final,fig.height=10,fig.width=10}
+clrs <- colorRampPalette(rev(c("#D73027","#FC8D59","#FEE090","#FFFFBF",
+                               "#E0F3F8","#91BFDB","#4575B4")))(64)
+lat=x[rev(h),rev(h)]
+lat[lower.tri(lat)] <- NA
+n=nrow(lat)
+print(levelplot(lat[n:1,],col.regions = clrs,xlab = "",ylab = "",
+      colorkey = TRUE))
+```
+
+## Plot the eigenvector capturing the predominant pattern
+
+The top eigenvector captures the predominant pattern in the Uk4
+covariance matrix.
+
+```{r plot-eigenvectors, fig.width = 6, fig.height = 4}
+col = as.character(color.gtex[,2])
+k=5
+g=1
+v=svd(covmat[[k]])$v[h,]
+rownames(v)=colnames(v)=names[h]
+par(mar=c(8,4.1,4.1,2.1))
+barplot(v[,g]/v[which.max(abs(v[,g])),g],las=2,
+        main=paste("Eigenvector",g,"of Uk",k),cex.names = 0.5,
+        col=col[h],names=names[h])
+````
