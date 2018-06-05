@@ -9,11 +9,10 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Sarah Urbut" />
+<meta name="author" content="Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens" />
 
-<meta name="date" content="2017-05-30" />
 
-<title>Examples of multi-tissue effects estimated by mash</title>
+<title>Examples illustrating how mash uses patterns of sharing to inform effect estimates</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -273,12 +272,21 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">MASH analysis of GTEx</a>
+      <a class="navbar-brand" href="index.html">mash code resources</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
   <a href="index.html">Overview</a>
+</li>
+<li>
+  <a href="https://github.com/stephenslab/mashr">mashr</a>
+</li>
+<li>
+  <a href="fastqtl2mash.html">Fastqtl to mash</a>
+</li>
+<li>
+  <a href="gtex.html">GTEx analysis</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -307,14 +315,13 @@ div.section {
 
 
 
-<h1 class="title toc-ignore">Examples of multi-tissue effects estimated by mash</h1>
-<h4 class="author"><em>Sarah Urbut</em></h4>
-<h4 class="date"><em>2017-05-30</em></h4>
+<h1 class="title toc-ignore">Examples illustrating how mash uses patterns of sharing to inform effect estimates</h1>
+<h4 class="author"><em>Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens</em></h4>
 
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-05-22</p>
+<p><strong>Last updated:</strong> 2018-06-05</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -338,17 +345,24 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/d4a39659d613c24a63ed3ad24c0ea27b5176d8fe" target="_blank">d4a3965</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/87df348fe35746a6988b8c23d4eaeb6b717eae09" target="_blank">87df348</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
     Ignored:    .sos/
     Ignored:    data/.sos/
+    Ignored:    output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3.lite.single.expanded.V1.loglik.rds
     Ignored:    workflows/.ipynb_checkpoints/
     Ignored:    workflows/.sos/
 
 Untracked files:
+    Untracked:  TODO.txt
+    Untracked:  analysis/files.txt
+    Untracked:  fastqtl_to_mash_output/
     Untracked:  gtex6_workflow_output/
+
+Unstaged changes:
+    Modified:   analysis/gtex.Rmd
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -382,16 +396,16 @@ Message
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/d4a39659d613c24a63ed3ad24c0ea27b5176d8fe/analysis/Fig.GTExExamples.Rmd" target="_blank">d4a3965</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/87df348fe35746a6988b8c23d4eaeb6b717eae09/analysis/GTExExamples.Rmd" target="_blank">87df348</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
 </td>
 <td style="text-align:left;">
-2018-05-22
+2018-06-05
 </td>
 <td style="text-align:left;">
-wflow_publish(“Fig.GTExExamples.Rmd”)
+wflow_publish(“GTExExamples.Rmd”)
 </td>
 </tr>
 <tr>
@@ -399,50 +413,16 @@ wflow_publish(“Fig.GTExExamples.Rmd”)
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/aa057879c9ec3fecbadd865d084d1356a3d1089d/analysis/Fig.GTExExamples.Rmd" target="_blank">aa05787</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/12aa3cbc1b7bdbe28080e1bd5489ebd86c76539c/analysis/GTExExamples.Rmd" target="_blank">12aa3cb</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
 </td>
 <td style="text-align:left;">
-2018-05-22
+2018-06-05
 </td>
 <td style="text-align:left;">
-Added some more results from Gao’s pipeline to the output folder.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rmd
-</td>
-<td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/380046f4d48e7a37551e9b11d7bd3ae55bde7882/analysis/Fig.GTExExamples.Rmd" target="_blank">380046f</a>
-</td>
-<td style="text-align:left;">
-Peter Carbonetto
-</td>
-<td style="text-align:left;">
-2018-05-22
-</td>
-<td style="text-align:left;">
-Working on improvements to Fig.GTExExamples.Rmd.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rmd
-</td>
-<td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/80f285faf2eaf3c1e1b4fc25317c58996d5b2525/analysis/Fig.GTExExamples.Rmd" target="_blank">80f285f</a>
-</td>
-<td style="text-align:left;">
-Gao Wang
-</td>
-<td style="text-align:left;">
-2017-09-20
-</td>
-<td style="text-align:left;">
-Update figures
+Renamed Fig.GTExExamples analysis to GTExExamples.
 </td>
 </tr>
 <tr>
@@ -450,16 +430,16 @@ Update figures
 html
 </td>
 <td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/gtexresults/80f285faf2eaf3c1e1b4fc25317c58996d5b2525/docs/Fig.GTExExamples.html" target="_blank">80f285f</a>
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/12aa3cbc1b7bdbe28080e1bd5489ebd86c76539c/docs/GTExExamples.html" target="_blank">12aa3cb</a>
 </td>
 <td style="text-align:left;">
-Gao Wang
+Peter Carbonetto
 </td>
 <td style="text-align:left;">
-2017-09-20
+2018-06-05
 </td>
 <td style="text-align:left;">
-Update figures
+Renamed Fig.GTExExamples analysis to GTExExamples.
 </td>
 </tr>
 </tbody>
@@ -471,20 +451,18 @@ Update figures
 <p>Compare the plots against Figure 4 of the paper.</p>
 <div id="set-up-environment" class="section level2">
 <h2>Set up environment</h2>
-<p>First, we load the rmeta package, as well as some functions defined for MASH analyses.</p>
-<pre class="r"><code>source(&quot;../workflows/normfuncs.R&quot;)
+<p>First, we load the rmeta package, as well as some functions defined for mash analyses.</p>
+<pre class="r"><code>source(&quot;../code/normfuncs.R&quot;)
 library(rmeta)</code></pre>
 </div>
 <div id="load-data-and-mash-results" class="section level2">
-<h2>Load data and MASH results</h2>
-<p>In the next code chunk, we load some GTEx summary statistics, as well as some of the results generated from the MASH analysis of the GTEx data.</p>
+<h2>Load data and mash results</h2>
+<p>In the next code chunk, we load some GTEx summary statistics, as well as some of the results generated from the mash analysis of the GTEx data.</p>
 <pre class="r"><code>out    &lt;- readRDS(&quot;../data/MatrixEQTLSumStats.Portable.Z.rds&quot;)
 b.stat &lt;- out$test.b
 z.stat &lt;- out$test.z
 out    &lt;- readRDS(paste(&quot;../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3&quot;,
-                     &quot;lite.single.expanded.V1.posterior.rds&quot;,sep = &quot;.&quot;))
-covmat &lt;- readRDS(paste(&quot;../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3&quot;,
-                        &quot;lite.single.expanded.rds&quot;,sep = &quot;.&quot;))
+                        &quot;lite.single.expanded.V1.posterior.rds&quot;,sep = &quot;.&quot;))
 posterior.means &lt;- out$posterior.means
 lfsr            &lt;- out$lfsr
 mar.var         &lt;- out$marginal.var
@@ -498,7 +476,7 @@ posterior.betas &lt;- standard.error * posterior.means
 pm.beta.norm    &lt;- het.norm(posterior.betas)</code></pre>
 <p>Load the tissue indices:</p>
 <pre class="r"><code>missing.tissues &lt;- c(7,8,19,20,24,25,31,34,37)
-uk3labels       &lt;- read.table(&quot;../output/uk3rowindices.txt&quot;)[,1]</code></pre>
+uk3labels       &lt;- read.table(&quot;../data/uk3rowindices.txt&quot;)[,1]</code></pre>
 <p>For the plots of the eigenvectors, we load the colours that are conventionally used to represent the tissues in plots.</p>
 <pre class="r"><code>gtex.colors &lt;- read.table(&#39;../data/GTExColors.txt&#39;, sep = &#39;\t&#39;, 
                           comment.char = &#39;&#39;)[-missing.tissues,2]
@@ -538,21 +516,111 @@ gtex.colors &lt;- gtex.colors[uk3labels]</code></pre>
 <p>Now create the <em>MCHP1</em> metaplot summarizing the eQTL effect estimates. The original effect estimates are shown on the left-hand side, and the shrunken estimates from mash are shown on the right-hand side.</p>
 <pre class="r"><code>create.metaplot(which(rownames(z.stat) ==
   &quot;ENSG00000249898.3_8_6521432_T_C_b37&quot;))</code></pre>
-<p><img src="figure/Fig.GTExExamples.Rmd/metaplot-MCPH1-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/GTExExamples.Rmd/metaplot-MCPH1-1.png" width="768" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of metaplot-MCPH1-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/12aa3cbc1b7bdbe28080e1bd5489ebd86c76539c/docs/figure/GTExExamples.Rmd/metaplot-MCPH1-1.png" target="_blank">12aa3cb</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-05
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="flj13114-gene" class="section level2">
 <h2><em>FLJ13114</em> gene</h2>
 <p>In the second example, the effect estimates in non-brain tissues are mostly positive, but modest in size, and only one effect is, individually, nominally significant. However, combining information among tissues, mash effect estimates in non-brain tissues are all positive, and mostly “significant”.</p>
 <pre class="r"><code>create.metaplot(which(rownames(z.stat) ==
   &quot;ENSG00000120029.8_10_103924251_G_A_b37&quot;))</code></pre>
-<p><img src="figure/Fig.GTExExamples.Rmd/metaplot-FLJ13114-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/GTExExamples.Rmd/metaplot-FLJ13114-1.png" width="768" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of metaplot-FLJ13114-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/12aa3cbc1b7bdbe28080e1bd5489ebd86c76539c/docs/figure/GTExExamples.Rmd/metaplot-FLJ13114-1.png" target="_blank">12aa3cb</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-05
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="ralbp1-gene" class="section level2">
 <h2><em>RALBP1</em> gene</h2>
 <p>In this example, the effect estimates vary in sign, and are modest except for a very strong signal in whole blood. While whole-blood-specific effects are estimated to be rare, mash recognizes that the strong data at this eQTL outweigh this background information, and estimates a strong effect in blood with insignificant effects in other tissues.</p>
 <pre class="r"><code>create.metaplot(which(rownames(z.stat) ==
   &quot;ENSG00000017797.7_18_9488704_C_T_b37&quot;))</code></pre>
-<p><img src="figure/Fig.GTExExamples.Rmd/metaplot-RALBP1-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/GTExExamples.Rmd/metaplot-RALBP1-1.png" width="768" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of metaplot-RALBP1-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/12aa3cbc1b7bdbe28080e1bd5489ebd86c76539c/docs/figure/GTExExamples.Rmd/metaplot-RALBP1-1.png" target="_blank">12aa3cb</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-05
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
