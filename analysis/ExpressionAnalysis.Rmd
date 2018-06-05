@@ -1,6 +1,6 @@
 ---
 title: "Comparison of genes with tissue-specific eQTLs against other genes"
-author: "Sarah Urbut"
+author: "Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens"
 output: workflowr::wflow_html
 ---
 
@@ -16,11 +16,11 @@ knitr::opts_chunk$set(collapse = TRUE, fig.width = 5.5,
                       comment = "#")
 ```
 
-## Load data and MASH results
+## Load data and mash results
 
 In the next code chunk, we load some GTEx summary statistics (average
 gene expression values and *z*-scores), as well as some of the results
-generated from the MASH analysis of the GTEx data.
+generated from the mash analysis of the GTEx data.
 
 Expression is here defined as median across individuals of the log
 Reads per Kilobase Mapped (RPKM).
