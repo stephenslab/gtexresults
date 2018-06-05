@@ -191,33 +191,37 @@ containers, run `docker container prune`. See
 [here](https://stackoverflow.com/questions/17014263/should-i-be-concerned-about-excess-non-running-docker-containers)
 for more information.
 
-## 5. Add Step 5 title here
+## Generate figures and tables summarizing results of mash analysis
 
-Install some packages from CRAN:
+Once you have completed the mash analysis pipeline, the next step is
+to examine and interpret the results. We provide R code implementing
+this step; you can either view the webpages listed below, or view the
+R Markdown source files in the `analysis` directory of the
+[gtexresults][gtexresults] repository.
+
+If you were unable to complete the mash analysis pipeline, we have
+provided the outputs needed to generate the figures and tables
+below. For convenience, the results needed to generate the figures and
+tables have been saved in the `output` folder.
+
+Before running the R code in the pages listed below, you will need to
+first install several R packages that are used in the code:
 
 ```R
-# Add commands here to install packages.
+install.packages("colorRamps")
 ```
 
-**For convenience, the results needed to generate the figures and
-tables have been saved in the `output` folder.**
+Note that at the bottom of each webpage, we have recorded information
+about the exact version of R and the R Packages that were used. This
+might be useful if you would like to replicate our computing setup as
+closely as possible. Also note that the webpages were generated from
+the R Markdown files using [workflowr][workflowr].
 
-**FIXME: update figure plotting instructions**
+Visit the following links to view the R code we used to generate
+summarizies of the GTEx results incorporated into the manuscript:
 
-The input data necessary to run this analysis is all available under
-inputs. This may take some time to run.  We have provided the outputs
-of running mash in `Data_vhat`.
-
-This repo is organized so that you can run Mash using the gteX data
-contained in **Inputs** to produce the parameters and posteriors from
-mashr.
-
-The directory **Plots_for_Paper_vmat** contains .Rmd files to plot
-figures from the paper, using our results which are provided in
-**Results_Data**.
-
-Figure 3:[Summary of primary patterns identified by mash in GTEx
-data](Fig.Uk3.html)
++ [Primary correlation patterns identified by mash in GTEx
+data](Fig.Uk3.html).
 
 Figure 4:[Examples illustrating of how mash uses patterns of sharing to inform effect estimates in the GTEx data.](Fig.GTExExamples.html)
 
@@ -275,6 +279,7 @@ converted using the code in `fastqtl_to_mash.ipynb`. See
 [gtexresults]: https://github.com/stephenslab/gtexresults
 [mashr]: https://github.com/stephenslab/mashr
 [issues]: https://github.com/stephenslab/gtexresults/issues
+[workflowr]: https://github.com/jdblischak/workflowr
 [docker-overview]: https://docs.docker.com/engine/docker-overview
 [docker-getting-started]: https://docs.docker.com/get-started
 [docker-download]: https://docs.docker.com/install
@@ -283,4 +288,4 @@ converted using the code in `fastqtl_to_mash.ipynb`. See
 [docker-mash-paper]: https://hub.docker.com/r/gaow/mash-paper
 [singularity]: https://singularity.lbl.gov/docs-docker
 [docker-daemon-linux]: https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo
-[docker-daemon-mac]: https://github.com/wodby/docker4drupal/issues/15
+[docker-daemon-mac]: https://github.com/wodby/docker4drupal/issues/15 encounter fact 
