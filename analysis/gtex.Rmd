@@ -224,6 +224,10 @@ summarizies of the GTEx results incorporated into the manuscript:
 
 + [Primary correlation patterns identified by mash in GTEx data](Uk3.html).
 
++ Correlation patterns from other components with larger weights:
+  [second](Uk2.html), [fourth](Uk4.html), [fifth](Uk5.html) and
+  [eighth](Uk8.html) covariance components.
+
 + [Examples illustrating how mash uses patterns of sharing to inform
 effect estimates](GTExExamples.html).
 
@@ -232,14 +236,6 @@ effect estimates](GTExExamples.html).
 + [Pairwise sharing by sign of eQTLs among tissues](SharingSign.html).
 
 + [Comparison of genes with tissue-specific eQTLs against other genes](ExpressionAnalysis.html).
-
-+ [Correlation patterns from second covariance component](Uk2.html).
-
-+ [Correlation patterns from fourth covariance component](Uk4.html).
-
-+ [Correlation patterns from fifth covariance component](Uk5.html).
-
-+ [Correlation patterns from eighth covariance component](Uk8.html).
 
 Figure 5:[Histogram of Sharing](Fig.SharingHist.pdf)
 
