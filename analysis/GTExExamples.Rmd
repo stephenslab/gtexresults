@@ -1,6 +1,6 @@
 ---
 title: "Examples illustrating how mash uses patterns of sharing to inform effect estimates"
-author: "Sarah Urbut"
+author: "Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens"
 output: workflowr::wflow_html
 ---
 
@@ -20,17 +20,17 @@ knitr::opts_chunk$set(collapse = TRUE, fig.width = 8,
 ## Set up environment
 
 First, we load the rmeta package, as well as some functions defined
-for MASH analyses.
+for mash analyses.
 
 ```{r load-pkgs, message = FALSE}
-source("../workflows/normfuncs.R")
+source("../code/normfuncs.R")
 library(rmeta)
 ```
 
-## Load data and MASH results
+## Load data and mash results
 
 In the next code chunk, we load some GTEx summary statistics, as well
-as some of the results generated from the MASH analysis of the GTEx
+as some of the results generated from the mash analysis of the GTEx
 data.
 
 ```{r load-results}
@@ -56,7 +56,7 @@ Load the tissue indices:
 
 ```{r load-tissues-names}
 missing.tissues <- c(7,8,19,20,24,25,31,34,37)
-uk3labels       <- read.table("../output/uk3rowindices.txt")[,1]
+uk3labels       <- read.table("../data/uk3rowindices.txt")[,1]
 ```
 
 For the plots of the eigenvectors, we load the colours that are
