@@ -239,11 +239,7 @@ effect estimates](GTExExamples.html).
 
 + [Correlation patterns from eighth covariance component](Uk8.html).
 
-Figure 4:[Examples illustrating of how mash uses patterns of sharing to inform effect estimates in the GTEx data.](Fig.GTExExamples.html)
-
 Figure 5:[Histogram of Sharing](Fig.SharingHist.pdf)
-
-Figure 6:[Pairwise sharing by magnitude of eQTL among tissues](Fig.SharingMag.html)
 
 Supplementary Figure 1:[Sample sizes and effective sample sizes from mash analysis across tissues](Fig.SampleSize.html)
 
