@@ -1,6 +1,6 @@
 ---
 title: "Correlation patterns from fourth covariance component"
-author: "Sarah Urbut"
+author: "Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens"
 output: workflowr::wflow_html
 ---
 
@@ -42,7 +42,7 @@ names  <- colnames(z.stat)
 Next, we load the tissue indices:
 
 ```{r load-tissues-names}
-h <- read.table("../output/uk4rowIndices.txt")[,1]
+h <- read.table("../data/uk4rowIndices.txt")[,1]
 ```
 
 For the plots of the eigenvectors, we load the colours that are
