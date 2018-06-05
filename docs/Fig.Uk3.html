@@ -9,7 +9,7 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Sarah Urbut" />
+<meta name="author" content="Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens" />
 
 
 <title>Primary correlation patterns identified by mash in GTEx data</title>
@@ -272,12 +272,21 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">MASH analysis of GTEx</a>
+      <a class="navbar-brand" href="index.html">mash code resources</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
   <a href="index.html">Overview</a>
+</li>
+<li>
+  <a href="https://github.com/stephenslab/mashr">mashr</a>
+</li>
+<li>
+  <a href="fastqtl2mash.html">Fastqtl to mash</a>
+</li>
+<li>
+  <a href="gtex.html">GTEx analysis</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -307,12 +316,12 @@ div.section {
 
 
 <h1 class="title toc-ignore">Primary correlation patterns identified by mash in GTEx data</h1>
-<h4 class="author"><em>Sarah Urbut</em></h4>
+<h4 class="author"><em>Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens</em></h4>
 
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-05-18</p>
+<p><strong>Last updated:</strong> 2018-06-05</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -336,16 +345,18 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/37ef62cb8ae666219c794ed6986354e66562f3df" target="_blank">37ef62c</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/ce098b6cf7d3cd6ce28104c83f272be56955c635" target="_blank">ce098b6</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
     Ignored:    .sos/
     Ignored:    data/.sos/
+    Ignored:    output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3.lite.single.expanded.V1.loglik.rds
     Ignored:    workflows/.ipynb_checkpoints/
     Ignored:    workflows/.sos/
 
 Untracked files:
+    Untracked:  fastqtl_to_mash_output/
     Untracked:  gtex6_workflow_output/
 
 </code></pre>
@@ -375,6 +386,57 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/ce098b6cf7d3cd6ce28104c83f272be56955c635/analysis/Fig.Uk3.Rmd" target="_blank">ce098b6</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-05
+</td>
+<td style="text-align:left;">
+wflow_publish(“Fig.Uk3.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/11e3da4e3b0c9a87ace95b6b746eaa86bf9c3fab/analysis/Fig.Uk3.Rmd" target="_blank">11e3da4</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-05-24
+</td>
+<td style="text-align:left;">
+Adjusted knitr options in most Rmd files.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/9de8c6d57415b6d4f495b2ef94ba16864e9d5ff5/docs/Fig.Uk3.html" target="_blank">9de8c6d</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-05-18
+</td>
+<td style="text-align:left;">
+A bunch of minor revisions to the Fig.Uk* analyses of the predominant
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -679,7 +741,7 @@ x[x &lt; 0] &lt;- 0</code></pre>
 <p>Next, we load the tissue indices and tissue names:</p>
 <pre class="r"><code>colnames(x) &lt;- names
 rownames(x) &lt;- names
-h &lt;- read.table(&quot;../output/uk3rowindices.txt&quot;)[,1]</code></pre>
+h &lt;- read.table(&quot;../data/uk3rowindices.txt&quot;)[,1]</code></pre>
 <p>For the plots of the eigenvectors, we load the colours that are conventionally used to represent the tissues in plots.</p>
 <pre class="r"><code>missing.tissues &lt;- c(7,8,19,20,24,25,31,34,37)
 color.gtex &lt;- read.table(&quot;../data/GTExColors.txt&quot;,sep = &quot;\t&quot;,
@@ -727,31 +789,31 @@ for (j in 1:3)
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
 <pre class="r"><code>sessionInfo()
-R version 3.4.3 (2017-11-30)
-Platform: x86_64-apple-darwin15.6.0 (64-bit)
-Running under: macOS High Sierra 10.13.4
-
-Matrix products: default
-BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
-LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
-
-locale:
-[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
-
-attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
-
-other attached packages:
-[1] colorRamps_2.3  lattice_0.20-35
-
-loaded via a namespace (and not attached):
- [1] workflowr_1.0.1.9000 Rcpp_0.12.16         digest_0.6.15       
- [4] rprojroot_1.3-2      R.methodsS3_1.7.1    grid_3.4.3          
- [7] backports_1.1.2      git2r_0.21.0         magrittr_1.5        
-[10] evaluate_0.10.1      stringi_1.1.7        whisker_0.3-2       
-[13] R.oo_1.21.0          R.utils_2.6.0        rmarkdown_1.9       
-[16] tools_3.4.3          stringr_1.3.0        yaml_2.1.18         
-[19] compiler_3.4.3       htmltools_0.3.6      knitr_1.20          </code></pre>
+# R version 3.4.3 (2017-11-30)
+# Platform: x86_64-apple-darwin15.6.0 (64-bit)
+# Running under: macOS High Sierra 10.13.4
+# 
+# Matrix products: default
+# BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
+# LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
+# 
+# locale:
+# [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+# 
+# attached base packages:
+# [1] stats     graphics  grDevices utils     datasets  methods   base     
+# 
+# other attached packages:
+# [1] colorRamps_2.3  lattice_0.20-35
+# 
+# loaded via a namespace (and not attached):
+#  [1] workflowr_1.0.1.9000 Rcpp_0.12.16         digest_0.6.15       
+#  [4] rprojroot_1.3-2      R.methodsS3_1.7.1    grid_3.4.3          
+#  [7] backports_1.1.2      git2r_0.21.0         magrittr_1.5        
+# [10] evaluate_0.10.1      stringi_1.1.7        whisker_0.3-2       
+# [13] R.oo_1.21.0          R.utils_2.6.0        rmarkdown_1.9       
+# [16] tools_3.4.3          stringr_1.3.0        yaml_2.1.18         
+# [19] compiler_3.4.3       htmltools_0.3.6      knitr_1.20</code></pre>
 </div>
 
 <script type="text/x-mathjax-config">
