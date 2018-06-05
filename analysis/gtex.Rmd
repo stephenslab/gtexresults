@@ -210,7 +210,7 @@ Before running the R code in the pages listed below, you will need to
 first install several R packages that are used in the code:
 
 ```R
-install.packages("colorRamps")
+install.packages(c("colorRamps","rmeta"))
 ```
 
 Note that at the bottom of each webpage, we have recorded information
@@ -223,6 +223,13 @@ Visit the following links to view the R code we used to generate
 summarizies of the GTEx results incorporated into the manuscript:
 
 + [Primary correlation patterns identified by mash in GTEx data](Uk3.html).
+
++ [Examples illustrating how mash uses patterns of sharing to inform
+effect estimates](GTExExamples.html).
+
++ [Pairwise sharing by magnitude of eQTLs among tissues](SharingMag.html).
+
++ [Pairwise sharing by sign of eQTLs among tissues](SharingSign.html).
 
 + [Correlation patterns from second covariance component](Uk2.html).
 
@@ -240,15 +247,7 @@ Figure 6:[Pairwise sharing by magnitude of eQTL among tissues](Fig.SharingMag.ht
 
 Supplementary Figure 1:[Sample sizes and effective sample sizes from mash analysis across tissues](Fig.SampleSize.html)
 
-[Summary of covariance matrices Uk with largest estimated weight (> 1%) in GTEx data:Uk4](Fig.Uk4.html)
-
-[Summary of covariance matrices Uk with largest estimated weight (> 1%) in GTEx data:Uk5](Fig.Uk5.html)
-
-[Summary of covariance matrices Uk with largest estimated weight (> 1%) in GTEx data:Uk8](Fig.Uk8.html)
-
 Supplementary Figure 3: Illustration of how Linkage Disequilibrium can impact effect estimate [table](TwoSNP.html) and [figure](TwoSNPPlot.pdf)
-
-Supplementary Figure 4:[Pairwise Sharing By Sign](Fig.SharingSign.html)
 
 Supplementary Figure 5:[Number of “tissue-specific eQTLs” in each tissues.](Fig.Tspecific.html)
 
