@@ -12,7 +12,7 @@
 <meta name="author" content="Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens" />
 
 
-<title>Tspec</title>
+<title>Number of tissue-specific eQTLs in each tissue</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -315,7 +315,7 @@ div.section {
 
 
 
-<h1 class="title toc-ignore">Tspec</h1>
+<h1 class="title toc-ignore">Number of tissue-specific eQTLs in each tissue</h1>
 <h4 class="author"><em>Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens</em></h4>
 
 </div>
@@ -325,7 +325,8 @@ div.section {
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
-<p><details> <summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
 </details>
 </li>
 <li>
@@ -344,7 +345,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/dae0caf189fe905d8ecbac62012836bdaabc245c" target="_blank">dae0caf</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/85b13cbf343df8d92ea197dc20ce7f32a9a6ec65" target="_blank">85b13cb</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -358,9 +359,6 @@ Untracked files:
     Untracked:  analysis/files.txt
     Untracked:  fastqtl_to_mash_output/
     Untracked:  gtex6_workflow_output/
-
-Unstaged changes:
-    Modified:   analysis/Tspecific.Rmd
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -389,6 +387,57 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/85b13cbf343df8d92ea197dc20ce7f32a9a6ec65/analysis/Tspecific.Rmd" target="_blank">85b13cb</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-06
+</td>
+<td style="text-align:left;">
+wflow_publish(“Tspecific.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/af0de593d837e6c22cf65873d821d85e5120b76b/analysis/Tspecific.Rmd" target="_blank">af0de59</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-06
+</td>
+<td style="text-align:left;">
+I have a complete revision of Tspecific.Rmd without the accompanying text.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/af0de593d837e6c22cf65873d821d85e5120b76b/docs/Tspecific.html" target="_blank">af0de59</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-06
+</td>
+<td style="text-align:left;">
+I have a complete revision of Tspecific.Rmd without the accompanying text.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -445,7 +494,7 @@ Reorganized many of the files.
 </ul>
 <p></details></p>
 <hr />
-<p><em>Add text here.</em></p>
+<p>Despite high average levels of sharing of eQTLs among tissues, mash also identifies eQTLs that are relatively “tissue-specific”. Here we count the number of “tissue-specific” eQTLs in each tissue.</p>
 <div id="set-up-environment" class="section level2">
 <h2>Set up environment</h2>
 <p>First, we load some functions defined for mash analyses.</p>
@@ -465,27 +514,36 @@ out &lt;- readRDS(paste(&quot;../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P
 pm.mash      &lt;- out$posterior.means
 lfsr.mash    &lt;- out$lfsr
 pm.mash.beta &lt;- pm.mash * standard.error</code></pre>
-<pre class="r"><code>nsig                &lt;- rowSums(lfsr.mash&lt;thresh)
-pm.mash.beta.norm   &lt;- het.norm(effectsize = pm.mash.beta)
-pm.mash.beta.norm   &lt;- pm.mash.beta.norm[(nsig&gt;0),]
-lfsr.mash           &lt;- as.matrix(lfsr.mash[nsig&gt;0,])
-colnames(lfsr.mash) &lt;- colnames(maxz)</code></pre>
+<p>For the bar chart below, we use the colours that are conventionally used to represent the GTEx tissues in plots.</p>
 <pre class="r"><code>missing.tissues &lt;- c(7,8,19,20,24,25,31,34,37)
 color.gtex      &lt;- read.table(&quot;../data/GTExColors.txt&quot;,sep = &#39;\t&#39;,
                               comment.char = &#39;&#39;)[-missing.tissues,]
 col = as.character(color.gtex[,2])</code></pre>
-<pre class="r"><code>a=which(rowSums(pm.mash.beta.norm&gt;0.5)==1)
-lfsr.fold=as.matrix(lfsr.mash[a,])
-pm &lt;- as.matrix(pm.mash.beta.norm[a,])
-tspec=NULL
-for(i in 1:ncol(pm)){
-  tspec[i]=sum(pm[,i]&gt;0.5)
-}
+</div>
+<div id="compute-number-of-tissue-specific-effects-for-each-tissue." class="section level2">
+<h2>Compute number of “tissue-specific” effects for each tissue.</h2>
+<p>We define “tissue-specific” to mean that the effect is at least 2-fold larger in one tissue than in any other tissue.</p>
+<pre class="r"><code>nsig                &lt;- rowSums(lfsr.mash &lt; thresh)
+pm.mash.beta.norm   &lt;- het.norm(effectsize = pm.mash.beta)
+pm.mash.beta.norm   &lt;- pm.mash.beta.norm[nsig &gt; 0,]
+lfsr.mash           &lt;- as.matrix(lfsr.mash[nsig &gt; 0,])
+colnames(lfsr.mash) &lt;- colnames(maxz)
+a         &lt;- which(rowSums(pm.mash.beta.norm &gt; 0.5) == 1)
+lfsr.fold &lt;- as.matrix(lfsr.mash[a,])
+pm        &lt;- as.matrix(pm.mash.beta.norm[a,])
+tspec     &lt;- NULL
+for(i in 1:ncol(pm))
+  tspec[i] &lt;- sum(pm[,i] &gt; 0.5)
 tspec           &lt;- as.matrix(tspec)
 rownames(tspec) &lt;- colnames(maxz)</code></pre>
-<pre class="r"><code>barplot(as.numeric(t(tspec)),las = 2,cex.names = 0.3,col = col,
+</div>
+<div id="plot-number-of-tissue-specific-effects-for-each-tissue" class="section level2">
+<h2>Plot number of “tissue-specific” effects for each tissue</h2>
+<pre class="r"><code>par(mfrow = c(2,1))
+barplot(as.numeric(t(tspec)),las = 2,cex.names = 0.75,col = col,
         names = colnames(lfsr.fold))</code></pre>
-<p><img src="figure/Tspecific.Rmd/unnamed-chunk-5-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/Tspecific.Rmd/plot-counts-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>Testis stands out as the tissue with the most tissue-specific effects. Other tissues showing stronger-than-average tissue specificity include skeletal muscle, thyroid and transformed cell lines (fibroblasts and LCLs).</p>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
