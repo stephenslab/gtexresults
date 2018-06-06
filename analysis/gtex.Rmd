@@ -237,6 +237,8 @@ effect estimates](GTExExamples.html).
 
 + [Comparison of genes with tissue-specific eQTLs against other genes](ExpressionAnalysis.html).
 
++ [Tissue effective sample sizes](SampleSize.Rmd).
+
 Figure 5:[Histogram of Sharing](Fig.SharingHist.pdf)
 
 Supplementary Figure 1:[Sample sizes and effective sample sizes from mash analysis across tissues](Fig.SampleSize.html)

@@ -9,7 +9,8 @@ estimates in some tissues gain more precision than others from the
 joint analysis. Here we quantify an "effective sample size" (ESS) per
 tissue and compare against the actual sample sizes.
 
-Compare the last plot against Supplementary Figure 1 in the manuscript.
+Compare the last plot, at the bottom of this page, against
+Supplementary Figure 1 in the manuscript.
 
 ```{r knitr, message = FALSE, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, fig.width = 8,

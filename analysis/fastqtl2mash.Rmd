@@ -172,8 +172,13 @@ is best done in high-performance computing environment with
 configurations to run the workflow across different compute nodes. See
 [here][sos-cluster-info] for details.
 
-+ Run the following command to update the Docker image:
-  `docker pull gaow/hdf5tools`
++ Results labeled "test" in the outputted RDS file have been more
+appropriately relabeled as "strong". So if you use any of the existing
+R code on your data, you may need to rename some of the variables;
+e.g., `test.z` in the previous output is now `strong.z`.
+
++ Run the following command to update the Docker image: `docker pull
+gaow/hdf5tools`
 
 [gtex]: http://gtexportal.org
 [gtexresults]: https://github.com/stephenslab/gtexresults
