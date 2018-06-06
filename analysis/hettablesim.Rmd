@@ -3,8 +3,6 @@ title: "heterogeneitytablesimulation"
 output: pdf_document
 ---
 
-
-
 ```{r setup, include=FALSE}
 library('knitr')
 knitr::opts_chunk$set(cache=TRUE)
@@ -77,11 +75,7 @@ nsig= rowSums(sigmat)
 rmse.all.table=cbind(mash=RRMSE.mash,bmalite=RRMSE.bma,ash=RRMSE.ash)
 barplot(as.numeric(rmse.all.table),main="Shared, Structured Effects: Sign heterogeneity",
         ylab="relative error (RRMSE)",xlab="Method",col=c("green","blue","red"),names=colnames(rmse.all.table),ylim=c(0,1.5),cex.main=1.5,cex.lab=1,cex.names=1,las=1)
-
-
-
 ```
-
 
 ##Heterogeneity Analysis: Independent SSimulation by Sign
 
