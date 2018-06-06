@@ -345,7 +345,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/32c92c78885ef99103e78f39f681a7b7ea9cf90b" target="_blank">32c92c7</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/680e18c4cff2c2bd9622f4187fa61cc2ae3bf039" target="_blank">680e18c</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -391,6 +391,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/680e18c4cff2c2bd9622f4187fa61cc2ae3bf039/analysis/SampleSize.Rmd" target="_blank">680e18c</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-06
+</td>
+<td style="text-align:left;">
+wflow_publish(“SampleSize.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/6d8379d5d2e6c4c4cae7eac81b5f1607853f9bde/docs/SampleSize.html" target="_blank">6d8379d</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-06
+</td>
+<td style="text-align:left;">
+Re-built revised SampleSize page.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -464,7 +498,8 @@ Reorganized many of the files.
 </ul>
 <p></details></p>
 <hr />
-<p>Different levels of effect sharing among tissues means that effect estimates in some tissues gain more precision than others from the joint analysis. Here we quantify an “effective sample size” (ESS) per tissue and compare against the sample sizes in the data.</p>
+<p>Different levels of effect sharing among tissues means that effect estimates in some tissues gain more precision than others from the joint analysis. Here we quantify an “effective sample size” (ESS) per tissue and compare against the actual sample sizes.</p>
+<p>Compare the last plot against Supplementary Figure 1 in the manuscript.</p>
 <div id="load-data-and-mash-results" class="section level2">
 <h2>Load data and mash results</h2>
 <p>Load some of the results generated from the mas analysis of the GTEx data, as well as summary statistics (e.g., sample sizes, standard errors) calculated from the raw GTEx data.</p>
@@ -493,19 +528,26 @@ tissue.names             &lt;- colnames(maxz)</code></pre>
 <pre class="r"><code>out &lt;- readRDS(paste(&quot;../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3&quot;,
                      &quot;lite.single.expanded.V1.posterior.rds&quot;,sep = &quot;.&quot;))
 marginal.var &lt;- out$marginal.var</code></pre>
-<p>Now let’s plot effective sample size. Recall,</p>
-<p><span class="math display">\[n_{jeff}=\frac{s_{j}^2}{\tilde{s_{j}^2}}\]</span></p>
-<p>Let’s plot again with order by original sample size:</p>
+</div>
+<div id="compute-effective-sample-sizes" class="section level2">
+<h2>Compute effective sample sizes</h2>
+<p>Compute the effective sample sizes,</p>
+<p><span class="math display">\[n_{jeff} = \frac{s_{j}^2}{\tilde{s_{j}^2}}\]</span></p>
 <pre class="r"><code>original.var &lt;- as.matrix(standard.error.from.z)^2
 size         &lt;- as.matrix(exp.sort)
 post.var     &lt;- as.matrix(marginal.var) * standard.error.from.z^2
 njeffective  &lt;- size * original.var/post.var
 increase     &lt;- njeffective/size</code></pre>
+<p>Next, order the tissues by the actual sample size.</p>
+<pre class="r"><code>samplesize          &lt;- apply(size,2,unique)
+sampleorder         &lt;- order(samplesize,decreasing = TRUE)
+median.nj.effective &lt;- apply(njeffective,2,median)
+median.nj.increase  &lt;- apply(increase,2,median)</code></pre>
+</div>
+<div id="plot-effective-sample-sizes" class="section level2">
+<h2>Plot effective sample sizes</h2>
+<p>Plot, for each tissue, the effective sample size, and the increase in the ESS over the actual sample sample size.</p>
 <pre class="r"><code>par(mfrow=c(1,2))
-samplesize=apply(size,2,unique)
-sampleorder=order(samplesize,decreasing = T)
-median.nj.effective=apply(njeffective,2,median)
-median.nj.increase=apply(increase,2,median)
 par(mar=c(5.1,8,4.1,0.1))
 barplot(median.nj.effective[sampleorder],cex.names=0.4,las=2,
   col=as.character(gtex.colors[sampleorder]),horiz = TRUE)
@@ -515,21 +557,84 @@ barplot(median.nj.increase[sampleorder],cex.names=0.4,las=2,
   col=as.character(gtex.colors[sampleorder]),horiz = T,names=&quot;&quot;,xlim=c(16,0))
 title(&quot;Median(Nj_effective/Nj_original)&quot;,cex.main=0.8)</code></pre>
 <p><img src="figure/SampleSize.Rmd/plot1-1.png" width="768" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>par(mfrow=c(1,2))
-samplesize=apply(size,2,function(x){unique(x)})
-sampleorder=order(samplesize,decreasing = T)
-median.nj.effective=apply(njeffective,2,median)
-median.nj.increase=apply(increase,2,median)
-par(mar=c(5.1,8,1.1,0.1))
+<details> <summary><em>Expand here to see past versions of plot1-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/6d8379d5d2e6c4c4cae7eac81b5f1607853f9bde/docs/figure/SampleSize.Rmd/plot1-1.png" target="_blank">6d8379d</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-06
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+<p>We see that the ESS values are smallest for tissue that show more “tissue-specific” behaviour (e.g. testis, whole blood), and are largest for coronary artery, reflecting its stronger correlation with other tissues.</p>
+</div>
+<div id="plot-effective-sample-sizes-and-actual-sample-sizes" class="section level2">
+<h2>Plot effective sample sizes and actual sample sizes</h2>
+<p>Here we plot the actual sample size and median effective sample size of each tissue, in which the tissues are ordered by their original sample size.</p>
+<pre class="r"><code>par(mfrow = c(1,2))
+par(mar = c(5.1,8,1.1,0.1))
 barplot(samplesize[sampleorder],cex.names=0.4,las=2,
-        col=as.character(gtex.colors[sampleorder]),horiz = T,xlim=c(0,2000))
+        col=as.character(gtex.colors[sampleorder]),horiz = TRUE,
+        xlim = c(0,2000))
 title(&quot;Sample Size&quot;,cex.main=0.8)
-par(mar=c(5.1,2,1.1,6))
-barplot(median.nj.effective[sampleorder],cex.names=0.4,las=2,
-        col=as.character(gtex.colors[sampleorder]),horiz = T,names=&quot;&quot;,
-        xlim=c(0,2000))
-title(&quot;Effective Sample Size&quot;,cex.main=0.8)</code></pre>
+par(mar = c(5.1,2,1.1,6))
+barplot(median.nj.effective[sampleorder],cex.names = 0.4,las = 2,
+        col = as.character(gtex.colors[sampleorder]),horiz = TRUE,
+        names = &quot;&quot;,xlim = c(0,2000))
+title(&quot;Effective Sample Size&quot;,cex.main = 0.8)</code></pre>
 <p><img src="figure/SampleSize.Rmd/plot2-1.png" width="768" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of plot2-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/6d8379d5d2e6c4c4cae7eac81b5f1607853f9bde/docs/figure/SampleSize.Rmd/plot2-1.png" target="_blank">6d8379d</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-06
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+<p>Observe that the effective sample sizes are consistently higher than actual sample sizes, primarily due to sharing of information among tissues.</p>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
