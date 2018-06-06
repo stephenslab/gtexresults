@@ -22,9 +22,10 @@ First, we load some functions defined for mash analyses.
 source("../code/normfuncs.R")
 ```
 
-*Add text here.*
+This is the threshold used to determine which genes have at least one
+significant effect across tissues.
 
-```{r}
+```{r thresh}
 thresh <- 0.05
 ```
 
