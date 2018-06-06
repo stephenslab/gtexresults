@@ -1,14 +1,16 @@
 ---
-title: "Tspec"
+title: "Number of tissue-specific eQTLs in each tissue"
 author: "Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens"
 output: workflowr::wflow_html
 ---
 
-*Add text here.*
+Despite high average levels of sharing of eQTLs among tissues, mash
+also identifies eQTLs that are relatively "tissue-specific". Here we
+count the number of "tissue-specific" eQTLs in each tissue.
 
 ```{r knitr, message = FALSE, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, fig.width = 8,
-                      fig.height = 4,fig.align = "center",
+                      fig.height = 6,fig.align = "center",
                       comment = "#")
 ```
 
@@ -43,34 +45,46 @@ lfsr.mash    <- out$lfsr
 pm.mash.beta <- pm.mash * standard.error
 ```
 
-```{r}
-nsig                <- rowSums(lfsr.mash<thresh)
-pm.mash.beta.norm   <- het.norm(effectsize = pm.mash.beta)
-pm.mash.beta.norm   <- pm.mash.beta.norm[(nsig>0),]
-lfsr.mash           <- as.matrix(lfsr.mash[nsig>0,])
-colnames(lfsr.mash) <- colnames(maxz)
-```
+For the bar chart below, we use the colours that are
+conventionally used to represent the GTEx tissues in plots.
 
-```{r}
+```{r load-tissue-colors}
 missing.tissues <- c(7,8,19,20,24,25,31,34,37)
 color.gtex      <- read.table("../data/GTExColors.txt",sep = '\t',
                               comment.char = '')[-missing.tissues,]
 col = as.character(color.gtex[,2])
 ```
 
-```{r}
-a=which(rowSums(pm.mash.beta.norm>0.5)==1)
-lfsr.fold=as.matrix(lfsr.mash[a,])
-pm <- as.matrix(pm.mash.beta.norm[a,])
-tspec=NULL
-for(i in 1:ncol(pm)){
-  tspec[i]=sum(pm[,i]>0.5)
-}
+## Compute number of "tissue-specific" effects for each tissue.
+
+We define "tissue-specific" to mean that the effect is
+at least 2-fold larger in one tissue than in any other tissue.
+ 
+```{r count-tissue-specific-effects}
+nsig                <- rowSums(lfsr.mash < thresh)
+pm.mash.beta.norm   <- het.norm(effectsize = pm.mash.beta)
+pm.mash.beta.norm   <- pm.mash.beta.norm[nsig > 0,]
+lfsr.mash           <- as.matrix(lfsr.mash[nsig > 0,])
+colnames(lfsr.mash) <- colnames(maxz)
+a         <- which(rowSums(pm.mash.beta.norm > 0.5) == 1)
+lfsr.fold <- as.matrix(lfsr.mash[a,])
+pm        <- as.matrix(pm.mash.beta.norm[a,])
+tspec     <- NULL
+for(i in 1:ncol(pm))
+  tspec[i] <- sum(pm[,i] > 0.5)
 tspec           <- as.matrix(tspec)
 rownames(tspec) <- colnames(maxz)
 ```
 
-```{r}
-barplot(as.numeric(t(tspec)),las = 2,cex.names = 0.3,col = col,
+## Plot number of "tissue-specific" effects for each tissue
+
+```{r plot-counts}
+par(mfrow = c(2,1))
+barplot(as.numeric(t(tspec)),las = 2,cex.names = 0.75,col = col,
         names = colnames(lfsr.fold))
 ```
+
+Testis stands out as the tissue with the most tissue-specific
+effects. Other tissues showing stronger-than-average tissue
+specificity include skeletal muscle, thyroid and transformed cell
+lines (fibroblasts and LCLs).
