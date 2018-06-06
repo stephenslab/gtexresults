@@ -1,9 +1,13 @@
 ---
-title: "Add appropriate title here"
-output: pdf_document
+title: "Tissue effective sample sizes"
+author: "Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens"
+output: workflowr::wflow_html
 ---
 
-*Add text here.*
+Different levels of effect sharing among tissues means that effect
+estimates in some tissues gain more precision than others from the
+joint analysis. Here we quantify an "effective sample size" (ESS) per
+tissue and compare against the sample sizes in the data.
 
 ```{r knitr, message = FALSE, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, fig.width = 8,
@@ -11,15 +15,11 @@ knitr::opts_chunk$set(collapse = TRUE, fig.width = 8,
                       comment = "#")
 ```
 
-## Set up environment
-
-*Add text and code here.*
-
 ## Load data and mash results
 
-In the next code chunk, we load some of the results generated from the
-mas analysis of the GTEx data, as well as summary statistics (e.g.,
-sample sizes, standard errors) calculated from the raw GTEx data.
+Load some of the results generated from the mas analysis of the GTEx
+data, as well as summary statistics (e.g., sample sizes, standard
+errors) calculated from the raw GTEx data.
 
 ```{r load-results}
 missing.tissues <- c(7,8,19,20,24,25,31,34,37)
@@ -42,14 +42,15 @@ colnames(standard.error) <- colnames(maxz)
 tissue.names             <- colnames(maxz)
 ```
 
-*Add text here.*
+To draw the the bar charts, we use the colours that are used by
+convention used to represent the GTEx tissues in plots.
 
 ```{r load-tissue-colors}
 gtex.colors <- read.table('../data/GTExColors.txt',sep = '\t',
                           comment.char = '')[-missing.tissues,2]
 ```
 
-Load the median posterior variances:
+Load the marginal posterior variances.
 
 ```{r read-marginal-var}
 out <- readRDS(paste("../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3",
@@ -77,7 +78,6 @@ samplesize=apply(size,2,unique)
 sampleorder=order(samplesize,decreasing = T)
 median.nj.effective=apply(njeffective,2,median)
 median.nj.increase=apply(increase,2,median)
-
 par(mar=c(5.1,8,4.1,0.1))
 barplot(median.nj.effective[sampleorder],cex.names=0.4,las=2,
   col=as.character(gtex.colors[sampleorder]),horiz = TRUE)
@@ -94,16 +94,13 @@ samplesize=apply(size,2,function(x){unique(x)})
 sampleorder=order(samplesize,decreasing = T)
 median.nj.effective=apply(njeffective,2,median)
 median.nj.increase=apply(increase,2,median)
-
 par(mar=c(5.1,8,1.1,0.1))
 barplot(samplesize[sampleorder],cex.names=0.4,las=2,
         col=as.character(gtex.colors[sampleorder]),horiz = T,xlim=c(0,2000))
 title("Sample Size",cex.main=0.8)
-
 par(mar=c(5.1,2,1.1,6))
 barplot(median.nj.effective[sampleorder],cex.names=0.4,las=2,
         col=as.character(gtex.colors[sampleorder]),horiz = T,names="",
         xlim=c(0,2000))
-
 title("Effective Sample Size",cex.main=0.8)
 ```
