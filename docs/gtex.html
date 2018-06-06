@@ -232,7 +232,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/88eff09d9ee7b00bd76a1d41a5a85d1303ee995e" target="_blank">88eff09</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/66af92379552da33eabad70892cd925e58fe7ed4" target="_blank">66af923</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -243,6 +243,8 @@ Ignored files:
     Ignored:    workflows/.sos/
 
 Untracked files:
+    Untracked:  analysis/#Tspecific.Rmd#
+    Untracked:  analysis/.#Tspecific.Rmd
     Untracked:  analysis/files.txt
     Untracked:  fastqtl_to_mash_output/
     Untracked:  gtex6_workflow_output/
@@ -274,6 +276,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/66af92379552da33eabad70892cd925e58fe7ed4/analysis/gtex.Rmd" target="_blank">66af923</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-06
+</td>
+<td style="text-align:left;">
+wflow_publish(c(“gtex.Rmd”, “HeterogeneityTables.Rmd”))
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/c86d2d39457ccf23cdd953578a5d9d5b6f857a98/docs/gtex.html" target="_blank">c86d2d3</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-06
+</td>
+<td style="text-align:left;">
+Fixed a couple links to analysis pages.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -670,6 +706,7 @@ docker container list --all</code></pre>
 <li><p><a href="Uk3.html">Primary correlation patterns identified by mash in GTEx data</a>.</p></li>
 <li><p>Correlation patterns from other components with larger weights: <a href="Uk2.html">second</a>, <a href="Uk4.html">fourth</a>, <a href="Uk5.html">fifth</a> and <a href="Uk8.html">eighth</a> covariance components.</p></li>
 <li><p><a href="GTExExamples.html">Examples illustrating how mash uses patterns of sharing to inform effect estimates</a>.</p></li>
+<li><p><a href="HeterogeneityTables.html">Overall sharing among top eQTLs</a>.</p></li>
 <li><p><a href="SharingMag.html">Pairwise sharing by magnitude of eQTLs among tissues</a>.</p></li>
 <li><p><a href="SharingSign.html">Pairwise sharing by sign of eQTLs among tissues</a>.</p></li>
 <li><p><a href="ExpressionAnalysis.html">Comparison of genes with tissue-specific eQTLs against other genes</a>.</p></li>
@@ -678,7 +715,7 @@ docker container list --all</code></pre>
 </ul>
 <p>Figure 5:<a href="Fig.SharingHist.pdf">Histogram of Sharing</a></p>
 <p>Supplementary Figure 3: Illustration of how Linkage Disequilibrium can impact effect estimate <a href="TwoSNP.html">table</a> and <a href="TwoSNPPlot.pdf">figure</a></p>
-<p>Table 1: Heterogeneity Analysis <a href="Table.hettablesim.html">Simulation</a> and <a href="Table.HeterogeneityTables.html">Data</a>.</p>
+<p>Table 1: Heterogeneity Analysis <a href="Table.hettablesim.html">Simulation</a>.</p>
 </div>
 <div id="additional-usage-notes" class="section level2">
 <h2>Additional usage notes</h2>
@@ -686,6 +723,7 @@ docker container list --all</code></pre>
 <li><p>All containers that have run and exited will still be retained in the Docker system. Run <code>docker container list --all</code> to list all previous run containers. To clear these previously run containers, run <code>docker container prune</code>. See [here][docker-prune] for more information.</p></li>
 <li><p>See the Jupyter notebook to get more details; how the notebook should be interpreted.</p></li>
 <li><p>In the <code>data</code> folder, we have provided a file <a href="data/MatrixEQTLSumStats.Portable.Z.rds">MatrixEQTLSumStats.Portable.Z.rds</a> containing eQTL summary statistics from the GTEx study, in a format suitable for running mash. This was generated from the original eQTL summary statistics downloaded from the GTEx Portal website, then converted using the code in <code>fastqtl_to_mash.ipynb</code>. See <a href="fastqtl2mash.html">here</a> for details on this step.</p></li>
+<li><p>The <code>output</code> folder contains some additional results files that will not be generated directly from the mash analysis pipeline (described above); these are files that were generated by running the mash analysis on only brain tissues, and on all GTEx tissues excluding brain tissues. In order to generate results similar to these, the mash analysis pipeline has an option to specific subsets of tissues,</p></li>
 <li><p>Run the following command to update the Docker image: <code>docker pull gaow/mash-paper</code></p></li>
 </ul>
 </div>
