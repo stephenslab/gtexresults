@@ -243,11 +243,7 @@ effect estimates](GTExExamples.html).
 
 + [Number of tissue-specific eQTLs in each tissue](Tspecific.html).
 
-Figure 5:[Histogram of Sharing](Fig.SharingHist.pdf)
-
-Supplementary Figure 3: Illustration of how Linkage Disequilibrium can impact effect estimate [table](TwoSNP.html) and [figure](TwoSNPPlot.pdf)
-
-Table 1: Heterogeneity Analysis [Simulation](Table.hettablesim.html).
++ Figure 5:[Histogram of Sharing](SharingHist.html)
 
 ## Additional usage notes
 

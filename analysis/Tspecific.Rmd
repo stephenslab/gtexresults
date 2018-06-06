@@ -8,6 +8,9 @@ Despite high average levels of sharing of eQTLs among tissues, mash
 also identifies eQTLs that are relatively "tissue-specific". Here we
 count the number of "tissue-specific" eQTLs in each tissue.
 
+Compare the bar chart at the bottom of this page against Supplementary
+Figure 5 in the manuscript.
+
 ```{r knitr, message = FALSE, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, fig.width = 8,
                       fig.height = 6,fig.align = "center",

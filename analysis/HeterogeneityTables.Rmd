@@ -4,7 +4,9 @@ author: "Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens"
 output: workflowr::wflow_html
 ---
 
-Here we summarize overall sharing of effects by sign and by magnitude.
+Here we summarize overall sharing of effects by sign and by
+magnitude. Compare the table at the bottom of this page against Table
+2 in the manuscript.
 
 Because a major feature of these data is that brain tissues generally
 show more similar effects than non-brain tissues, we also compute

@@ -10,6 +10,8 @@ Specifically, we take genes with tissue-specific eQTLs, and examine
 the distribution of expression in the eQTL-affected tissue relative to
 expression in other tissues.
 
+Compare plots below with Supplementary Figure 6 in the manuscript.
+
 ```{r knitr, message = FALSE, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, fig.width = 5.5,
                       fig.height = 4,fig.align = "center",
