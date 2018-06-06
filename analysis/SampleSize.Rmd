@@ -1,0 +1,109 @@
+---
+title: "Add appropriate title here"
+output: pdf_document
+---
+
+*Add text here.*
+
+```{r knitr, message = FALSE, echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, fig.width = 8,
+                      fig.height = 4,fig.align = "center",
+                      comment = "#")
+```
+
+## Set up environment
+
+*Add text and code here.*
+
+## Load data and mash results
+
+In the next code chunk, we load some of the results generated from the
+mas analysis of the GTEx data, as well as summary statistics (e.g.,
+sample sizes, standard errors) calculated from the raw GTEx data.
+
+```{r load-results}
+missing.tissues <- c(7,8,19,20,24,25,31,34,37)
+out     <- readRDS("../data/MatrixEQTLSumStats.Portable.Z.rds")
+maxz    <- out$test.z
+maxbeta <- out$test.b
+qtl.names <- sapply(1:length(rownames(maxz)),
+  function(x) unlist(strsplit(rownames(maxz)[x],"[_]"))[[1]])
+standard.error.from.z <- as.matrix(maxbeta/maxz)
+dat <- read.csv("../data/ExprSampleSize.csv.gz",header = TRUE)
+rownames(dat) <- dat[,1]
+expr.data <- dat[,-1]
+expr.sort <- expr.data[rownames(expr.data)%in%qtl.names,]
+a         <- match(qtl.names,rownames(expr.sort))
+expr.sort <- expr.sort[a,]
+exp.sort  <- expr.sort[,-missing.tissues]
+colnames(exp.sort) <- colnames(maxz)
+standard.error           <- out$test.s
+colnames(standard.error) <- colnames(maxz)
+tissue.names             <- colnames(maxz)
+```
+
+*Add text here.*
+
+```{r load-tissue-colors}
+gtex.colors <- read.table('../data/GTExColors.txt',sep = '\t',
+                          comment.char = '')[-missing.tissues,2]
+```
+
+Load the median posterior variances:
+
+```{r read-marginal-var}
+out <- readRDS(paste("../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3",
+                     "lite.single.expanded.V1.posterior.rds",sep = "."))
+marginal.var <- out$marginal.var
+```
+
+Now let's plot effective sample size. Recall,
+
+$$n_{jeff}=\frac{s_{j}^2}{\tilde{s_{j}^2}}$$
+
+Let's plot again with order by original sample size:
+
+```{r reorder-again}
+original.var <- as.matrix(standard.error.from.z)^2
+size         <- as.matrix(exp.sort)
+post.var     <- as.matrix(marginal.var) * standard.error.from.z^2
+njeffective  <- size * original.var/post.var
+increase     <- njeffective/size
+```
+
+```{r plot1}
+par(mfrow=c(1,2))
+samplesize=apply(size,2,unique)
+sampleorder=order(samplesize,decreasing = T)
+median.nj.effective=apply(njeffective,2,median)
+median.nj.increase=apply(increase,2,median)
+
+par(mar=c(5.1,8,4.1,0.1))
+barplot(median.nj.effective[sampleorder],cex.names=0.4,las=2,
+  col=as.character(gtex.colors[sampleorder]),horiz = TRUE)
+title("Median(Nj_effective)",cex.main = 0.8)
+par(mar=c(5.1,2,4.1,6))
+barplot(median.nj.increase[sampleorder],cex.names=0.4,las=2,
+  col=as.character(gtex.colors[sampleorder]),horiz = T,names="",xlim=c(16,0))
+title("Median(Nj_effective/Nj_original)",cex.main=0.8)
+```
+
+```{r plot2}
+par(mfrow=c(1,2))
+samplesize=apply(size,2,function(x){unique(x)})
+sampleorder=order(samplesize,decreasing = T)
+median.nj.effective=apply(njeffective,2,median)
+median.nj.increase=apply(increase,2,median)
+
+par(mar=c(5.1,8,1.1,0.1))
+barplot(samplesize[sampleorder],cex.names=0.4,las=2,
+        col=as.character(gtex.colors[sampleorder]),horiz = T,xlim=c(0,2000))
+title("Sample Size",cex.main=0.8)
+
+par(mar=c(5.1,2,1.1,6))
+barplot(median.nj.effective[sampleorder],cex.names=0.4,las=2,
+        col=as.character(gtex.colors[sampleorder]),horiz = T,names="",
+        xlim=c(0,2000))
+
+title("Effective Sample Size",cex.main=0.8)
+```

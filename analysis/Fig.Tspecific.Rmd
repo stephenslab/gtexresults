@@ -1,6 +1,7 @@
 ---
 title: "Tspec"
-output: pdf_document
+author: "Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens"
+output: workflowr::wflow_html
 ---
 
 Here we plot the number of eQTL that are tissue specific by magnitude in only one tissue.
@@ -15,7 +16,6 @@ knitr::opts_chunk$set(cache=TRUE)
 ```{r barplotspec,echo=FALSE}
 source("../../Analysis/normfuncs.R")
 thresh=0.05
-
 
 pm.mash=as.matrix(read.table("../../Data_vhat/withvhatposterior.means.txt")[,-1])
 lfsr.mash=read.table("../../Data_vhat/withvhatlfsr.txt")[,-1]
@@ -35,9 +35,6 @@ thresh=0.05
 missing.tissues=c(7,8,19,20,24,25,31,34,37)
 color.gtex=read.table("../../Data/GTExColors.txt",sep = '\t', comment.char = '')[-missing.tissues,]
 col = as.character(color.gtex[,2])
-
-
-
 
 a=which(rowSums(pm.mash.beta.norm>0.5)==1)
 lfsr.fold=as.matrix(lfsr.mash[a,])
