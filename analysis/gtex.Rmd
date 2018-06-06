@@ -237,9 +237,9 @@ effect estimates](GTExExamples.html).
 
 + [Comparison of genes with tissue-specific eQTLs against other genes](ExpressionAnalysis.html).
 
-+ [Tissue effective sample sizes](SampleSize.Rmd).
++ [Tissue effective sample sizes](SampleSize.html).
 
-+ [Number of tissue-specific eQTLs in each tissue](Tspecific.Rmd).
++ [Number of tissue-specific eQTLs in each tissue](Tspecific.html).
 
 Figure 5:[Histogram of Sharing](Fig.SharingHist.pdf)
 
