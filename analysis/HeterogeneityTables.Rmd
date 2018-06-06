@@ -1,10 +1,14 @@
 ---
-Title: "Add title here."
+title: "Overall sharing among top eQTLs"
 author: "Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens"
 output: workflowr::wflow_html
 ---
 
-*Add text here.*
+Here we summarize overall sharing of effects by sign and by magnitude.
+
+Because a major feature of these data is that brain tissues generally
+show more similar effects than non-brain tissues, we also compute
+results separately from subsets of brain and non-brain tissues.
 
 ```{r knitr, message = FALSE, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, fig.width = 8,
@@ -12,7 +16,15 @@ knitr::opts_chunk$set(collapse = TRUE, fig.width = 8,
                       comment = "#")
 ```
 
-*Add text here.*
+## Set up environment
+
+First, we load some functions defined for mash analyses.
+
+```{r load-functions}
+source("../code/normfuncs.R")
+```
+This is the threshold used to determine which genes have at least one
+significant effect across tissues.
 
 ```{r thresh}
 thresh <- 0.05
@@ -41,7 +53,7 @@ colnames(lfsr) <- tissue.names
 Load the results generated from the mash analysis of the GTEx data
 after removing the data from the brain tissues.
 
-``{r load-without-brain-results} 
+```{r load-without-brain-results} 
 lfsr.nobrain           <- read.table("../output/nobrainlfsr.txt")[,-1]
 colnames(lfsr.nobrain) <- tissue.names[-c(7:16)]
 pm.mash.nobrain <-
@@ -60,57 +72,86 @@ pm.mash.brain.only <-
     standard.error[,c(7:16)]
 ```
 
-Here, we show the Proportion of Sharing by Sign:
+## Compute overall sharing of eQTLs by sign and magnitude
 
-```{r generate-tablestt}
-sigmat=(lfsr<=thresh)
-nsig= rowSums(sigmat)
-(signall=mean(het.norm(pm.mash.beta[nsig>0,])>0))
+Compute the amount of sharing by sign, in all tissues, and separately
+in brain and non-brain tissues. Sharing by sign requires that the
+effect has the same sign as the strongest effect among tissues.
 
-##show that results are robust in global analysis###
-sigmat=(lfsr[,-c(7:16)]<=thresh)
-nsig= rowSums(sigmat)
-(signall.nobrain=mean(het.norm(pm.mash.beta[nsig,-c(7:16)])>0))
+```{r compute-heterogeneity-by-sign}
+sigmat  <- (lfsr<=thresh)
+nsig    <-  rowSums(sigmat)
+signall <- mean(het.norm(pm.mash.beta[nsig>0,])>0)
 
-sigmat=(lfsr[,c(7:16)]<=thresh)
-nsig= rowSums(sigmat)
-(signall.brainonly=mean(het.norm(pm.mash.beta[nsig>0,c(7:16)])>0))
+sigmat          <- (lfsr[,-c(7:16)]<=thresh)
+nsig            <-  rowSums(sigmat)
+signall.nobrain <- mean(het.norm(pm.mash.beta[nsig,-c(7:16)])>0)
 
-####SHow that results are robust in specific analysis
+sigmat            <- (lfsr[,c(7:16)]<=thresh)
+nsig              <- rowSums(sigmat)
+signall.brainonly <- mean(het.norm(pm.mash.beta[nsig>0,c(7:16)])>0)
 
-sigmat=(lfsr.nobrain<=thresh)
-nsig= rowSums(sigmat)
-(signnobrain=mean(het.norm(pm.mash.nobrain[nsig>0,])>0))
+sigmat      <- (lfsr.nobrain<=thresh)
+nsig        <- rowSums(sigmat)
+signnobrain <- mean(het.norm(pm.mash.nobrain[nsig>0,])>0)
 
-
-sigmat=(lfsr.brain.only<=thresh)
-nsig= rowSums(sigmat)
-(signbrainonly=mean(het.norm(pm.mash.brain.only[nsig>0,])>0))
+sigmat        <- (lfsr.brain.only<=thresh)
+nsig          <- rowSums(sigmat)
+signbrainonly <- mean(het.norm(pm.mash.brain.only[nsig>0,])>0)
 ```
 
-Here, we show heterogeneity by magnitude:
+Compute the amount of sharing by magnitude, in all tissues, and
+separately in brain and non-brain tissues. "Sharing by Magnitude"
+requires that the effect is also within a factor of 2 of the strongest
+effect.
 
-```{r}
-sigmat=(lfsr<=thresh)
-nsig= rowSums(sigmat)
-(magall=mean(het.norm(pm.mash.beta[nsig>0,])>0.5))
+```{r compute-heterogeneity-by-magnitude}
+sigmat <- (lfsr<=thresh)
+nsig   <- rowSums(sigmat)
+magall <- mean(het.norm(pm.mash.beta[nsig>0,])>0.5)
 
-##show that results are robust###
-sigmat=(lfsr[,-c(7:16)]<=thresh)
-nsig= rowSums(sigmat)
-(magall.excludingbrain=mean(het.norm(pm.mash.beta[nsig>0,-c(7:16)])>0.5))
+sigmat <- (lfsr[,-c(7:16)]<=thresh)
+nsig   <- rowSums(sigmat)
+magall.excludingbrain <- mean(het.norm(pm.mash.beta[nsig>0,-c(7:16)]) > 0.5)
 
-sigmat=(lfsr[,c(7:16)]<=thresh)
-nsig= rowSums(sigmat)
-(magall.brainonly=mean(het.norm(pm.mash.beta[nsig>0,c(7:16)])>0.5))
+sigmat <- (lfsr[,c(7:16)]<=thresh)
+nsig   <- rowSums(sigmat)
+magall.brainonly <- mean(het.norm(pm.mash.beta[nsig>0,c(7:16)]) > 0.5)
 
+sigmat     <- (lfsr.nobrain<=thresh)
+nsig       <- rowSums(sigmat)
+magnobrain <- mean(het.norm(pm.mash.nobrain[nsig>0,]) > 0.5)
 
-##show that results are robust###
-sigmat=(lfsr.nobrain<=thresh)
-nsig= rowSums(sigmat)
-(magnobrain=mean(het.norm(pm.mash.nobrain[nsig>0,])>0.5))
-
-sigmat=(lfsr.brain.only<=thresh)
-nsig= rowSums(sigmat)
-(magbrain=mean(het.norm(pm.mash.brain.only[nsig>0,])>0.5))
+sigmat   <- (lfsr.brain.only<=thresh)
+nsig     <- rowSums(sigmat)
+magbrain <- mean(het.norm(pm.mash.brain.only[nsig>0,]) > 0.5)
 ```
+
+Summarize these calculations in a single table. The numbers in
+parentheses are obtained by the secondary mash analyses on the
+brain-only and non-brain tissue subsets.
+
+```{r sharing-summary}
+round(matrix(rbind(c(signall,signall.nobrain,signnobrain,
+               signall.brainonly,signbrainonly),
+             c(magall,magall.excludingbrain,magnobrain,
+			   magall.brainonly,magbrain)),
+         nrow = 2,ncol = 5,
+         dimnames = list(c("shared by sign","shared by magnitude"),
+                    	 c("all tissues","non-brain","(non-brain)",
+	                       "brain","(brain)"))),
+	  digits = 3)
+```
+
+The results confirm extensive eQTL sharing among tissues, particularly
+among the brain tissues; sharing in sign exceeds 85% in all cases, and
+is as high as 98% among the brain tissues.
+
+Sharing in magnitude is inevitably lower, because sharing in magnitude
+implies sharing in sign. Overall, on average 37% of tissues show an
+effect within a factor of 2 of the strongest effect at each top
+eQTL.
+
+However, within brain tissues this number increases to 78%. That is,
+not only do eQTLs tend to be shared among the brain tissues, but the
+effect sizes tend to be quite homogeneous.
