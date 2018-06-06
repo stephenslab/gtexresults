@@ -7,7 +7,9 @@ output: workflowr::wflow_html
 Different levels of effect sharing among tissues means that effect
 estimates in some tissues gain more precision than others from the
 joint analysis. Here we quantify an "effective sample size" (ESS) per
-tissue and compare against the sample sizes in the data.
+tissue and compare against the actual sample sizes.
+
+Compare the last plot against Supplementary Figure 1 in the manuscript.
 
 ```{r knitr, message = FALSE, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, fig.width = 8,
@@ -58,11 +60,11 @@ out <- readRDS(paste("../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3",
 marginal.var <- out$marginal.var
 ```
 
-Now let's plot effective sample size. Recall,
+## Compute effective sample sizes
 
-$$n_{jeff}=\frac{s_{j}^2}{\tilde{s_{j}^2}}$$
+Compute the effective sample sizes,
 
-Let's plot again with order by original sample size:
+$$n_{jeff} = \frac{s_{j}^2}{\tilde{s_{j}^2}}$$
 
 ```{r reorder-again}
 original.var <- as.matrix(standard.error.from.z)^2
@@ -72,12 +74,22 @@ njeffective  <- size * original.var/post.var
 increase     <- njeffective/size
 ```
 
-```{r plot1}
+Next, order the tissues by the actual sample size.
+
+```{r order-by-sample-size}
+samplesize          <- apply(size,2,unique)
+sampleorder         <- order(samplesize,decreasing = TRUE)
+median.nj.effective <- apply(njeffective,2,median)
+median.nj.increase  <- apply(increase,2,median)
+```
+
+## Plot effective sample sizes
+
+Plot, for each tissue, the effective sample size, and the increase in
+the ESS over the actual sample sample size.
+
+```{r plot1, fig.height=5.5, fig.width=8}
 par(mfrow=c(1,2))
-samplesize=apply(size,2,unique)
-sampleorder=order(samplesize,decreasing = T)
-median.nj.effective=apply(njeffective,2,median)
-median.nj.increase=apply(increase,2,median)
 par(mar=c(5.1,8,4.1,0.1))
 barplot(median.nj.effective[sampleorder],cex.names=0.4,las=2,
   col=as.character(gtex.colors[sampleorder]),horiz = TRUE)
@@ -88,19 +100,31 @@ barplot(median.nj.increase[sampleorder],cex.names=0.4,las=2,
 title("Median(Nj_effective/Nj_original)",cex.main=0.8)
 ```
 
-```{r plot2}
-par(mfrow=c(1,2))
-samplesize=apply(size,2,function(x){unique(x)})
-sampleorder=order(samplesize,decreasing = T)
-median.nj.effective=apply(njeffective,2,median)
-median.nj.increase=apply(increase,2,median)
-par(mar=c(5.1,8,1.1,0.1))
+We see that the ESS values are smallest for tissue that show more
+"tissue-specific" behaviour (e.g. testis, whole blood), and are
+largest for coronary artery, reflecting its stronger correlation with
+other tissues.
+
+## Plot effective sample sizes and actual sample sizes
+
+Here we plot the actual sample size and median effective sample size
+of each tissue, in which the tissues are ordered by their original
+sample size.
+
+```{r plot2, fig.height=5.5, fig.width=8}
+par(mfrow = c(1,2))
+par(mar = c(5.1,8,1.1,0.1))
 barplot(samplesize[sampleorder],cex.names=0.4,las=2,
-        col=as.character(gtex.colors[sampleorder]),horiz = T,xlim=c(0,2000))
+        col=as.character(gtex.colors[sampleorder]),horiz = TRUE,
+        xlim = c(0,2000))
 title("Sample Size",cex.main=0.8)
-par(mar=c(5.1,2,1.1,6))
-barplot(median.nj.effective[sampleorder],cex.names=0.4,las=2,
-        col=as.character(gtex.colors[sampleorder]),horiz = T,names="",
-        xlim=c(0,2000))
-title("Effective Sample Size",cex.main=0.8)
+par(mar = c(5.1,2,1.1,6))
+barplot(median.nj.effective[sampleorder],cex.names = 0.4,las = 2,
+        col = as.character(gtex.colors[sampleorder]),horiz = TRUE,
+        names = "",xlim = c(0,2000))
+title("Effective Sample Size",cex.main = 0.8)
 ```
+
+Observe that the effective sample sizes are consistently higher than
+actual sample sizes, primarily due to sharing of information among
+tissues.
