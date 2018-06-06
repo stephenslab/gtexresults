@@ -72,11 +72,12 @@ pm.mash.brain.only <-
     standard.error[,c(7:16)]
 ```
 
-## Compute overall sharing of eQTLs by sign and magnitude
+## Compute overall sharing by sign and magnitude
 
-Compute the amount of sharing by sign, in all tissues, and separately
-in brain and non-brain tissues. Sharing by sign requires that the
-effect has the same sign as the strongest effect among tissues.
+Compute the amount of eQTL sharing by sign, in all tissues, and
+separately in brain and non-brain tissues. "Sharing by" sign requires
+that the effect has the same sign as the strongest effect among
+tissues.
 
 ```{r compute-heterogeneity-by-sign}
 sigmat  <- (lfsr<=thresh)
@@ -145,13 +146,13 @@ round(matrix(rbind(c(signall,signall.nobrain,signnobrain,
 
 The results confirm extensive eQTL sharing among tissues, particularly
 among the brain tissues; sharing in sign exceeds 85% in all cases, and
-is as high as 98% among the brain tissues.
+is as high as 96% among the brain tissues.
 
 Sharing in magnitude is inevitably lower, because sharing in magnitude
-implies sharing in sign. Overall, on average 37% of tissues show an
+implies sharing in sign. Overall, on average 36% of tissues show an
 effect within a factor of 2 of the strongest effect at each top
 eQTL.
 
-However, within brain tissues this number increases to 78%. That is,
+However, within brain tissues this number increases to 76%. That is,
 not only do eQTLs tend to be shared among the brain tissues, but the
 effect sizes tend to be quite homogeneous.
