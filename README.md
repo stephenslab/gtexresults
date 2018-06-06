@@ -8,7 +8,7 @@ paper:
 > studies with multiple conditions.* bioRxiv
 > [doi:10.1101/096552][biorxiv-paper].
 
-For full details, please go to the [website][github-site].
+For full details, please view the [website][github-site].
 
 [github-site]: https://stephenslab.github.io/gtexresults
 [biorxiv-paper]: http://dx.doi.org/10.1101/096552

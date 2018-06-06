@@ -14,17 +14,22 @@ knitr::opts_chunk$set(collapse = TRUE, fig.width = 8,
 
 ## Set up environment
 
-First, we load some functions defined for the MASH analyses.
+First, we load some functions defined for the mash analyses.
 
 ```{r load-pkgs, message = FALSE}
 source("../workflows/normfuncs.R")
 ```
 
-## Load data and MASH results
+*Add text here.*
 
-In the next code chunk, we load some GTEx summary statistics, as well
-as some of the results generated from the MASH analysis of the GTEx
-data.
+```{r}
+thresh <- 0.05
+```
+
+## Load data and mash results
+
+Load some GTEx summary statistics, as well as some of the results
+generated from the mash analysis of the GTEx data.
 
 ```{r load-results}
 out  <- readRDS("../data/MatrixEQTLSumStats.Portable.Z.rds")
@@ -32,11 +37,11 @@ maxb <- out$test.b
 maxz <- out$test.z
 out  <-readRDS(paste("../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3",
                     "lite.single.expanded.V1.posterior.rds",sep = "."))
-<<<<<<< HEAD
 lfsr           <- out$lfsr
 pm.mash        <- out$posterior.means
 standard.error <- maxbeta/maxz
 pm.mash.beta   <- pm.mash * standard.error
+<<<<<<< HEAD
 pm.mash.nobrain=
   as.matrix(read.table("../output/nobrainposterior.means.txt")[,-1])*
   standard.error[,-c(7:16)]
@@ -44,12 +49,6 @@ pm.mash.brain.only=
   as.matrix(read.table("../output/brainonlyposterior.means.txt")[,-1])*
   standard.error[,c(7:16)]
 =======
-lfsr <- out$lfsr
-standard.error <- maxbeta/maxz
-
-pm.mash=read.table("../../Data_vhat/withvhatposterior.means.txt")[,-1]
-
-pm.mash.beta=pm.mash * standard.error
 pm.mash.nobrain=as.matrix(read.table("../../withoutbrain/nobrainposterior.means.txt")[,-1])*standard.error[,-c(7:16)]
 pm.mash.brain.only=as.matrix(read.table("../../BrainOnly//brainonlyposterior.means.txt")[,-1])*standard.error[,c(7:16)]
 >>>>>>> 8c02ce2e437e971cd8ec6cf60c17a943e603874c
@@ -57,16 +56,11 @@ pm.mash.brain.only=as.matrix(read.table("../../BrainOnly//brainonlyposterior.mea
 
 Let's plot heterogneity by magnitude from the global analysis.
 
-```{r hindexplotmagnitude,echo=FALSE,fig.height=5,fig.width=10}
-thresh=0.05
+```{r hindex-plot-magnitude}
 ### now make with all tissue effects
-
-
 par(mar=c(4,4,2,1))
 par(oma=c(8,4,0,0) + 0.1)
 par(mfrow=c(1,3))
-
-
 sigmat=(lfsr<=thresh)
 nsig= rowSums(sigmat)
 
@@ -95,11 +89,10 @@ mtext("Brain Tissues")
 #title(xlab="Number of Tissues Shared (by magnitude)", outer=TRUE,line=3,cex.lab=3)
 ````
 
+Now, let's make the same plot with all tissue effects measuring the
+number of tissues which have a sign equivalent to max effect:
 
-Now, let's make the same plot with all tissue effects measuring the number of tissues which have a sign equivalent to max effect:
-
-
-````{r hindexplotsign,echo=FALSE,fig.height=5,fig.width=10}
+````{r hindex-plot-sign}
 
 sign.func=function(normeffectsize){apply(normeffectsize,1,function(x)(sum(x>0)))}
 par(mar=c(4,4.5,2,1))
@@ -133,8 +126,6 @@ brain.norm=het.norm(effectsize=pm.mash.beta[nsig>0,c(7:16)])
 hist(sign.func(brain.norm),main="",xlab="",breaks=0.5:10.5,col="grey",freq=FALSE,xaxt="n",ylim=c(0,0.9))
 axis(1, at=seq(1, 10, by=1), labels=c(1:10))
 mtext("Brain Tissues")
-
-
 ```
 
 
