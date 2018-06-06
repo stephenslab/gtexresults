@@ -239,13 +239,11 @@ effect estimates](GTExExamples.html).
 
 + [Tissue effective sample sizes](SampleSize.Rmd).
 
++ [Number of tissue-specific eQTLs in each tissue](Tspecific.Rmd).
+
 Figure 5:[Histogram of Sharing](Fig.SharingHist.pdf)
 
-Supplementary Figure 1:[Sample sizes and effective sample sizes from mash analysis across tissues](Fig.SampleSize.html)
-
 Supplementary Figure 3: Illustration of how Linkage Disequilibrium can impact effect estimate [table](TwoSNP.html) and [figure](TwoSNPPlot.pdf)
-
-Supplementary Figure 5:[Number of “tissue-specific eQTLs” in each tissues.](Fig.Tspecific.html)
 
 Table 1: Heterogeneity Analysis [Simulation](Table.hettablesim.html) and [Data](Table.HeterogeneityTables.html).
 
