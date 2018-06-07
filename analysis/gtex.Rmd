@@ -283,6 +283,7 @@ gaow/mash-paper`
 [docker-overview]: https://docs.docker.com/engine/docker-overview
 [docker-getting-started]: https://docs.docker.com/get-started
 [docker-download]: https://docs.docker.com/install
+[docker-prune]: https://stackoverflow.com/questions/17014263/should-i-be-concerned-about-excess-non-running-docker-containers
 [docker-ce]: https://www.docker.com/community-edition
 [docker-lab-base]: https://hub.docker.com/r/gaow/lab-base
 [docker-mash-paper]: https://hub.docker.com/r/gaow/mash-paper
