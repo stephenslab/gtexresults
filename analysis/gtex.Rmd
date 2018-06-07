@@ -257,12 +257,12 @@ information.
 should be interpreted.
 
 + In the `data` folder, we have provided a file
-[MatrixEQTLSumStats.Portable.Z.rds](data/MatrixEQTLSumStats.Portable.Z.rds)
-containing eQTL summary statistics from the GTEx study, in a format
-suitable for running mash. This was generated from the original eQTL
-summary statistics downloaded from the GTEx Portal website, then
-converted using the code in `fastqtl_to_mash.ipynb`. See
-[here](fastqtl2mash.html) for details on this step.
+`MatrixEQTLSumStats.Portable.Z.rds` containing eQTL summary statistics
+from the GTEx study, in a format suitable for running mash. This was
+generated from the original eQTL summary statistics downloaded from
+the GTEx Portal website, then converted using the code in
+`fastqtl_to_mash.ipynb`. See [here](fastqtl2mash.html) for details on
+this step.
 
 + The `output` folder contains some additional results files that will
 not be generated directly from the mash analysis pipeline (described
