@@ -143,17 +143,16 @@ Note that you may recognize file `gtex6_mash_analysis.ipynb` as a
 Jupyter notebook. Indeed, you may open this notebook in Jupyter.
 However, you should not step through the code sequentially as you
 would in a typical Jupyter notebook; this is because the code in this
-notebook is meant to be run using the
-[Script of Scripts (SoS)](https://github.com/vatlab/SoS) framework.
+notebook is meant to be run using the [Script of Scripts (SoS)][sos]
+framework.
 
 This command will execute the following steps of the analysis:
 
-+ Compute a sparse factorization of the (centered) *z*-scores using the
-  [SFA software](http://stephenslab.uchicago.edu/software.html#sfa),
-  with K = 5 factors, and save the factors in an `.rds` file. This
-  will be used to construct the mixture-of-multivariate normals
-  prior. This step is labeled `sfa`, and should only take a few
-  minutes to run.
++ Compute a sparse factorization of the (centered) *z*-scores using
+  the [SFA software][sfa], with K = 5 factors, and save the factors in
+  an `.rds` file. This will be used to construct the
+  mixture-of-multivariate normals prior. This step is labeled `sfa`,
+  and should only take a few minutes to run.
 
 + Compute additional "data-driven" prior matrices by computing a
   singular value decomposition of the (centered) *z*-scores and
@@ -183,13 +182,6 @@ This command will execute the following steps of the analysis:
   are summarized and visualized in subsequent analysis steps. The
   posterior statistics are saved to another `.rds` file. This step is
   expected to take a few hours to complete.
-
-**Note:** All containers that have run and exited will still be
-retained in the Docker system. Run `docker container list --all` to
-list all previous run containers. To clear these previously run
-containers, run `docker container prune`. See
-[here](https://stackoverflow.com/questions/17014263/should-i-be-concerned-about-excess-non-running-docker-containers)
-for more information.
 
 ## Generate figures and tables summarizing results of mash analysis
 
@@ -279,6 +271,8 @@ gaow/mash-paper`
 [gtexresults]: https://github.com/stephenslab/gtexresults
 [mashr]: https://github.com/stephenslab/mashr
 [issues]: https://github.com/stephenslab/gtexresults/issues
+[sos]: https://github.com/vatlab/SoS
+[sfa]: http://stephenslab.uchicago.edu/software.html#sfa
 [workflowr]: https://github.com/jdblischak/workflowr
 [docker-overview]: https://docs.docker.com/engine/docker-overview
 [docker-getting-started]: https://docs.docker.com/get-started
