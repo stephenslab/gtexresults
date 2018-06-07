@@ -49,7 +49,7 @@ lfsr.mash    <- out$lfsr
 pm.mash.beta <- pm.mash * standard.error
 ```
 
-For the bar chart below, we use the colours that are
+To create the bar chart below, we use the colours that are
 conventionally used to represent the GTEx tissues in plots.
 
 ```{r load-tissue-colors}

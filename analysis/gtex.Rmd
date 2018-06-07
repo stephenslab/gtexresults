@@ -243,7 +243,7 @@ effect estimates](GTExExamples.html).
 
 + [Number of tissue-specific eQTLs in each tissue](Tspecific.html).
 
-+ Figure 5:[Histogram of Sharing](SharingHist.html)
++ [Distribution of eQTL sharing across tissues](SharingHist.html).
 
 ## Additional usage notes
 

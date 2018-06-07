@@ -55,7 +55,7 @@ pm.mash.beta   <- pm.mash * standard.error
 Sharing by magnitude means that two eQTLs have similar effect size
 (within a factor of 2).
 
-Here we plot histograms of sharing by magnitude across all tissues
+The histograms below summarize sharing by magnitude across all tissues
 (left), tissues other than brain (middle), and brain tissues only
 (right).
 
@@ -97,8 +97,9 @@ that have much stronger effect in one tissue than in any other
 
 Sharing by sign means that the eQTLs have the same sign of effect.
 
-Here we plot histograms of sharing by sign across all tissues (left),
-tissues other than brain (middle), and brain tissues only (right).
+The histograms below summarize sharing by sign across all tissues
+(left), tissues other than brain (middle), and brain tissues only
+(right).
 
 ````{r hindex-plot-sign}
 sign.func <- function (normeffectsize)
