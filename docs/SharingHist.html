@@ -345,7 +345,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/0226fe3288a183d5626d077010c86d7573eabd44" target="_blank">0226fe3</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/5d5a4030adf19c2d57dfcef2f56f45c90926a7ca" target="_blank">5d5a403</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -358,10 +358,6 @@ Ignored files:
 Untracked files:
     Untracked:  fastqtl_to_mash_output/
     Untracked:  gtex6_workflow_output/
-
-Unstaged changes:
-    Modified:   analysis/Tspecific.Rmd
-    Modified:   analysis/gtex.Rmd
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -390,6 +386,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/5d5a4030adf19c2d57dfcef2f56f45c90926a7ca/analysis/SharingHist.Rmd" target="_blank">5d5a403</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-06
+</td>
+<td style="text-align:left;">
+wflow_publish(c(“ExpressionAnalysis.Rmd”, “fastqtl2mash.Rmd”,
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/7ca37fb74ba09258eb7f128595e189e18faf1c1f/docs/SharingHist.html" target="_blank">7ca37fb</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-06
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -522,7 +552,7 @@ pm.mash.beta   &lt;- pm.mash * standard.error</code></pre>
 <div id="histograms-of-sharing-by-magnitude" class="section level1">
 <h1>Histograms of sharing by magnitude</h1>
 <p>Sharing by magnitude means that two eQTLs have similar effect size (within a factor of 2).</p>
-<p>Here we plot histograms of sharing by magnitude across all tissues (left), tissues other than brain (middle), and brain tissues only (right).</p>
+<p>The histograms below summarize sharing by magnitude across all tissues (left), tissues other than brain (middle), and brain tissues only (right).</p>
 <pre class="r"><code>sigmat &lt;- (lfsr &lt;= thresh)
 nsig   &lt;- rowSums(sigmat)
 par(mar = c(4,4,2,1))
@@ -584,7 +614,7 @@ Peter Carbonetto
 <div id="histogram-of-sharing-by-magnitude" class="section level2">
 <h2>Histogram of sharing by magnitude</h2>
 <p>Sharing by sign means that the eQTLs have the same sign of effect.</p>
-<p>Here we plot histograms of sharing by sign across all tissues (left), tissues other than brain (middle), and brain tissues only (right).</p>
+<p>The histograms below summarize sharing by sign across all tissues (left), tissues other than brain (middle), and brain tissues only (right).</p>
 <pre class="r"><code>sign.func &lt;- function (normeffectsize)
   apply(normeffectsize,1,function(x)(sum(x&gt;0)))
 sigmat &lt;- (lfsr&lt;=thresh)
