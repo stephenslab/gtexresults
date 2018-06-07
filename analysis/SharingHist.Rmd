@@ -1,10 +1,16 @@
 ---
-title: "Add appropriate title here."
+title: "Distribution of eQTL sharing across tissues"
 author: "Sarah Urbut"
 output: workflowr::wflow_html
 ---
 
-*Add text here.*
+Here we develop another summary of sharing of eQTLs across tissues by
+showing the estimated distribution of sharing; specifically, the
+distribution of the number of tissues shared by sign and by
+magnitude. This complements [this summary](HeterogeneityTables.html)
+and [this one](Tspecific.html).
+
+Compare the plots below to the plots in Figure 5 of the paper.
 
 ```{r knitr, message = FALSE, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, fig.width = 8,
@@ -20,7 +26,8 @@ First, we load some functions defined for the mash analyses.
 source("../code/normfuncs.R")
 ```
 
-*Add text here.*
+This is the threshold used to determine whether a gene has an eQTL
+in a given tissue.
 
 ```{r define-thresh}
 thresh <- 0.05
@@ -43,12 +50,17 @@ standard.error <- maxbeta/maxz
 pm.mash.beta   <- pm.mash * standard.error
 ```
 
-# Add section title here
+# Histograms of sharing by magnitude
 
-Let's plot heterogneity by magnitude from the global analysis.
+Sharing by magnitude means that two eQTLs have similar effect size
+(within a factor of 2).
+
+Here we plot histograms of sharing by magnitude across all tissues
+(left), tissues other than brain (middle), and brain tissues only
+(right).
 
 ```{r hindex-plot-magnitude}
-sigmat <- (lfsr<=thresh)
+sigmat <- (lfsr <= thresh)
 nsig   <- rowSums(sigmat)
 par(mar = c(4,4,2,1))
 par(oma = c(8,4,0,0) + 0.1)
@@ -76,10 +88,12 @@ axis(1, at=seq(1, 10, by=1), labels=c(1:10))
 mtext("Brain Tissues")
 ````
 
-## Add section title here
+## Histogram of sharing by magnitude
 
-Now, let's make the same plot with all tissue effects measuring the
-number of tissues which have a sign equivalent to max effect:
+Sharing by sign means that the eQTLs have the same sign of effect.
+
+Here we plot histograms of sharing by sign across all tissues (left),
+tissues other than brain (middle), and brain tissues only (right).
 
 ````{r hindex-plot-sign}
 sign.func <- function (normeffectsize)
