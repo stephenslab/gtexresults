@@ -12,7 +12,7 @@
 <meta name="author" content="Sarah Urbut" />
 
 
-<title>Add appropriate title here.</title>
+<title>Distribution of eQTL sharing across tissues</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -315,7 +315,7 @@ div.section {
 
 
 
-<h1 class="title toc-ignore">Add appropriate title here.</h1>
+<h1 class="title toc-ignore">Distribution of eQTL sharing across tissues</h1>
 <h4 class="author"><em>Sarah Urbut</em></h4>
 
 </div>
@@ -345,7 +345,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/0f4a56abd4c3a2be4a6330113c25195342d14f1f" target="_blank">0f4a56a</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/ddd3bd368e5ffd5eb6a8eb5c52f33af448d4157b" target="_blank">ddd3bd3</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -360,9 +360,8 @@ Untracked files:
     Untracked:  gtex6_workflow_output/
 
 Unstaged changes:
-    Modified:   analysis/ExpressionAnalysis.Rmd
-    Modified:   analysis/HeterogeneityTables.Rmd
     Modified:   analysis/Tspecific.Rmd
+    Modified:   analysis/gtex.Rmd
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -391,6 +390,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/ddd3bd368e5ffd5eb6a8eb5c52f33af448d4157b/analysis/SharingHist.Rmd" target="_blank">ddd3bd3</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-06
+</td>
+<td style="text-align:left;">
+wflow_publish(“SharingHist.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/0c91e3fbf4d3e552b281a8321a071a36ec88394d/docs/SharingHist.html" target="_blank">0c91e3f</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-06
+</td>
+<td style="text-align:left;">
+I have a first complete revision of the SharingHist analysis without
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -447,12 +480,13 @@ wflow_publish(“Tspecific.Rmd”)
 </ul>
 <p></details></p>
 <hr />
-<p><em>Add text here.</em></p>
+<p>Here we develop another summary of sharing of eQTLs across tissues by showing the estimated distribution of sharing; specifically, the distribution of the number of tissues shared by sign and by magnitude. This complements <a href="HeterogeneityTables.html">this summary</a> and <a href="Tspecific.html">this one</a>.</p>
+<p>Compare the plots below to the plots in Figure 5 of the paper.</p>
 <div id="set-up-environment" class="section level2">
 <h2>Set up environment</h2>
 <p>First, we load some functions defined for the mash analyses.</p>
 <pre class="r"><code>source(&quot;../code/normfuncs.R&quot;)</code></pre>
-<p><em>Add text here.</em></p>
+<p>This is the threshold used to determine whether a gene has an eQTL in a given tissue.</p>
 <pre class="r"><code>thresh &lt;- 0.05</code></pre>
 </div>
 <div id="load-data-and-mash-results" class="section level2">
@@ -468,10 +502,11 @@ pm.mash        &lt;- out$posterior.means
 standard.error &lt;- maxbeta/maxz
 pm.mash.beta   &lt;- pm.mash * standard.error</code></pre>
 </div>
-<div id="add-section-title-here" class="section level1">
-<h1>Add section title here</h1>
-<p>Let’s plot heterogneity by magnitude from the global analysis.</p>
-<pre class="r"><code>sigmat &lt;- (lfsr&lt;=thresh)
+<div id="histograms-of-sharing-by-magnitude" class="section level1">
+<h1>Histograms of sharing by magnitude</h1>
+<p>Sharing by magnitude means that two eQTLs have similar effect size (within a factor of 2).</p>
+<p>Here we plot histograms of sharing by magnitude across all tissues (left), tissues other than brain (middle), and brain tissues only (right).</p>
+<pre class="r"><code>sigmat &lt;- (lfsr &lt;= thresh)
 nsig   &lt;- rowSums(sigmat)
 par(mar = c(4,4,2,1))
 par(oma = c(8,4,0,0) + 0.1)
@@ -498,9 +533,40 @@ hist(het.func(brain.norm,threshold=0.5),main=&quot;&quot;,xlab=&quot;&quot;,brea
 axis(1, at=seq(1, 10, by=1), labels=c(1:10))
 mtext(&quot;Brain Tissues&quot;)</code></pre>
 <p><img src="figure/SharingHist.Rmd/hindex-plot-magnitude-1.png" width="768" style="display: block; margin: auto;" /></p>
-<div id="add-section-title-here-1" class="section level2">
-<h2>Add section title here</h2>
-<p>Now, let’s make the same plot with all tissue effects measuring the number of tissues which have a sign equivalent to max effect:</p>
+<details> <summary><em>Expand here to see past versions of hindex-plot-magnitude-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/0c91e3fbf4d3e552b281a8321a071a36ec88394d/docs/figure/SharingHist.Rmd/hindex-plot-magnitude-1.png" target="_blank">0c91e3f</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-06
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+<div id="histogram-of-sharing-by-magnitude" class="section level2">
+<h2>Histogram of sharing by magnitude</h2>
+<p>Sharing by sign means that the eQTLs have the same sign of effect.</p>
+<p>Here we plot histograms of sharing by sign across all tissues (left), tissues other than brain (middle), and brain tissues only (right).</p>
 <pre class="r"><code>sign.func &lt;- function (normeffectsize)
   apply(normeffectsize,1,function(x)(sum(x&gt;0)))
 sigmat &lt;- (lfsr&lt;=thresh)
@@ -529,6 +595,36 @@ hist(sign.func(brain.norm),main=&quot;&quot;,xlab=&quot;&quot;,breaks=0.5:10.5,c
 axis(1, at=seq(1, 10, by=1), labels=c(1:10))
 mtext(&quot;Brain Tissues&quot;)</code></pre>
 <p><img src="figure/SharingHist.Rmd/hindex-plot-sign-1.png" width="768" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of hindex-plot-sign-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/0c91e3fbf4d3e552b281a8321a071a36ec88394d/docs/figure/SharingHist.Rmd/hindex-plot-sign-1.png" target="_blank">0c91e3f</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-06
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
