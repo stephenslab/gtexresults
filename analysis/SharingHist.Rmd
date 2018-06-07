@@ -1,6 +1,6 @@
 ---
 title: "Distribution of eQTL sharing across tissues"
-author: "Sarah Urbut"
+author: "Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens"
 output: workflowr::wflow_html
 ---
 
@@ -88,6 +88,11 @@ axis(1, at=seq(1, 10, by=1), labels=c(1:10))
 mtext("Brain Tissues")
 ````
 
+Observe that the distribution of the number of tissues in which an
+eQTL is shared by magnitude has a mode at 1. This is a subset of eQTLs
+that have much stronger effect in one tissue than in any other
+("tissue-specific").
+
 ## Histogram of sharing by magnitude
 
 Sharing by sign means that the eQTLs have the same sign of effect.
@@ -124,3 +129,6 @@ hist(sign.func(brain.norm),main="",xlab="",breaks=0.5:10.5,col="grey",
 axis(1, at=seq(1, 10, by=1), labels=c(1:10))
 mtext("Brain Tissues")
 ```
+
+Similar to other summaries of the mash analysis, we see that eQTLs
+exhibit a high level of sharing across tissues.
