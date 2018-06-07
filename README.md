@@ -1,4 +1,4 @@
-# Code resources accompanying accompanying Urbut et al (2017)
+# Code resources accompanying Urbut et al (2017)
 
 This repository contains code resources to accompany our research
 paper:
