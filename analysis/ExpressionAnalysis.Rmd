@@ -30,7 +30,7 @@ Reads per Kilobase Mapped (RPKM).
 ```{r load-results}
 data <- read.csv("../data/AvgExpr.csv.gz",header = TRUE)
 out  <- readRDS("../data/MatrixEQTLSumStats.Portable.Z.rds")
-maxz <- out$test.z
+maxz <- out$strong.z
 qtl.names <-
   sapply(1:length(rownames(maxz)),
          function(x) unlist(strsplit(rownames(maxz)[x], "[_]"))[[1]])
@@ -99,13 +99,13 @@ plot_tissuespecificthree = function(tissuename,lfsr,ymax,curvedata,title,
   } 
 ```
 
-## Distribution of expression levels in testis
+## Distribution of expression levels in strong.s
 
 The two plots below compare the densities and cumulative distribution
 functions of the expression levels for all genes (black), and for
-genes identified as having a “tissue-specific” eQTL (red) in testis.
+genes identified as having a “tissue-specific” eQTL (red) in strong.s.
 
-```{r testis}
+```{r strong.s}
 plot_tissuespecifictwo(tissuename = "Testis",lfsr = lfsr,
                        curvedata = log(exp.sort),title = "Test",
                        thresh = 0.05 ,ymax=0.5)

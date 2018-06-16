@@ -27,8 +27,8 @@ errors) calculated from the raw GTEx data.
 ```{r load-results}
 missing.tissues <- c(7,8,19,20,24,25,31,34,37)
 out     <- readRDS("../data/MatrixEQTLSumStats.Portable.Z.rds")
-maxz    <- out$test.z
-maxbeta <- out$test.b
+maxz    <- out$strong.z
+maxbeta <- out$strong.b
 qtl.names <- sapply(1:length(rownames(maxz)),
   function(x) unlist(strsplit(rownames(maxz)[x],"[_]"))[[1]])
 standard.error.from.z <- as.matrix(maxbeta/maxz)
@@ -40,7 +40,7 @@ a         <- match(qtl.names,rownames(expr.sort))
 expr.sort <- expr.sort[a,]
 exp.sort  <- expr.sort[,-missing.tissues]
 colnames(exp.sort) <- colnames(maxz)
-standard.error           <- out$test.s
+standard.error           <- out$strong.s
 colnames(standard.error) <- colnames(maxz)
 tissue.names             <- colnames(maxz)
 ```
@@ -102,7 +102,7 @@ title("Median(Nj_effective/Nj_original)",cex.main=0.8)
 ```
 
 We see that the ESS values are smallest for tissue that show more
-"tissue-specific" behaviour (e.g. testis, whole blood), and are
+"tissue-specific" behaviour (e.g. strong.s, whole blood), and are
 largest for coronary artery, reflecting its stronger correlation with
 other tissues.
 

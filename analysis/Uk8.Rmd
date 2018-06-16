@@ -5,7 +5,7 @@ output: workflowr::wflow_html
 ---
 
 Here we plot the correlation matrix for the eighth covariance
-component, which captures testis-specific effects.
+component, which captures strong.s-specific effects.
 
 ```{r knitr, message = FALSE, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, fig.width = 8,
@@ -33,7 +33,7 @@ covmat <- readRDS(paste("../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3",
                         "lite.single.expanded.rds",sep = "."))
 pis    <- readRDS(paste("../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3",
                         "lite.single.expanded.V1.pihat.rds",sep = "."))$pihat
-z.stat <- readRDS("../data/MatrixEQTLSumStats.Portable.Z.rds")$test.z
+z.stat <- readRDS("../data/MatrixEQTLSumStats.Portable.Z.rds")$strong.z
 pi.mat <- matrix(pis[-length(pis)],ncol = 54,nrow = 22,byrow = TRUE)
 names  <- colnames(z.stat)
 ```
