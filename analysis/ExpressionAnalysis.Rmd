@@ -99,13 +99,13 @@ plot_tissuespecificthree = function(tissuename,lfsr,ymax,curvedata,title,
   } 
 ```
 
-## Distribution of expression levels in strong.s
+## Distribution of expression levels in testis
 
 The two plots below compare the densities and cumulative distribution
 functions of the expression levels for all genes (black), and for
-genes identified as having a “tissue-specific” eQTL (red) in strong.s.
+genes identified as having a “tissue-specific” eQTL (red) in testis.
 
-```{r strong.s}
+```{r testis}
 plot_tissuespecifictwo(tissuename = "Testis",lfsr = lfsr,
                        curvedata = log(exp.sort),title = "Test",
                        thresh = 0.05 ,ymax=0.5)

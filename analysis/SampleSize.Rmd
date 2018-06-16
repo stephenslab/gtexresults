@@ -102,7 +102,7 @@ title("Median(Nj_effective/Nj_original)",cex.main=0.8)
 ```
 
 We see that the ESS values are smallest for tissue that show more
-"tissue-specific" behaviour (e.g. strong.s, whole blood), and are
+"tissue-specific" behaviour (e.g. testis, whole blood), and are
 largest for coronary artery, reflecting its stronger correlation with
 other tissues.
 

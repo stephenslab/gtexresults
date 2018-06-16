@@ -5,7 +5,7 @@ output: workflowr::wflow_html
 ---
 
 Here we plot the correlation matrix for the eighth covariance
-component, which captures strong.s-specific effects.
+component, which captures testis-specific effects.
 
 ```{r knitr, message = FALSE, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, fig.width = 8,
