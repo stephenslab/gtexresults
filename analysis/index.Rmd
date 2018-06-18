@@ -21,7 +21,7 @@ We provide three sets of code resources:
 
 1. If you are primarily interested in applying the multivariate adaptive
    shrinkage (*mash*) methods to your own data, please see the
-   [mashr repository][mashr].
+   [mashr R package][mashr].
 
 2. If you are working with association statistics from the
    [GTEx study][gtex], or similar genetic association data, please see
@@ -31,7 +31,8 @@ We provide three sets of code resources:
 
 3. If you would like follow the exact steps we took to produce the
    results of the GTEx analysis presented in the manuscript, follow
-   the instructions [here](gtex.html).
+   the instructions [here](gtex.html). **Note:** The mashr package was
+   not used in this analysis because mashr was only developed afterward.
 
 ## Citing this work
 
