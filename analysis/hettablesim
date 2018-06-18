@@ -3,9 +3,9 @@ title: "heterogeneitytablesimulation"
 output: pdf_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup}
 library('knitr')
-knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(eval = FALSE)
 source("../../Scripts/normfuncs.R")
 ```
 
