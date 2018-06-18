@@ -11,11 +11,12 @@ output:
 
 To reproduce the results of Urbut, Wang & Stephens (2017), please
 follow these instructions. You are welcome to adapt these steps to
-your own study. Please also visit the
-[mashr R package repository][mashr], which has a more user-friendly
-interface and tutorials on how to apply multivariate adaptive
-shrinkage (mash) to association analysis gene expression (eQTL
-analysis).
+your own study. Please also visit the [mashr R package
+repository][mashr], which has a more user-friendly interface and
+tutorials on how to apply multivariate adaptive shrinkage (mash) to
+association analysis gene expression (eQTL analysis). (Note that the
+the mashr package was *not* used in this analysis; mashr was only
+developed after this analysis was completed.)
 
 The complete analyses of the GTEx data require installation of several
 programs and libraries, as well as large data sets that are
