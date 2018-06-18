@@ -321,7 +321,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-06-05</p>
+<p><strong>Last updated:</strong> 2018-06-18</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -345,23 +345,11 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/35816c477f8c017e9d82c7061660b02c30563553" target="_blank">35816c4</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/14f28d4d88e683755d0702d6480c7790e953ccc8" target="_blank">14f28d4</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
-Ignored files:
-    Ignored:    .sos/
-    Ignored:    data/.sos/
-    Ignored:    output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3.lite.single.expanded.V1.loglik.rds
-    Ignored:    workflows/.ipynb_checkpoints/
-    Ignored:    workflows/.sos/
-
-Untracked files:
-    Untracked:  analysis/files.txt
-    Untracked:  fastqtl_to_mash_output/
-    Untracked:  gtex6_workflow_output/
-
 Unstaged changes:
-    Modified:   analysis/gtex.Rmd
+    Modified:   analysis/hettablesim
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -395,7 +383,41 @@ Message
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/35816c477f8c017e9d82c7061660b02c30563553/analysis/SharingMag.Rmd" target="_blank">35816c4</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/6314ce04f8d5f7b7fdeaf9f61fec07a48682ab15/analysis/SharingMag.Rmd" target="_blank">6314ce0</a>
+</td>
+<td style="text-align:left;">
+Gao Wang
+</td>
+<td style="text-align:left;">
+2018-06-16
+</td>
+<td style="text-align:left;">
+Relabel ‘test’ to ‘strong’ in data and code
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/138318d833370ecdb82c169862001d087644400d/docs/SharingMag.html" target="_blank">138318d</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-05
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/0ca3bafe4a19ad768c2a96ddf519ba6c58df0240/analysis/SharingMag.Rmd" target="_blank">0ca3baf</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
@@ -412,7 +434,7 @@ wflow_publish(“SharingMag.Rmd”)
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/747f788f961685a999d1ae8c655626a0f85d7bcd/analysis/SharingMag.Rmd" target="_blank">747f788</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/1de4a7bbdf6840805459aa59588e44138d4bbdb4/analysis/SharingMag.Rmd" target="_blank">1de4a7b</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
@@ -429,7 +451,7 @@ Rebuilt SharingSign page after renaming and other improvements.
 html
 </td>
 <td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/gtexresults/747f788f961685a999d1ae8c655626a0f85d7bcd/docs/SharingMag.html" target="_blank">747f788</a>
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/1de4a7bbdf6840805459aa59588e44138d4bbdb4/docs/SharingMag.html" target="_blank">1de4a7b</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
@@ -456,8 +478,8 @@ Rebuilt SharingSign page after renaming and other improvements.
 <h2>Load data and mash results</h2>
 <p>In the next code chunk, we load some GTEx summary statistics, as well as some of the results generated from the mash analysis of the GTEx data.</p>
 <pre class="r"><code>out      &lt;- readRDS(&quot;../data/MatrixEQTLSumStats.Portable.Z.rds&quot;)
-maxb     &lt;- out$test.b
-maxz     &lt;- out$test.z
+maxb     &lt;- out$strong.b
+maxz     &lt;- out$strong.z
 out      &lt;-readRDS(paste(&quot;../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3&quot;,
                          &quot;lite.single.expanded.V1.posterior.rds&quot;,sep = &quot;.&quot;))
 pm.mash        &lt;- out$posterior.means
@@ -512,7 +534,7 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/747f788f961685a999d1ae8c655626a0f85d7bcd/docs/figure/SharingMag.Rmd/heatmap-sharing-magnitude-1.png" target="_blank">747f788</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/1de4a7bbdf6840805459aa59588e44138d4bbdb4/docs/figure/SharingMag.Rmd/heatmap-sharing-magnitude-1.png" target="_blank">1de4a7b</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
@@ -530,7 +552,7 @@ Peter Carbonetto
 <pre class="r"><code>sessionInfo()
 # R version 3.4.3 (2017-11-30)
 # Platform: x86_64-apple-darwin15.6.0 (64-bit)
-# Running under: macOS High Sierra 10.13.4
+# Running under: macOS High Sierra 10.13.5
 # 
 # Matrix products: default
 # BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
@@ -546,7 +568,7 @@ Peter Carbonetto
 # [1] lattice_0.20-35
 # 
 # loaded via a namespace (and not attached):
-#  [1] workflowr_1.0.1.9000 Rcpp_0.12.16         digest_0.6.15       
+#  [1] workflowr_1.0.1.9000 Rcpp_0.12.17         digest_0.6.15       
 #  [4] rprojroot_1.3-2      R.methodsS3_1.7.1    grid_3.4.3          
 #  [7] backports_1.1.2      git2r_0.21.0         magrittr_1.5        
 # [10] evaluate_0.10.1      stringi_1.1.7        whisker_0.3-2       
