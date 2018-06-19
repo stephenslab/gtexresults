@@ -93,32 +93,44 @@ nsig        <- rowSums(sigmat)
 signall.ash <- mean(het.norm(pm.ash.beta[1:400,])>0)
 ```
 
-####SHow that results are robust in specific analysis
+Show that results are robust to specific analysis.
 
-(truth=(mean(het.norm(data$beta[1:400,])>0)))
-(standard=mean(het.norm(data$betahat[1:400,])>0))
-
-
-
-(RMLE=sqrt(mean((standard-truth)^2)))
-(RRMSE.mash=sqrt(mean((signall.mash-truth)^2))/RMLE)
-(RRMSE.bma=sqrt(mean((signall.bma-truth)^2))/RMLE)
-(RRMSE.ash=sqrt(mean((signall.ash-truth)^2))/RMLE)
-
-rmse.all.table=cbind(mash=RRMSE.mash,bmalite=RRMSE.bma,ash=RRMSE.ash)
-barplot(as.numeric(rmse.all.table),main="Shared, Structured Effects: Sign heterogeneity",
-        ylab="relative error (RRMSE)",xlab="Method",col=c("green","blue","red"),names=colnames(rmse.all.table),ylim=c(0,1.5),cex.main=1.5,cex.lab=1,cex.names=1,las=1)
+```{r chunk-7}
+truth      <- (mean(het.norm(dat$beta[1:400,]) > 0))
+standard   <- mean(het.norm(dat$betahat[1:400,]) > 0)
+RMLE       <- sqrt(mean((standard - truth)^2))
+RRMSE.mash <- sqrt(mean((signall.mash - truth)^2))/RMLE
+RRMSE.bma  <- sqrt(mean((signall.bma - truth)^2))/RMLE
+RRMSE.ash  <- sqrt(mean((signall.ash - truth)^2))/RMLE
 ```
 
-##Heterogeneity Analysis: Independent SSimulation by Sign
+```{r chunk-8}
+rmse.all.table <- cbind(mash    = RRMSE.mash,
+                        bmalite = RRMSE.bma,
+                        ash     = RRMSE.ash)
+barplot(as.numeric(rmse.all.table),
+        main = "shared, structured effects: Sign heterogeneity",
+        ylab = "relative error (RRMSE)",xlab = "Method",
+		col  = c("green","blue","red"),
+		names = colnames(rmse.all.table),
+		ylim = c(0,1.5),cex.main = 1.5,cex.lab = 1,
+		cex.names = 1,las = 1)
+```
 
-```{r ,echo=T, eval=FALSE}
+## Heterogeneity Analysis: Independent Simulation by Sign
 
-data=readRDS("../../../Dropbox/formatthew/independentsim.rds")
-t=data$tstat;bhat=data$betahat;sebetahat=data$sebetahat;beta=data$beta;v.j=matrix(rep(1,ncol(t)*nrow(t)),ncol=ncol(t),nrow=nrow(t))
+```{r chunk-9}
+dat  <- readRDS("../output/independentsim.rds")
+t    <- dat$tstat
+bhat <- dat$betahat
+sebetahat <- dat$sebetahat
+beta      <- dat$beta
+v.j       <- matrix(1,ncol(t),nrow(t))
+```
 
-
-mash.means=read.table("../../../Dropbox/formatthew/independentsim_all/independentsimashcutoffomega2jun15posterior.means.txt")[,-1]
+```{r chunk-10}
+mash.means <-
+read.table("independentsimashcutoffomega2jun15posterior.means.txt")[,-1]
 ash.means=read.table("../../../Dropbox/formatthew/independentsim_all/univariate.ash.pmind.txt")
 
 bma.means=read.table("../../../Dropbox/formatthew/independentsim_all/noashindependentwithzerobmaallposterior.means.txt")[,-1]
@@ -128,9 +140,6 @@ bma.means=read.table("../../../Dropbox/formatthew/independentsim_all/noashindepe
 lfsr.mash=read.table("../../../Dropbox/formatthew/independentsim_all/independentsimashcutoffomega2jun15lfsr.txt")[,-1]
 lfsr.bma=read.table("../../../Dropbox/formatthew/independentsim_all/noashindependentwithzerobmaalllfsr.txt")[,-1]
 lfsr.ash=read.table("../../../Dropbox/formatthew/independentsim_all/univariate.ashind.lfsr.txt")
-
-
-
 
 standard.error=data$sebetahat[1:20000,]
 
