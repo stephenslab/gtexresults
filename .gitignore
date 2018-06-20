@@ -15,3 +15,10 @@ output/univariate.ash.pm.txt.gz
 output/sharedashcutoffomega2jun15lfsr.txt.gz
 output/noashsharedwithzerobmaalllfsr.txt.gz
 output/univariate.ash.lfsr.txt.gz
+output/independentsimesd05.rds
+output/indsim05sdposterior.means.txt.gz
+output/bmaonlybetasd5lfsr.txt.gz
+output/bmaonlybetasd5posterior.means.txt.gz
+output/univariate.ash.pmindesd.txt.gz
+output/univariate.ashind.lfsresd.txt.gz
+output/indsim05sdlfsr.txt.gz
