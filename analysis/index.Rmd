@@ -17,7 +17,7 @@ research paper:
 > studies with multiple conditions.* bioRxiv
 > [doi:10.1101/096552][biorxiv-paper].
 
-We provide four primary resources:
+We provide four sets of resources:
 
 1. If you are primarily interested in applying the multivariate adaptive
    shrinkage (*mash*) methods to your own data, please see the
