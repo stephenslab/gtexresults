@@ -216,11 +216,11 @@ bf.mash.independent=log.bf[,"bf.mash.independent"]
 bf.bma.independent=log.bf[,"bf.bma.independent"]
 
 eskin=read.table("~/Downloads/44binary.txt",sep = "\t",header = F,skip=1)
-NAMES <- strsplit(readLines(file("~/Dropbox/sharedtest","rt"), 1), "\t")[[1]]
+NAMES <- strsplit(readLines(file("sharedtest","rt"), 1), "\t")[[1]]
 colnames(eskin)[1:16]=NAMES[1:16]
-lfsr.mash=read.table("shared/sharedashcutoffomega2jun15lfsr.txt")[,-1]
-lfsr.bma=read.table("shared/noashsharedwithzerobmaalllfsr.txt")[,-1]
-lfsr.ash=read.table("shared/univariate.ash.lfsr.txt")
+lfsr.mash=read.table("../output/sharedashcutoffomega2jun15lfsr.txt.gz")[,-1]
+lfsr.bma=read.table("../output/noashsharedwithzerobmaalllfsr.txt.gz")[,-1]
+lfsr.ash=read.table("../output/univariate.ash.lfsr.txt.gz")
 
 ash.min=apply(lfsr.ash,1,min)
 p.FE=eskin[,"PVALUE_FE"]
@@ -296,11 +296,10 @@ lfsr.mash=read.table("../output/indsim05sdlfsr.txt.gz")
 lfsr.bma=read.table("../output/bmaonlybetasd5lfsr.txt.gz")[,-1]
 lfsr.ash=read.table("../output/univariate.ashind.lfsresd.txt.gz")
 lfsr.ash=read.table("../output/univariate.ashind.lfsresd.txt.gz")
-# NAMES <- strsplit(readLines(file("~/Dropbox/independentsiminputdata","rt"),
-# 1), "\t")[[1]]
-eskin=read.table("~/Downloads/independenttest.txt",sep = "\t",header = F,skip=1)
-# colnames(eskin)[1:16]=NAMES[1:16]
-
+NAMES <-
+  strsplit(readLines(file("independentsiminputdata","rt"),1),"\t")[[1]]
+eskin=read.table("independenttest.txt",sep = "\t",header = F,skip=1)
+colnames(eskin)[1:16]=NAMES[1:16]
 mash.min=apply(lfsr.mash,1,min)
 bma.min=apply(lfsr.bma,1,min)
 ash.min=apply(lfsr.ash,1,min)
@@ -320,22 +319,17 @@ for(s in 1:length(thresh)){
   RE2.TP[s]=mean(p.RE2[1:400]<d)
   BE.TP[s]=mean(p.BE[1:400]<d)
   ASH.TP[s]=mean(ash.min[1:400]<d)
-
-  
   FE.FP[s]=mean(p.FE[401:20000]<d)
   RE.FP[s]=mean(p.RE[401:20000]<d)
   RE2.FP[s]=mean(p.RE2[401:20000]<d)
   BE.FP[s]=mean(p.BE[401:20000]<d)
   ASH.FP[s]=mean(ash.min[401:20000]<d)
-
-  
 }
-
 ```
 
 Now let's do this with the Bayes Factor's ascertained from mash and bma:
 
-```{r bfind, fig.height=5,fig.width=5,echo=F,fig.show=T}
+```{r bfind}
 mash.tp=NULL
 mash.fp=NULL
 bma.tp=NULL
