@@ -1,5 +1,5 @@
 ---
-title: "Code resources accompanying Urbut *et al*, 2017"
+title: "Code and data resources accompanying Urbut *et al*, 2017"
 author: "Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens"
 site: workflowr::wflow_site
 output:
@@ -9,15 +9,15 @@ output:
 
 ## Overview
 
-This repository contains code resources to accompany our research
-paper:
+This repository contains code and data resources to accompany our
+research paper:
 
 > Sarah M. Urbut, Gao Wang and Matthew Stephens (2017). *Flexible
 > statistical methods for estimating and testing effects in genomic
 > studies with multiple conditions.* bioRxiv
 > [doi:10.1101/096552][biorxiv-paper].
 
-We provide three sets of code resources:
+We provide four primary resources:
 
 1. If you are primarily interested in applying the multivariate adaptive
    shrinkage (*mash*) methods to your own data, please see the
@@ -33,6 +33,8 @@ We provide three sets of code resources:
    results of the GTEx analysis presented in the manuscript, follow
    the instructions [here](gtex.html). **Note:** The mashr package was
    not used in this analysis because mashr was only developed afterward.
+
+4. If...
 
 ## Citing this work
 
