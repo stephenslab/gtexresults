@@ -1,7 +1,7 @@
-# Code resources accompanying Urbut et al (2017)
+# Code and data resources accompanying Urbut et al (2017)
 
-This repository contains code resources to accompany our research
-paper:
+This repository contains code and data resources to accompany our
+research paper:
 
 > Sarah M. Urbut, Gao Wang and Matthew Stephens (2017). *Flexible
 > statistical methods for estimating and testing effects in genomic
