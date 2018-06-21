@@ -185,10 +185,13 @@ $(document).ready(function () {
   <a href="https://github.com/stephenslab/mashr">mashr</a>
 </li>
 <li>
-  <a href="fastqtl2mash.html">Fastqtl to mash</a>
+  <a href="gtexdata.html">GTEx data</a>
 </li>
 <li>
   <a href="gtex.html">GTEx analysis</a>
+</li>
+<li>
+  <a href="fastqtl2mash.html">Fastqtl to mash</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -232,7 +235,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/87259b7e8e0614ac94f9b252c0d8c1c4adc1186c" target="_blank">87259b7</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/f77307a55158a6f900c4ef4ed9762c8b4a5447f3" target="_blank">f77307a</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -253,7 +256,7 @@ Ignored files:
     Ignored:    output/univariate.ashind.lfsresd.txt.gz
 
 Unstaged changes:
-    Modified:   analysis/index.Rmd
+    Modified:   analysis/_site.yml
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -287,6 +290,23 @@ Message
 Rmd
 </td>
 <td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/f77307a55158a6f900c4ef4ed9762c8b4a5447f3/analysis/gtexdata.Rmd" target="_blank">f77307a</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-21
+</td>
+<td style="text-align:left;">
+wflow_publish(“gtexdata.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
 <a href="https://github.com/stephenslab/gtexresults/blob/87259b7e8e0614ac94f9b252c0d8c1c4adc1186c/analysis/gtexdata.Rmd" target="_blank">87259b7</a>
 </td>
 <td style="text-align:left;">
@@ -305,6 +325,42 @@ wflow_publish(“gtexdata.Rmd”)
 <p></details></p>
 <hr />
 <p>To apply multivariate adaptive shrinkage (<em>mash</em>) to data from the <a href="http://gtexportal.org">GTEx study</a>, we created an R data set (serialized R object) containing matrices of SNP-gene association statistics. These association statistics include effect estimates, <em>Z</em> scores and corresponding standard errors.</p>
+<p>See <a href="fastqtl2mash.html">here</a> for the scripts used to generate these statistics from the SNP-gene data that were provided by the <a href="http://gtexportal.org">GTEx Project</a>.</p>
+<div id="how-to-download-the-data" class="section level2">
+<h2>How to download the data</h2>
+<p>These are the recommended steps for retrieving the GTEx SNP-gene association statistics:</p>
+<ol style="list-style-type: decimal">
+<li><p>Download or clone the <a href="https://github.com/stephenslab/gtexresults">git repository</a>.</p></li>
+<li><p>The association statistics are found in file <code>MatrixEQTLSumStats.Portable.Z.rds</code>.</p></li>
+</ol>
+</div>
+<div id="how-to-load-the-data-into-r" class="section level2">
+<h2>How to load the data into R</h2>
+<ol style="list-style-type: decimal">
+<li>Change the working directory in R (or RStudio) to the <code>analysis</code> directory of the <code>gtexresults</code> repository, e.g.,</li>
+</ol>
+<p><code>R    setwd(&quot;gtexresults/analysis&quot;)</code></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Read the data object into R:</li>
+</ol>
+<p><code>R    dat &lt;- readRDS(&quot;../data/MatrixEQTLSumStats.Portable.Z.rds&quot;)</code></p>
+<ol start="3" style="list-style-type: decimal">
+<li>Get an overview of the data from this file:</li>
+</ol>
+<p><code>R   names(dat)</code></p>
+</div>
+<div id="overview-of-snp-gene-association-statistics" class="section level2">
+<h2>Overview of SNP-gene association statistics</h2>
+<p>This file contains SNP-gene association statistics for 16,069 genes and 44 human tissues. These 16,069 genes were selected because they all showed some indication of being expressed in all 44 tissues. Therefore, the association statistics are stored as matrices each with 16,069 rows and 44 columns.</p>
+<p>As input to mash, we use a matrix of expression quantitative trait loci (eQTL) effect estimate, and corresponding standard errors. (We also provide <em>Z</em> scores.) See the manuscript for details on how these association statistics were obtained.</p>
+<p>These association statistics were subdivided into three subsets:</p>
+<ol style="list-style-type: decimal">
+<li>Results from a subset `strong” tests corresponding to stronger effects in your study. For example, these tests might have been identified by taking the “top” eQTL in each gene based on univariate test results, or by some other approach such as a simple meta-analysis.</li>
+</ol>
+<ol start="2" style="list-style-type: decimal">
+<li>Results from a random subset of all tests. It is important that these be an unbiased representation of all the tests you are considering, including null and non-null tests, because mashr uses these tests to learn about the amount of signal in the data, and to “correct” estimates for the fact that many tests are null (analagous to a kind of multiple testing correction.</li>
+</ol>
+</div>
 
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
