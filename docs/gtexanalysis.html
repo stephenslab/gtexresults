@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens" />
+
+
+<title>mash analysis of GTEx data</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">mash code resources</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Overview</a>
+</li>
+<li>
+  <a href="https://github.com/stephenslab/mashr">mashr</a>
+</li>
+<li>
+  <a href="gtexdata.html">GTEx data</a>
+</li>
+<li>
+  <a href="gtexanalysis.html">GTEx analysis</a>
+</li>
+<li>
+  <a href="fastqtl2mash.html">Fastqtl to mash</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/stephenslab/gtexresults">source</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">mash analysis of GTEx data</h1>
+<h4 class="author"><em>Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens</em></h4>
+
+</div>
+
+
+<p><strong>Last updated:</strong> 2018-06-21</p>
+<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
+<ul>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/f224917fc0ba4ca188f24ba94719389dac27cd20" target="_blank">f224917</a> </summary></p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+<pre><code>
+Ignored files:
+    Ignored:    output/bmaonlybetasd5lfsr.txt.gz
+    Ignored:    output/bmaonlybetasd5posterior.means.txt.gz
+    Ignored:    output/independentsim.rds
+    Ignored:    output/independentsimesd05.rds
+    Ignored:    output/indsim05sdlfsr.txt.gz
+    Ignored:    output/indsim05sdposterior.means.txt.gz
+    Ignored:    output/noashsharedwithzerobmaalllfsr.txt.gz
+    Ignored:    output/noashsharedwithzerobmaallposterior.means.txt.gz
+    Ignored:    output/sharedashcutoffomega2jun15lfsr.txt.gz
+    Ignored:    output/sharedashcutoffomega2jun15posterior.means.txt.gz
+    Ignored:    output/simdata.rds
+    Ignored:    output/univariate.ash.lfsr.txt.gz
+    Ignored:    output/univariate.ash.pm.txt.gz
+    Ignored:    output/univariate.ash.pmindesd.txt.gz
+    Ignored:    output/univariate.ashind.lfsresd.txt.gz
+
+Unstaged changes:
+    Modified:   analysis/_site.yml
+
+</code></pre>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
+</li>
+</ul>
+<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
+<ul>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+File
+</th>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:left;">
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/f224917fc0ba4ca188f24ba94719389dac27cd20/analysis/gtexanalysis.Rmd" target="_blank">f224917</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-21
+</td>
+<td style="text-align:left;">
+wflow_publish(c(“index.Rmd”, “gtexanalysis.Rmd”, “gtexdata.Rmd”))
+</td>
+</tr>
+</tbody>
+</table>
+</ul>
+<p></details></p>
+<hr />
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<p>To reproduce the results of Urbut, Wang &amp; Stephens (2017), please follow these instructions. You are welcome to adapt these steps to your own study. Please also visit the <a href="https://github.com/stephenslab/mashr">mashr R package repository</a>, which has a more user-friendly interface and tutorials on how to apply multivariate adaptive shrinkage (mash) to association analysis gene expression (eQTL analysis). (Note that the the mashr package was <em>not</em> used in this analysis; mashr was only developed after this analysis was completed.)</p>
+<p>The complete analyses of the GTEx data require installation of several programs and libraries, as well as large data sets that are specifically prepared for mash. To facilitate reproducing our results, we provide data that was pre-processed using the <a href="fastqtl2mash.html">fastqtl2mash preprocessing pipeline</a>. We have also developed a <a href="https://hub.docker.com/r/gaow/mash-paper">Docker container</a> that includes all software components necessary to run the analyses. Docker can run on most popular operating systems (Mac, Windows and Linux) and cloud computing services such as Amazon Web Services and Microsoft Azure. If you have not used Docker before, you might want to read <a href="https://docs.docker.com/engine/docker-overview">this</a> to learn the basic concepts and understand the main benefits of Docker.</p>
+<p>For details on how the Docker image was configured, see <code>mash.dockerfile</code> in the <code>workflows</code> directory of the <a href="https://github.com/stephenslab/gtexresults">git repository</a>. The Docker image used for our analyses is based on <a href="https://hub.docker.com/r/gaow/lab-base">gaow/lab-base</a>, a customized Docker image for development with R and Python.</p>
+<p>If you find a bug in any of these steps, please post an <a href="https://github.com/stephenslab/gtexresults/issues">issue</a>.</p>
+</div>
+<div id="download-and-install-docker" class="section level2">
+<h2>Download and install Docker</h2>
+<p>Download <a href="https://docs.docker.com/install">Docker</a> (note that a free <a href="https://www.docker.com/community-edition">community edition</a> of Docker is available), and install it following the instructions provided on the Docker website. Once you have installed Docker, check that Docker is working correctly by following Part 1 of the <a href="https://docs.docker.com/get-started">“Getting Started” guide</a>. If you are new to Docker, we recommend reading the entire “Getting Started” guide.</p>
+<p><strong>Note:</strong> Setting up Docker requires that you have administrator access to your computer. <a href="https://singularity.lbl.gov/docs-docker">Singularity</a> is an alternative that accepts Docker images and does not require administrator access.</p>
+</div>
+<div id="download-and-test-docker-image" class="section level2">
+<h2>Download and test Docker image</h2>
+<p>Run this <code>alias</code> command in the shell, which will be used below to run commands inside the Docker container:</p>
+<pre class="bash"><code>alias mash-docker=&#39;docker run --security-opt label:disable -t &#39;\
+&#39;-P -h MASH -w $PWD -v $HOME:/home/$USER -v /tmp:/tmp -v $PWD:$PWD &#39;\
+&#39;-u $UID:${GROUPS[0]} -e HOME=/home/$USER -e USER=$USER gaow/mash-paper&#39;</code></pre>
+<p>The <code>-v</code> flags in this command map directories between the standard computing environment and the Docker container. Since the analyses below will write files to these directories, it is important to ensure that:</p>
+<ul>
+<li><p>Environment variables <code>$HOME</code> and <code>$PWD</code> are set to valid and writeable directories (usually your home and current working directories, respectively).</p></li>
+<li><p><code>/tmp</code> should also be a valid and writeable directory.</p></li>
+</ul>
+<p>If any of these statements are not true, please adjust the <code>alias</code> accordingly. The remaining options only affect operation of the container, and so should function the same regardless of your operating system.</p>
+<p>Next, run a simple command in the Docker container to check that has loaded successfully:</p>
+<pre><code>mash-docker uname -sn</code></pre>
+<p>This command will download the Docker image if it has not already been downloaded.</p>
+<p>If the container was successfully run, you should see this information about the Docker container outputted to the screen:</p>
+<pre><code>Linux MASH</code></pre>
+<p>You can also run these commands to show the information about the image downloaded to your computer and the container that has run (and exited):</p>
+<pre class="bash"><code>docker image list
+docker container list --all</code></pre>
+<p><em>Note:</em> If you get error “Cannot connect to the Docker daemon. Is the docker daemon running on this host?” in Linux or macOS, see <a href="https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo">here for Linux</a> or <a href="https://github.com/wodby/docker4drupal/issues/15%20encounter%20fact">here for Mac</a> for suggestions on how to resolve this issue.</p>
+</div>
+<div id="clone-or-download-the-gtexresults-repository" class="section level2">
+<h2>Clone or download the gtexresults repository</h2>
+<p>Clone or download the <a href="https://github.com/stephenslab/gtexresults">gtexresults</a> repository to your computer, then change your working directory in the shell to the root of the repository, e.g.,</p>
+<pre class="bash"><code>cd gtexresults</code></pre>
+<p>All the commands below will be run from this directory.</p>
+</div>
+<div id="fit-mash-model-and-compute-posterior-statistics" class="section level2">
+<h2>Fit mash model and compute posterior statistics</h2>
+<p>Assuming your working directory is the root of the git repository (you can check this by running <code>pwd</code>), run all the steps of the analysis with this command:</p>
+<pre class="bash"><code>mash-docker sos run workflows/gtex6_mash_analysis.ipynb</code></pre>
+<p>This command will take several hours to run—see below for more information on the individual steps. All outputs generated by this command will be saved to folder <code>output</code> inside the repository.</p>
+<p>Note that you may recognize file <code>gtex6_mash_analysis.ipynb</code> as a Jupyter notebook. Indeed, you may open this notebook in Jupyter. However, you should not step through the code sequentially as you would in a typical Jupyter notebook; this is because the code in this notebook is meant to be run using the <a href="https://github.com/vatlab/SoS">Script of Scripts (SoS)</a> framework.</p>
+<p>This command will execute the following steps of the analysis:</p>
+<ul>
+<li><p>Compute a sparse factorization of the (centered) <em>z</em>-scores using the <a href="http://stephenslab.uchicago.edu/software.html#sfa">SFA software</a>, with K = 5 factors, and save the factors in an <code>.rds</code> file. This will be used to construct the mixture-of-multivariate normals prior. This step is labeled <code>sfa</code>, and should only take a few minutes to run.</p></li>
+<li><p>Compute additional “data-driven” prior matrices by computing a singular value decomposition of the (centered) <em>z</em>-scores and low-rank approximations to the empirical covariance matrices. Most of the work in this step involves running the Extreme Deconvolution method. The outcome of running the Extreme Deconvolution method is saved to a new <code>.rds</code> file. This step is labeled <code>mash-paper_1</code> and may take several hours to run (in one run on a MacBook Pro with a 3.5 GHz Intel Core i7, it took over 6 hours to complete).</p></li>
+<li><p>Compute a final collection of “canonical” and single-rank prior matrices based on SFA and the “BMAlite” models of Flutre <em>et al</em> (2013). These matrices are again written to another <code>.rds</code> file. This step is labeled <code>mash-paper_2</code>, and should take at most a minute to run.</p></li>
+<li><p>The <code>mash-paper_3</code> step fits the mash model to the GTEx data (the centered <em>z</em>-scores); the model parameters estimated in this fitting step are the weights of the multivariate normal mixture. The outputs from this step are the estimated mixture weights and the conditional likelihood matrix. These two outputs are saved to two separate <code>.rds</code> files. This step is expected to take at most a few hours to complete.</p></li>
+<li><p>The <code>mash-paper_4</code> step computes posterior statistics using the fitted mash model from the previous step. These posterior statistics are summarized and visualized in subsequent analysis steps. The posterior statistics are saved to another <code>.rds</code> file. This step is expected to take a few hours to complete.</p></li>
+</ul>
+</div>
+<div id="generate-figures-and-tables-summarizing-results-of-mash-analysis" class="section level2">
+<h2>Generate figures and tables summarizing results of mash analysis</h2>
+<p>Once you have completed the mash analysis pipeline, the next step is to examine and interpret the results. We provide R code implementing this step; you can either view the webpages listed below, or view the R Markdown source files in the <code>analysis</code> directory of the <a href="https://github.com/stephenslab/gtexresults">gtexresults</a> repository.</p>
+<p>If you were unable to complete the mash analysis pipeline, we have provided the outputs needed to generate the figures and tables below. (If you were able to successfully complete the mash analysis, then these files will be overwritten by your outputs.) For convenience, the results needed to generate the figures and tables have been saved in the <code>output</code> folder.</p>
+<p>Before running the R code in the pages listed below, you will need to first install several R packages that are used in the code:</p>
+<pre class="r"><code>install.packages(c(&quot;colorRamps&quot;,&quot;rmeta&quot;))</code></pre>
+<p>Note that at the bottom of each webpage, we have recorded information about the exact version of R and the R Packages that were used. This might be useful if you would like to replicate our computing setup as closely as possible. Also note that the webpages were generated from the R Markdown files using <a href="https://github.com/jdblischak/workflowr">workflowr</a>.</p>
+<p>Visit the following links to view the R code we used to generate summarizies of the GTEx results incorporated into the manuscript:</p>
+<ul>
+<li><p><a href="Uk3.html">Primary correlation patterns identified by mash in GTEx data</a>.</p></li>
+<li><p>Correlation patterns from other components with larger weights: <a href="Uk2.html">second</a>, <a href="Uk4.html">fourth</a>, <a href="Uk5.html">fifth</a> and <a href="Uk8.html">eighth</a> covariance components.</p></li>
+<li><p><a href="GTExExamples.html">Examples illustrating how mash uses patterns of sharing to inform effect estimates</a>.</p></li>
+<li><p><a href="HeterogeneityTables.html">Overall sharing among top eQTLs</a>.</p></li>
+<li><p><a href="SharingMag.html">Pairwise sharing by magnitude of eQTLs among tissues</a>.</p></li>
+<li><p><a href="SharingSign.html">Pairwise sharing by sign of eQTLs among tissues</a>.</p></li>
+<li><p><a href="ExpressionAnalysis.html">Comparison of genes with tissue-specific eQTLs against other genes</a>.</p></li>
+<li><p><a href="SampleSize.html">Tissue effective sample sizes</a>.</p></li>
+<li><p><a href="Tspecific.html">Number of tissue-specific eQTLs in each tissue</a>.</p></li>
+<li><p><a href="SharingHist.html">Distribution of eQTL sharing across tissues</a>.</p></li>
+</ul>
+</div>
+<div id="additional-usage-notes" class="section level2">
+<h2>Additional usage notes</h2>
+<ul>
+<li><p>All containers that have run and exited will still be retained in the Docker system. Run <code>docker container list --all</code> to list all previous run containers. To clear these previously run containers, run <code>docker container prune</code>. See <a href="https://stackoverflow.com/questions/17014263/should-i-be-concerned-about-excess-non-running-docker-containers">here</a> for more information.</p></li>
+<li><p>See the Jupyter notebook to get more details; how the notebook should be interpreted.</p></li>
+<li><p>In the <code>data</code> folder, we have provided a file <code>MatrixEQTLSumStats.Portable.Z.rds</code> containing eQTL summary statistics from the GTEx study, in a format suitable for running mash. This was generated from the original eQTL summary statistics downloaded from the GTEx Portal website, then converted using the code in <code>fastqtl_to_mash.ipynb</code>. See <a href="fastqtl2mash.html">here</a> for details on this step.</p></li>
+<li><p>The <code>output</code> folder contains some additional results files that will not be generated directly from the mash analysis pipeline (described above); these are files that were generated by running the mash analysis on only brain tissues, and on all GTEx tissues excluding brain tissues. In order to generate results similar to these, the mash analysis pipeline has an option to specific subsets of tissues. These analyses on tissue subsets were only used to verify some of the results of the main mash analysis run on all the tissues jointly.</p></li>
+<li><p>Run the following command to update the Docker image: <code>docker pull gaow/mash-paper</code></p></li>
+</ul>
+</div>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<hr>
+<p>
+  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+  analysis was created with
+  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.0.1.9000
+</p>
+<hr>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

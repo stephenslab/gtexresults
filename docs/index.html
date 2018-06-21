@@ -188,7 +188,7 @@ $(document).ready(function () {
   <a href="gtexdata.html">GTEx data</a>
 </li>
 <li>
-  <a href="gtex.html">GTEx analysis</a>
+  <a href="gtexanalysis.html">GTEx analysis</a>
 </li>
 <li>
   <a href="fastqtl2mash.html">Fastqtl to mash</a>
@@ -235,7 +235,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/39d38a867275457a15d50f145a3c6b44988f7710" target="_blank">39d38a8</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/f224917fc0ba4ca188f24ba94719389dac27cd20" target="_blank">f224917</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -285,6 +285,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/f224917fc0ba4ca188f24ba94719389dac27cd20/analysis/index.Rmd" target="_blank">f224917</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-21
+</td>
+<td style="text-align:left;">
+wflow_publish(c(“index.Rmd”, “gtexanalysis.Rmd”, “gtexdata.Rmd”))
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -997,7 +1014,7 @@ Moved doc to docs.
 <ol style="list-style-type: decimal">
 <li><p>If you are primarily interested in applying the multivariate adaptive shrinkage (<em>mash</em>) methods to your own data, please see the <a href="https://github.com/stephenslab/mashr">mashr R package</a>.</p></li>
 <li><p>If you would like to obtain the exact GTEx association statistics used in the multivariate adaptive shrinkage (<em>mash</em>) analysis described in our research paper (e.g., so you can apply your method of choice to these data, and compare against our results), please see <a href="gtexdata.html">here</a>.</p></li>
-<li><p>If you would like follow the exact steps we took to produce the results of the GTEx analysis presented in the manuscript, follow the instructions <a href="gtex.html">here</a>. <strong>Note:</strong> The mashr package was not used in this analysis because mashr was only developed afterward.</p></li>
+<li><p>If you would like follow the exact steps we took to produce the results of the GTEx analysis presented in the manuscript, follow the instructions <a href="gtexanalysis.html">here</a>. <strong>Note:</strong> The mashr package was not used in this analysis because mashr was only developed afterward.</p></li>
 <li><p>If you are working with association statistics from the <a href="http://gtexportal.org">GTEx study</a>, or similar genetic association data, please see <a href="fastqtl2mash.html">here</a> for our code to convert association statistics in the <a href="http://fastqtl.sourceforge.net">FastQTL</a> format, or a similar format, to a format that is more suitable for analysis with <em>mash</em>.</p></li>
 </ol>
 </div>
