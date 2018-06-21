@@ -76,12 +76,12 @@ These association statistics were subdivided into three subsets:
 1. Results from a subset "strong" tests. These tests were identified
 by taking the "top eQTL" in each gene based on univariate SNP-gene
 association tests. (Here, "top eQTL" for a given gene is defined as
-the SNP with the largest (univariate) *Z* statistic across all 44
+the SNP with the largest (univariate) *Z* statistic among all 44
 tissues. The estimated effects, *Z* scores and standard errors for the
 strong tests are stored in three $16,069 \times 44$ matrices,
 `dat$strong.b`, `dat$strong.z` and `dat$strong.s`.
 
-2. Results from a random subset of 20,0000 SNP-gene tests (this
+2. Results from a random subset of 20,000 SNP-gene tests (this
 includes both "null" and "non"-null tests). The estimated effects, *Z*
 stores and standard errors for these random tests are stored in three
 $20,000 \times 44$ matrices, `dat$random.b`, `dat$random.z` and
@@ -90,7 +90,7 @@ $20,000 \times 44$ matrices, `dat$random.b`, `dat$random.z` and
 3. Results from a second random subset of 28,198 SNP-gene tests. This
 is used for the cross-validation part of the mash analysis. The
 estimated effects, *Z* stores and standard errors for these random
-tests are stored in three 28,198 \times 44$ matrices,
+tests are stored in three $28,198 \times 44$ matrices,
 `dat$random.test.b`, `dat$random.test.z` and `dat$random.test.z`.
 
 Finally, the gene expression measurements in the GTEx study are
