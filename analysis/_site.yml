@@ -12,7 +12,7 @@ navbar:
     - text: GTEx data
       href: gtexdata.html
     - text: GTEx analysis
-      href: gtex.html
+      href: gtexanalysis.html
     - text: Fastqtl to mash
       href: fastqtl2mash.html
   right:
