@@ -1,0 +1,16 @@
+---
+title: "GTEx SNP-gene association statistics used in mash analysis"
+author: "Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens"
+site: workflowr::wflow_site
+output:
+  workflowr::wflow_html:
+    toc: false
+---
+
+To apply multivariate adaptive shrinkage (*mash*) to data from the
+[GTEx study][gtex], we created an R data set (serialized R object)
+containing matrices of SNP-gene association statistics. These
+association statistics include effect estimates, *Z* scores and
+corresponding standard errors.
+
+[gtex]: http://gtexportal.org
