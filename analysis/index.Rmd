@@ -23,18 +23,21 @@ We provide four sets of resources:
    shrinkage (*mash*) methods to your own data, please see the
    [mashr R package][mashr].
 
+2. If you would like to obtain the GTEx association statistics used in
+   the multivariate adaptive shrinkage (*mash*) analysis (e.g., so you
+   can apply your own methods to these data), please see
+   [here](gtexdata.html).
+
 2. If you are working with association statistics from the
    [GTEx study][gtex], or similar genetic association data, please see
    [here](fastqtl2mash.html) for our code to convert association
    statistics in the [FastQTL][fastqtl] format, or a similar format,
-   to a format that is more suitable for analysis with *mashr*.
+   to a format that is more suitable for analysis with *mash*.
 
-3. If you would like follow the exact steps we took to produce the
+4. If you would like follow the exact steps we took to produce the
    results of the GTEx analysis presented in the manuscript, follow
    the instructions [here](gtex.html). **Note:** The mashr package was
    not used in this analysis because mashr was only developed afterward.
-
-4. If...
 
 ## Citing this work
 
