@@ -250,7 +250,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/f224917fc0ba4ca188f24ba94719389dac27cd20" target="_blank">f224917</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/133174261c76efa261991ddca191257509a6ee15" target="_blank">1331742</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -269,9 +269,6 @@ Ignored files:
     Ignored:    output/univariate.ash.pm.txt.gz
     Ignored:    output/univariate.ash.pmindesd.txt.gz
     Ignored:    output/univariate.ashind.lfsresd.txt.gz
-
-Unstaged changes:
-    Modified:   analysis/_site.yml
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -300,6 +297,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/133174261c76efa261991ddca191257509a6ee15/analysis/gtexdata.Rmd" target="_blank">1331742</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-21
+</td>
+<td style="text-align:left;">
+wflow_publish(“gtexdata.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/30c6a411087da315ca4baaa9f6bf50094dacd380/docs/gtexdata.html" target="_blank">30c6a41</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-21
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -440,9 +471,9 @@ wflow_publish(“gtexdata.Rmd”)
 <p>As input to mash, we use a matrix of expression quantitative trait loci (eQTL) effect estimate, and corresponding standard errors. (We also provide <em>Z</em> scores.) See the manuscript for details on how these association statistics were obtained.</p>
 <p>These association statistics were subdivided into three subsets:</p>
 <ol style="list-style-type: decimal">
-<li><p>Results from a subset “strong” tests. These tests were identified by taking the “top eQTL” in each gene based on univariate SNP-gene association tests. (Here, “top eQTL” for a given gene is defined as the SNP with the largest (univariate) <em>Z</em> statistic among all 44 tissues. The estimated effects, <em>Z</em> scores and standard errors for the strong tests are stored in three <span class="math inline">\(16,069 \times 44\)</span> matrices, <code>dat$strong.b</code>, <code>dat$strong.z</code> and <code>dat$strong.s</code>.</p></li>
-<li><p>Results from a random subset of 20,000 SNP-gene tests (this includes both “null” and “non”-null tests). The estimated effects, <em>Z</em> stores and standard errors for these random tests are stored in three <span class="math inline">\(20,000 \times 44\)</span> matrices, <code>dat$random.b</code>, <code>dat$random.z</code> and <code>dat$random.z</code>.</p></li>
-<li><p>Results from a second random subset of 28,198 SNP-gene tests. This is used for the cross-validation part of the mash analysis. The estimated effects, <em>Z</em> stores and standard errors for these random tests are stored in three <span class="math inline">\(28,198 \times 44\)</span> matrices, <code>dat$random.test.b</code>, <code>dat$random.test.z</code> and <code>dat$random.test.z</code>.</p></li>
+<li><p>Results from a subset “strong” tests. These tests were identified by taking the “top eQTL” in each gene based on univariate SNP-gene association tests. (Here, “top eQTL” for a given gene is defined as the SNP with the largest (univariate) <em>Z</em> statistic among all 44 tissues. The estimated effects, <em>Z</em> scores and standard errors for the strong tests are stored in three 16,069 × 44 matrices, <code>dat$strong.b</code>, <code>dat$strong.z</code> and <code>dat$strong.s</code>.</p></li>
+<li><p>Results from a random subset of 20,000 SNP-gene tests (this includes both “null” and “non”-null tests). The estimated effects, <em>Z</em> stores and standard errors for these random tests are stored in three 20,000 × 44 matrices, <code>dat$random.b</code>, <code>dat$random.z</code> and <code>dat$random.z</code>.</p></li>
+<li><p>Results from a second random subset of 28,198 SNP-gene tests. This is used for the cross-validation part of the mash analysis. The estimated effects, <em>Z</em> stores and standard errors for these random tests are stored in three 28,198 × 44 matrices, <code>dat$random.test.b</code>, <code>dat$random.test.z</code> and <code>dat$random.test.z</code>.</p></li>
 </ol>
 <p>Finally, the gene expression measurements in the GTEx study are correlated due to sample overlap (sometimes multiple measurements were obtained from the same individual). Therefore, we have also estimated a correlation matrix, which is stored in <code>dat$vhat</code>:</p>
 <pre class="r"><code>dim(dat$vhat)
