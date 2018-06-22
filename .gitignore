@@ -5,20 +5,3 @@
 
 # workflow outputs
 output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3.lite.single.expanded.V1.loglik.rds
-
-# Outputs generated from simulation experiments.
-output/simdata.rds
-output/independentsim.rds
-output/sharedashcutoffomega2jun15posterior.means.txt.gz
-output/noashsharedwithzerobmaallposterior.means.txt.gz
-output/univariate.ash.pm.txt.gz
-output/sharedashcutoffomega2jun15lfsr.txt.gz
-output/noashsharedwithzerobmaalllfsr.txt.gz
-output/univariate.ash.lfsr.txt.gz
-output/independentsimesd05.rds
-output/indsim05sdposterior.means.txt.gz
-output/bmaonlybetasd5lfsr.txt.gz
-output/bmaonlybetasd5posterior.means.txt.gz
-output/univariate.ash.pmindesd.txt.gz
-output/univariate.ashind.lfsresd.txt.gz
-output/indsim05sdlfsr.txt.gz

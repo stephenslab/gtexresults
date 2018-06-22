@@ -1,18 +1,4 @@
----
-title: "Add title here."
-author: "Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens"
-output: workflowr::wflow_html
----
-
-Here we plot RMSE and ROC:
-
-```{r knitr, message = FALSE, echo = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, fig.width = 8,
-                      fig.height = 4,fig.align = "center",
-                      comment = "#")
-```
-
-```{r}
+## ------------------------------------------------------------------------
 colors <- c("#E69F00","#56B4E9","#009E73","#F0E442", "#0072B2","#D55E00",
              "#CC79A7")
 data=readRDS("../output/simdata.rds")
@@ -29,11 +15,8 @@ bma.pm=
 lfsr.mash=read.table("../output/sharedashcutoffomega2jun15lfsr.txt.gz")[,-1]
 lfsr.bma=read.table("../output/noashsharedwithzerobmaalllfsr.txt.gz")[,-1]
 lfsr.ash=read.table("../output/univariate.ash.lfsr.txt.gz")
-```
 
-And for all 20K:
-
-```{r rmsesharedtwo}
+## ----rmsesharedtwo-------------------------------------------------------
 sebetahat=data$sebetahat
 sebetahat=sebetahat[1:20000,]
 standard=sqrt(mean((beta[1:20000,]-bhat[1:20000,])^2))
@@ -51,9 +34,8 @@ barplot(as.numeric(rmse.all.table),main="Shared, Structured Effects",
   ylab="relative error (RRMSE)",xlab="",col=colors[5:7],
   names=colnames(rmse.all.table),ylim=c(0,0.25),cex.main=1.5,
   cex.lab=1,cex.names=1,las=1)
-```
 
-```{r}
+## ------------------------------------------------------------------------
 beta=as.matrix(beta[1:20000,])
 lfsr.mash=as.matrix(lfsr.mash)
 lfsr.ash=as.matrix(lfsr.ash)
@@ -61,18 +43,13 @@ lfsr.bma=as.matrix(lfsr.bma)
 mash.means=as.matrix(mash.means)
 ash.means=as.matrix(univariate.ash.pm)
 bma.means=as.matrix(bma.pm)
-```
 
-Then, we compute the nominal lfsr (S) value, and we ask how many we
-correctly and incorrectly sign at a given threshold.
-
-```{r}
+## ------------------------------------------------------------------------
 sign.test.mash=beta*mash.means
 sign.test.ash=beta*ash.means
 sign.test.bma=beta*bma.means
-```
 
-```{r roccurve1shared, fig.height=5,fig.width=5,echo=F,fig.show=T}
+## ----roccurve1shared, fig.height=5,fig.width=5,echo=F,fig.show=T---------
 mash.power=NULL
 ash.power=NULL
 bma.power=NULL
@@ -108,11 +85,8 @@ lines(bma.fp,bma.power,cex=0.5,pch=1,ylim=c(0,1),col=colors[6],lty=2,lwd=3)
 lines(ash.fp,ash.power,cex=0.5,pch=1,ylim=c(0,1),col=colors[7],lty=3,lwd=3)
 legend("bottomright",legend = c("mash","mash-bmalite","ash"),
        col=colors[5:7],lty=c(1,2,3))
-```
 
-Now, let's do this for the independendent (shared unstructured) case:
-
-```{r, echo=F}
+## ---- echo=F-------------------------------------------------------------
 data = readRDS("../output/independentsimesd05.rds")
 t=data$tstat[1:20000,]
 bhat=data$betahat[1:20000,]
@@ -125,11 +99,8 @@ bma.pm=read.table("../output/bmaonlybetasd5posterior.means.txt.gz")[,-1]
 lfsr.mash=read.table("../output/indsim05sdlfsr.txt.gz")[,-1]
 lfsr.bma=read.table("../output/bmaonlybetasd5lfsr.txt.gz")[,-1]
 lfsr.ash=read.table("../output/univariate.ashind.lfsresd.txt.gz")
-```
 
-And for all 20K:
-
-```{r}
+## ------------------------------------------------------------------------
 sebetahat=data$sebetahat
 sebetahat=sebetahat[1:20000,]
 standard=sqrt(mean((beta[1:20000,]-bhat[1:20000,])^2))
@@ -146,9 +117,8 @@ barplot(as.numeric(rmse.all.table),main="Shared, Unstructured Effects",
         ylab="relative error (RRMSE)",xlab="",col=colors[5:7],
         names=colnames(rmse.all.table),ylim=c(0,0.25),cex.main=1.5,
 		cex.lab=1,cex.names=1,las=1)
-```
 
-```{r}
+## ------------------------------------------------------------------------
 beta=as.matrix(beta[1:20000,])
 lfsr.mash=as.matrix(lfsr.mash)
 lfsr.ash=as.matrix(lfsr.ash)
@@ -156,15 +126,13 @@ lfsr.bma=as.matrix(lfsr.bma)
 mash.means=as.matrix(mash.means)
 ash.means=as.matrix(univariate.ash.pm)
 bma.means=as.matrix(bma.pm)
-```
 
-```{r}
+## ------------------------------------------------------------------------
 sign.test.mash=beta*mash.means
 sign.test.ash=beta*ash.means
 sign.test.bma=beta*bma.means
-```
 
-```{r roccurve1unstrcutured}
+## ----roccurve1unstrcutured-----------------------------------------------
 mash.power=NULL
 ash.power=NULL
 bma.power=NULL
@@ -198,24 +166,23 @@ lines(bma.fp,bma.power,cex=0.5,pch=1,ylim=c(0,1),col=colors[6],lty=2,lwd=3)
 lines(ash.fp,ash.power,cex=0.5,pch=1,ylim=c(0,1),col=colors[7],lty=3,lwd=3)
 legend("bottomright",legend = c("mash","mash-bmalite","ash"),
        col=colors[5:7],lty=c(1,2,3))
-```
 
-## Now let's do on a per gene basis:
+## ------------------------------------------------------------------------
 
-```{r}
+# TO DO: Run code from here.
 data=readRDS("../output/simdata.rds")
 t=data$tstat
 bhat=data$betahat
 sebetahat=data$sebetahat
 beta=data$beta
 v.j=matrix(rep(1,ncol(t)*nrow(t)),ncol=ncol(t),nrow=nrow(t))
-log.bf=read.table("~/Downloads/logBFTABLEapril.txt")
+log.bf=read.table("../output/logBFTABLEapril.txt")
 bf.mash=log.bf[,"bf.mash"]
 bf.bma=log.bf[,"bf.bma"]
 bf.mash.independent=log.bf[,"bf.mash.independent"]
 bf.bma.independent=log.bf[,"bf.bma.independent"]
 
-eskin=read.table("~/Downloads/44binary.txt",sep = "\t",header = F,skip=1)
+eskin=read.table("../output/44binary.txt",sep = "\t",header = F,skip=1)
 NAMES <- strsplit(readLines(file("sharedtest","rt"), 1), "\t")[[1]]
 colnames(eskin)[1:16]=NAMES[1:16]
 lfsr.mash=read.table("../output/sharedashcutoffomega2jun15lfsr.txt.gz")[,-1]
@@ -245,11 +212,8 @@ for(s in 1:length(thresh)){
   BE.FP[s]=mean(p.BE[401:20000]<d)
   ASH.FP[s]=mean(ash.min[401:20000]<d)
 }
-```
 
-Now, let's compare to BF:
-
-```{r bfshared, fig.height=5,fig.width=5,echo=F,fig.show=T }
+## ----bfshared, fig.height=5,fig.width=5,echo=F,fig.show=T----------------
 mash.tp=NULL
 mash.fp=NULL
 bma.tp=NULL
@@ -282,11 +246,8 @@ legend("bottomright",legend = c("mash","mash-bmalite","ash",
        "metasoft.RE2","metasoft.FE","metasoft.BE"),
        col=c(colors[5],colors[6],colors[7],colors[1],colors[3],"pink"),
 	   lty=c(1,2,3,5,4,6))
-```
 
-## Now, let's do the per gene basis for the shared unstrcutred case:
-
-```{r}
+## ------------------------------------------------------------------------
 data=readRDS("../output/independentsimesd05.rds")
 t=data$tstat[1:20000,]
 bhat=data$betahat[1:20000,]
@@ -296,9 +257,9 @@ lfsr.mash=read.table("../output/indsim05sdlfsr.txt.gz")
 lfsr.bma=read.table("../output/bmaonlybetasd5lfsr.txt.gz")[,-1]
 lfsr.ash=read.table("../output/univariate.ashind.lfsresd.txt.gz")
 lfsr.ash=read.table("../output/univariate.ashind.lfsresd.txt.gz")
-NAMES <-
-  strsplit(readLines(file("independentsiminputdata","rt"),1),"\t")[[1]]
-eskin=read.table("independenttest.txt",sep = "\t",header = F,skip=1)
+NAMES <- strsplit(readLines(file("../output/independentsiminputdata","rt"),1),
+                  "\t")[[1]]
+eskin=read.table("../output/independenttest.txt",sep = "\t",header = F,skip=1)
 colnames(eskin)[1:16]=NAMES[1:16]
 mash.min=apply(lfsr.mash,1,min)
 bma.min=apply(lfsr.bma,1,min)
@@ -325,11 +286,8 @@ for(s in 1:length(thresh)){
   BE.FP[s]=mean(p.BE[401:20000]<d)
   ASH.FP[s]=mean(ash.min[401:20000]<d)
 }
-```
 
-Now let's do this with the Bayes Factor's ascertained from mash and bma:
-
-```{r bfind}
+## ----bfind---------------------------------------------------------------
 mash.tp=NULL
 mash.fp=NULL
 bma.tp=NULL
@@ -355,7 +313,4 @@ legend("bottomright",legend = c("mash","mash-bmalite","ash",
        "metasoft.RE2","metasoft.FE","metasoft.BE"),
        col=c(colors[5],colors[6],colors[7],colors[1],colors[3],"pink"),
 	   lty=c(1,2,3,5,4,6))
-```
-
-
 
