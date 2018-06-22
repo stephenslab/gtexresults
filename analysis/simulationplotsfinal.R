@@ -168,8 +168,6 @@ legend("bottomright",legend = c("mash","mash-bmalite","ash"),
        col=colors[5:7],lty=c(1,2,3))
 
 ## ------------------------------------------------------------------------
-
-# TO DO: Run code from here.
 data=readRDS("../output/simdata.rds")
 t=data$tstat
 bhat=data$betahat
@@ -182,8 +180,8 @@ bf.bma=log.bf[,"bf.bma"]
 bf.mash.independent=log.bf[,"bf.mash.independent"]
 bf.bma.independent=log.bf[,"bf.bma.independent"]
 
-eskin=read.table("../output/44binary.txt",sep = "\t",header = F,skip=1)
-NAMES <- strsplit(readLines(file("sharedtest","rt"), 1), "\t")[[1]]
+eskin=read.table("../output/44binary.txt.gz",sep = "\t",header = F,skip=1)
+NAMES <- strsplit(readLines(file("../output/sharedtest","rt"), 1), "\t")[[1]]
 colnames(eskin)[1:16]=NAMES[1:16]
 lfsr.mash=read.table("../output/sharedashcutoffomega2jun15lfsr.txt.gz")[,-1]
 lfsr.bma=read.table("../output/noashsharedwithzerobmaalllfsr.txt.gz")[,-1]
