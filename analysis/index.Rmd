@@ -45,7 +45,11 @@ We provide four sets of resources:
 
 If you find any of the source code in this repository useful for your
 work, please cite our manuscript, Urbut *et al* (2017). The full
-citation is given above.
+citation is given above. Please also cite the Zenodo archive:
+
+> Sarah M. Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens
+> (2018), Code and data resources accompanying Urbut *et al* 2017,
+> version 1.0, Zenodo, [doi:10.5281/zenodo.1296399][zenodo-doi].
 
 ## License
 
@@ -101,6 +105,8 @@ University of Chicago.
 
 [gtexresults]: https://github.com/stephenslab/gtexresults
 [biorxiv-paper]: http://dx.doi.org/10.1101/096552
+[zenodo-badge]: https://zenodo.org/badge/latestdoi/44247975
+[zenodo-doi]: https://doi.org/10.5281/zenodo.1296399
 [mashr]: https://github.com/stephenslab/mashr
 [gtex]: http://gtexportal.org
 [fastqtl]: http://fastqtl.sourceforge.net
