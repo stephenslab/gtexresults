@@ -24,7 +24,7 @@ In the next code chunk, we load some GTEx summary statistics (average
 gene expression values and *z*-scores), as well as some of the results
 generated from the mash analysis of the GTEx data.
 
-Expression is here defined as median across individuals of the log
+Expression here is defined as median across individuals of the log
 Reads per Kilobase Mapped (RPKM).
 
 ```{r load-results}
@@ -64,7 +64,9 @@ plot_tissuespecifictwo = function(tissuename,lfsr,ymax,curvedata,title,
   # Create a matrix showing whether or not lfsr satisfies threshold.
   sigmat = lfsr <= thresh;
   sigs=which(rowSums(sigmat[,index_tissue,drop=FALSE])==length(tissuename) &
-             rowSums(sigmat[,-index_tissue,drop=FALSE])==0)
+  rowSums(sigmat[,-index_tissue,drop=FALSE])==0)
+  print(nrow(curvedata))
+  print(length(sigs))
   norm.spec=density(curvedata[sigs,index_tissue])
   norm.other=density(curvedata[-sigs,index_tissue])
   xmin=min(norm.spec$x,norm.other$x)-1
