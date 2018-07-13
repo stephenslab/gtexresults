@@ -1,4 +1,4 @@
-# Code and data resources accompanying Urbut et al (2017)
+# Code & data resources accompanying Urbut *et al* (2017)
 
 [![DOI](https://zenodo.org/badge/44247975.svg)][zenodo-badge]
 
