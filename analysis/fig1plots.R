@@ -23,7 +23,7 @@ dat <- data.frame(x = rep(1:6,each = 10),
                   b = as.vector(B))
 ggplot(dat,aes(x = x,y = y,fill = b)) +
   geom_raster() +
-  scale_fill_gradient2(low = "darkblue",mid = "white",high = "orangered") +
+  scale_fill_gradient2(low = "dodgerblue",mid = "white",high = "gold") +
   theme_cowplot()
 
 genes   <- rownames(B)
@@ -38,13 +38,13 @@ dat <- data.frame(x = rep(1:6,each = 10),
                   b = as.vector(B))
 ggplot(dat,aes(x = x,y = y,fill = b)) +
   geom_raster() +
-  scale_fill_gradient2(low = "darkblue",mid = "white",high = "orangered") +
+  scale_fill_gradient2(low = "dodgerblue",mid = "white",high = "yellow") +
   theme_cowplot()
 
 covmat <- readRDS(paste("../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3",
                         "lite.single.expanded.rds",sep = "."))
 
-k <- 54 # 2, 3, 4
+k <- 3 # 2, 3, 4
 A <- covmat[[k]][tissues,tissues]
 
 dat <- data.frame(x   = rep(1:6,each = 6),

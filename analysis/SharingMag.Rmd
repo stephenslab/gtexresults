@@ -1,4 +1,4 @@
-x---
+---
 title: "Pairwise sharing by magnitude of eQTLs among tissues"
 author: "Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens"
 output: workflowr::wflow_html
