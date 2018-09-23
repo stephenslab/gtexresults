@@ -1,4 +1,4 @@
----
+x---
 title: "Pairwise sharing by magnitude of eQTLs among tissues"
 author: "Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens"
 output: workflowr::wflow_html
@@ -29,8 +29,8 @@ data.
 
 ```{r load-results}
 out      <- readRDS("../data/MatrixEQTLSumStats.Portable.Z.rds")
-maxb     <- out$test.b
-maxz     <- out$test.z
+maxb     <- out$strong.b
+maxz     <- out$strong.z
 out      <-readRDS(paste("../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3",
                          "lite.single.expanded.V1.posterior.rds",sep = "."))
 pm.mash        <- out$posterior.means
@@ -51,11 +51,13 @@ pm.mash.beta <- pm.mash.beta[rowSums(lfsr.all<0.05)>0,]
 lfsr.mash    <- lfsr.all[rowSums(lfsr.all<0.05)>0,]
 shared.fold.size <- matrix(NA,nrow = ncol(lfsr.mash),ncol=ncol(lfsr.mash))
 colnames(shared.fold.size) <- rownames(shared.fold.size) <- colnames(maxz)
+A <- matrix(0,44,44)
 for (i in 1:ncol(lfsr.mash))
   for (j in 1:ncol(lfsr.mash)) {
     sig.row=which(lfsr.mash[,i]<thresh)
     sig.col=which(lfsr.mash[,j]<thresh)
     a=(union(sig.row,sig.col))
+	A[i,j] <- length(a)
     quotient=(pm.mash.beta[a,i]/pm.mash.beta[a,j])
     shared.fold.size[i,j] = mean(quotient > 0.5 & quotient < 2)
   }

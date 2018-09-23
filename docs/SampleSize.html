@@ -283,10 +283,13 @@ div.tocify {
   <a href="https://github.com/stephenslab/mashr">mashr</a>
 </li>
 <li>
-  <a href="fastqtl2mash.html">Fastqtl to mash</a>
+  <a href="gtexdata.html">GTEx data</a>
 </li>
 <li>
-  <a href="gtex.html">GTEx analysis</a>
+  <a href="gtexanalysis.html">GTEx analysis</a>
+</li>
+<li>
+  <a href="fastqtl2mash.html">Fastqtl to mash</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -321,7 +324,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-06-06</p>
+<p><strong>Last updated:</strong> 2018-06-22</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -345,19 +348,30 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/5d5a4030adf19c2d57dfcef2f56f45c90926a7ca" target="_blank">5d5a403</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/5afe6c0b45fd1c86e175a65fb0807a074003b755" target="_blank">5afe6c0</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
-Ignored files:
-    Ignored:    .sos/
-    Ignored:    data/.sos/
-    Ignored:    output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3.lite.single.expanded.V1.loglik.rds
-    Ignored:    workflows/.ipynb_checkpoints/
-    Ignored:    workflows/.sos/
-
 Untracked files:
-    Untracked:  fastqtl_to_mash_output/
-    Untracked:  gtex6_workflow_output/
+    Untracked:  output/44binary.txt.gz
+    Untracked:  output/bmaonlybetasd5lfsr.txt.gz
+    Untracked:  output/bmaonlybetasd5posterior.means.txt.gz
+    Untracked:  output/independentsim.rds
+    Untracked:  output/independentsimesd05.rds
+    Untracked:  output/independentsiminputdata
+    Untracked:  output/independenttest.txt
+    Untracked:  output/indsim05sdlfsr.txt.gz
+    Untracked:  output/indsim05sdposterior.means.txt.gz
+    Untracked:  output/logBFTABLEapril.txt
+    Untracked:  output/noashsharedwithzerobmaalllfsr.txt.gz
+    Untracked:  output/noashsharedwithzerobmaallposterior.means.txt.gz
+    Untracked:  output/sharedashcutoffomega2jun15lfsr.txt.gz
+    Untracked:  output/sharedashcutoffomega2jun15posterior.means.txt.gz
+    Untracked:  output/sharedtest
+    Untracked:  output/simdata.rds
+    Untracked:  output/univariate.ash.lfsr.txt.gz
+    Untracked:  output/univariate.ash.pm.txt.gz
+    Untracked:  output/univariate.ash.pmindesd.txt.gz
+    Untracked:  output/univariate.ashind.lfsresd.txt.gz
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -388,10 +402,78 @@ Message
 <tbody>
 <tr>
 <td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/3ab329f2858f444db7d2e96a94d229c033fe0514/docs/SampleSize.html" target="_blank">3ab329f</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-18
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/dae0caf189fe905d8ecbac62012836bdaabc245c/analysis/SampleSize.Rmd" target="_blank">dae0caf</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/70b3ae5fec178b3dd8e4bdf56d3cee574419fe5b/analysis/SampleSize.Rmd" target="_blank">70b3ae5</a>
+</td>
+<td style="text-align:left;">
+Gao Wang
+</td>
+<td style="text-align:left;">
+2018-06-16
+</td>
+<td style="text-align:left;">
+Fix misplaced strong.s labels
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/6314ce04f8d5f7b7fdeaf9f61fec07a48682ab15/analysis/SampleSize.Rmd" target="_blank">6314ce0</a>
+</td>
+<td style="text-align:left;">
+Gao Wang
+</td>
+<td style="text-align:left;">
+2018-06-16
+</td>
+<td style="text-align:left;">
+Relabel ‘test’ to ‘strong’ in data and code
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/6eee6a9ff3f088a0c2b5349c60d07886ce4f134b/docs/SampleSize.html" target="_blank">6eee6a9</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-06
+</td>
+<td style="text-align:left;">
+Updated the webpages for a bunch of R Markdown files after minor revisions.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/7fec23c07de1a6e4dfd4011c31bb71e04624af08/analysis/SampleSize.Rmd" target="_blank">7fec23c</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
@@ -408,7 +490,7 @@ Renamed Tspecific analysis.
 html
 </td>
 <td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/gtexresults/d2a04cf68ea318512d519edfdc5af5cba749030c/docs/SampleSize.html" target="_blank">d2a04cf</a>
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/ab91f2e310078a30000472b2e76f8825c79632d3/docs/SampleSize.html" target="_blank">ab91f2e</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
@@ -425,7 +507,7 @@ I’ve completed a rewrite of the “tissue effective sample sizes”
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/680e18c4cff2c2bd9622f4187fa61cc2ae3bf039/analysis/SampleSize.Rmd" target="_blank">680e18c</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/3823c99b9cc412ee4e28e899bf06d18c22cd1f50/analysis/SampleSize.Rmd" target="_blank">3823c99</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
@@ -442,7 +524,7 @@ wflow_publish(“SampleSize.Rmd”)
 html
 </td>
 <td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/gtexresults/6d8379d5d2e6c4c4cae7eac81b5f1607853f9bde/docs/SampleSize.html" target="_blank">6d8379d</a>
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/6f66a94d40229faba904ec8f104a78117c780d3e/docs/SampleSize.html" target="_blank">6f66a94</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
@@ -459,7 +541,7 @@ Re-built revised SampleSize page.
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/32c92c78885ef99103e78f39f681a7b7ea9cf90b/analysis/SampleSize.Rmd" target="_blank">32c92c7</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/324f27ba76e7d1b59ab6766f4214dca02edab2a7/analysis/SampleSize.Rmd" target="_blank">324f27b</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
@@ -476,7 +558,7 @@ wflow_publish(“SampleSize.Rmd”)
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/4eb658f8862d96b30bec8bb02566e4cedfa58858/analysis/SampleSize.Rmd" target="_blank">4eb658f</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/f6f3914e3294dc07de6ad7cf9ad2a098103d9a3e/analysis/SampleSize.Rmd" target="_blank">f6f3914</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
@@ -493,7 +575,7 @@ Code in SampleSize.Rmd now runs successfully; need to polish it up.
 html
 </td>
 <td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/gtexresults/afc401f3e92f562d878d377ddac5033f230e7c51/docs/SampleSize.html" target="_blank">afc401f</a>
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/aecc7f12b52c0508f55d87fee01b9a544dc25985/docs/SampleSize.html" target="_blank">aecc7f1</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
@@ -510,7 +592,7 @@ Moved doc to docs.
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/e1e48dfd00f536a3e20940fb47241c67f4a2f1cc/analysis/SampleSize.Rmd" target="_blank">e1e48df</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/7072cdbb40b1b3e7d6b942488829bf94b3b6e98c/analysis/SampleSize.Rmd" target="_blank">7072cdb</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
@@ -534,8 +616,8 @@ Reorganized many of the files.
 <p>Load some of the results generated from the mas analysis of the GTEx data, as well as summary statistics (e.g., sample sizes, standard errors) calculated from the raw GTEx data.</p>
 <pre class="r"><code>missing.tissues &lt;- c(7,8,19,20,24,25,31,34,37)
 out     &lt;- readRDS(&quot;../data/MatrixEQTLSumStats.Portable.Z.rds&quot;)
-maxz    &lt;- out$test.z
-maxbeta &lt;- out$test.b
+maxz    &lt;- out$strong.z
+maxbeta &lt;- out$strong.b
 qtl.names &lt;- sapply(1:length(rownames(maxz)),
   function(x) unlist(strsplit(rownames(maxz)[x],&quot;[_]&quot;))[[1]])
 standard.error.from.z &lt;- as.matrix(maxbeta/maxz)
@@ -547,7 +629,7 @@ a         &lt;- match(qtl.names,rownames(expr.sort))
 expr.sort &lt;- expr.sort[a,]
 exp.sort  &lt;- expr.sort[,-missing.tissues]
 colnames(exp.sort) &lt;- colnames(maxz)
-standard.error           &lt;- out$test.s
+standard.error           &lt;- out$strong.s
 colnames(standard.error) &lt;- colnames(maxz)
 tissue.names             &lt;- colnames(maxz)</code></pre>
 <p>To draw the the bar charts, we use the colours that are used by convention used to represent the GTEx tissues in plots.</p>
@@ -604,7 +686,7 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/d2a04cf68ea318512d519edfdc5af5cba749030c/docs/figure/SampleSize.Rmd/plot1-1.png" target="_blank">d2a04cf</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/ab91f2e310078a30000472b2e76f8825c79632d3/docs/figure/SampleSize.Rmd/plot1-1.png" target="_blank">ab91f2e</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
@@ -615,7 +697,7 @@ Peter Carbonetto
 </tr>
 <tr>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/6d8379d5d2e6c4c4cae7eac81b5f1607853f9bde/docs/figure/SampleSize.Rmd/plot1-1.png" target="_blank">6d8379d</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/6f66a94d40229faba904ec8f104a78117c780d3e/docs/figure/SampleSize.Rmd/plot1-1.png" target="_blank">6f66a94</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
@@ -662,7 +744,7 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/d2a04cf68ea318512d519edfdc5af5cba749030c/docs/figure/SampleSize.Rmd/plot2-1.png" target="_blank">d2a04cf</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/ab91f2e310078a30000472b2e76f8825c79632d3/docs/figure/SampleSize.Rmd/plot2-1.png" target="_blank">ab91f2e</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
@@ -673,7 +755,7 @@ Peter Carbonetto
 </tr>
 <tr>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/6d8379d5d2e6c4c4cae7eac81b5f1607853f9bde/docs/figure/SampleSize.Rmd/plot2-1.png" target="_blank">6d8379d</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/6f66a94d40229faba904ec8f104a78117c780d3e/docs/figure/SampleSize.Rmd/plot2-1.png" target="_blank">6f66a94</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
@@ -692,7 +774,7 @@ Peter Carbonetto
 <pre class="r"><code>sessionInfo()
 # R version 3.4.3 (2017-11-30)
 # Platform: x86_64-apple-darwin15.6.0 (64-bit)
-# Running under: macOS High Sierra 10.13.4
+# Running under: macOS High Sierra 10.13.5
 # 
 # Matrix products: default
 # BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
@@ -705,7 +787,7 @@ Peter Carbonetto
 # [1] stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # loaded via a namespace (and not attached):
-#  [1] workflowr_1.0.1.9000 Rcpp_0.12.16         digest_0.6.15       
+#  [1] workflowr_1.0.1.9000 Rcpp_0.12.17         digest_0.6.15       
 #  [4] rprojroot_1.3-2      R.methodsS3_1.7.1    backports_1.1.2     
 #  [7] git2r_0.21.0         magrittr_1.5         evaluate_0.10.1     
 # [10] stringi_1.1.7        whisker_0.3-2        R.oo_1.21.0         

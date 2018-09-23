@@ -283,10 +283,13 @@ div.tocify {
   <a href="https://github.com/stephenslab/mashr">mashr</a>
 </li>
 <li>
-  <a href="fastqtl2mash.html">Fastqtl to mash</a>
+  <a href="gtexdata.html">GTEx data</a>
 </li>
 <li>
-  <a href="gtex.html">GTEx analysis</a>
+  <a href="gtexanalysis.html">GTEx analysis</a>
+</li>
+<li>
+  <a href="fastqtl2mash.html">Fastqtl to mash</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -321,7 +324,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-06-05</p>
+<p><strong>Last updated:</strong> 2018-06-22</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -345,29 +348,30 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/a9bca8bde119b55f260e4c34b171a14223716724" target="_blank">a9bca8b</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/gtexresults/tree/5afe6c0b45fd1c86e175a65fb0807a074003b755" target="_blank">5afe6c0</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
-Ignored files:
-    Ignored:    .sos/
-    Ignored:    data/.sos/
-    Ignored:    output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3.lite.single.expanded.V1.loglik.rds
-    Ignored:    workflows/.ipynb_checkpoints/
-    Ignored:    workflows/.sos/
-
 Untracked files:
-    Untracked:  TODO.txt
-    Untracked:  analysis/files.txt
-    Untracked:  fastqtl_to_mash_output/
-    Untracked:  gtex6_workflow_output/
-
-Unstaged changes:
-    Deleted:    analysis/Fig.Uk2.Rmd
-    Deleted:    analysis/Fig.Uk3.Rmd
-    Deleted:    analysis/Fig.Uk4.Rmd
-    Deleted:    analysis/Fig.Uk5.Rmd
-    Deleted:    analysis/Fig.Uk8.Rmd
-    Modified:   analysis/gtex.Rmd
+    Untracked:  output/44binary.txt.gz
+    Untracked:  output/bmaonlybetasd5lfsr.txt.gz
+    Untracked:  output/bmaonlybetasd5posterior.means.txt.gz
+    Untracked:  output/independentsim.rds
+    Untracked:  output/independentsimesd05.rds
+    Untracked:  output/independentsiminputdata
+    Untracked:  output/independenttest.txt
+    Untracked:  output/indsim05sdlfsr.txt.gz
+    Untracked:  output/indsim05sdposterior.means.txt.gz
+    Untracked:  output/logBFTABLEapril.txt
+    Untracked:  output/noashsharedwithzerobmaalllfsr.txt.gz
+    Untracked:  output/noashsharedwithzerobmaallposterior.means.txt.gz
+    Untracked:  output/sharedashcutoffomega2jun15lfsr.txt.gz
+    Untracked:  output/sharedashcutoffomega2jun15posterior.means.txt.gz
+    Untracked:  output/sharedtest
+    Untracked:  output/simdata.rds
+    Untracked:  output/univariate.ash.lfsr.txt.gz
+    Untracked:  output/univariate.ash.pm.txt.gz
+    Untracked:  output/univariate.ash.pmindesd.txt.gz
+    Untracked:  output/univariate.ashind.lfsresd.txt.gz
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -401,7 +405,58 @@ Message
 html
 </td>
 <td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/gtexresults/03a5484154109734021c456c1afc80e46ea44a64/docs/Uk2.html" target="_blank">03a5484</a>
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/3ab329f2858f444db7d2e96a94d229c033fe0514/docs/Uk2.html" target="_blank">3ab329f</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-18
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/6314ce04f8d5f7b7fdeaf9f61fec07a48682ab15/analysis/Uk2.Rmd" target="_blank">6314ce0</a>
+</td>
+<td style="text-align:left;">
+Gao Wang
+</td>
+<td style="text-align:left;">
+2018-06-16
+</td>
+<td style="text-align:left;">
+Relabel ‘test’ to ‘strong’ in data and code
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/e9c2b58218b54337a188acff5f9c11c743b51b19/docs/Uk2.html" target="_blank">e9c2b58</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-05
+</td>
+<td style="text-align:left;">
+Re-built Uk* webpages after minor revisions.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/gtexresults/a70bfdc880994b6653782f8e8d72f26aff4204df/docs/Uk2.html" target="_blank">a70bfdc</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
@@ -411,6 +466,23 @@ Peter Carbonetto
 </td>
 <td style="text-align:left;">
 Build site.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/gtexresults/blob/0ff3f1677472fb30e23fd7294fa5f32bded159da/analysis/Uk2.Rmd" target="_blank">0ff3f16</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-06-05
+</td>
+<td style="text-align:left;">
+wflow_publish(“Uk2.Rmd”)
 </td>
 </tr>
 </tbody>
@@ -433,7 +505,7 @@ library(colorRamps)</code></pre>
                         &quot;lite.single.expanded.rds&quot;,sep = &quot;.&quot;))
 pis    &lt;- readRDS(paste(&quot;../output/MatrixEQTLSumStats.Portable.Z.coved.K3.P3&quot;,
                         &quot;lite.single.expanded.V1.pihat.rds&quot;,sep = &quot;.&quot;))$pihat
-z.stat &lt;- readRDS(&quot;../data/MatrixEQTLSumStats.Portable.Z.rds&quot;)$test.z
+z.stat &lt;- readRDS(&quot;../data/MatrixEQTLSumStats.Portable.Z.rds&quot;)$strong.z
 pi.mat &lt;- matrix(pis[-length(pis)],ncol = 54,nrow = 22,byrow = TRUE)
 names  &lt;- colnames(z.stat)</code></pre>
 <p>Next, we load the tissue indices:</p>
@@ -478,7 +550,7 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/03a5484154109734021c456c1afc80e46ea44a64/docs/figure/Uk2.Rmd/heatmapuk2final-1.png" target="_blank">03a5484</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/a70bfdc880994b6653782f8e8d72f26aff4204df/docs/figure/Uk2.Rmd/heatmapuk2final-1.png" target="_blank">a70bfdc</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
@@ -521,7 +593,7 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/03a5484154109734021c456c1afc80e46ea44a64/docs/figure/Uk2.Rmd/plot-eigenvectors-1.png" target="_blank">03a5484</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/a70bfdc880994b6653782f8e8d72f26aff4204df/docs/figure/Uk2.Rmd/plot-eigenvectors-1.png" target="_blank">a70bfdc</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
@@ -551,7 +623,7 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/03a5484154109734021c456c1afc80e46ea44a64/docs/figure/Uk2.Rmd/plot-eigenvectors-2.png" target="_blank">03a5484</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/a70bfdc880994b6653782f8e8d72f26aff4204df/docs/figure/Uk2.Rmd/plot-eigenvectors-2.png" target="_blank">a70bfdc</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
@@ -581,7 +653,7 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
-<a href="https://github.com/stephenslab/gtexresults/blob/03a5484154109734021c456c1afc80e46ea44a64/docs/figure/Uk2.Rmd/plot-eigenvectors-3.png" target="_blank">03a5484</a>
+<a href="https://github.com/stephenslab/gtexresults/blob/a70bfdc880994b6653782f8e8d72f26aff4204df/docs/figure/Uk2.Rmd/plot-eigenvectors-3.png" target="_blank">a70bfdc</a>
 </td>
 <td style="text-align:left;">
 Peter Carbonetto
@@ -599,7 +671,7 @@ Peter Carbonetto
 <pre class="r"><code>sessionInfo()
 # R version 3.4.3 (2017-11-30)
 # Platform: x86_64-apple-darwin15.6.0 (64-bit)
-# Running under: macOS High Sierra 10.13.4
+# Running under: macOS High Sierra 10.13.5
 # 
 # Matrix products: default
 # BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
@@ -615,7 +687,7 @@ Peter Carbonetto
 # [1] colorRamps_2.3  lattice_0.20-35
 # 
 # loaded via a namespace (and not attached):
-#  [1] workflowr_1.0.1.9000 Rcpp_0.12.16         digest_0.6.15       
+#  [1] workflowr_1.0.1.9000 Rcpp_0.12.17         digest_0.6.15       
 #  [4] rprojroot_1.3-2      R.methodsS3_1.7.1    grid_3.4.3          
 #  [7] backports_1.1.2      git2r_0.21.0         magrittr_1.5        
 # [10] evaluate_0.10.1      stringi_1.1.7        whisker_0.3-2       

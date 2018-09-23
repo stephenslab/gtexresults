@@ -1,0 +1,109 @@
+---
+title: "GTEx SNP-gene association statistics used in mash analysis"
+author: "Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens"
+site: workflowr::wflow_site
+output:
+  workflowr::wflow_html:
+    toc: false
+---
+
+## Overview
+
+To apply multivariate adaptive shrinkage (*mash*) to data from the
+[GTEx study][gtex], we created an R data set (serialized R object)
+containing matrices of SNP-gene association statistics. These
+association statistics include effect estimates, *Z* scores and
+corresponding standard errors.
+
+See [here](fastqtl2mash.html) for the scripts used to generate these
+statistics from the SNP-gene data that were provided by the [GTEx
+Project][gtex].
+
+```{r knitr, message = FALSE, echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE,comment = "#")
+```
+
+## How to download the data
+
+These are the recommended steps for retrieving the GTEx SNP-gene
+association statistics:
+
+1. Download or clone the [git repository][gtexresults].
+
+2. The association statistics are found in file
+   `MatrixEQTLSumStats.Portable.Z.rds`.
+
+## How to load the data into R
+
+Change the working directory in R (or RStudio) to the `analysis`
+directory of the `gtexresults` repository, e.g.,
+
+```{r, eval=FALSE}
+setwd("gtexresults/analysis")
+```
+
+Next, read the data object into R:
+
+```{r load-data}
+dat <- readRDS("../data/MatrixEQTLSumStats.Portable.Z.rds")
+```
+
+Then get an overview of the data from this file:
+
+```{r summarize-data}
+names(dat)
+```
+
+## Description of the data
+
+This file contains SNP-gene association statistics for 16,069 genes
+and 44 human tissues. These 16,069 genes were selected because they
+all showed some indication of being expressed in all 44 tissues.
+Therefore, the association statistics are stored as matrices each with
+16,069 rows and 44 columns, e.g.,
+
+```{r summarize-strong-b}
+dim(dat$strong.b)
+```
+
+As input to mash, we use a matrix of expression quantitative trait
+loci (eQTL) effect estimate, and corresponding standard errors. (We
+also provide *Z* scores.) See the manuscript for details on how these
+association statistics were obtained.
+
+These association statistics were subdivided into three subsets:
+
+1. Results from a subset "strong" tests. These tests were identified
+by taking the "top eQTL" in each gene based on univariate SNP-gene
+association tests. (Here, "top eQTL" for a given gene is defined as
+the SNP with the largest (univariate) *Z* statistic among all 44
+tissues. The estimated effects, *Z* scores and standard errors for the
+strong tests are stored in three 16,069 &times; 44 matrices,
+`dat$strong.b`, `dat$strong.z` and `dat$strong.s`.
+
+2. Results from a random subset of 20,000 SNP-gene tests (this
+includes both "null" and "non"-null tests). The estimated effects, *Z*
+stores and standard errors for these random tests are stored in three
+20,000 &times; 44 matrices, `dat$random.b`, `dat$random.z` and
+`dat$random.z`.
+
+3. Results from a second random subset of 28,198 SNP-gene tests. This
+is used for the cross-validation part of the mash analysis. The
+estimated effects, *Z* stores and standard errors for these random
+tests are stored in three 28,198 &times; 44 matrices,
+`dat$random.test.b`, `dat$random.test.z` and `dat$random.test.z`.
+
+Finally, the gene expression measurements in the GTEx study are
+correlated due to sample overlap (sometimes multiple measurements were
+obtained from the same individual). Therefore, we have also estimated
+a correlation matrix, which is stored in `dat$vhat`:
+
+```{r summarize-vhat}
+dim(dat$vhat)
+```
+
+See the manuscript for additional details how these data are used in
+the mash analysis.
+
+[gtexresults]: https://github.com/stephenslab/gtexresults
+[gtex]: http://gtexportal.org

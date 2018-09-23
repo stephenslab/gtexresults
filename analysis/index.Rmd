@@ -1,5 +1,5 @@
 ---
-title: "Code resources accompanying Urbut *et al*, 2017"
+title: "Code and data resources accompanying Urbut *et al*, 2017"
 author: "Sarah Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens"
 site: workflowr::wflow_site
 output:
@@ -9,35 +9,47 @@ output:
 
 ## Overview
 
-This repository contains code resources to accompany our research
-paper:
+This repository contains code and data resources to accompany our
+research paper:
 
 > Sarah M. Urbut, Gao Wang and Matthew Stephens (2017). *Flexible
 > statistical methods for estimating and testing effects in genomic
 > studies with multiple conditions.* bioRxiv
 > [doi:10.1101/096552][biorxiv-paper].
 
-We provide three sets of code resources:
+We provide four sets of resources:
 
 1. If you are primarily interested in applying the multivariate adaptive
    shrinkage (*mash*) methods to your own data, please see the
-   [mashr repository][mashr].
+   [mashr R package][mashr].
 
-2. If you are working with association statistics from the
-   [GTEx study][gtex], or similar genetic association data, please see
-   [here](fastqtl2mash.html) for our code to convert association
-   statistics in the [FastQTL][fastqtl] format, or a similar format,
-   to a format that is more suitable for analysis with *mashr*.
+2. If you would like to obtain the exact GTEx association statistics
+   used in the multivariate adaptive shrinkage (*mash*) analysis
+   described in our research paper (e.g., so you can apply your method
+   of choice to these data, and compare against our results), please
+   see [here](gtexdata.html).
 
 3. If you would like follow the exact steps we took to produce the
    results of the GTEx analysis presented in the manuscript, follow
-   the instructions [here](gtex.html).
+   the instructions [here](gtexanalysis.html). **Note:** The mashr
+   package was not used in this analysis because mashr was only
+   developed afterward.
+
+4. If you are working with association statistics from the
+   [GTEx study][gtex], or similar genetic association data, please see
+   [here](fastqtl2mash.html) for our code to convert association
+   statistics in the [FastQTL][fastqtl] format, or a similar format,
+   to a format that is more suitable for analysis with *mash*.
 
 ## Citing this work
 
 If you find any of the source code in this repository useful for your
 work, please cite our manuscript, Urbut *et al* (2017). The full
-citation is given above.
+citation is given above. Please also cite the Zenodo archive:
+
+> Sarah M. Urbut, Gao Wang, Peter Carbonetto and Matthew Stephens
+> (2018), Code and data resources accompanying Urbut *et al* 2017,
+> version 1.0, Zenodo, [doi:10.5281/zenodo.1296399][zenodo-doi].
 
 ## License
 
@@ -93,6 +105,8 @@ University of Chicago.
 
 [gtexresults]: https://github.com/stephenslab/gtexresults
 [biorxiv-paper]: http://dx.doi.org/10.1101/096552
+[zenodo-badge]: https://zenodo.org/badge/latestdoi/44247975
+[zenodo-doi]: https://doi.org/10.5281/zenodo.1296399
 [mashr]: https://github.com/stephenslab/mashr
 [gtex]: http://gtexportal.org
 [fastqtl]: http://fastqtl.sourceforge.net
