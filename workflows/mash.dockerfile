@@ -47,15 +47,15 @@ RUN curl -L https://github.com/stephenslab/mashr-paper/archive/v${PAPER_VERSION}
 
 # Install mashr package, a fast implementation of MASH algorithm.
 # and additional packages needed for mashr analysis.
-ENV MASHR_VERSION 0.2-9
-RUN Rscript -e 'devtools::install_github("stephenslab/mashr@v'${MASHR_VERSION}'")' \
+RUN install.R mclust plyr
+ENV MASHR_VERSION b5bf7e742e46fd02520bb40735267cd0f2552ccb
+RUN Rscript -e 'devtools::install_github("stephenslab/mashr", ref = "'${MASHR_VERSION}'")' \
     && rm -rf *
 
 # Install flashr.
-ENV FLASHR_VERSION 0.5-6
-RUN Rscript -e 'devtools::install_github("stephenslab/flashr@v'${FLASHR_VERSION}'")' \
+ENV FLASHR_VERSION 5e84f8051ae9e97ca419f13c02e78e192fe55cb4
+RUN Rscript -e 'devtools::install_github("stephenslab/flashr", ref = "'${FLASHR_VERSION}'")' \
     && rm -rf *
-RUN install.R mclust plyr
 
 # Install SoS for workflow execution.
 RUN pip install --no-cache-dir sos sos-notebook jupyter_contrib_nbextensions && rm -rf $HOME/.cache
