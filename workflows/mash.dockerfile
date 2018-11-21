@@ -49,14 +49,17 @@ RUN Rscript -e 'devtools::install_github("stephenslab/mixsqp", ref = "'${MIXSQP_
 # Install mashr package, a fast implementation of MASH algorithm.
 # and additional packages needed for mashr analysis.
 RUN install.R mclust plyr
-ENV MASHR_VERSION 2831bc51549a43c5e49e39efc62b9f9ca286d678
+ENV MASHR_VERSION 0263feed8c6bedec10347eb6aa508487d6a9a420
 RUN Rscript -e 'devtools::install_github("stephenslab/mashr", ref = "'${MASHR_VERSION}'")' \
     && rm -rf *
 
 # Install flashr.
-ENV FLASHR_VERSION 0f288369352f75e100f7a942eb4ed2f858e3d3e7
+ENV FLASHR_VERSION 73339b88e52eacc409328cf4fb1a17e2d74cd638
 RUN Rscript -e 'devtools::install_github("stephenslab/flashr", ref = "'${FLASHR_VERSION}'")' \
     && rm -rf *
+
+# Prevent local packages from being loaded
+ENV R_LIBS_USER ' '
 
 # Default command.
 CMD ["bash"]
