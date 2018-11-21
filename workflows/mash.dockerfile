@@ -26,13 +26,6 @@ RUN Rscript -e 'install.packages("Rmosek", type="source", INSTALL_opts="--no-mul
     repos="http://download.mosek.com/R/8")' \
     && install.R REBayes && rm -rf *
 
-# Install Extreme Deconvolution R package.
-ENV ED_VERSION master
-RUN curl -L https://github.com/jobovy/extreme-deconvolution/archive/${ED_VERSION}.zip -o ed.zip \
-    && unzip ed.zip && cd extreme-deconvolution-${ED_VERSION} \
-    && cp src/*.h src/*.c r/src && patch r/src/proj_gauss_mixtures_IDL.c < r/src/proj_gauss_mixtures_R.patch \
-    && Rscript -e "devtools::install('r/')" && rm -rf /tmp/*
-
 # Install SFA.
 ENV SFA_VERSION 1.0
 RUN curl http://stephenslab.uchicago.edu/assets/software/sfa/sfa${SFA_VERSION}.tar.gz -o sfa.tar.gz \
@@ -45,20 +38,25 @@ RUN install.R mvtnorm SQUAREM gplots colorRamps && rm -rf *
 RUN curl -L https://github.com/stephenslab/mashr-paper/archive/v${PAPER_VERSION}.zip -o mash.zip \
     && unzip mash.zip && mv mashr-paper-${PAPER_VERSION}/R /opt/mash-paper && rm -rf *
 
+# Install SoS for workflow execution.
+RUN pip install --no-cache-dir sos sos-notebook sos-bash jupyter_contrib_nbextensions && rm -rf $HOME/.cache
+
+# Install mixSQP
+ENV MIXSQP_VERSION 52c44ed3965ca83d168890ab48ee8c97c32d3d79
+RUN Rscript -e 'devtools::install_github("stephenslab/mixsqp", ref = "'${MIXSQP_VERSION}'")' \
+    && rm -rf *
+
 # Install mashr package, a fast implementation of MASH algorithm.
 # and additional packages needed for mashr analysis.
 RUN install.R mclust plyr
-ENV MASHR_VERSION b5bf7e742e46fd02520bb40735267cd0f2552ccb
+ENV MASHR_VERSION 2831bc51549a43c5e49e39efc62b9f9ca286d678
 RUN Rscript -e 'devtools::install_github("stephenslab/mashr", ref = "'${MASHR_VERSION}'")' \
     && rm -rf *
 
 # Install flashr.
-ENV FLASHR_VERSION 5e84f8051ae9e97ca419f13c02e78e192fe55cb4
+ENV FLASHR_VERSION 0f288369352f75e100f7a942eb4ed2f858e3d3e7
 RUN Rscript -e 'devtools::install_github("stephenslab/flashr", ref = "'${FLASHR_VERSION}'")' \
     && rm -rf *
-
-# Install SoS for workflow execution.
-RUN pip install --no-cache-dir sos sos-notebook jupyter_contrib_nbextensions && rm -rf $HOME/.cache
 
 # Default command.
 CMD ["bash"]
