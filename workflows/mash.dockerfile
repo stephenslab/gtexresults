@@ -46,10 +46,15 @@ ENV MIXSQP_VERSION 52c44ed3965ca83d168890ab48ee8c97c32d3d79
 RUN Rscript -e 'devtools::install_github("stephenslab/mixsqp", ref = "'${MIXSQP_VERSION}'")' \
     && rm -rf *
 
+# Install ashr
+ENV ASHR_VERSION 881292a718864e1de5781ce70559a0380a0b5474
+RUN Rscript -e 'devtools::install_github("stephens999/ashr", ref = "'${ASHR_VERSION}'")' \
+    && rm -rf *
+
 # Install mashr package, a fast implementation of MASH algorithm.
 # and additional packages needed for mashr analysis.
 RUN install.R mclust plyr
-ENV MASHR_VERSION 0263feed8c6bedec10347eb6aa508487d6a9a420
+ENV MASHR_VERSION b428c623e74d6c0d19da15bfb8afeff108c0be51
 RUN Rscript -e 'devtools::install_github("stephenslab/mashr", ref = "'${MASHR_VERSION}'")' \
     && rm -rf *
 
