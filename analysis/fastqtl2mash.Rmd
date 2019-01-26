@@ -135,12 +135,13 @@ the git repository.
 
 Having followed the above steps to set up the Docker container on your
 computer, the data conversion can be carried out with the following
-command:
+command (using a local computer with 8 CPU threads):
 
 ```bash
 fastqtl2mash-docker sos run workflows/fastqtl_to_mash.ipynb \
   --data_list data/fastqtl/FastQTLSumStats.list \
-  --gene_list data/fastqtl/GTEx_genes.txt
+  --gene_list data/fastqtl/GTEx_genes.txt \
+  -q none -j 8
 ```
 
 If successful, this command will write several files to a newly

@@ -744,10 +744,11 @@ docker container list --all</code></pre>
 <div id="convert-eqtl-summary-statistics" class="section level2">
 <h2>Convert eQTL summary statistics</h2>
 <p>Next, use the <code>fastqtl_to_mash.ipynb</code> code in the <code>workflows</code> directory to convert the toy data set in FastQTL format to the mash format. The toy data are stored in the <code>data/fastqtl</code> subdirectory of the git repository.</p>
-<p>Having followed the above steps to set up the Docker container on your computer, the data conversion can be carried out with the following command:</p>
+<p>Having followed the above steps to set up the Docker container on your computer, the data conversion can be carried out with the following command (on a local computer using 8 CPU threads):</p>
 <pre class="bash"><code>fastqtl2mash-docker sos run workflows/fastqtl_to_mash.ipynb \
   --data_list data/fastqtl/FastQTLSumStats.list \
-  --gene_list data/fastqtl/GTEx_genes.txt</code></pre>
+  --gene_list data/fastqtl/GTEx_genes.txt \
+  -q none -j 8</code></pre>
 <p>If successful, this command will write several files to a newly created directory, <code>fastqtl_to_mash_output</code>. One file, <code>FastQTLSumStats.mash.rds</code>, contains the eQTL summary statistics in an RDS file, which is easily loaded into R; see <code>help(readRDS)</code> in R for detailsf. For more information about the contents of this file, and how they can be provided as input to the mash methods using the <code>set_mash_data</code> function, see the documentation inside the <a href="https://github.com/stephenslab/gtexresults/blob/master/workflows/fastqtl_to_mash.ipynb">fastqtl2mash notebook</a> and the vignettes in the <a href="https://github.com/stephenslab/mashr">mashr package</a>.</p>
 </div>
 <div id="additional-usage-notes" class="section level2">
