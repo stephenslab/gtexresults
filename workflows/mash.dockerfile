@@ -10,7 +10,7 @@ MAINTAINER Gao Wang, gaow@uchicago.edu
 ENV PATH /opt/mosek/8/tools/platform/linux64x86/bin:$PATH
 WORKDIR /tmp
 
-# Install GSL (for SFA)
+# Install GSL (for SFA).
 RUN apt-get update \
   && apt-get -y install libgsl-dev libgsl2 \
   && apt-get autoclean \
@@ -39,28 +39,28 @@ RUN curl -L https://github.com/stephenslab/mashr-paper/archive/v${PAPER_VERSION}
     && unzip mash.zip && mv mashr-paper-${PAPER_VERSION}/R /opt/mash-paper && rm -rf *
 
 # Install SoS for workflow execution.
-RUN pip install --no-cache-dir sos sos-notebook sos-bash jupyter_contrib_nbextensions && rm -rf $HOME/.cache
+RUN pip install --no-cache-dir sos sos-notebook sos-pbs sos-bash jupyter_contrib_nbextensions && rm -rf $HOME/.cache
 
-# Install mixSQP
-ENV MIXSQP_VERSION 52c44ed3965ca83d168890ab48ee8c97c32d3d79
+# Install mixSQP.
+ENV MIXSQP_VERSION a6b817e327fdc3f33fe06eb97da29958c9b3883f
 RUN Rscript -e 'devtools::install_github("stephenslab/mixsqp", ref = "'${MIXSQP_VERSION}'")' \
     && rm -rf *
 
-# Install ashr
-ENV ASHR_VERSION 881292a718864e1de5781ce70559a0380a0b5474
+# Install ashr.
+ENV ASHR_VERSION 53830effe3db7ba61683de7a0b0f268a90c662cf
 RUN Rscript -e 'devtools::install_github("stephens999/ashr", ref = "'${ASHR_VERSION}'")' \
+    && rm -rf *
+
+# Install flashr.
+ENV FLASHR_VERSION f9407735986ae644ce0e60c4264d48dbc13f0b95
+RUN Rscript -e 'devtools::install_github("stephenslab/flashr", ref = "'${FLASHR_VERSION}'")' \
     && rm -rf *
 
 # Install mashr package, a fast implementation of MASH algorithm.
 # and additional packages needed for mashr analysis.
 RUN install.R mclust plyr
-ENV MASHR_VERSION b428c623e74d6c0d19da15bfb8afeff108c0be51
+ENV MASHR_VERSION 790036f16622b4dd66cf16a4be5c24e97043b0ea
 RUN Rscript -e 'devtools::install_github("stephenslab/mashr", ref = "'${MASHR_VERSION}'")' \
-    && rm -rf *
-
-# Install flashr.
-ENV FLASHR_VERSION 73339b88e52eacc409328cf4fb1a17e2d74cd638
-RUN Rscript -e 'devtools::install_github("stephenslab/flashr", ref = "'${FLASHR_VERSION}'")' \
     && rm -rf *
 
 # Prevent local packages from being loaded
