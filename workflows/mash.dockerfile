@@ -39,7 +39,7 @@ RUN curl -L https://github.com/stephenslab/mashr-paper/archive/v${PAPER_VERSION}
     && unzip mash.zip && mv mashr-paper-${PAPER_VERSION}/R /opt/mash-paper && rm -rf *
 
 # Install SoS for workflow execution.
-RUN pip install --no-cache-dir sos sos-notebook sos-pbs sos-bash jupyter_contrib_nbextensions && rm -rf $HOME/.cache
+RUN pip install --no-cache-dir sos sos-pbs sos-notebook sos-bash jupyter_contrib_nbextensions && rm -rf $HOME/.cache
 
 # Install mixSQP.
 ENV MIXSQP_VERSION a6b817e327fdc3f33fe06eb97da29958c9b3883f
