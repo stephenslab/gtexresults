@@ -19,7 +19,7 @@ RUN Rscript -e 'source("https://bioconductor.org/biocLite.R"); biocLite("rhdf5",
 
 # Install Python HDF5 library "pytables".
 # Install SoS for workflow execution.
-RUN pip install --no-cache-dir tables sos sos-notebook jupyter_contrib_nbextensions && rm -rf $HOME/.cache
+RUN pip install --no-cache-dir tables sos sos-pbs sos-notebook sos-bash jupyter_contrib_nbextensions && rm -rf $HOME/.cache
 
 # Default command.
 CMD ["bash"]
