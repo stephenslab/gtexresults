@@ -59,7 +59,7 @@ RUN Rscript -e 'devtools::install_github("stephenslab/flashr", ref = "'${FLASHR_
 # Install mashr package, a fast implementation of MASH algorithm.
 # and additional packages needed for mashr analysis.
 RUN install.R mclust plyr
-ENV MASHR_VERSION 790036f16622b4dd66cf16a4be5c24e97043b0ea
+ENV MASHR_VERSION d41b4391baf2d7b10d5074558fe81c8d28e7f993
 RUN Rscript -e 'devtools::install_github("stephenslab/mashr", ref = "'${MASHR_VERSION}'")' \
     && rm -rf *
 
