@@ -11,7 +11,7 @@ WORKDIR /tmp
 
 # Install GSL (for SFA).
 RUN apt-get update \
-  && apt-get -y install libgsl-dev libgsl2 \
+  && apt-get -y install libgsl-dev libgslcblas0 \
   && apt-get autoclean \
   && rm -rf /var/lib/apt/lists/* /var/log/dpkg.log
 
@@ -38,26 +38,30 @@ RUN Rscript -e 'install.packages(c("mvtnorm", "SQUAREM", "gplots", "colorRamps")
 RUN curl -L https://github.com/stephenslab/mashr-paper/archive/v${PAPER_VERSION}.zip -o mash.zip \
     && unzip mash.zip && mv mashr-paper-${PAPER_VERSION}/R /opt/mash-paper && rm -rf *
 
+# Install remotes package.
+RUN Rscript -e 'install.packages(c("remotes"), repos="https://cloud.r-project.org")' \
+    && rm -rf *
+
 # Install mixSQP.
 ENV MIXSQP_VERSION fce876ef8dacbb148650c6cdd788d3e6e453a8ba
-RUN Rscript -e 'devtools::install_github("stephenslab/mixsqp", ref = "'${MIXSQP_VERSION}'")' \
+RUN Rscript -e 'remotes::install_github("stephenslab/mixsqp", ref = "'${MIXSQP_VERSION}'")' \
     && rm -rf *
 
 # Install ashr.
 ENV ASHR_VERSION e8a7abc419b58efedca9010ccae5858c8a490876
-RUN Rscript -e 'devtools::install_github("stephens999/ashr", ref = "'${ASHR_VERSION}'")' \
+RUN Rscript -e 'remotes::install_github("stephens999/ashr", ref = "'${ASHR_VERSION}'")' \
     && rm -rf *
 
 # Install flashr.
 ENV FLASHR_VERSION ae44e7d5d5b77c3cd70043ee4c74d801b524ec46
-RUN Rscript -e 'devtools::install_github("stephenslab/flashr", ref = "'${FLASHR_VERSION}'")' \
+RUN Rscript -e 'remotes::install_github("stephenslab/flashr", ref = "'${FLASHR_VERSION}'")' \
     && rm -rf *
 
 # Install mashr package, a fast implementation of MASH algorithm.
 # and additional packages needed for mashr analysis.
 RUN Rscript -e 'install.packages(c("mclust", "plyr"), repos="https://cloud.r-project.org")'
 ENV MASHR_VERSION 054d4cdb9308d34cae7617506b9dea3bbb78cd7f
-RUN Rscript -e 'devtools::install_github("stephenslab/mashr", ref = "'${MASHR_VERSION}'")' \
+RUN Rscript -e 'remotes::install_github("stephenslab/mashr", ref = "'${MASHR_VERSION}'")' \
     && rm -rf *
 
 ENV R_ENVIRON_USER ""

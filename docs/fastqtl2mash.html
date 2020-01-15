@@ -748,7 +748,7 @@ docker container list --all</code></pre>
 <pre class="bash"><code>fastqtl2mash-docker sos run workflows/fastqtl_to_mash.ipynb \
   --data_list data/fastqtl/FastQTLSumStats.list \
   --gene_list data/fastqtl/GTEx_genes.txt \
-  -q none -j 8</code></pre>
+  -j 8</code></pre>
 <p>If successful, this command will write several files to a newly created directory, <code>fastqtl_to_mash_output</code>. One file, <code>FastQTLSumStats.mash.rds</code>, contains the eQTL summary statistics in an RDS file, which is easily loaded into R; see <code>help(readRDS)</code> in R for detailsf. For more information about the contents of this file, and how they can be provided as input to the mash methods using the <code>set_mash_data</code> function, see the documentation inside the <a href="https://github.com/stephenslab/gtexresults/blob/master/workflows/fastqtl_to_mash.ipynb">fastqtl2mash notebook</a> and the vignettes in the <a href="https://github.com/stephenslab/mashr">mashr package</a>.</p>
 </div>
 <div id="additional-usage-notes" class="section level2">

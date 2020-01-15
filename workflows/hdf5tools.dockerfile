@@ -15,11 +15,11 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/* /var/log/dpkg.log
 
 # Install R HDF5 library "rhdf5".
-RUN Rscript -e 'source("https://bioconductor.org/biocLite.R"); biocLite("rhdf5", suppressUpdates=TRUE)' \
+RUN Rscript -e 'install.packages("BiocManager", repos="https://cloud.r-project.org"); BiocManager::install("rhdf5",update=F,ask=F)' \
     && rm -rf *
 
-# Install Python HDF5 library "pytables".
-RUN pip install --no-cache-dir tables && rm -rf $HOME/.cache
+# Install Python dependencies.
+RUN pip install --no-cache-dir tables scipy pandas && rm -rf $HOME/.cache
 
 # Default command.
 CMD ["bash"]

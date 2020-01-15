@@ -141,7 +141,7 @@ command (using a local computer with 8 CPU threads):
 fastqtl2mash-docker sos run workflows/fastqtl_to_mash.ipynb \
   --data_list data/fastqtl/FastQTLSumStats.list \
   --gene_list data/fastqtl/GTEx_genes.txt \
-  -q none -j 8
+  -j 8
 ```
 
 If successful, this command will write several files to a newly
