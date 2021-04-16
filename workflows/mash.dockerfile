@@ -40,6 +40,10 @@ RUN Rscript -e 'remotes::install_github("stephenslab/flashr", ref = "'${FLASHR_V
 
 # Install mashr package, a fast implementation of MASH algorithm.
 
+RUN wget ftp://ftp.gnu.org/gnu/gsl/gsl-1.7.tar.gz && tar -zxvf gsl-1.7.tar.gz && cd gsl-1.7 && ./configure && make && make install \
+    && cd - && rm -rf *
+
+ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
 ENV MASHR_VERSION ca00f16f6cd109765f184df316a28469fc6f2e03
 RUN Rscript -e 'remotes::install_github("stephenslab/mashr", ref = "'${MASHR_VERSION}'")' \
     && rm -rf *
