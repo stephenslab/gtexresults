@@ -9,10 +9,14 @@ MAINTAINER Gao Wang, wang.gao@columbia.edu
 USER root
 WORKDIR /tmp
 
+# Install GSL
+RUN wget ftp://ftp.gnu.org/gnu/gsl/gsl-1.7.tar.gz && tar -zxvf gsl-1.7.tar.gz && cd gsl-1.7 && ./configure && make && make install \
+    && cd - && rm -rf *i \
+    && ln -s /usr/local/lib/libgsl.so /usr/lib/x86_64-linux-gnu/libgsl.so.0
+
 # Install SFA.
 ENV SFA_VERSION 1.0
 RUN curl http://stephenslab.uchicago.edu/assets/software/sfa/sfa${SFA_VERSION}.tar.gz -o sfa.tar.gz \
-    && ln -s /usr/lib/x86_64-linux-gnu/libgsl.so /usr/lib/x86_64-linux-gnu/libgsl.so.0 \
     && tar zxf sfa.tar.gz && mv sfa /opt && rm -rf *
 
 # Install MASH code (to reproduce Urbut et al 2017 paper).
@@ -39,9 +43,6 @@ RUN Rscript -e 'remotes::install_github("stephenslab/flashr", ref = "'${FLASHR_V
     && rm -rf *
 
 # Install mashr package, a fast implementation of MASH algorithm.
-
-RUN wget ftp://ftp.gnu.org/gnu/gsl/gsl-1.7.tar.gz && tar -zxvf gsl-1.7.tar.gz && cd gsl-1.7 && ./configure && make && make install \
-    && cd - && rm -rf *
 
 ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
 ENV MASHR_VERSION ca00f16f6cd109765f184df316a28469fc6f2e03
