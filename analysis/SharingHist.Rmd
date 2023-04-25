@@ -50,7 +50,7 @@ standard.error <- maxbeta/maxz
 pm.mash.beta   <- pm.mash * standard.error
 ```
 
-# Histograms of sharing by magnitude
+## Histograms of sharing by magnitude
 
 Sharing by magnitude means that two eQTLs have similar effect size
 (within a factor of 2).
@@ -93,7 +93,7 @@ eQTL is shared by magnitude has a mode at 1. This is a subset of eQTLs
 that have much stronger effect in one tissue than in any other
 ("tissue-specific").
 
-## Histogram of sharing by magnitude
+## Histogram of sharing by sign
 
 Sharing by sign means that the eQTLs have the same sign of effect.
 

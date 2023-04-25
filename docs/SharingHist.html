@@ -631,8 +631,8 @@ pm.mash        &lt;- out$posterior.means
 standard.error &lt;- maxbeta/maxz
 pm.mash.beta   &lt;- pm.mash * standard.error</code></pre>
 </div>
-<div id="histograms-of-sharing-by-magnitude" class="section level1">
-<h1>Histograms of sharing by magnitude</h1>
+<div id="histograms-of-sharing-by-magnitude" class="section level2">
+<h2>Histograms of sharing by magnitude</h2>
 <p>Sharing by magnitude means that two eQTLs have similar effect size (within a factor of 2).</p>
 <p>The histograms below summarize sharing by magnitude across all tissues (left), tissues other than brain (middle), and brain tissues only (right).</p>
 <pre class="r"><code>sigmat &lt;- (lfsr &lt;= thresh)
@@ -693,8 +693,8 @@ Peter Carbonetto
 </table>
 <p></details></p>
 <p>Observe that the distribution of the number of tissues in which an eQTL is shared by magnitude has a mode at 1. This is a subset of eQTLs that have much stronger effect in one tissue than in any other (“tissue-specific”).</p>
-<div id="histogram-of-sharing-by-magnitude" class="section level2">
-<h2>Histogram of sharing by magnitude</h2>
+<div id="histogram-of-sharing-by-sign" class="section level2">
+<h2>Histogram of sharing by sign</h2>
 <p>Sharing by sign means that the eQTLs have the same sign of effect.</p>
 <p>The histograms below summarize sharing by sign across all tissues (left), tissues other than brain (middle), and brain tissues only (right).</p>
 <pre class="r"><code>sign.func &lt;- function (normeffectsize)
